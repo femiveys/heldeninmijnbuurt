@@ -1,8 +1,9 @@
 import { omit } from "lodash";
 import { db } from "../../db";
 import { initFirebaseAdmin, getFirebaseUser } from "./_firebaseAdmin";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     try {
       initFirebaseAdmin();
