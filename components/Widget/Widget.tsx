@@ -25,21 +25,25 @@ export const Widget = (props: TProps) => {
   const { user } = useStoreon("user");
   const form = useSmartForm(user);
 
-  const toggleFieldValue = form.values?.[toggleField?.name];
+  const toggleFieldValue = toggleField && form.values?.[toggleField.name];
   const showForm = toggleField ? toggleFieldValue : true;
 
   const saveChanges = useCallback(async () => {
-    await generateAxiosInstance().put(
-      "/api/me",
-      pick(form.collectValues(), [
-        ...fields.map((f) => f.name),
-        toggleField?.name,
-      ])
-    );
+    if(toggleField) {
+      await generateAxiosInstance().put(
+        "/api/me",
+        pick(form.collectValues(), [
+          ...fields.map((f) => f.name),
+          toggleField.name,
+        ])
+      );
+    }
   }, [form.values]);
 
   const toggleActive = useCallback(async () => {
-    form.setValue(toggleField?.name, toggleFieldValue ? 0 : 1);
+    if(toggleField) {
+      form.setValue(toggleField.name, toggleFieldValue ? 0 : 1);
+    }
     try {
       await saveChanges();
       message.success("Yay! Wijzigingen opgeslagen.");

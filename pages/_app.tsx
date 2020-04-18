@@ -7,7 +7,6 @@ import { store } from "../store";
 import { MainNavigation } from "../components/MainNavigation";
 import "../styles.scss";
 import "../components/Spinner/Spinner.scss";
-import { LoginAnonymousButton } from "../components/buttons/LoginAnonymousButton";
 
 firebase.auth().onAuthStateChanged(function (user) {
   const currentUser = firebase.auth().currentUser;
@@ -27,7 +26,7 @@ firebase.auth().onAuthStateChanged(function (user) {
     .catch(function (error) {});
 });
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: any) {
   return (
     <StoreContext.Provider value={store}>
       <Head>

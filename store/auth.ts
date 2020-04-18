@@ -1,8 +1,8 @@
-import Router from "next/router";
 import { axiosInstance } from "../axios";
 import { IS_CLIENT } from "../helpers";
+import { StoreonStore } from "storeon";
 
-export function auth(store) {
+export function auth(store: StoreonStore<any>) {
   store.on("@init", () => ({
     checkingUser: true,
     idToken: null,
