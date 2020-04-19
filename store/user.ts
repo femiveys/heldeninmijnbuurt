@@ -2,19 +2,37 @@ import { apiCall } from "./../axios";
 import { useStoreon } from "storeon/react";
 import { useMemo, useCallback } from "react";
 import { store } from ".";
+import { StoreonModule } from "storeon";
 
-export function user(store: any) {
+export type TUser = {
+  user_id: string;
+  street?: string;
+  zipcode?: string;
+  has_sewing_machine?: boolean;
+  needs_mouthmask?: boolean;
+};
+export interface IUserState {
+  fetchingUser: boolean;
+  user: TUser | null;
+}
+
+export interface IUserEvents {
+  "user/fetchingUser": boolean;
+  "user/setUser": TUser | null;
+}
+
+export const userStore: StoreonModule<IUserState, IUserEvents> = (store) => {
   store.on("@init", () => ({
-    user: undefined,
+    user: null,
     fetchingUser: false,
   }));
-  store.on("user/setUser", (state: any, user: any) => {
+  store.on("user/setUser", (state, user) => {
     return { ...state, user, fetchingUser: false };
   });
-  store.on("user/fetchingUser", (state: any, fetchingUser: any) => {
+  store.on("user/fetchingUser", (state, fetchingUser) => {
     return { ...state, fetchingUser };
   });
-}
+};
 
 export const useUser = () => {
   const { user, fetchingUser } = useStoreon("user", "fetchingUser");

@@ -1,10 +1,23 @@
-import firebase from "firebase/app";
-import { StoreonStore } from "storeon";
+import firebase, { User as FirebaseUser } from "firebase/app";
+import { StoreonStore, StoreonModule } from "storeon";
 import { useStoreon } from "storeon/react";
 import { useMemo } from "react";
 import { store } from "./index";
 
-export function auth(store: StoreonStore<any>) {
+export interface IAuthState {
+  fetchingFirebaseUser: boolean;
+  firebaseUser: null | FirebaseUser;
+  fetchingIdToken: boolean;
+  idToken: string | null;
+}
+
+export interface IAuthEvents {
+  "auth/setFirebaseUser": FirebaseUser | null;
+  "auth/setIdToken": string | null;
+  "auth/fetchingIdToken": boolean;
+}
+
+export const authStore: StoreonModule<IAuthState, IAuthEvents> = (store) => {
   store.on("@init", () => ({
     fetchingFirebaseUser: true,
     firebaseUser: undefined,
@@ -21,7 +34,7 @@ export function auth(store: StoreonStore<any>) {
   store.on("auth/fetchingIdToken", (state, fetchingIdToken) => {
     return { ...state, fetchingIdToken };
   });
-}
+};
 
 export const useAuth = () => {
   const { fetchingFirebaseUser, firebaseUser, fetchingIdToken } = useStoreon(
