@@ -1,14 +1,13 @@
 import { createStoreon } from "storeon";
 import { storeonLogger } from "storeon/devtools";
 import { storeonDevtools } from "storeon/devtools";
+import { IAuthEvents, IAuthState, authStore } from "./auth";
+import { IUserState, IUserEvents, userStore } from "./user";
 
-import { authStore, IAuthState, IAuthEvents } from "./auth";
-import { userStore, IUserState, IUserEvents } from "./user";
+export type TStoreState = IAuthState & IUserState;
+export type TStoreEvents = IAuthEvents & IUserEvents;
 
-type TState = IAuthState & IUserState;
-type TEvents = IAuthEvents & IUserEvents;
-
-export const store = createStoreon<TState, TEvents>([
+export const store = createStoreon<TStoreState, TStoreEvents>([
   authStore,
   userStore,
   process.env.NODE_ENV !== "production" && storeonLogger,

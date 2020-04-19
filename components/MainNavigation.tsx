@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { LogoutButton } from "../components/buttons/LogoutButton";
 import { DashboardButton } from "../components/buttons/DashboardButton";
-import { useAuth } from "../store/auth";
+import { useAuth } from "../base/auth";
 
 export const MainNavigation = () => {
   const { isLoggedIn } = useAuth();

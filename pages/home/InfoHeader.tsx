@@ -1,7 +1,7 @@
 import { LoginGoogleButton } from "../../components/buttons/LoginGoogleButton";
 import { LoginFacebookButton } from "../../components/buttons/LoginFacebookButton";
-import { useAuth } from "../../store/auth";
 import { DashboardButton } from "../../components/buttons/DashboardButton";
+import { useAuth } from "../../base/auth";
 
 export default function InfoHeader() {
   const { isLoggedIn } = useAuth();
