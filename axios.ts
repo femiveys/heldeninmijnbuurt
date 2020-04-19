@@ -1,4 +1,3 @@
-import { sleep } from "./helpers";
 import firebase from "firebase/app";
 import axios from "axios";
 import * as decode from "jwt-decode";
