@@ -33,7 +33,7 @@ export const Widget = (props: TProps) => {
       "PUT",
       "me",
       pick(form.collectValues(), [
-        ...fields.map((f) => f.name),
+        ...(fields.map((f) => f.name) as any),
         toggleField?.name,
       ])
     );

@@ -1,20 +1,20 @@
 import { sleep } from "./helpers";
 import firebase from "firebase/app";
 import axios from "axios";
-import decode from "jwt-decode";
-import { store } from "./store";
+import * as decode from "jwt-decode";
+import { store, getStoreValues } from "./store";
 
 export const apiCall = async (
   method: "GET" | "POST" | "DELETE" | "PUT",
   url: string,
   data?: any
 ) => {
-  let idToken = (store.get() as any)?.idToken;
+  let idToken = getStoreValues().idToken;
 
   // Check if ID token should be refreshed
   let shouldRefreshIdToken = false;
   if (!idToken) shouldRefreshIdToken = true;
-  if (idToken && Date.now() < decode(idToken).exp * 1000 - 100) {
+  if (idToken && Date.now() < (decode as any)(idToken)?.exp * 1000 - 100) {
     shouldRefreshIdToken = true;
   }
 

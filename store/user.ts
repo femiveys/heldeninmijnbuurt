@@ -3,15 +3,15 @@ import { useStoreon } from "storeon/react";
 import { useMemo, useCallback } from "react";
 import { store } from ".";
 
-export function user(store) {
+export function user(store: any) {
   store.on("@init", () => ({
     user: undefined,
     fetchingUser: false,
   }));
-  store.on("user/setUser", (state, user) => {
+  store.on("user/setUser", (state: any, user: any) => {
     return { ...state, user, fetchingUser: false };
   });
-  store.on("user/fetchingUser", (state, fetchingUser) => {
+  store.on("user/fetchingUser", (state: any, fetchingUser: any) => {
     return { ...state, fetchingUser };
   });
 }
