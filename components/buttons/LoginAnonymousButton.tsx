@@ -1,7 +1,6 @@
 import { BaseButton } from "./BaseButton";
 import firebase from "firebase/app";
 import { CSSProperties, useState } from "react";
-import { store } from "../../store";
 import { message } from "antd";
 
 type TProps = {

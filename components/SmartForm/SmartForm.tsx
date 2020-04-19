@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { message } from "antd";
 import classnames from "classnames";
-import { sleep } from "../../helpers";
 import { BaseButton } from "../buttons/BaseButton";
 import { useSmartForm } from "./useSmartForm";
 import { SmartFormField, TSmartFormField } from "./SmartFormField";
@@ -30,7 +29,7 @@ export const SmartForm = (props: TProps) => {
         try {
           setSubmitting(true);
           if (Object.keys(form.values).length > 0) {
-            await onSubmit(form.values);
+            onSubmit(form.values);
           }
           message.success("Yesss. Info werd opgeslagen!");
         } catch (error) {

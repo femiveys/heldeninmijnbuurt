@@ -9,7 +9,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       initFirebaseAdmin();
       const firebaseUser = await getFirebaseUser(req);
       const me = await db("users")
-        .where("user_id", firebaseUser.user_id)
+        .where("id", firebaseUser.user_id)
         // .select(USER_FIELDS)
         .first();
       res.send({ ...me, picture: firebaseUser.picture });
@@ -23,8 +23,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       initFirebaseAdmin();
       const firebaseUser = await getFirebaseUser(req);
       const updated = await db("users")
-        .where("user_id", firebaseUser.user_id)
-        .update(omit(req.body, ["email", "picture", "user_id"]));
+        .where("id", firebaseUser.user_id)
+        .update(omit(req.body, ["email", "picture", "id"]));
       res.send({ updated });
     } catch (error) {
       res.status(500).send({ error: error.message });

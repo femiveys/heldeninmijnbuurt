@@ -7,7 +7,7 @@ import { StoreContext } from "storeon/react";
 
 import { store } from "../store";
 import { MainNavigation } from "../components/MainNavigation";
-import { listenToAuthChanges, useAuth } from "../store/auth";
+import { listenToAuthChanges } from "../store/auth";
 
 // Styles
 import "../styles.scss";

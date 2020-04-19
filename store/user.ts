@@ -5,11 +5,10 @@ import { store } from ".";
 import { StoreonModule } from "storeon";
 
 export type TUser = {
-  user_id: string;
-  street?: string;
-  zipcode?: string;
-  has_sewing_machine?: boolean;
-  needs_mouthmask?: boolean;
+  id: string;
+  street_id?: number;
+  is_maker?: boolean;
+  is_requestor?: boolean;
 };
 export interface IUserState {
   fetchingUser: boolean;

@@ -1,18 +1,14 @@
 import React from "react";
-import { generateAxiosInstance } from "../axios";
+import { apiCall } from "../axios";
 
 export default () => {
   const postalCodes = async () => {
-    const result = await generateAxiosInstance().get<number[]>(
-      "/api/postalCodes"
-    );
+    const result = await apiCall("GET", "postalCodes");
     console.log(result);
   };
 
   const streets = async (postalCode: number) => {
-    const result = await generateAxiosInstance().get<number[]>(
-      `/api/streets/${postalCode}`
-    );
+    const result = await apiCall("GET", `streets/${postalCode}`);
     console.log(result);
   };
 

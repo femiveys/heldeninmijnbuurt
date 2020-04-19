@@ -8,7 +8,7 @@ import { useUser } from "../../store/user";
 export default function PageDashboard() {
   const router = useRouter();
   const { isLoggedIn, loggingIn } = useAuth();
-  const { refreshUser, fetchingUser, user } = useUser();
+  const { refreshUser, fetchingUser } = useUser();
 
   useEffect(() => {
     if (!loggingIn && !isLoggedIn) {
@@ -30,9 +30,8 @@ export default function PageDashboard() {
         <Widget
           title="Algemeen"
           fields={[
-            { name: "user_id", label: "User ID", disabled: true },
-            { name: "street", label: "Straat" },
-            { name: "zipcode", label: "Postcode" },
+            { name: "id", label: "User ID", disabled: true },
+            { name: "streetId", label: "Straat ID" },
             { name: "whatsapp", label: "Whatsapp" },
           ]}
         />
@@ -42,11 +41,11 @@ export default function PageDashboard() {
         <Widget
           title="Ik heb mondmasker nodig"
           toggleField={{
-            name: "needs_mouthmask",
+            name: "is_requestor",
           }}
           fields={[
             {
-              name: "needs_mouthmask_amount",
+              name: "num_requested",
               type: "number",
               label: "Hoeveel mondmaskers heb je nodig?",
             },
@@ -55,11 +54,11 @@ export default function PageDashboard() {
         <Widget
           title="Ik heb een naaimachine"
           toggleField={{
-            name: "has_sewing_machine",
+            name: "is_maker",
           }}
           fields={[
             {
-              name: "mouthmask_stock",
+              name: "stock_amount",
               type: "number",
               label: "Aantal mondmaskers (stock)",
             },
