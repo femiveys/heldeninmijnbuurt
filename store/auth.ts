@@ -1,9 +1,10 @@
 import firebase from "firebase/app";
+import { StoreonStore } from "storeon";
 import { useStoreon } from "storeon/react";
 import { useMemo } from "react";
-import { store, getStoreValues } from "./index";
+import { store } from "./index";
 
-export function auth(store) {
+export function auth(store: StoreonStore<any>) {
   store.on("@init", () => ({
     fetchingFirebaseUser: true,
     firebaseUser: undefined,
@@ -48,7 +49,7 @@ export const listenToAuthChanges = () => {
 export const refreshIdToken = () => {
   try {
     const firebaseUser = firebase.auth().currentUser;
-    firebaseUser.getIdToken(true).then(function (idToken) {
+    firebaseUser?.getIdToken(true).then(function (idToken) {
       store.dispatch("auth/setIdToken", idToken);
     });
   } catch (error) {

@@ -2,14 +2,12 @@
 import "../firebase";
 /////////////////////////////
 
-import { useEffect } from "react";
 import Head from "next/head";
 import { StoreContext } from "storeon/react";
 
 import { store } from "../store";
 import { MainNavigation } from "../components/MainNavigation";
 import { listenToAuthChanges, useAuth } from "../store/auth";
-import { useUser } from "../store/user";
 
 // Styles
 import "../styles.scss";
@@ -18,7 +16,7 @@ import "../components/Spinner/Spinner.scss";
 // Listen to firebase auth changes
 listenToAuthChanges();
 
-const App = ({ Component, pageProps }) => {
+const App = ({ Component, pageProps }: any) => {
   return (
     <>
       <Head>
@@ -37,7 +35,7 @@ const App = ({ Component, pageProps }) => {
   );
 };
 
-const Root = ({ Component, pageProps }) => {
+const Root = ({ Component, pageProps }: any) => {
   return (
     <StoreContext.Provider value={store}>
       <App {...{ Component, pageProps }} />

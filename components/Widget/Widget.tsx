@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from "react";
-import { useStoreon } from "storeon/react";
 import classnames from "classnames";
 import { Checkbox, message, Modal } from "antd";
 import { pick } from "lodash";
@@ -26,7 +25,7 @@ export const Widget = (props: TProps) => {
   const { user } = useUser();
   const form = useSmartForm(user);
 
-  const toggleFieldValue = form.values?.[toggleField?.name];
+  const toggleFieldValue = toggleField && form.values?.[toggleField.name];
   const showForm = toggleField ? toggleFieldValue : true;
 
   const saveChanges = useCallback(async () => {
@@ -41,7 +40,9 @@ export const Widget = (props: TProps) => {
   }, [form.values]);
 
   const toggleActive = useCallback(async () => {
-    form.setValue(toggleField?.name, toggleFieldValue ? 0 : 1);
+    if (toggleField) {
+      form.setValue(toggleField.name, toggleFieldValue ? 0 : 1);
+    }
     try {
       await saveChanges();
       message.success("Yay! Wijzigingen opgeslagen.");

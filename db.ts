@@ -1,4 +1,6 @@
-export const db = require("knex")({
+import knex from "knex";
+
+export const db = knex({
   client: "mysql",
   connection: {
     host: "ID179346_mondmaskers.db.webhosting.be",

@@ -1,4 +1,3 @@
-import { BaseButton } from "../../components/buttons/BaseButton";
 import { LoginGoogleButton } from "../../components/buttons/LoginGoogleButton";
 import { LoginFacebookButton } from "../../components/buttons/LoginFacebookButton";
 
