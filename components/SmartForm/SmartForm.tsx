@@ -15,10 +15,18 @@ type TProps = {
     pulse?: boolean;
     text?: string;
   };
+  shout?: boolean;
 };
 
 export const SmartForm = (props: TProps) => {
-  const { fields, form, onSubmit, submitButton, debug = false } = props;
+  const {
+    fields,
+    form,
+    onSubmit,
+    submitButton,
+    debug = false,
+    shout = true,
+  } = props;
 
   const [submitting, setSubmitting] = useState(false);
 
@@ -31,10 +39,12 @@ export const SmartForm = (props: TProps) => {
           setSubmitting(true);
           if (Object.keys(form.values).length > 0) {
             await onSubmit(form.values);
+            if (shout) message.success("Yesss. Info werd opgeslagen!");
+          } else {
+            if (shout) message.success("Niks gewijzigd..");
           }
-          message.success("Yesss. Info werd opgeslagen!");
         } catch (error) {
-          message.error("Er ging iets fout. Probeer 'ns opnieuw?");
+          if (shout) message.error("Er ging iets fout. Probeer 'ns opnieuw?");
         }
         setSubmitting(false);
       }}

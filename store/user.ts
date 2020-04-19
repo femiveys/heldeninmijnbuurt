@@ -22,7 +22,7 @@ export interface IUserEvents {
 
 export const userStore: StoreonModule<TStoreState, TStoreEvents> = (store) => {
   store.on("@init", () => ({
-    fetchingUser: false,
+    fetchingUser: true,
     user: null,
   }));
 

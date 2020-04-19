@@ -12,9 +12,3 @@ export function initFirebaseAdmin() {
     // error
   }
 }
-
-export async function getFirebaseUser(req) {
-  const idToken = req.headers.authentication;
-  const firebaseUser = await admin.auth().verifyIdToken(idToken);
-  return firebaseUser;
-}

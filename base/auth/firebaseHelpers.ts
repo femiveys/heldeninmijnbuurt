@@ -5,9 +5,6 @@ import { store } from "../../store";
 
 export const listenToAuthChanges = () => {
   firebase.auth().onAuthStateChanged((firebaseUser) => {
-    if (firebaseUser) {
-      apiCall("POST", "user", { firebase_user_id: firebaseUser.uid });
-    }
     store.dispatch("auth/setFirebaseUser", firebaseUser);
     refreshIdToken();
   });
