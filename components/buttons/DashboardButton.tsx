@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import { useAuth } from "../../store/auth";
 import { Spinner } from "../Spinner";
 import { UserAvatar } from "../UserAvatar";
+import { useAuth } from "../../base/auth";
 
 export const DashboardButton = () => {
   const { isLoggedIn, loggingIn, firebaseUser } = useAuth();

@@ -7,11 +7,11 @@ import { StoreContext } from "storeon/react";
 
 import { store } from "../store";
 import { MainNavigation } from "../components/MainNavigation";
-import { listenToAuthChanges } from "../store/auth";
 
 // Styles
 import "../styles.scss";
 import "../components/Spinner/Spinner.scss";
+import { listenToAuthChanges } from "../base/auth";
 
 // Listen to firebase auth changes
 listenToAuthChanges();

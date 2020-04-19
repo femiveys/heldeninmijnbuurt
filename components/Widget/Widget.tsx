@@ -7,7 +7,7 @@ import { useSmartForm } from "../SmartForm/useSmartForm";
 import { SmartForm } from "../SmartForm";
 import { sleep } from "../../helpers";
 import { apiCall } from "../../axios";
-import { useUser } from "../../store/user";
+import { useUser } from "../../base/user";
 
 type TProps = {
   title: string;
