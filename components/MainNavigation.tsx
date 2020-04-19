@@ -1,15 +1,10 @@
 import Link from "next/link";
-import { useStoreon } from "storeon/react";
 import { LogoutButton } from "../components/buttons/LogoutButton";
-import { UserAvatar } from "./UserAvatar";
-import { Spinner } from "./Spinner";
+import { DashboardButton } from "../components/buttons/DashboardButton";
+import { useAuth } from "../store/auth";
 
 export const MainNavigation = () => {
-  const { user, checkingUser, fetchingUser } = useStoreon(
-    "user",
-    "checkingUser",
-    "fetchingUser"
-  );
+  const { isLoggedIn } = useAuth();
 
   return (
     <div style={{ background: "#fff" }}>
@@ -25,69 +20,17 @@ export const MainNavigation = () => {
             </a>
             <div className="mr-4 weight-700">
               <Link href="/">
-                <a>Mijn mondmasker 😷</a>
+                <a>Helden van de buurt 😷</a>
               </Link>
             </div>
-            <div className="navbar-collapse weight-700">
-              <div className="navbar-nav">
-                {/* <div className="nav-item">
-                  <a className="nav-link text-dark" href="#build">
-                    Word superheld
-                  </a>
-                </div>
-                <div className="nav-item">
-                  <a className="nav-link text-dark" href="#request">
-                    Vraag aan
-                  </a>
-                </div>
-                <div className="nav-item">
-                  <a className="nav-link text-dark" href="#sources">
-                    Artikels
-                  </a>
-                </div> */}
-              </div>
-            </div>
-            {user && <LogoutButton />}
+            <div style={{ flex: 1 }} />
+            {isLoggedIn && <LogoutButton />}
             <div className="ml-auto d-none d-lg-block">
-              <ActionButton />
+              <DashboardButton />
             </div>
           </div>
         </div>
       </div>
     </div>
-  );
-};
-
-const ActionButton = () => {
-  const { user, checkingUser, fetchingUser } = useStoreon(
-    "user",
-    "checkingUser",
-    "fetchingUser"
-  );
-
-  if (checkingUser || fetchingUser) return <Spinner color="blue" />;
-
-  if (user) {
-    return (
-      <Link href="/dashboard">
-        <span className="btn btn-primary pulse" style={{ marginLeft: 10 }}>
-          Dashboard
-          <UserAvatar style={{ marginLeft: 10 }} />
-        </span>
-      </Link>
-    );
-  }
-
-  return (
-    <Link href="/">
-      <span className="btn btn-primary pulse">
-        Word superheld!
-        <img
-          src="/assets/glyphs/sewing-machine.svg"
-          width="24"
-          style={{ marginLeft: 10 }}
-        />
-      </span>
-    </Link>
   );
 };

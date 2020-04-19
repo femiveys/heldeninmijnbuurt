@@ -67,7 +67,7 @@ export const SmartFormField = (props: TProps) => {
           className="form-control"
           type={type}
           disabled={disabled}
-          value={localValue}
+          value={localValue || ""}
           onChange={_onChange}
         />
       );
