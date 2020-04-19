@@ -1,56 +1,57 @@
-import Router from "next/router";
-import { axiosInstance } from "../axios";
-import { IS_CLIENT } from "../helpers";
+import firebase from "firebase/app";
+import { useStoreon } from "storeon/react";
+import { useMemo } from "react";
+import { store, getStoreValues } from "./index";
 
 export function auth(store) {
   store.on("@init", () => ({
-    checkingUser: true,
-    idToken: null,
-    fetchingUser: false,
-    user: null,
+    fetchingFirebaseUser: true,
+    firebaseUser: undefined,
+    fetchingIdToken: false,
+    idToken: undefined,
   }));
 
-  store.on("auth/checking", (state) => {
-    return { ...state, checkingUser: true };
+  store.on("auth/setFirebaseUser", (state, firebaseUser) => {
+    return { ...state, firebaseUser, fetchingFirebaseUser: false };
   });
-
-  store.on("auth/checked", (state) => {
-    return { ...state, checkingUser: false };
-  });
-
-  store.on("auth/token", (state, idToken) => {
+  store.on("auth/setIdToken", (state, idToken) => {
     return { ...state, idToken };
   });
-
-  store.on("auth/fetchingUser", (state, fetchingUser) => {
-    return { ...state, fetchingUser };
-  });
-  store.on("auth/setUser", (state, user) => {
-    if (IS_CLIENT) {
-      // if (user) {
-      //   Router.replace("/dashboard");
-      // } else {
-      //   Router.replace("/");
-      // }
-    }
-    return { ...state, user };
-  });
-  store.on("auth/fetchUser", async (state) => {
-    try {
-      store.dispatch("auth/fetchingUser", true);
-      const me = await axiosInstance
-        .get("/api/me", {
-          headers: {
-            Authentication: state.idToken,
-          },
-        })
-        .then((resp) => resp.data);
-      if (!me) throw new Error("Could not fetch user");
-      store.dispatch("auth/setUser", me);
-    } catch (error) {
-      // error
-      console.log({ error });
-    }
-    store.dispatch("auth/fetchingUser", false);
+  store.on("auth/fetchingIdToken", (state, fetchingIdToken) => {
+    return { ...state, fetchingIdToken };
   });
 }
+
+export const useAuth = () => {
+  const { fetchingFirebaseUser, firebaseUser, fetchingIdToken } = useStoreon(
+    "fetchingFirebaseUser",
+    "firebaseUser",
+    "fetchingIdToken"
+  );
+
+  return useMemo(() => {
+    return {
+      loggingIn: fetchingFirebaseUser || fetchingIdToken,
+      isLoggedIn: !!firebaseUser,
+      firebaseUser,
+    };
+  }, [fetchingFirebaseUser, fetchingIdToken, firebaseUser]);
+};
+
+export const listenToAuthChanges = () => {
+  firebase.auth().onAuthStateChanged((firebaseUser) => {
+    store.dispatch("auth/setFirebaseUser", firebaseUser);
+    refreshIdToken();
+  });
+};
+
+export const refreshIdToken = () => {
+  try {
+    const firebaseUser = firebase.auth().currentUser;
+    firebaseUser.getIdToken(true).then(function (idToken) {
+      store.dispatch("auth/setIdToken", idToken);
+    });
+  } catch (error) {
+    store.dispatch("auth/setIdToken", null);
+  }
+};

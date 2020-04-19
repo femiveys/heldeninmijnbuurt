@@ -3,6 +3,7 @@ import { useStoreon } from "storeon/react";
 import { LogoutButton } from "../components/buttons/LogoutButton";
 import { UserAvatar } from "./UserAvatar";
 import { Spinner } from "./Spinner";
+import { useAuth } from "../store/auth";
 
 export const MainNavigation = () => {
   const { user, checkingUser, fetchingUser } = useStoreon(
@@ -59,20 +60,19 @@ export const MainNavigation = () => {
 };
 
 const ActionButton = () => {
-  const { user, checkingUser, fetchingUser } = useStoreon(
-    "user",
-    "checkingUser",
-    "fetchingUser"
-  );
+  const { isLoggedIn, loggingIn, firebaseUser } = useAuth();
 
-  if (checkingUser || fetchingUser) return <Spinner color="blue" />;
+  if (loggingIn) return <Spinner color="blue" />;
 
-  if (user) {
+  if (isLoggedIn) {
     return (
       <Link href="/dashboard">
         <span className="btn btn-primary pulse" style={{ marginLeft: 10 }}>
           Dashboard
-          <UserAvatar style={{ marginLeft: 10 }} />
+          <UserAvatar
+            style={{ marginLeft: 10 }}
+            imageUrl={firebaseUser?.photoURL}
+          />
         </span>
       </Link>
     );

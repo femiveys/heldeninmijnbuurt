@@ -3,11 +3,12 @@ import { useStoreon } from "storeon/react";
 import classnames from "classnames";
 import { Checkbox, message, Modal } from "antd";
 import { pick } from "lodash";
-import { generateAxiosInstance } from "../../axios";
 import { TSmartFormField } from "../SmartForm/SmartFormField";
 import { useSmartForm } from "../SmartForm/useSmartForm";
 import { SmartForm } from "../SmartForm";
 import { sleep } from "../../helpers";
+import { apiCall } from "../../axios";
+import { useUser } from "../../store/user";
 
 type TProps = {
   title: string;
@@ -22,15 +23,16 @@ type TProps = {
 export const Widget = (props: TProps) => {
   const { title, fields, toggleField, onToggle } = props;
 
-  const { user } = useStoreon("user");
+  const { user } = useUser();
   const form = useSmartForm(user);
 
   const toggleFieldValue = form.values?.[toggleField?.name];
   const showForm = toggleField ? toggleFieldValue : true;
 
   const saveChanges = useCallback(async () => {
-    await generateAxiosInstance().put(
-      "/api/me",
+    await apiCall(
+      "PUT",
+      "me",
       pick(form.collectValues(), [
         ...fields.map((f) => f.name),
         toggleField?.name,
