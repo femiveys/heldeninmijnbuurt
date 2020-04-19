@@ -1,11 +1,28 @@
-import React from "react";
-import { useStoreon } from "storeon/react";
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
 import { Widget } from "../../components/Widget";
 import { ScreenLoading } from "../../components/ScreenLoading";
+import { useAuth } from "../../store/auth";
+import { useUser } from "../../store/user";
 
 export default function PageDashboard() {
-  const { user } = useStoreon("user");
-  if (!user) return <ScreenLoading />;
+  const router = useRouter();
+  const { isLoggedIn, loggingIn } = useAuth();
+  const { refreshUser, fetchingUser, user } = useUser();
+
+  useEffect(() => {
+    if (!loggingIn && !isLoggedIn) {
+      router.replace("/");
+    }
+  }, [isLoggedIn, loggingIn]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      refreshUser();
+    }
+  }, [isLoggedIn, refreshUser]);
+
+  if (!isLoggedIn || fetchingUser) return <ScreenLoading />;
 
   return (
     <div className="row" id="page--dashboard">

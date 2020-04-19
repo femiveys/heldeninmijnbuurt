@@ -32,7 +32,6 @@ export const SmartForm = (props: TProps) => {
           if (Object.keys(form.values).length > 0) {
             await onSubmit(form.values);
           }
-          await sleep(500);
           message.success("Yesss. Info werd opgeslagen!");
         } catch (error) {
           message.error("Er ging iets fout. Probeer 'ns opnieuw?");

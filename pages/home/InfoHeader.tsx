@@ -1,7 +1,11 @@
 import { LoginGoogleButton } from "../../components/buttons/LoginGoogleButton";
 import { LoginFacebookButton } from "../../components/buttons/LoginFacebookButton";
+import { useAuth } from "../../store/auth";
+import { DashboardButton } from "../../components/buttons/DashboardButton";
 
 export default function InfoHeader() {
+  const { isLoggedIn } = useAuth();
+
   return (
     <div className="py-5">
       <div className="row justify-content-center text-center mb-4">
@@ -18,14 +22,20 @@ export default function InfoHeader() {
         </div>
       </div>
       <div className="row justify-content-center text-center mb-4">
-        <LoginGoogleButton
-          style={{
-            marginRight: 5,
-            background: "#D2462F",
-            borderColor: "#D2462F",
-          }}
-        />
-        <LoginFacebookButton />
+        {isLoggedIn ? (
+          <DashboardButton />
+        ) : (
+          <>
+            <LoginGoogleButton
+              style={{
+                marginRight: 5,
+                background: "#D2462F",
+                borderColor: "#D2462F",
+              }}
+            />
+            <LoginFacebookButton />
+          </>
+        )}
       </div>
     </div>
   );

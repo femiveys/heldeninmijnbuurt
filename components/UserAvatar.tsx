@@ -4,16 +4,16 @@ import styled from "styled-components";
 
 type TProps = {
   style?: CSSProperties;
+  imageUrl?: string;
 };
 
 export const UserAvatar = (props: TProps) => {
-  const { style } = props;
-  const { user } = useStoreon("user");
+  const { style, imageUrl } = props;
 
   return (
     <Circle
       style={{
-        backgroundImage: `url(${user?.picture})`,
+        backgroundImage: `url(${imageUrl})`,
         ...style,
       }}
     />
