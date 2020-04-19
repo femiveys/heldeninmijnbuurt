@@ -12,9 +12,16 @@ export const apiCall = async (
 
   // Check if ID token should be refreshed
   let shouldRefreshIdToken = false;
-  if (!idToken) shouldRefreshIdToken = true;
-  if (idToken && Date.now() < (decode as any)(idToken)?.exp * 1000 - 100) {
+  if (!idToken) {
     shouldRefreshIdToken = true;
+  } else {
+    const decodedToken = (decode as any)(idToken);
+    const exp = decodedToken.exp * 1000;
+    const now = Date.now();
+    // Expire 15 minutes before real expiry date
+    if (now > exp - 15 * 60) {
+      shouldRefreshIdToken = true;
+    }
   }
 
   // Refresh ID token first
