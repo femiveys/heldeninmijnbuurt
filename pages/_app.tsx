@@ -11,12 +11,20 @@ import { MainNavigation } from "../components/MainNavigation";
 // Styles
 import "../styles.scss";
 import "../components/Spinner/Spinner.scss";
-import { listenToAuthChanges } from "../base/auth";
+import { listenToAuthChanges, useAuth } from "../base/auth";
+import { useUser } from "../base/user";
+import { useEffect } from "react";
 
 // Listen to firebase auth changes
 listenToAuthChanges();
 
 const App = ({ Component, pageProps }: any) => {
+  const { firebaseUser } = useAuth();
+  const { refreshUser } = useUser();
+  useEffect(() => {
+    if (firebaseUser) refreshUser();
+  }, [firebaseUser, refreshUser]);
+
   return (
     <>
       <Head>

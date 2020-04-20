@@ -1,5 +1,5 @@
 import admin from "firebase-admin";
-import { db } from "./../../db";
+import { db } from "../../db";
 import { initFirebaseAdmin } from "./_firebaseAdmin";
 import { TUser } from "./_types";
 
