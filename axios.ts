@@ -1,12 +1,13 @@
 import firebase from "firebase/app";
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import * as decode from "jwt-decode";
 import { store, getStoreValues } from "./store";
 
 export const apiCall = async (
   method: "GET" | "POST" | "DELETE" | "PUT",
   url: string,
-  data?: any
+  data?: any,
+  config?: AxiosRequestConfig
 ) => {
   let idToken = getStoreValues().idToken;
 
@@ -38,6 +39,7 @@ export const apiCall = async (
       Authentication: idToken,
     },
     data,
+    ...config,
   }).then((resp) => resp.data);
 
   return response;

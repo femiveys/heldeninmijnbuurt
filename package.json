@@ -28,6 +28,7 @@
     "masonry-layout": "^4.2.2",
     "mysql": "^2.18.1",
     "next": "9.3.5",
+    "path": "^0.12.7",
     "queue-promise": "^2.0.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",

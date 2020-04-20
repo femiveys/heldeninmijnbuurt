@@ -17,6 +17,7 @@ type TProps = {
   render?: (_: {
     value: any;
     setValue: (value: any) => void;
+    form?: ReturnType<typeof useSmartForm>;
   }) => JSX.Element | null;
   // value: any;
   // onChange: (value: any) => void;
@@ -59,7 +60,7 @@ export const SmartFormField = (props: TProps) => {
 
   const inputField = useMemo(() => {
     if (props.render) {
-      return props.render({ value: localValue, setValue });
+      return props.render({ value: localValue, setValue, form });
     }
     if (type === "text" || type === "number") {
       return (
@@ -84,7 +85,7 @@ export const SmartFormField = (props: TProps) => {
       );
     }
     return null;
-  }, [type, disabled, name, localValue, _onChange]);
+  }, [type, disabled, name, localValue, _onChange, form]);
 
   if (type === "checkbox") {
     return (

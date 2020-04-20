@@ -6,6 +6,7 @@ export const useSmartForm = (defaultValues?: any) => {
   const [dirty, setDirty] = useState(false);
 
   useEffect(() => {
+    // TODO: do a isEqual check
     valuesRef.current = defaultValues || {};
     setValues(valuesRef.current);
     setDirty(false);

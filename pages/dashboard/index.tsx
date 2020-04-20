@@ -1,21 +1,35 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import { Widget } from "../../components/Widget";
 import { ScreenLoading } from "../../components/ScreenLoading";
 import { useUser } from "../../base/user";
 import { useAuth } from "../../base/auth";
-import { SmartForm } from "../../components/SmartForm";
 import { useSmartForm } from "../../components/SmartForm/useSmartForm";
-import { apiCall } from "../../axios";
-import { message } from "antd";
-import { store } from "../../store";
 import { WidgetNeedMouthmask } from "./WidgetNeedMouthmask";
+import { SmartFormField } from "../../components/SmartForm/SmartFormField";
+import { DropdownCity } from "../../components/dropdowns/DropdownCity";
+import { fetchIP } from "../../base/user/fetchIP";
+import { DebugData } from "../../components/DebugData";
+import { DropdownStreet } from "../../components/dropdowns/DropdownStreet";
+import { BaseButton } from "../../components/buttons/BaseButton";
+import { message } from "antd";
+import { apiCall } from "../../axios";
+import { store } from "../../store";
 
 export default function PageDashboard() {
   const router = useRouter();
   const { isLoggedIn, loggingIn } = useAuth();
   const { refreshUser, fetchingUser, user } = useUser();
-  const generalForm = useSmartForm(user);
+  const generalForm = useSmartForm();
+
+  useEffect(() => {
+    fetchIP()
+      .then(({ postalCode }) => {
+        generalForm.setValue("postal_code", postalCode);
+      })
+      .catch((error) => {
+        // ...
+      });
+  }, []);
 
   useEffect(() => {
     if (!loggingIn && !isLoggedIn) {
@@ -44,26 +58,55 @@ export default function PageDashboard() {
           elke gebruiker. We brengen jou pas in contact met iemand in de buurt
           eenmaal het systeem ziet dat jij iets kan bieden of nodig hebt.
         </p>
-        <SmartForm
+        <DebugData data={generalForm.values} />
+        <SmartFormField
           form={generalForm}
-          fields={[
-            { name: "street", label: "Straat" },
-            { name: "zipcode", label: "Postcode" },
-            { name: "whatsapp", label: "Whatsapp" },
-          ]}
-          submitButton={{
-            text: "Volgende",
+          name="postal_code"
+          label="Stad"
+          render={({ value, setValue }) => {
+            return (
+              <DropdownCity
+                value={value}
+                onChange={(_value) => {
+                  generalForm.setValue("street_id", undefined);
+                  setValue(_value);
+                }}
+              />
+            );
           }}
-          onSubmit={async (values) => {
+        />
+        <SmartFormField
+          form={generalForm}
+          name="street_id"
+          label="Straat"
+          render={({ value, setValue, form }) => {
+            return (
+              <DropdownStreet
+                postalCode={form.values?.["postal_code"]}
+                value={value}
+                onChange={setValue}
+              />
+            );
+          }}
+        />
+        <BaseButton
+          primary
+          large
+          text="Volgende"
+          onClick={async () => {
             try {
-              const me = await apiCall("POST", "me", values);
-              message.success("Jouw profiel werd goed opgeslagen!");
+              // Register
+              const me = await apiCall(
+                "POST",
+                "/me",
+                generalForm.collectValues()
+              );
+              message.success("Profiel aangemaakt!");
               store.dispatch("user/setUser", me);
             } catch (error) {
-              message.error(`Er ging iets fout.. Probeer 'ns opnieuw?`);
+              message.error("Er ging iets fout. Probeer ns opnieuw");
             }
           }}
-          shout={false}
         />
       </div>
     );

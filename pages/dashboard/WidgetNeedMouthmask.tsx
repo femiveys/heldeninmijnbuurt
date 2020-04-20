@@ -70,9 +70,7 @@ export const WidgetNeedMouthmask = () => {
                   console.log(form.collectValues());
                   try {
                     await apiCall("POST", "me/mouthmask", form.collectValues());
-                    message.success(
-                      "Je aanvraag werd ingediend. We sturen je een bericht van zodra we iemand gevonden hebben!"
-                    );
+                    message.success("Je aanvraag werd ingediend.");
                     await store.dispatch("user/setUser", {
                       ...user,
                       needs_mouthmask: 1,
