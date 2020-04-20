@@ -6,7 +6,7 @@ type TPostalCodesResponse = { postal_code: number }[];
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     try {
-      let cities = await db("streets")
+      let cities = await db("street")
         .distinct<TPostalCodesResponse>("postal_code")
         .select(
           "postal_code",

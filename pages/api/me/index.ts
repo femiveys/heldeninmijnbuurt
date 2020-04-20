@@ -1,4 +1,3 @@
-import { omit } from "lodash";
 import { db } from "../../../db";
 import { initFirebaseAdmin } from "../_firebaseAdmin";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -14,7 +13,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       initFirebaseAdmin();
       const firebaseUser = await getFirebaseUser(req);
 
-      await db("users").insert({
+      await db("user").insert({
         user_id: firebaseUser.uid,
         street_id,
       });
@@ -39,7 +38,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // if (req.method === "PUT") {
   //   try {
   //     const me = await getMeOrFail(req);
-  //     const updated = await db("users")
+  //     const updated = await db("user")
   //       .where("user_id", me.user_id)
   //       .update(omit(req.body, ["email", "picture", "user_id"]));
   //     res.send({ updated });
