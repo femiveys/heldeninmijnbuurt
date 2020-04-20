@@ -15,7 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       let amount = req.body.needs_mouthmask_amount;
       amount = Math.min(amount, 5);
       ///////////////////
-      const requested = await db("users").where("user_id", me.user_id).update({
+      const requested = await db("user").where("user_id", me.user_id).update({
         needs_mouthmask: 1,
         needs_mouthmask_amount: amount,
       });
@@ -30,7 +30,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const me = await getMeOrFail(req);
       if (me.needs_mouthmask && !req.body.needs_mouthmask) {
         // Turned off "need mouthmask"
-        const updated = await db("users").where("user_id", me.user_id).update({
+        const updated = await db("user").where("user_id", me.user_id).update({
           needs_mouthmask: 0,
           needs_mouthmask_amount: 0,
         });

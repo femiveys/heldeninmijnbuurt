@@ -12,9 +12,7 @@ export async function getFirebaseUser(req) {
 
 export async function getMe(req) {
   const firebaseUser = await getFirebaseUser(req);
-  const me = await db<TUser>("users")
-    .where("user_id", firebaseUser.uid)
-    .first();
+  const me = await db<TUser>("user").where("user_id", firebaseUser.uid).first();
   return me;
 }
 
