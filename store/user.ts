@@ -3,9 +3,8 @@ import { TStoreState, TStoreEvents } from "./index";
 
 export type TUser = {
   user_id: string;
-  street?: string;
-  zipcode?: string;
-  has_sewing_machine?: boolean;
+  street_id?: number;
+  is_maker?: boolean;
   needs_mouthmask?: boolean;
 };
 export interface IUserState {

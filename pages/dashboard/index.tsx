@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import { Widget } from "../../components/Widget";
 import { ScreenLoading } from "../../components/ScreenLoading";
 import { useUser } from "../../base/user";
 import { useAuth } from "../../base/auth";

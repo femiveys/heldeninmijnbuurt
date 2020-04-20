@@ -1,5 +1,4 @@
 import { CSSProperties } from "react";
-import { useStoreon } from "storeon/react";
 import styled from "styled-components";
 
 type TProps = {

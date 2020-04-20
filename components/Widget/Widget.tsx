@@ -69,7 +69,7 @@ export const Widget = (props: TProps) => {
               <Checkbox
                 style={{ marginRight: 10 }}
                 checked={form.values?.[toggleField?.name]}
-                onChange={async (e) => {
+                onChange={async (_e) => {
                   toggleActive();
                 }}
               />

@@ -5,7 +5,6 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import classnames from "classnames";
 import { useSmartForm } from "./useSmartForm";
 
 type TProps = {

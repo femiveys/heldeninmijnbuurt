@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { message } from "antd";
 import classnames from "classnames";
-import { sleep } from "../../helpers";
 import { BaseButton } from "../buttons/BaseButton";
 import { useSmartForm } from "./useSmartForm";
 import { SmartFormField, TSmartFormField } from "./SmartFormField";
