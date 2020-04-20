@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import classnames from "classnames";
-import { Checkbox, message, Modal } from "antd";
+import { Checkbox, message, Modal, Button } from "antd";
 import { pick } from "lodash";
 import { TSmartFormField } from "../SmartForm/SmartFormField";
 import { useSmartForm } from "../SmartForm/useSmartForm";
@@ -77,6 +77,13 @@ export const Widget = (props: TProps) => {
             {title}
           </label>
         </h3>
+        {/* <p>
+          Helden uit jouw buurt willen graag een mondmasker voor jou naaien. Om
+          hen niet te overstelpen, limiteren we het aantal mondmaskers per
+          persoon tot 5. Gelieve eerlijk in te vullen hoeveel je er nodig hebt.
+          Zodat iedereen ervan kan genieten.
+        </p> */}
+
         {showForm ? (
           <>
             <div style={{ height: 10 }} />
