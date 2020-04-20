@@ -2,10 +2,10 @@ import { StoreonModule } from "storeon";
 import { TStoreState, TStoreEvents } from "./index";
 
 export type TUser = {
-  id: string;
+  user_id: string;
   street_id?: number;
   is_maker?: boolean;
-  is_requestor?: boolean;
+  needs_mouthmask?: boolean;
 };
 export interface IUserState {
   // User
