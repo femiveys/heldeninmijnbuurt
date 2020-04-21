@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../../db";
 import { getMeOrFail } from "../_helpers";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
