@@ -1,11 +1,6 @@
 import { db } from "../../db";
 import { ERelationType, ERelationStatus } from "../../types";
 
-type TDistanceAndUserId = {
-  distance: number;
-  userId: string;
-};
-
 /**
  * Tries to assign a requestor to a maker that has not declined yet
  *
@@ -14,29 +9,24 @@ type TDistanceAndUserId = {
  *          null if a relation already exists or all relations are declined
  */
 export const assignMakerTo = async (requestorId: string) => {
-  try {
-    const shouldCreate = await shouldCreateRelation(requestorId);
-    if (!shouldCreate) {
-      console.log("There is an active relation");
-      return null;
-    }
+  const shouldCreate = await shouldCreateRelation(requestorId);
+  if (!shouldCreate) {
+    console.log("There is an active relation");
+    return null;
+  }
 
-    const declinedMakerIds = await getDeclinedMakerIds(requestorId);
+  const declinedMakerIds = await getDeclinedMakerIds(requestorId);
 
-    const distanceAndMakerId = await findNearestMakerId(
-      requestorId,
-      declinedMakerIds
-    );
+  const distanceAndMakerId = await findNearestMakerId(
+    requestorId,
+    declinedMakerIds
+  );
 
-    if (distanceAndMakerId) {
-      const { distance, userId } = distanceAndMakerId;
-      await createMaskRelation(requestorId, userId, distance);
-      return { distance, userId };
-    } else {
-      return null;
-    }
-  } catch (error) {
-    console.log(error);
+  if (distanceAndMakerId) {
+    const { distance, userId } = distanceAndMakerId;
+    await createMaskRelation(requestorId, userId, distance);
+    return { distance, userId };
+  } else {
     return null;
   }
 };
@@ -53,7 +43,7 @@ const findNearestMakerId = async (
   requestorId: string,
   excludedMakerIds: string[] = [],
   maxDistance: number = 50000
-): Promise<TDistanceAndUserId | null> => {
+) => {
   const distance =
     "ST_Distance_Sphere(r_street.geolocation, h_street.geolocation)";
   const sql = `
@@ -84,7 +74,7 @@ const findNearestMakerId = async (
 
   if (result) {
     const { distance, userId } = result;
-    return { distance, userId };
+    return { distance, userId } as { distance: number; userId: string };
   } else {
     return null;
   }
@@ -103,7 +93,7 @@ const createMaskRelation = async (
   distance: number
 ) => {
   await db("relation").insert({
-    type: ERelationType.maksRequest,
+    type: ERelationType.maskRequest,
     status: ERelationStatus.requested,
     requestor_id: requestorId,
     hero_id: makerId,
@@ -118,11 +108,13 @@ const createMaskRelation = async (
  * @returns The list of makerIds that have already declined for this requestor
  */
 const getDeclinedMakerIds = async (requestorId: string) => {
-  const declinedMakerIds = await db("relation").select("hero_id").where({
-    type: ERelationType.maksRequest,
-    status: ERelationStatus.declined,
-    requestor_id: requestorId,
-  });
+  const declinedMakerIds = await db("relation")
+    .where({
+      type: ERelationType.maskRequest,
+      status: ERelationStatus.declined,
+      requestor_id: requestorId,
+    })
+    .select("hero_id");
 
   return declinedMakerIds;
 };
@@ -137,10 +129,12 @@ const getDeclinedMakerIds = async (requestorId: string) => {
  * @returns true if it should be created, false otherwise
  */
 const shouldCreateRelation = async (requestorId: string) => {
-  const results = await db("relation").select("status").where({
-    type: ERelationType.maksRequest,
-    requestor_id: requestorId,
-  });
+  const results = await db("relation")
+    .where({
+      type: ERelationType.maskRequest,
+      requestor_id: requestorId,
+    })
+    .select("status");
 
   // If there are no existing relations, we should create a new one
   if (!results) {

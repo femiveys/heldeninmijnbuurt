@@ -7,8 +7,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     try {
       let cities = await db("street")
-        .distinct<TPostalCodesResponse>("postal_code")
-        .select(
+        .distinct("postal_code")
+        .select<TPostalCodesResponse>(
           "postal_code",
           "municipality_desc_nl",
           "municipality_desc_fr",

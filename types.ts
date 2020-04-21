@@ -1,11 +1,11 @@
 // Enums
 export enum ERelationType {
-  maksRequest = "maksRequest",
+  maskRequest = "maskRequest",
 }
 
 export enum ERelationStatus {
   requested = "requested",
-  pending = "pending",
+  accepted = "accepted",
   delivered = "delivered",
   declined = "declined",
 }

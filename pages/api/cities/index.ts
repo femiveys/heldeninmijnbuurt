@@ -10,12 +10,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { vlaanderen } = req.query;
 
-      let cities = await fetchCities();
-      if (vlaanderen) {
-        cities = cities.filter((c) => isVlaanderen(c.postal));
-      }
+      const cities = await fetchCities();
 
-      res.send(cities);
+      res.send(
+        vlaanderen ? cities.filter((c) => isVlaanderen(c.postal)) : cities
+      );
     } catch (error) {
       res.status(500).send({ error: error.message });
     }

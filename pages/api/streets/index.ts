@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../../db";
-import { TStreetFromDb } from "../../../apiHelpers/types.db";
+import { TShortStreetFromDb } from "../../../apiHelpers/types.db";
 import { transformStreets } from "../../../apiHelpers/transformers";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -9,7 +9,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const {
         query: { postalCode },
       } = req;
-      const streets = await db<TStreetFromDb[]>("street")
+      const streets = await db<TShortStreetFromDb>("street")
         .where("postal_code", postalCode)
         .orderBy("street_desc_nl", "asc")
         .orderBy("street_desc_fr", "asc")
