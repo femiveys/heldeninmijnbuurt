@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useFetch } from "../../base/api/useFetch";
-import { TStreet } from "../../pages/api/streets";
+import { TStreet } from "../../types";
 
 type TProps = {
   postalCode: string | number;
@@ -34,9 +34,9 @@ export const DropdownStreet = ({ postalCode, value, onChange }: TProps) => {
           </option>
           {streets?.map((street, ind) => (
             <option key={street.id} value={street.id}>
-              {street.street_desc_nl ||
-                street.street_desc_fr ||
-                street.street_desc_de}
+              {street.streetDescNl ||
+                street.streetDescFr ||
+                street.streetDescDe}
             </option>
           ))}
         </select>

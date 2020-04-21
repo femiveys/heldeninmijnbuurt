@@ -2,7 +2,6 @@ import React from "react";
 import { UIWidget } from "../../components/UIWidget";
 import { useUser } from "../../base/user";
 import { useSmartForm } from "../../components/SmartForm/useSmartForm";
-import { SmartForm } from "../../components/SmartForm";
 import { SmartFormField } from "../../components/SmartForm/SmartFormField";
 import { BaseButton } from "../../components/buttons/BaseButton";
 import { apiCall } from "../../axios";

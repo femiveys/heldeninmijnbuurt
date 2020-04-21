@@ -1,7 +1,8 @@
 import admin from "firebase-admin";
 import { db } from "../../db";
 import { initFirebaseAdmin } from "./_firebaseAdmin";
-import { TUser } from "./_types";
+import { TUserFromDb } from "../../apiHelpers/types.db";
+import { transformUser } from "../../apiHelpers/transformers";
 
 export async function getFirebaseUser(req) {
   initFirebaseAdmin();
@@ -12,8 +13,10 @@ export async function getFirebaseUser(req) {
 
 export async function getMe(req) {
   const firebaseUser = await getFirebaseUser(req);
-  const me = await db<TUser>("user").where("user_id", firebaseUser.uid).first();
-  return me;
+  const me = await db<TUserFromDb>("user")
+    .where("user_id", firebaseUser.uid)
+    .first();
+  return transformUser(me);
 }
 
 export async function getMeOrFail(req) {

@@ -1,22 +1,17 @@
 import { StoreonModule } from "storeon";
 import { TStoreState, TStoreEvents } from "./index";
+import { TUserFromDb } from "../apiHelpers/types.db";
 
-export type TUser = {
-  user_id: string;
-  street_id?: number;
-  is_maker?: boolean;
-  needs_mouthmask?: boolean;
-};
 export interface IUserState {
   // User
   fetchingUser: boolean;
-  user: TUser | null;
+  user: TUserFromDb | null;
 }
 
 export interface IUserEvents {
   // User
   "user/fetchingUser": boolean;
-  "user/setUser": TUser | null;
+  "user/setUser": TUserFromDb | null;
 }
 
 export const userStore: StoreonModule<TStoreState, TStoreEvents> = (store) => {
