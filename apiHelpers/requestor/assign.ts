@@ -1,11 +1,6 @@
 import { db } from "../../db";
 import { ERelationType, ERelationStatus } from "../../types";
 
-type TDistanceAndUserId = {
-  distance: number;
-  userId: string;
-};
-
 /**
  * Tries to assign a requestor to a maker that has not declined yet
  *
@@ -53,7 +48,7 @@ const findNearestMakerId = async (
   requestorId: string,
   excludedMakerIds: string[] = [],
   maxDistance: number = 50000
-): Promise<TDistanceAndUserId | null> => {
+) => {
   const distance =
     "ST_Distance_Sphere(r_street.geolocation, h_street.geolocation)";
   const sql = `
@@ -84,7 +79,7 @@ const findNearestMakerId = async (
 
   if (result) {
     const { distance, userId } = result;
-    return { distance, userId };
+    return { distance, userId } as { distance: number; userId: string };
   } else {
     return null;
   }
@@ -103,7 +98,7 @@ const createMaskRelation = async (
   distance: number
 ) => {
   await db("relation").insert({
-    type: ERelationType.maksRequest,
+    type: ERelationType.maskRequest,
     status: ERelationStatus.requested,
     requestor_id: requestorId,
     hero_id: makerId,
@@ -119,7 +114,7 @@ const createMaskRelation = async (
  */
 const getDeclinedMakerIds = async (requestorId: string) => {
   const declinedMakerIds = await db("relation").select("hero_id").where({
-    type: ERelationType.maksRequest,
+    type: ERelationType.maskRequest,
     status: ERelationStatus.declined,
     requestor_id: requestorId,
   });
@@ -138,7 +133,7 @@ const getDeclinedMakerIds = async (requestorId: string) => {
  */
 const shouldCreateRelation = async (requestorId: string) => {
   const results = await db("relation").select("status").where({
-    type: ERelationType.maksRequest,
+    type: ERelationType.maskRequest,
     requestor_id: requestorId,
   });
 

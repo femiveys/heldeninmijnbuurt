@@ -13,7 +13,8 @@ export const makeBooleans = <T>(obj: T, keys: (keyof T)[]) => {
 export const transformStreets = (streets: TStreetFromDb[]) =>
   streets.map((street) => humps.camelizeKeys(street) as TStreet);
 
-export const transformUser = (user: TUserFromDb) => {
+export const transformUser = (user?: TUserFromDb) => {
+  if (!user) return null;
   const { __name, __email, ...userWithout__ } = user;
   const transformedUser = humps.camelizeKeys(userWithout__) as TUser;
   return makeBooleans(transformedUser, [
