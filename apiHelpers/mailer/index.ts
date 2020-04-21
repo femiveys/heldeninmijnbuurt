@@ -13,8 +13,22 @@ const transporter = nodemailer.createTransport({
 
 const from = '"Femi Veys 👻" <femi@itsimplyworks.be>';
 
+type SentMessageInfo = {
+  accepted: string[];
+  rejected: string[];
+  envelopeTime: number;
+  messageTime: number;
+  messageSize: number;
+  response: string;
+  envelope: {
+    from: string;
+    to: string[];
+  };
+  messageId: string;
+};
+
 export async function sendMail(to: string, mailId: string) {
-  const info = await transporter.sendMail({
+  const info: SentMessageInfo = await transporter.sendMail({
     from,
     to,
     ...templates[mailId],

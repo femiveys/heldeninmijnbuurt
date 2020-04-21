@@ -11,7 +11,7 @@ type TMailOptions = {
 export const templates: Dictionary<TMailOptions> = {
   example: {
     subject: "En het werk ook met images ✔",
-    text: "Hello world?",
+    text: "Korte body tekst",
     html: `
       <html>
         <body>
