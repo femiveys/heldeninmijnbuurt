@@ -11,11 +11,13 @@ import { transformRelation } from "../transformers";
  *          null in not found
  */
 export const getAcceptedMakerRelationOf = async (requestorId: string) => {
-  const relation = await db<TRelationFromDb>("relation").first().where({
-    type: ERelationType.maskRequest,
-    status: ERelationStatus.accepted,
-    requestor_id: requestorId,
-  });
+  const relation = await db("relation")
+    .where({
+      type: ERelationType.maskRequest,
+      status: ERelationStatus.accepted,
+      requestor_id: requestorId,
+    })
+    .first<TRelationFromDb>();
 
   return transformRelation(relation);
 };

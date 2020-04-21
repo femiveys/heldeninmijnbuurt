@@ -108,11 +108,13 @@ const createMaskRelation = async (
  * @returns The list of makerIds that have already declined for this requestor
  */
 const getDeclinedMakerIds = async (requestorId: string) => {
-  const declinedMakerIds = await db("relation").select("hero_id").where({
-    type: ERelationType.maskRequest,
-    status: ERelationStatus.declined,
-    requestor_id: requestorId,
-  });
+  const declinedMakerIds = await db("relation")
+    .where({
+      type: ERelationType.maskRequest,
+      status: ERelationStatus.declined,
+      requestor_id: requestorId,
+    })
+    .select("hero_id");
 
   return declinedMakerIds;
 };
@@ -127,10 +129,12 @@ const getDeclinedMakerIds = async (requestorId: string) => {
  * @returns true if it should be created, false otherwise
  */
 const shouldCreateRelation = async (requestorId: string) => {
-  const results = await db("relation").select("status").where({
-    type: ERelationType.maskRequest,
-    requestor_id: requestorId,
-  });
+  const results = await db("relation")
+    .where({
+      type: ERelationType.maskRequest,
+      requestor_id: requestorId,
+    })
+    .select("status");
 
   // If there are no existing relations, we should create a new one
   if (!results) {

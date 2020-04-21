@@ -11,15 +11,15 @@ import { transformUser, transformRelation } from "../transformers";
  */
 export const getAssignedRequests = async (makerId: string) => {
   const results = await db<TRelationFromDb>("relation")
-    .select()
     .where("relation.hero_id", makerId)
-    .whereIn("status", [ERelationStatus.accepted, ERelationStatus.requested]);
+    .whereIn("status", [ERelationStatus.accepted, ERelationStatus.requested])
+    .select();
 
   const assignedRequests = await Promise.all(
     results.map(async (relation) => {
-      const requestor = await db("user")
-        .first<TUserFromDb>()
-        .where("user_id", relation.requestor_id);
+      const requestor = await db<TUserFromDb>("user")
+        .where("user_id", relation.requestor_id)
+        .first();
 
       if (!requestor) {
         // TODO: Remove the relation in this case?
