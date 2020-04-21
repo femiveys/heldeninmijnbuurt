@@ -141,7 +141,7 @@ const setGeoLocation = async (selectResult, index) => {
     const lonlat = await getLonLat(street);
 
     const sql =
-      `UPDATE streets ` +
+      `UPDATE street ` +
       `SET geolocation=ST_GeomFromText('POINT(${lonlat})', 4326) ` +
       `WHERE id=${street.id}`;
 
@@ -171,7 +171,7 @@ const connection = mysql.createConnection({
 connection.connect((connectionError) => {
   if (connectionError) throw connectionError;
 
-  const sql = "SELECT * from streets WHERE geolocation is NULL";
+  const sql = "SELECT * from street WHERE geolocation is NULL";
 
   connection.query(sql, async (selectErr, selectResult) => {
     if (selectErr) throw selectErr;

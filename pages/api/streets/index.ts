@@ -16,7 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const {
         query: { postalCode },
       } = req;
-      const streets = await db<TStreet[]>("streets")
+      const streets = await db<TStreet[]>("street")
         .where("postal_code", postalCode)
         .orderBy("street_desc_nl", "asc")
         .orderBy("street_desc_fr", "asc")
