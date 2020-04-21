@@ -24,5 +24,5 @@ export const transformUser = (user?: TUserFromDb) => {
   ]);
 };
 
-export const transformRelation = (relation: TRelationFromDb) =>
-  humps.camelizeKeys(relation) as TRelation;
+export const transformRelation = (relation?: TRelationFromDb) =>
+  relation ? (humps.camelizeKeys(relation) as TRelation) : null;

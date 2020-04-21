@@ -9,29 +9,24 @@ import { ERelationType, ERelationStatus } from "../../types";
  *          null if a relation already exists or all relations are declined
  */
 export const assignMakerTo = async (requestorId: string) => {
-  try {
-    const shouldCreate = await shouldCreateRelation(requestorId);
-    if (!shouldCreate) {
-      console.log("There is an active relation");
-      return null;
-    }
+  const shouldCreate = await shouldCreateRelation(requestorId);
+  if (!shouldCreate) {
+    console.log("There is an active relation");
+    return null;
+  }
 
-    const declinedMakerIds = await getDeclinedMakerIds(requestorId);
+  const declinedMakerIds = await getDeclinedMakerIds(requestorId);
 
-    const distanceAndMakerId = await findNearestMakerId(
-      requestorId,
-      declinedMakerIds
-    );
+  const distanceAndMakerId = await findNearestMakerId(
+    requestorId,
+    declinedMakerIds
+  );
 
-    if (distanceAndMakerId) {
-      const { distance, userId } = distanceAndMakerId;
-      await createMaskRelation(requestorId, userId, distance);
-      return { distance, userId };
-    } else {
-      return null;
-    }
-  } catch (error) {
-    console.log(error);
+  if (distanceAndMakerId) {
+    const { distance, userId } = distanceAndMakerId;
+    await createMaskRelation(requestorId, userId, distance);
+    return { distance, userId };
+  } else {
     return null;
   }
 };
