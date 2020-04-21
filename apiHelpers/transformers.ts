@@ -1,6 +1,6 @@
 import humps from "humps";
-import { TUserFromDb, TStreetFromDb } from "./types.db";
-import { TUser, TStreet } from "../types";
+import { TUserFromDb, TStreetFromDb, TRelationFromDb } from "./types.db";
+import { TUser, TStreet, TRelation } from "../types";
 
 export const makeBooleans = <T>(obj: T, keys: (keyof T)[]) => {
   keys.forEach((key) => {
@@ -10,8 +10,12 @@ export const makeBooleans = <T>(obj: T, keys: (keyof T)[]) => {
   return obj;
 };
 
+export const transformStreets = (streets: TStreetFromDb[]) =>
+  streets.map((street) => humps.camelizeKeys(street) as TStreet);
+
 export const transformUser = (user: TUserFromDb) => {
-  const transformedUser = humps.camelizeKeys(user) as TUser;
+  const { __name, __email, ...userWithout__ } = user;
+  const transformedUser = humps.camelizeKeys(userWithout__) as TUser;
   return makeBooleans(transformedUser, [
     "isMaker",
     "needsMouthmask",
@@ -19,5 +23,5 @@ export const transformUser = (user: TUserFromDb) => {
   ]);
 };
 
-export const transformStreets = (streets: TStreetFromDb[]) =>
-  streets.map((street) => humps.camelizeKeys(street) as TStreet);
+export const transformRelation = (relation: TRelationFromDb) =>
+  humps.camelizeKeys(relation) as TRelation;

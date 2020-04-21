@@ -1,6 +1,8 @@
 import { ERelationType, ERelationStatus } from "../types";
 
 export type TUserFromDb = {
+  __name: string;
+  __email: string;
   user_id: string;
   street_id: number;
   is_maker: number;
