@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import classnames from "classnames";
-import { Checkbox, message, Modal, Button } from "antd";
+import { Checkbox, message, Modal } from "antd";
 import { pick } from "lodash";
 import { TSmartFormField } from "../SmartForm/SmartFormField";
 import { useSmartForm } from "../SmartForm/useSmartForm";

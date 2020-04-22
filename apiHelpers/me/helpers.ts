@@ -1,8 +1,8 @@
 import admin from "firebase-admin";
 import { db } from "../../db";
-import { initFirebaseAdmin } from "./_firebaseAdmin";
 import { TUserFromDb } from "../../apiHelpers/types.db";
 import { transformUser } from "../../apiHelpers/transformers";
+import { initFirebaseAdmin } from "./firebaseAdmin";
 
 export async function getFirebaseUser(req) {
   initFirebaseAdmin();
