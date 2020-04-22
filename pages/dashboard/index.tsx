@@ -45,7 +45,7 @@ export default function PageDashboard() {
 
   if (!isLoggedIn || fetchingUser) return <ScreenLoading />;
 
-  if (!fetchingUser && user === null) {
+  if (!fetchingUser && !user) {
     return (
       <div style={{ maxWidth: 400 }}>
         <h2>
