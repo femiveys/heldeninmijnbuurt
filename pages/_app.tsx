@@ -4,23 +4,26 @@ import "../firebase";
 
 import Head from "next/head";
 import { StoreContext } from "storeon/react";
+import { Layout, Spin } from "antd";
 
 import { store } from "../store";
-import { MainNavigation } from "../components/MainNavigation";
 
 // Styles
-import "../styles.scss";
-import "../components/Spinner/Spinner.scss";
+import "antd/dist/antd.css";
+import "../style.scss";
 import { listenToAuthChanges, useAuth } from "../base/auth";
 import { useUser } from "../base/user";
 import { useEffect } from "react";
+import { ApplicationHeader } from "../components/ApplicationHeader";
 
 // Listen to firebase auth changes
 listenToAuthChanges();
 
+const { Header, Footer, Content } = Layout;
+
 const App = ({ Component, pageProps }: any) => {
   const { firebaseUser } = useAuth();
-  const { refreshUser } = useUser();
+  const { refreshUser, fetchingUser } = useUser();
   useEffect(() => {
     if (firebaseUser) refreshUser();
   }, [firebaseUser, refreshUser]);
@@ -35,10 +38,21 @@ const App = ({ Component, pageProps }: any) => {
           rel="stylesheet"
         />
       </Head>
-      <MainNavigation />
-      <div className="container py-4">
-        <Component {...pageProps} />
-      </div>
+      <Layout>
+        <Header>
+          <ApplicationHeader />
+        </Header>
+        <Content>
+          {fetchingUser ? (
+            <div className="centered-spinner">
+              <Spin size="large" />
+            </div>
+          ) : (
+            <Component {...pageProps} />
+          )}
+        </Content>
+        <Footer>Footer</Footer>
+      </Layout>
     </>
   );
 };

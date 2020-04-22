@@ -1,10 +1,8 @@
-import { useEffect, useState, useCallback, ChangeEvent } from "react";
-import { message } from "antd";
+import { useEffect, useState, useCallback } from "react";
+import { Form, Button, Row, Col, Select } from "antd";
 import { store } from "../store";
 import { useApi } from "../base/api/useApi";
-import { TStreet } from "../types";
-import { apiCall } from "../axios";
-import { Spinner } from "./Spinner";
+import { TStreet, TUser } from "../types";
 
 const getStreetInUserLanguage = (street: TStreet, language = "nl") => {
   switch (language) {
@@ -18,8 +16,8 @@ const getStreetInUserLanguage = (street: TStreet, language = "nl") => {
 };
 
 export const EnterStreet = () => {
+  const [form] = Form.useForm();
   const [postalCode, setPostalCode] = useState<number>();
-  const [streetId, setStreetId] = useState<number>();
   const {
     data: postalCodes,
     isLoading: isFetchingPostalCodes,
@@ -30,6 +28,10 @@ export const EnterStreet = () => {
     isLoading: isFetchingStreets,
     callApi: fetchStreets,
   } = useApi<TStreet[]>("GET", `streets/${postalCode}`, []);
+  const { data: me, isLoading: isPostingMe, callApi: createMe } = useApi<TUser>(
+    "POST",
+    "me"
+  );
 
   // TODO postalCodes could be taken from a static JSON or localstorage
   useEffect(() => {
@@ -37,81 +39,116 @@ export const EnterStreet = () => {
   }, []);
 
   useEffect(() => {
-    fetchStreets();
+    if (postalCode) {
+      fetchStreets();
+    }
   }, [postalCode]);
 
-  const onPostalCodeChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const postalCode = Number(e.target.value);
-    if (postalCode) setPostalCode(postalCode);
-  };
-
-  const onStreetChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const streetId = Number(e.target.value);
-    if (streetId) setStreetId(streetId);
-  };
-
-  const onSubmit = async () => {
-    if (streetId) {
-      try {
-        // Register
-        const me = await apiCall("POST", "/me", { streetId: streetId });
-        message.success("Profiel aangemaakt!");
-        store.dispatch("user/setUser", me);
-      } catch (error) {
-        message.error("Er ging iets fout. Probeer ns opnieuw");
-      }
+  useEffect(() => {
+    if (me) {
+      store.dispatch("user/setUser", me);
     }
+  }, [me]);
+
+  const onPostalCodeChange = useCallback((postalCode: number) => {
+    setPostalCode(postalCode); // Spijtig dat we de form value niet kunnen gebruiken
+    form.resetFields(["streetId"]);
+  }, []);
+
+  const tailLayout = {
+    wrapperCol: { offset: 8, span: 16 },
   };
 
-  const onPostalCodeChangeCb = useCallback(onPostalCodeChange, []);
-  const onStreetChangeCb = useCallback(onStreetChange, []);
+  const onFinish = async (values: { streetId: number }) => {
+    console.log("Success:", values);
+    createMe({ streetId: values.streetId });
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
 
   return (
-    <div id="choose-street">
-      <form onSubmit={() => console.log(",dklfjdsklfjs")}>
-        <div className="form-group">
-          <label>Postnummer</label>
-          <select onChange={onPostalCodeChangeCb}>
-            {isFetchingPostalCodes ? (
-              <option disabled>Fetching</option>
-            ) : (
-              <>
-                <option>Kies je postnummer</option>
-                {postalCodes.map((postalCode) => (
-                  <option key={postalCode} value={postalCode}>
-                    {postalCode}
-                  </option>
-                ))}
-              </>
-            )}
-          </select>
-        </div>
-        {postalCode ? (
-          <div className="form-group">
-            <label>Straat</label>
-            {isFetchingStreets ? (
-              <Spinner color="blue" />
-            ) : (
-              <select onChange={onStreetChangeCb}>
-                <option>Kies je straat</option>
-                {streets.map((street) => (
-                  <option key={street.id} value={street.id}>
-                    {getStreetInUserLanguage(street)}
-                  </option>
-                ))}
-              </select>
-            )}
-          </div>
-        ) : null}
-        <button
-          type="submit"
-          className="btn btn-primary"
-          onClick={onSubmit}
-          disabled={!streetId}
+    <Row>
+      <Col span={24}>
+        <Form
+          form={form}
+          size="large"
+          name="basic"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          hideRequiredMark
         >
-          Ga door
-        </button>
-      </form>
-    </div>
+          <Form.Item
+            label="Postnummer"
+            name="postalCode"
+            hasFeedback={isFetchingPostalCodes}
+            validateStatus="validating"
+            rules={[
+              { required: true, message: "Gelieve je postnummer op te geven!" },
+            ]}
+          >
+            <Select
+              showSearch
+              placeholder="Geef je postnummer in"
+              onChange={onPostalCodeChange}
+              filterOption={(input, option) =>
+                option.value.toString().startsWith(input)
+              }
+            >
+              {postalCodes.map((postalCode) => (
+                <Select.Option key={postalCode} value={postalCode}>
+                  {postalCode}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label="Straat"
+            name="streetId"
+            validateStatus="validating"
+            hasFeedback={isFetchingStreets}
+            rules={[
+              { required: true, message: "Gelieve je straat op te geven!" },
+            ]}
+          >
+            <Select
+              showSearch
+              placeholder="Geef je straat in"
+              disabled={!postalCode}
+              filterOption={(input, option) => {
+                // console.log(input, option);
+                return option.children.includes(input);
+              }}
+            >
+              {streets.map((street) => (
+                <Select.Option key={street.id} value={street.id}>
+                  {getStreetInUserLanguage(street)}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            {...tailLayout}
+            validateStatus="validating"
+            hasFeedback={isPostingMe}
+            shouldUpdate
+          >
+            {() => (
+              <Button
+                type="primary"
+                htmlType="submit"
+                disabled={!form.getFieldValue("streetId")}
+              >
+                Ga verder
+              </Button>
+            )}
+          </Form.Item>
+        </Form>
+      </Col>
+    </Row>
   );
 };

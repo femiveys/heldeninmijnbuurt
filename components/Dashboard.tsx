@@ -1,5 +1,7 @@
 import { useUser } from "../base/user";
 import { EnterStreet } from "./EnterStreet";
+import { MakeMouthmask } from "./MakeMouthmask";
+import { SearchMouthmask } from "./SearchMouthmask";
 
 export const Dashboard = () => {
   const { refreshUser, fetchingUser, user } = useUser();
@@ -7,6 +9,11 @@ export const Dashboard = () => {
   if (!user) {
     return <EnterStreet />;
   } else {
-    return <div>Dashboard</div>;
+    return (
+      <div id="dashboard">
+        <MakeMouthmask />
+        <SearchMouthmask />
+      </div>
+    );
   }
 };

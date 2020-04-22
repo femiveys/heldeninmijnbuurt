@@ -33,8 +33,8 @@ export const WidgetNeedMouthmask = () => {
               });
               store.dispatch("user/setUser", {
                 ...user,
-                needs_mouthmask: 0,
-                needs_mouthmask_amount: 0,
+                needsMouthmask: false,
+                needsMouthmaskAmount: 0,
               });
               message.success("Je hebt geen mondmaskers meer nodig");
             } catch (error) {
@@ -59,9 +59,9 @@ export const WidgetNeedMouthmask = () => {
               label="Hoeveel mondmasker(s) heb je nodig?"
               type="number"
               form={form}
-              disabled={!!user?.needs_mouthmask_amount}
+              disabled={!!user?.needsMouthmaskAmount}
             />
-            {!user?.needs_mouthmask_amount && (
+            {!user?.needsMouthmaskAmount && (
               <BaseButton
                 text="Vraag maskers aan"
                 primary
@@ -72,9 +72,9 @@ export const WidgetNeedMouthmask = () => {
                     message.success("Je aanvraag werd ingediend.");
                     await store.dispatch("user/setUser", {
                       ...user,
-                      needs_mouthmask: 1,
-                      needs_mouthmask_amount: form.collectValues()
-                        ?.needs_mouthmask_amount,
+                      needsMouthmask: true,
+                      needsMouthmaskAmount: form.collectValues()
+                        ?.needsMouthmaskAmount,
                     });
                   } catch (error) {
                     message.error("Er ging iets fout. Probeer opnieuw!");
