@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useFetch } from "../../base/api/useFetch";
+import { useApi } from "../../base/api/useApi";
 import { TCity } from "../../base/city/fetchCities";
 
 type TProps = {
@@ -8,12 +8,13 @@ type TProps = {
 };
 
 export const DropdownCity = ({ value, onChange }: TProps) => {
-  const { data: cities, isFetching, refresh: refreshCities } = useFetch<
-    TCity[]
-  >("cities");
+  const { data: cities, isLoading, callApi: fetchCities } = useApi<TCity[]>(
+    "GET",
+    "cities"
+  );
 
   useEffect(() => {
-    refreshCities();
+    fetchCities();
   }, []);
 
   return (

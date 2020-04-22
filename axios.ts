@@ -3,10 +3,12 @@ import axios, { AxiosRequestConfig } from "axios";
 import * as decode from "jwt-decode";
 import { store } from "./store";
 
+export type TApiMethod = "GET" | "POST" | "DELETE" | "PUT";
+
 export const apiCall = async (
-  method: "GET" | "POST" | "DELETE" | "PUT",
+  method: TApiMethod,
   url: string,
-  data?: any,
+  data?: object,
   config?: AxiosRequestConfig
 ) => {
   let idToken = store.get().idToken;

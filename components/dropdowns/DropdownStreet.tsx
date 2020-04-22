@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useFetch } from "../../base/api/useFetch";
+import { useApi } from "../../base/api/useApi";
 import { TStreet } from "../../types";
 
 type TProps = {
@@ -10,12 +10,12 @@ type TProps = {
 
 export const DropdownStreet = ({ postalCode, value, onChange }: TProps) => {
   console.log("DropdownStreet", { postalCode });
-  const { data: streets, isFetching, refresh: refreshStreets } = useFetch<
+  const { data: streets, isLoading, callApi: requestStreets } = useApi<
     TStreet[]
-  >(`streets?postalCode=${postalCode}`);
+  >("GET", `streets?postalCode=${postalCode}`);
 
   useEffect(() => {
-    if (postalCode) refreshStreets();
+    if (postalCode) requestStreets();
   }, [postalCode]);
 
   return (

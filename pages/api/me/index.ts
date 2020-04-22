@@ -11,7 +11,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // Create myself
   if (req.method === "POST") {
     try {
-      console.log(req);
       const { streetId } = req.body;
       if (!streetId) throw new Error("StreetId should have a value");
 

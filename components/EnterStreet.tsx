@@ -1,10 +1,10 @@
-import { useFetch } from "../base/api/useFetch";
 import { useEffect, useState, useCallback, ChangeEvent } from "react";
-import { TStreet } from "../types";
-import { Spinner } from "./Spinner";
-import { apiCall } from "../axios";
 import { message } from "antd";
 import { store } from "../store";
+import { useApi } from "../base/api/useApi";
+import { TStreet } from "../types";
+import { apiCall } from "../axios";
+import { Spinner } from "./Spinner";
 
 const getStreetInUserLanguage = (street: TStreet, language = "nl") => {
   switch (language) {
@@ -22,22 +22,22 @@ export const EnterStreet = () => {
   const [streetId, setStreetId] = useState<number>();
   const {
     data: postalCodes,
-    isFetching: isFetchingPostalCodes,
-    refresh: refreshCities,
-  } = useFetch<number[]>("postalCodes", []);
+    isLoading: isFetchingPostalCodes,
+    callApi: fetchPostalCodes,
+  } = useApi<number[]>("GET", "postalCodes", []);
   const {
     data: streets,
-    isFetching: isFetchingStreets,
-    refresh: refreshStreets,
-  } = useFetch<TStreet[]>(`streets/${postalCode}`, []);
+    isLoading: isFetchingStreets,
+    callApi: fetchStreets,
+  } = useApi<TStreet[]>("GET", `streets/${postalCode}`, []);
 
   // TODO postalCodes could be taken from a static JSON or localstorage
   useEffect(() => {
-    refreshCities();
+    fetchPostalCodes();
   }, []);
 
   useEffect(() => {
-    refreshStreets();
+    fetchStreets();
   }, [postalCode]);
 
   const onPostalCodeChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -103,11 +103,14 @@ export const EnterStreet = () => {
             )}
           </div>
         ) : null}
-        {streetId ? (
-          <button type="submit" className="btn btn-primary" onClick={onSubmit}>
-            Ga door
-          </button>
-        ) : null}
+        <button
+          type="submit"
+          className="btn btn-primary"
+          onClick={onSubmit}
+          disabled={!streetId}
+        >
+          Ga door
+        </button>
       </form>
     </div>
   );
