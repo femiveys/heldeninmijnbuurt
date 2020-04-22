@@ -1,8 +1,12 @@
 import { useMemo } from "react";
-import { useStoreon } from "storeon/react";
+import { useTypedStoreon } from "../../store";
 
 export const useAuth = () => {
-  const { fetchingFirebaseUser, firebaseUser, fetchingIdToken } = useStoreon(
+  const {
+    fetchingFirebaseUser,
+    firebaseUser,
+    fetchingIdToken,
+  } = useTypedStoreon(
     "fetchingFirebaseUser",
     "firebaseUser",
     "fetchingIdToken"

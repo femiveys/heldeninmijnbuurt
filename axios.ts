@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import axios, { AxiosRequestConfig } from "axios";
 import * as decode from "jwt-decode";
-import { store, getStoreValues } from "./store";
+import { store } from "./store";
 
 export const apiCall = async (
   method: "GET" | "POST" | "DELETE" | "PUT",
@@ -9,7 +9,7 @@ export const apiCall = async (
   data?: any,
   config?: AxiosRequestConfig
 ) => {
-  let idToken = getStoreValues().idToken;
+  let idToken = store.get().idToken;
 
   // Check if ID token should be refreshed
   let shouldRefreshIdToken = false;

@@ -1,3 +1,4 @@
+import { useStoreon } from "storeon/react";
 import { createStoreon } from "storeon";
 import { storeonLogger } from "storeon/devtools";
 import { storeonDevtools } from "storeon/devtools";
@@ -14,4 +15,5 @@ export const store = createStoreon<TStoreState, TStoreEvents>([
   process.env.NODE_ENV !== "production" && storeonDevtools,
 ]);
 
-export const getStoreValues = () => store.get() as any;
+export const useTypedStoreon = (...keys: (keyof TStoreState)[]) =>
+  useStoreon<TStoreState, TStoreEvents>(...keys);

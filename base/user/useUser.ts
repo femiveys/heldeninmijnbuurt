@@ -1,10 +1,9 @@
-import { useStoreon } from "storeon/react";
 import { useCallback, useMemo } from "react";
 import { apiCall } from "../../axios";
-import { store } from "../../store";
+import { store, useTypedStoreon } from "../../store";
 
 export const useUser = () => {
-  const { user, fetchingUser } = useStoreon("user", "fetchingUser");
+  const { user, fetchingUser } = useTypedStoreon("user", "fetchingUser");
 
   const refreshUser = useCallback(async () => {
     try {
