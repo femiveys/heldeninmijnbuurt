@@ -11,7 +11,7 @@ export type TStoreEvents = IAuthEvents & IUserEvents;
 export const store = createStoreon<TStoreState, TStoreEvents>([
   authStore,
   userStore,
-  process.env.NODE_ENV !== "production" && storeonLogger,
+  // process.env.NODE_ENV !== "production" && storeonLogger,
   process.env.NODE_ENV !== "production" && storeonDevtools,
 ]);
 

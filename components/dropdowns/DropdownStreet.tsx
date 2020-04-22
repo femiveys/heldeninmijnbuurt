@@ -10,7 +10,7 @@ type TProps = {
 
 export const DropdownStreet = ({ postalCode, value, onChange }: TProps) => {
   console.log("DropdownStreet", { postalCode });
-  const { data: streets, fetching, refresh: refreshStreets } = useFetch<
+  const { data: streets, isFetching, refresh: refreshStreets } = useFetch<
     TStreet[]
   >(`streets?postalCode=${postalCode}`);
 

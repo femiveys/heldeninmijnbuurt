@@ -8,9 +8,9 @@ type TProps = {
 };
 
 export const DropdownCity = ({ value, onChange }: TProps) => {
-  const { data: cities, fetching, refresh: refreshCities } = useFetch<TCity[]>(
-    "cities"
-  );
+  const { data: cities, isFetching, refresh: refreshCities } = useFetch<
+    TCity[]
+  >("cities");
 
   useEffect(() => {
     refreshCities();

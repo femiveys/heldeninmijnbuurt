@@ -15,6 +15,6 @@ export const useUser = () => {
   }, []);
 
   return useMemo(() => {
-    return { fetchingUser, user, refreshUser };
+    return { refreshUser, fetchingUser, user };
   }, [refreshUser, fetchingUser, user]);
 };

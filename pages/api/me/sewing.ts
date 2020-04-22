@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getMeOrFail } from "../_helpers";
+import { getMeOrFail } from "../../../apiHelpers/me/helpers";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   // Request x amount of mouthmasks

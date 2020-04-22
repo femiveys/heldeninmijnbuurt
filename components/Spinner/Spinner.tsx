@@ -1,6 +1,9 @@
 import React, { CSSProperties } from "react";
 
-type TProps = { style?: CSSProperties; color?: "white" | "blue" };
+type TProps = {
+  style?: CSSProperties;
+  color?: "white" | "blue";
+};
 
 export const Spinner = (props: TProps) => {
   const { style, color = "white" } = props;

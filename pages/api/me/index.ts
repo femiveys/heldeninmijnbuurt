@@ -11,15 +11,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // Create myself
   if (req.method === "POST") {
     try {
-      const { street_id } = req.body;
-      if (!street_id) throw new Error("Street should have a value");
+      console.log(req);
+      const { streetId } = req.body;
+      if (!streetId) throw new Error("StreetId should have a value");
 
       initFirebaseAdmin();
       const firebaseUser = await getFirebaseUser(req);
 
       await db("user").insert({
         user_id: firebaseUser.uid,
-        street_id,
+        street_id: streetId,
       });
       const me = await getMe(req);
       res.send(me);

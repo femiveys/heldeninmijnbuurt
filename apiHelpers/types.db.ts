@@ -43,3 +43,5 @@ export type TShortStreetFromDb = Pick<
   TStreetFromDb,
   "id" | "street_desc_nl" | "street_desc_fr" | "street_desc_de"
 >;
+
+export type TPostalCodeFromDb = Pick<TStreetFromDb, "postal_code">;

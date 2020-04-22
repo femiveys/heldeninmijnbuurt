@@ -1,14 +1,15 @@
-import { AxiosRequestConfig, AxiosInstance } from "axios";
+import { AxiosInstance } from "axios";
 import { apiCall } from "../../axios";
-import { useState, useCallback, useMemo, useEffect } from "react";
+import { useState, useCallback, useMemo } from "react";
 
-export const useFetch = <T extends {}>(
+export const useFetch = <T>(
   url: string,
+  defaultValue?: T,
   axiosInstance?: AxiosInstance
 ) => {
-  const [fetching, setFetching] = useState(false);
-  const [error, setError] = useState<any>();
-  const [data, setData] = useState<T>();
+  const [isFetching, setFetching] = useState(false);
+  const [error, setError] = useState();
+  const [data, setData] = useState<T>(defaultValue);
 
   const refresh = useCallback(async () => {
     if (!url) return;
@@ -27,11 +28,6 @@ export const useFetch = <T extends {}>(
   }, [url]);
 
   return useMemo(() => {
-    return {
-      fetching,
-      data,
-      error,
-      refresh,
-    };
-  }, [fetching, data, error, refresh]);
+    return { isFetching, data, error, refresh };
+  }, [isFetching, data, error, refresh]);
 };
