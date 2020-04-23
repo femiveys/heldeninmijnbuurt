@@ -59,26 +59,15 @@ export const EnterStreet = () => {
     wrapperCol: { offset: 8, span: 16 },
   };
 
-  const onFinish = async (values: { streetId: number }) => {
-    console.log("Success:", values);
-    createMe({ streetId: values.streetId });
-  };
-
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
-
   return (
     <Row>
       <Col span={24}>
         <Form
           form={form}
           size="large"
-          name="basic"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
+          onFinish={createMe}
           hideRequiredMark
         >
           <Form.Item

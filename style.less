@@ -1,15 +1,11 @@
 @import "~antd/dist/antd.less";
 
-@padding: 24px;
-
-@blue: #0065f2;
-
 .ant-layout {
   height: 100vh;
 }
 
 .ant-layout-content {
-  padding: @padding;
+  padding: @padding-lg;
 }
 
 .centered-spinner {
@@ -24,6 +20,22 @@
   align-items: center;
 }
 
-.widget-header {
-  background-color: @blue-4;
+.padding {
+  padding: @padding-lg;
+}
+
+.toggleable-widget {
+  border: 2px solid @primary-color;
+
+  .widget-header {
+    background-color: @primary-color;
+    padding: @padding-xs;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .title {
+      font-size: @font-size-lg;
+      color: @white;
+    }
+  }
 }
