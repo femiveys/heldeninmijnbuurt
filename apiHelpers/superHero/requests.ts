@@ -1,7 +1,7 @@
 import { db } from "../../db";
 import { ERelationStatus } from "../../types";
 import { TRelationFromDb, TUserFromDb } from "../types.db";
-import { transformUser, transformRelation } from "../transformers";
+import { transformUserFrtransformRelationFromDblation } from "../transformers";
 
 /**
  * Gets an array of all pending and requested requests
@@ -29,8 +29,8 @@ export const getAssignedRequests = async (makerId: string) => {
       }
 
       return {
-        requestor: transformUser(requestor),
-        relation: transformRelation(relation),
+        requestor: transformUserFromDb(requestor),
+        relation: transformRelationFromDb(relation),
       };
     })
   );

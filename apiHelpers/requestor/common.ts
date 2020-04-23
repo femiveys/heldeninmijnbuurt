@@ -1,7 +1,7 @@
 import { db } from "../../db";
 import { ERelationType, ERelationStatus } from "../../types";
 import { TRelationFromDb } from "../types.db";
-import { transformRelation } from "../transformers";
+import { transformRelationFromDb } from "../transformers";
 
 /**
  * Gets the relation of the maker who accepted the request
@@ -19,5 +19,5 @@ export const getAcceptedMakerRelationOf = async (requestorId: string) => {
     })
     .first<TRelationFromDb>();
 
-  return transformRelation(relation);
+  return transformRelationFromDb(relation);
 };

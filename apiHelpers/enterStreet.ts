@@ -1,6 +1,6 @@
 import { db } from "../db";
 import { TPostalCodeFromDb, TShortStreetFromDb } from "./types.db";
-import { transformStreets } from "./transformers";
+import { transformStreetsFromDb } from "./transformers";
 
 export const getPostalCodes = async () => {
   const postalCodes = await db("street")
@@ -18,5 +18,5 @@ export const getStreetsByPostalCode = async (postalCode: number) => {
     .orderBy("street_desc_de", "asc")
     .select("id", "street_desc_nl", "street_desc_fr", "street_desc_de");
 
-  return transformStreets(streets);
+  return transformStreetsFromDb(streets);
 };
