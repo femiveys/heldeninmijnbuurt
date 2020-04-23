@@ -5,6 +5,7 @@ import {
   getFirebaseUser,
   getMe,
   getMeOrFail,
+  updateUser,
 } from "../../../apiHelpers/me/helpers";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -38,16 +39,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
   }
 
-  // // Update myself
-  // if (req.method === "PUT") {
-  //   try {
-  //     const me = await getMeOrFail(req);
-  //     const updated = await db("user")
-  //       .where("user_id", me.user_id)
-  //       .update(omit(req.body, ["email", "picture", "user_id"]));
-  //     res.send({ updated });
-  //   } catch (error) {
-  //     res.status(500).send({ error: error.message });
-  //   }
-  // }
+  // Update myself
+  if (req.method === "PUT") {
+    try {
+      const firebaseUser = await getFirebaseUser(req);
+      const result = await updateUser(firebaseUser.uid, req.body);
+      res.send(result);
+    } catch (error) {
+      res.status(500).send({ error: error.message });
+    }
+  }
 };
