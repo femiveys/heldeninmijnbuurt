@@ -30,5 +30,11 @@ export async function getMeOrFail(req: NextApiRequest) {
   return me;
 }
 
-export const updateUser = async (userId: string, fields: Partial<TUser>) =>
-  await db("user").where("user_id", userId).update(transformObjectToDb(fields));
+export const updateUser = async (userId: string, fields: Partial<TUser>) => {
+  if (fields.needsMouthmaskAmount && fields.needsMouthmaskAmount > 5)
+    throw new Error("needsMouthmaskAmount cannot be more than 5");
+
+  return await db("user")
+    .where("user_id", userId)
+    .update(transformObjectToDb(fields));
+};

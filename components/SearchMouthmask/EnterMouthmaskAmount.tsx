@@ -1,17 +1,32 @@
 import { Select, Form, Row, Col, Button } from "antd";
 import { Typography } from "antd";
 import { useUser } from "../../base/user";
+import { useApi } from "../../base/api/useApi";
+import { useCallback } from "react";
 
 const { Title } = Typography;
 
+type TFormValues = {
+  needsMouthmaskAmount: number;
+};
+
 export const EnterMouthmaskAmount = () => {
   const [form] = Form.useForm();
-  const { updateUser, fetchingUser } = useUser();
+  const { updateUser, fetchingUser: isUpdatingUser } = useUser();
+  const { isLoading: isAssigning, callApi: assign } = useApi(
+    "PUT",
+    "requestor/assign"
+  );
 
   const numberList = [1, 2, 3, 4, 5];
 
+  const onFinish = useCallback(async (values: TFormValues) => {
+    await updateUser(values);
+    await assign();
+  }, []);
+
   return (
-    <Form form={form} size="large" onFinish={updateUser}>
+    <Form form={form} size="large" onFinish={onFinish}>
       <Title level={4}>Hoeveel mondmaskers heb je nodig?</Title>
       <Row>
         <Col>
@@ -27,7 +42,7 @@ export const EnterMouthmaskAmount = () => {
           <Form.Item
             shouldUpdate
             validateStatus="validating"
-            hasFeedback={fetchingUser}
+            hasFeedback={isUpdatingUser || isAssigning}
           >
             {() => (
               <Button

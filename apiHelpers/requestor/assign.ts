@@ -11,8 +11,7 @@ import { ERelationType, ERelationStatus } from "../../types";
 export const assignMakerTo = async (requestorId: string) => {
   const shouldCreate = await shouldCreateRelation(requestorId);
   if (!shouldCreate) {
-    console.log("There is an active relation");
-    return null;
+    throw new Error("There is an active relation");
   }
 
   const declinedMakerIds = await getDeclinedMakerIds(requestorId);
@@ -22,13 +21,10 @@ export const assignMakerTo = async (requestorId: string) => {
     declinedMakerIds
   );
 
-  if (distanceAndMakerId) {
-    const { distance, userId } = distanceAndMakerId;
-    await createMaskRelation(requestorId, userId, distance);
-    return { distance, userId };
-  } else {
-    return null;
-  }
+  const { distance, userId } = distanceAndMakerId;
+  await createMaskRelation(requestorId, userId, distance);
+
+  return { distance, userId };
 };
 
 /**
@@ -76,7 +72,7 @@ const findNearestMakerId = async (
     const { distance, userId } = result;
     return { distance, userId } as { distance: number; userId: string };
   } else {
-    return null;
+    throw new Error("No maker has been found");
   }
 };
 
