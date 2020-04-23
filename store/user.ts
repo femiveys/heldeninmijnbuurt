@@ -2,17 +2,15 @@ import { StoreonModule } from "storeon";
 import { TStoreState, TStoreEvents } from "./index";
 import { TUser } from "../types";
 
-export interface IUserState {
-  // User
+export type TUserState = {
   fetchingUser: boolean;
-  user: TUser | null;
-}
+  user?: TUser;
+};
 
-export interface IUserEvents {
-  // User
+export type TUserEvents = {
   "user/fetchingUser": boolean;
-  "user/setUser": TUser | null;
-}
+  "user/setUser"?: TUser;
+};
 
 export const userStore: StoreonModule<TStoreState, TStoreEvents> = (store) => {
   store.on("@init", () => ({
@@ -20,7 +18,6 @@ export const userStore: StoreonModule<TStoreState, TStoreEvents> = (store) => {
     user: null,
   }));
 
-  // User
   store.on("user/setUser", (state, user) => {
     return { ...state, user, fetchingUser: false };
   });

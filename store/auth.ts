@@ -3,31 +3,27 @@ import "firebase/auth";
 import { StoreonModule } from "storeon";
 import { TStoreState, TStoreEvents } from "./index";
 
-export interface IAuthState {
-  // Auth
+export type TAuthState = {
   fetchingFirebaseUser: boolean;
-  firebaseUser: null | FirebaseUser;
+  firebaseUser?: FirebaseUser;
   fetchingIdToken: boolean;
-  idToken: string | null;
-}
+  idToken?: string;
+};
 
-export interface IAuthEvents {
-  // Auth
-  "auth/setFirebaseUser": FirebaseUser | null;
-  "auth/setIdToken": string | null;
+export type TAuthEvents = {
+  "auth/setFirebaseUser"?: FirebaseUser;
+  "auth/setIdToken"?: string;
   "auth/fetchingIdToken": boolean;
-}
+};
 
 export const authStore: StoreonModule<TStoreState, TStoreEvents> = (store) => {
   store.on("@init", () => ({
-    // Auth
     fetchingFirebaseUser: true,
     firebaseUser: null,
     fetchingIdToken: false,
     idToken: null,
   }));
 
-  // Auth
   store.on("auth/setFirebaseUser", (state, firebaseUser) => {
     return { ...state, firebaseUser, fetchingFirebaseUser: false };
   });

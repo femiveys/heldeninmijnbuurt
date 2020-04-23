@@ -2,11 +2,11 @@ import { useStoreon } from "storeon/react";
 import { createStoreon } from "storeon";
 import { storeonLogger } from "storeon/devtools";
 import { storeonDevtools } from "storeon/devtools";
-import { IAuthEvents, IAuthState, authStore } from "./auth";
-import { IUserState, IUserEvents, userStore } from "./user";
+import { TAuthEvents, TAuthState, authStore } from "./auth";
+import { TUserState, TUserEvents, userStore } from "./user";
 
-export type TStoreState = IAuthState & IUserState;
-export type TStoreEvents = IAuthEvents & IUserEvents;
+export type TStoreState = TAuthState & TUserState;
+export type TStoreEvents = TAuthEvents & TUserEvents;
 
 export const store = createStoreon<TStoreState, TStoreEvents>([
   authStore,
