@@ -2,19 +2,17 @@
 import "../firebase";
 /////////////////////////////
 
+import { useEffect } from "react";
 import Head from "next/head";
 import { StoreContext } from "storeon/react";
 import { Layout, Spin } from "antd";
-
+import { listenToAuthChanges, useAuth } from "../base/auth";
+import { useUser } from "../base/user";
+import { ApplicationHeader } from "../components/ApplicationHeader";
 import { store } from "../store";
 
 // Styles
-import "antd/dist/antd.css";
-import "../style.scss";
-import { listenToAuthChanges, useAuth } from "../base/auth";
-import { useUser } from "../base/user";
-import { useEffect } from "react";
-import { ApplicationHeader } from "../components/ApplicationHeader";
+import "../style.less";
 
 // Listen to firebase auth changes
 listenToAuthChanges();
