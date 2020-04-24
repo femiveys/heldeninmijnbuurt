@@ -107,10 +107,9 @@ export const EnterStreet = () => {
               showSearch
               placeholder="Geef je straat in"
               disabled={!postalCode}
-              filterOption={(input, option) => {
-                // console.log(input, option);
-                return option.children.includes(input);
-              }}
+              filterOption={(input, option) =>
+                option.children.toLowerCase().includes(input.toLowerCase())
+              }
             >
               {streets.map((street) => (
                 <Select.Option key={street.id} value={street.id}>

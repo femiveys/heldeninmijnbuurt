@@ -13,6 +13,9 @@ export enum ERelationStatus {
 // Types
 export type TUser = {
   userId: string;
+  name: string;
+  email: string;
+  picture: string;
   streetId: number;
   isMaker: boolean;
   maskStock: number;

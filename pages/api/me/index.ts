@@ -20,6 +20,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       await db("user").insert({
         user_id: firebaseUser.uid,
+        name: firebaseUser.name,
+        email: firebaseUser.email,
+        picture: firebaseUser.picture,
         street_id: streetId,
       });
       const me = await getMe(req);
