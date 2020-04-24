@@ -9,7 +9,7 @@ export default () => {
 
   // This is a workaround because fore some reason the language is not picked up
   useEffect(() => {
-    i18n.init();
+    i18n.changeLanguage("nl");
   }, []);
 
   const { isLoggedIn, loggingIn } = useAuth();
