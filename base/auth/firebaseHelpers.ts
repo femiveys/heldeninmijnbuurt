@@ -1,6 +1,5 @@
 import firebase from "firebase/app";
 import "firebase/auth";
-import { apiCall } from "../../axios";
 import { store } from "../../store";
 
 export const listenToAuthChanges = () => {
