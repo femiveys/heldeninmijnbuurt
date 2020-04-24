@@ -1,0 +1,6 @@
+{
+  "yes": "Ja",
+  "make": {
+    "heroTitle_interval": "(0){Je hebt nog geen maskers gemaakt.};(1-20){Je hebt al <0>{{count}}</0> maskers gemaakt.};(21-inf){Je bent een super held. jebt al <0>{{count}}</0> maskers gemaakt.}"
+  }
+}

@@ -10,6 +10,7 @@ import { listenToAuthChanges, useAuth } from "../base/auth";
 import { useUser } from "../base/user";
 import { ApplicationHeader } from "../components/ApplicationHeader";
 import { store } from "../store";
+import { appWithTranslation } from "../i18n";
 
 // Styles
 import "../style.less";
@@ -63,4 +64,4 @@ const Root = ({ Component, pageProps }: any) => {
   );
 };
 
-export default Root;
+export default appWithTranslation(Root);
