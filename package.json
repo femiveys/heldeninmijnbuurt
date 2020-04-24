@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node start.js",
+    "dev": "next dev",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
+    "start": "next start",
     "deploy": "git add -A && git commit -am 'quick deploy' && git push origin master"
   },
   "dependencies": {
@@ -18,16 +18,17 @@
     "firebase": "^7.14.0",
     "firebase-admin": "^8.10.0",
     "humps": "^2.0.1",
+    "i18next": "^19.4.3",
     "jwt-decode": "^2.2.0",
     "knex": "^0.20.15",
     "less": "^3.11.1",
     "lodash": "^4.17.15",
     "mysql": "^2.18.1",
     "next": "9.3.5",
-    "next-i18next": "^4.3.0",
     "nodemailer": "^6.4.6",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-i18next": "^11.3.5",
     "storeon": "^2.0.2",
     "styled-components": "^5.1.0"
   },

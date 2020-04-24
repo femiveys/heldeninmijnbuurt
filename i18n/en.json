@@ -1,0 +1,11 @@
+{
+  "yes": "yes",
+  "no": "no",
+  "makes": {
+    "heroTitle": {
+      "zero": "Je hebt nog geen maskers gemaakt.",
+      "few": "Je hebt al <0>{{count}}</0> maskers gemaakt.",
+      "many": "Je bent een super held. jebt al <0>{{count}}</0> maskers gemaakt."
+    }
+  }
+}
