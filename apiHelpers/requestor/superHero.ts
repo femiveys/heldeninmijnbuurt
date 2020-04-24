@@ -13,10 +13,13 @@ export const getSuperHeroOf = async (requestorId: string) => {
   const acceptedMakerRelation = await getAcceptedMakerRelationOf(requestorId);
 
   if (acceptedMakerRelation) {
-    const superHero = await db("relation")
-      .where("id", acceptedMakerRelation.id)
+    const superHero = await db("user")
+      .where("user_id", acceptedMakerRelation.heroId)
       .first<TUserFromDb>();
-    return transformUserFromDb(superHero);
+    return {
+      relation: acceptedMakerRelation,
+      user: transformUserFromDb(superHero),
+    };
   } else {
     console.log(
       `getSuperHeroOf: user (${requestorId}) doesn't have an accepted maker relation, so no heroes to be found here`
