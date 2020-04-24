@@ -30,12 +30,18 @@
   .widget-header {
     background-color: @primary-color;
     padding: @padding-xs;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    width: 100%;
+
     .title {
       font-size: @font-size-lg;
       color: @white;
+    }
+    .ant-spin {
+      margin-left: 1px;
+      margin-right: 1px;
+    }
+    .ant-spin-dot-item {
+      background-color: @white;
     }
   }
 }

@@ -23,18 +23,27 @@ export const SearchMouthmask = () => {
     fetchSuperHero();
   }, []);
 
+  const Switch = () => {
+    if (user.needsMouthmaskAmount === 0) {
+      return <EnterMouthmaskAmount />;
+    } else if (!!superHero) {
+      return (
+        <Spin spinning={isFetchingSuperHero}>
+          <SuperHeroContactInfo {...superHero} />
+        </Spin>
+      );
+    } else {
+      return null;
+    }
+  };
+
   return (
     <ToggleableWidget
       title="Ik zoek mondmaskers"
       toggleField="needsMouthmask"
       toggleOffConfirmText="Ben je zeker enzovoort?"
     >
-      {user.needsMouthmaskAmount === 0 && <EnterMouthmaskAmount />}
-      {user.needsMouthmaskAmount > 0 && !!superHero && (
-        <Spin spinning={isFetchingSuperHero}>
-          <SuperHeroContactInfo {...superHero} />
-        </Spin>
-      )}
+      <Switch />
     </ToggleableWidget>
   );
 };

@@ -21,7 +21,7 @@ const { Header, Footer, Content } = Layout;
 
 const App = ({ Component, pageProps }: any) => {
   const { firebaseUser } = useAuth();
-  const { refreshUser, fetchingUser } = useUser();
+  const { refreshUser, fetchingUser, user } = useUser();
   useEffect(() => {
     if (firebaseUser) refreshUser();
   }, [firebaseUser, refreshUser]);
@@ -41,7 +41,7 @@ const App = ({ Component, pageProps }: any) => {
           <ApplicationHeader />
         </Header>
         <Content>
-          {fetchingUser ? (
+          {!user && fetchingUser ? (
             <div className="centered-spinner">
               <Spin size="large" />
             </div>

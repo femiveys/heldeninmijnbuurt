@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { Row, Col, Checkbox, Popconfirm, Space } from "antd";
+import { Row, Col, Checkbox, Popconfirm, Space, Spin } from "antd";
 import { useUser } from "../base/user";
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
 import { TUser } from "../types";
@@ -11,7 +11,7 @@ type TProps = {
 };
 
 export const ToggleableWidget: React.FunctionComponent<TProps> = (props) => {
-  const { updateUser, user } = useUser();
+  const { updateUser, user, isUpdatingUser } = useUser();
   const [showConfirm, setShowConfirm] = useState(false);
 
   const onToggleOffConfirmed = useCallback(() => {
@@ -36,22 +36,24 @@ export const ToggleableWidget: React.FunctionComponent<TProps> = (props) => {
   return (
     <Row className="toggleable-widget">
       <Col span={24}>
-        <div className="widget-header">
-          <Space>
-            <Popconfirm
-              title={props.toggleOffConfirmText}
-              placement="bottomLeft"
-              visible={showConfirm}
-              onConfirm={onToggleOffConfirmed}
-              onCancel={onCancel}
-              okText="Ja"
-              cancelText="Nee"
-            >
+        <Space className="widget-header">
+          <Popconfirm
+            title={props.toggleOffConfirmText}
+            placement="bottomLeft"
+            visible={showConfirm}
+            onConfirm={onToggleOffConfirmed}
+            onCancel={onCancel}
+            okText="Ja"
+            cancelText="Nee"
+          >
+            {isUpdatingUser ? (
+              <Spin size="small" />
+            ) : (
               <Checkbox checked={checked} onChange={onChange} />
-            </Popconfirm>
-            <div className="title">{props.title}</div>
-          </Space>
-        </div>
+            )}
+          </Popconfirm>
+          <span className="title">{props.title}</span>
+        </Space>
         {checked && <div className="padding">{props.children}</div>}
       </Col>
     </Row>
