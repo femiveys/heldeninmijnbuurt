@@ -19,4 +19,5 @@ export const {
   appWithTranslation,
   withTranslation,
   useTranslation,
+  Trans,
 } = NextI18NextInstance;

@@ -54,7 +54,9 @@ export const ToggleableWidget: React.FunctionComponent<TProps> = (props) => {
           </Popconfirm>
           <span className="title">{props.title}</span>
         </Space>
-        {checked && <div className="padding">{props.children}</div>}
+        {checked && (
+          <div className="widget-header-body padding">{props.children}</div>
+        )}
       </Col>
     </Row>
   );
