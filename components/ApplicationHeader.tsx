@@ -7,7 +7,7 @@ export const ApplicationHeader = () => {
     <Row justify="end">
       <Col>
         <Button>Logout</Button>
-        <Avatar shape="square" src={firebaseUser?.photoURL} />
+        <Avatar shape="square" src={firebaseUser?.photoURL || undefined} />
       </Col>
     </Row>
   );

@@ -4,12 +4,12 @@ import { TUser } from "../types";
 
 export type TUserState = {
   fetchingUser: boolean;
-  user?: TUser;
+  user: TUser | null;
 };
 
 export type TUserEvents = {
   "user/fetchingUser": boolean;
-  "user/setUser"?: TUser;
+  "user/setUser": TUser | null;
 };
 
 export const userStore: StoreonModule<TStoreState, TStoreEvents> = (store) => {

@@ -84,7 +84,7 @@ export const EnterStreet = () => {
               placeholder="Geef je postnummer in"
               onChange={onPostalCodeChange}
               filterOption={(input, option) =>
-                option.value.toString().startsWith(input)
+                option?.value.toString().startsWith(input)
               }
             >
               {postalCodes.map((postalCode) => (
@@ -108,7 +108,7 @@ export const EnterStreet = () => {
               placeholder="Geef je straat in"
               disabled={!postalCode}
               filterOption={(input, option) =>
-                option.children.toLowerCase().includes(input.toLowerCase())
+                option?.children.toLowerCase().includes(input.toLowerCase())
               }
             >
               {streets.map((street) => (

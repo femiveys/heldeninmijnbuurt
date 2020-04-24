@@ -29,7 +29,7 @@ export const apiCall = async (
 
   // Refresh ID token first
   if (shouldRefreshIdToken) {
-    idToken = await firebase.auth().currentUser?.getIdToken(true);
+    idToken = (await firebase.auth().currentUser?.getIdToken(true)) || null;
     store.dispatch("auth/setIdToken", idToken);
   }
 

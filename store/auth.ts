@@ -5,14 +5,14 @@ import { TStoreState, TStoreEvents } from "./index";
 
 export type TAuthState = {
   fetchingFirebaseUser: boolean;
-  firebaseUser?: FirebaseUser;
+  firebaseUser: FirebaseUser | null;
   fetchingIdToken: boolean;
-  idToken?: string;
+  idToken: string | null;
 };
 
 export type TAuthEvents = {
-  "auth/setFirebaseUser"?: FirebaseUser;
-  "auth/setIdToken"?: string;
+  "auth/setFirebaseUser": FirebaseUser | null;
+  "auth/setIdToken": string | null;
   "auth/fetchingIdToken": boolean;
 };
 
