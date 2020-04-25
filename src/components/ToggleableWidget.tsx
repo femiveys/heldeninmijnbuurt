@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 import { Row, Col, Checkbox, Popconfirm, Space, Spin } from "antd";
-import { useUser } from "../base/user";
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
 import { TUser } from "../types";
+import { useUser } from "../hooks";
 
 type TProps = {
   title: string;

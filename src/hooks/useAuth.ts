@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useTypedStoreon } from "../../store";
+import { useTypedStoreon } from "../store";
 
 export const useAuth = () => {
   const {

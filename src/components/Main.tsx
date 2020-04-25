@@ -1,9 +1,8 @@
-import { useAuth } from "../base/auth";
 import { Dashboard } from "./Dashboard";
 import { Login } from "./Login";
-import { useUser } from "../base/user";
 import { useEffect } from "react";
 import { Spin } from "antd";
+import { useAuth, useUser } from "../hooks";
 
 export const Main = () => {
   const { firebaseUser, isLoggedIn, loggingIn } = useAuth();

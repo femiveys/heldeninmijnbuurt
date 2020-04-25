@@ -1,8 +1,8 @@
-import { useUser } from "../base/user";
+import { Space } from "antd";
 import { EnterStreet } from "./EnterStreet";
 import { MakeMouthmask } from "./MakeMouthmask";
 import { SearchMouthmask } from "./SearchMouthmask";
-import { Space } from "antd";
+import { useUser } from "../hooks";
 
 export const Dashboard = () => {
   const { fetchingUser, user } = useUser();

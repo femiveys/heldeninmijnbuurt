@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { Form, Input, Button } from "antd";
 import { useTranslation } from "react-i18next";
-import { useUser } from "../../base/user";
+import { useUser } from "../../hooks";
 
 type TFormValues = {
   maskStock: number;

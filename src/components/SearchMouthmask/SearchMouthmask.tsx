@@ -1,12 +1,11 @@
 import { ToggleableWidget } from "../ToggleableWidget";
-import { useUser } from "../../base/user";
 import { EnterMouthmaskAmount } from "./EnterMouthmaskAmount";
-import { useApi } from "../../base/api/useApi";
 import { TUser, TRelation } from "../../types";
 import { useEffect } from "react";
 import { SuperHeroContactInfo } from "./SuperHeroContactInfo";
 import { Spin } from "antd";
 import { useTranslation } from "react-i18next";
+import { useUser, useApi } from "../../hooks";
 
 export const SearchMouthmask = () => {
   const { t } = useTranslation();

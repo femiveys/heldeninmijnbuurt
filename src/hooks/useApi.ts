@@ -1,6 +1,6 @@
-import { AxiosInstance } from "axios";
-import { apiCall, TApiMethod } from "../../axios";
 import { useState, useCallback, useMemo } from "react";
+import { AxiosInstance } from "axios";
+import { apiCall, TApiMethod } from "../axios";
 
 export const useApi = <T>(
   method: TApiMethod,

@@ -1,8 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
 import { Form, Button, Row, Col, Select } from "antd";
 import { store } from "../store";
-import { useApi } from "../base/api/useApi";
 import { TStreet, TUser } from "../types";
+import { useApi } from "../hooks";
 
 const getStreetInUserLanguage = (street: TStreet, language = "nl") => {
   switch (language) {

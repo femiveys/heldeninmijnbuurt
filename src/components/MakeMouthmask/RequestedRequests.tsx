@@ -2,8 +2,8 @@ import { Table, Spin, Space, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import { ColumnProps } from "antd/es/table";
 import { TRequestedRequest } from "../../types";
-import { useApi } from "../../base/api/useApi";
 import { useEffect } from "react";
+import { useApi } from "../../hooks";
 
 const { Title } = Typography;
 

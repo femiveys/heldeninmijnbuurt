@@ -1,8 +1,7 @@
 import { Select, Form, Row, Col, Button } from "antd";
 import { Typography } from "antd";
-import { useUser } from "../../base/user";
-import { useApi } from "../../base/api/useApi";
 import { useCallback } from "react";
+import { useApi, useUser } from "../../hooks";
 
 const { Title } = Typography;
 

@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
-import { apiCall } from "../../axios";
-import { store, useTypedStoreon } from "../../store";
-import { TUser } from "../../types";
+import { store, useTypedStoreon } from "../store";
+import { apiCall } from "../axios";
+import { TUser } from "../types";
 
 export const useUser = () => {
   const [isUpdatingUser, setIsUpdatingUser] = useState(false);

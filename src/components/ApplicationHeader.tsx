@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import { Button, Avatar, Row, Col } from "antd";
-import { useAuth } from "../base/auth";
 import firebase from "firebase/app";
 import { store } from "../store";
+import { useAuth } from "../hooks";
 
 export const ApplicationHeader = () => {
   const { firebaseUser, isLoggedIn } = useAuth();

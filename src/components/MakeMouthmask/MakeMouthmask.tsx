@@ -1,10 +1,10 @@
-import { useUser } from "../../base/user";
+import { Space } from "antd";
+import { useTranslation } from "react-i18next";
 import { HeroTitle } from "./HeroTitle";
 import { ToggleableWidget } from "../ToggleableWidget";
-import { useTranslation } from "react-i18next";
 import { AvailableForm } from "./AvailableForm";
 import { RequestedRequests } from "./RequestedRequests";
-import { Space } from "antd";
+import { useUser } from "../../hooks";
 
 export const MakeMouthmask = () => {
   const { user } = useUser();
