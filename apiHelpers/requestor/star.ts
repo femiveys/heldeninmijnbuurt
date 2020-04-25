@@ -1,4 +1,4 @@
-import { getAcceptedMakerRelationOf } from "./common";
+import { getAcceptedMakerRelationOf, checkRequestor } from "./common";
 import { db } from "../../db";
 
 /**
@@ -14,6 +14,8 @@ export const giveStarsToAcceptedMaker = async (
   requestorId: string,
   numStars: number
 ) => {
+  await checkRequestor(requestorId);
+
   if (!Number.isInteger(numStars) || numStars < 1 || numStars > 5) {
     throw new Error("numStars should be 1, 2, 3, 4 or 5");
   }

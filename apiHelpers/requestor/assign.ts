@@ -1,5 +1,6 @@
 import { db } from "../../db";
 import { ERelationType, ERelationStatus } from "../../types";
+import { checkRequestor } from "./common";
 
 /**
  * Tries to assign a requestor to a maker that has not declined yet
@@ -9,8 +10,9 @@ import { ERelationType, ERelationStatus } from "../../types";
  *          null if a relation already exists or all relations are declined
  */
 export const assignMakerTo = async (requestorId: string) => {
-  const shouldCreate = await shouldCreateRelation(requestorId);
-  if (!shouldCreate) {
+  await checkRequestor(requestorId);
+
+  if (!(await shouldCreateRelation(requestorId))) {
     throw new Error("There is an active relation");
   }
 

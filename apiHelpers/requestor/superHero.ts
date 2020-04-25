@@ -1,4 +1,4 @@
-import { getAcceptedMakerRelationOf } from "./common";
+import { getAcceptedMakerRelationOf, checkRequestor } from "./common";
 import { db } from "../../db";
 import { transformUserFromDb } from "../transformers";
 import { TUserFromDb } from "../types.db";
@@ -10,6 +10,8 @@ import { TUserFromDb } from "../types.db";
  * @returns The user object of the superHero, null if not found
  */
 export const getSuperHeroOf = async (requestorId: string) => {
+  await checkRequestor(requestorId);
+
   const acceptedMakerRelation = await getAcceptedMakerRelationOf(requestorId);
 
   if (acceptedMakerRelation) {

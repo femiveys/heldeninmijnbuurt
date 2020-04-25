@@ -1,4 +1,4 @@
-import { getAcceptedMakerRelationOf } from "./common";
+import { getAcceptedMakerRelationOf, checkRequestor } from "./common";
 import { db } from "../../db";
 
 /**
@@ -8,6 +8,8 @@ import { db } from "../../db";
  * @returns 1 if update has been done, else 0
  */
 export const setHandoverDone = async (requestorId: string) => {
+  await checkRequestor(requestorId);
+
   const acceptedMakerRelation = await getAcceptedMakerRelationOf(requestorId);
 
   if (acceptedMakerRelation) {
