@@ -5,18 +5,23 @@ import { SearchMouthmask } from "./SearchMouthmask";
 import { Space } from "antd";
 
 export const Dashboard = () => {
-  const { refreshUser, fetchingUser, user } = useUser();
+  const { fetchingUser, user } = useUser();
 
-  if (!user) {
+  if (!user && !fetchingUser) {
     return <EnterStreet />;
-  } else {
+  } else if (user) {
     return (
-      <div id="dashboard">
-        <Space direction="vertical" size="large" style={{ width: "100%" }}>
-          <SearchMouthmask />
-          <MakeMouthmask />
-        </Space>
-      </div>
+      <Space
+        className="dashboard"
+        direction="vertical"
+        size="large"
+        style={{ width: "100%" }}
+      >
+        <SearchMouthmask />
+        <MakeMouthmask />
+      </Space>
     );
+  } else {
+    return null;
   }
 };
