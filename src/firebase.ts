@@ -22,18 +22,14 @@ export const initializeFirebaseApp = () => {
 
   // firebase.analytics();
   firebase.auth().languageCode = "be_NL";
-
-  listenToAuthChanges();
 };
 
-const listenToAuthChanges = () => {
+export const subscribeToAuthChanges = () =>
   firebase.auth().onAuthStateChanged((firebaseUser) => {
     console.log(firebaseUser);
-
     store.dispatch("auth/setFirebaseUser", firebaseUser);
     refreshIdToken();
   });
-};
 
 const refreshIdToken = () => {
   try {

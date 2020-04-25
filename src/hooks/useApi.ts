@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback } from "react";
 import { AxiosInstance } from "axios";
 import { apiCall, TApiMethod } from "../axios";
 
@@ -32,10 +32,10 @@ export const useApi = <T>(
         setLoading(false);
       }
     },
-    [url]
+    [url, axiosInstance, setResponse, method, data, setLoading, setError]
   );
 
-  return useMemo(() => {
-    return { isLoading, data, error, callApi };
-  }, [isLoading, data, error, callApi]);
+  // return useMemo(() => {
+  return { isLoading, data, error, callApi };
+  // }, [isLoading, data, error, callApi]);
 };

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { store, useTypedStoreon } from "../store";
 import { apiCall } from "../axios";
 import { TUser } from "../types";
@@ -32,7 +32,7 @@ export const useUser = () => {
     [user]
   );
 
-  return useMemo(() => {
-    return { refreshUser, updateUser, fetchingUser, isUpdatingUser, user };
-  }, [refreshUser, updateUser, fetchingUser, isUpdatingUser, user]);
+  // return useMemo(() => {
+  return { refreshUser, updateUser, fetchingUser, isUpdatingUser, user };
+  // }, [refreshUser, updateUser, fetchingUser, isUpdatingUser, user]);
 };

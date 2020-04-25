@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { useTypedStoreon } from "../store";
 
 export const useAuth = () => {
@@ -12,11 +11,11 @@ export const useAuth = () => {
     "fetchingIdToken"
   );
 
-  return useMemo(() => {
-    return {
-      loggingIn: fetchingFirebaseUser || fetchingIdToken,
-      isLoggedIn: !!firebaseUser,
-      firebaseUser,
-    };
-  }, [fetchingFirebaseUser, fetchingIdToken, firebaseUser]);
+  // return useMemo(() => {
+  return {
+    loggingIn: fetchingFirebaseUser || fetchingIdToken,
+    isLoggedIn: !!firebaseUser,
+    firebaseUser,
+  };
+  // }, [fetchingFirebaseUser, fetchingIdToken, firebaseUser]);
 };
