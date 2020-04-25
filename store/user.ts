@@ -14,7 +14,7 @@ export type TUserEvents = {
 
 export const userStore: StoreonModule<TStoreState, TStoreEvents> = (store) => {
   store.on("@init", () => ({
-    fetchingUser: true,
+    fetchingUser: false,
     user: null,
   }));
 

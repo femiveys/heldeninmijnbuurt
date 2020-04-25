@@ -6,8 +6,10 @@ import { TUser, TRelation } from "../../types";
 import { useEffect } from "react";
 import { SuperHeroContactInfo } from "./SuperHeroContactInfo";
 import { Spin } from "antd";
+import { useTranslation } from "react-i18next";
 
 export const SearchMouthmask = () => {
+  const { t } = useTranslation();
   const { user } = useUser();
   const {
     isLoading: isFetchingSuperHero,
@@ -33,13 +35,26 @@ export const SearchMouthmask = () => {
         </Spin>
       );
     } else {
-      return null;
+      return (
+        <div>
+          <p>
+            We hebben jammergenoeg niemand in je buurt gevonden die maskers
+            heeft. We blijven zoeken en zullen je een e-mail sturen zodra we
+            niemand vinden.
+          </p>
+          <p>
+            Laat op sociale media weten van deze applicatie. Misschien vinden we
+            zo wel iemand.
+          </p>
+          <p>Knoppen en zo...</p>
+        </div>
+      );
     }
   };
 
   return (
     <ToggleableWidget
-      title="Ik zoek mondmaskers"
+      title={t("requestor.collapseTitle")}
       toggleField="needsMouthmask"
       toggleOffConfirmText="Ben je zeker enzovoort?"
     >

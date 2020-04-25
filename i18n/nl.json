@@ -1,11 +1,27 @@
 {
-  "yes": "ja",
-  "no": "nee",
+  "distance": "Afstand",
+  "no": "Nee",
+  "name": "Naam",
+  "needsMouthmaskAmount": "Aantal nodig",
+  "update": "Pas aan",
+  "yes": "Ja",
+  "login": {
+    "google": "Login met google",
+    "facebook": "Login met Facebook"
+  },
   "maker": {
+    "collapseTitle": "Ik heb een naaimachine",
+    "requested": "Aanvragen",
     "heroTitle": {
       "zero": "Je hebt nog geen maskers gemaakt.",
       "few": "Je hebt al <0>{{count}}</0> maskers gemaakt.",
       "many": "Je bent een super held. jebt al <0>{{count}}</0> maskers gemaakt."
+    },
+    "available": {
+      "label": "Hoeveel mondmaskers heb je beschikbaar?"
     }
+  },
+  "requestor": {
+    "collapseTitle": "Ik zoek mondmaskers"
   }
 }

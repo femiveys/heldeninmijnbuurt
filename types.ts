@@ -50,3 +50,13 @@ export type TStreet = {
   streetDescFr?: string;
   streetDescDe?: string;
 };
+
+export type TRelationUser = {
+  user: TUser;
+  relation: TRelation;
+};
+
+export type TRequestedRequest = Pick<TRelation, "distance" | "requestDate"> &
+  Pick<TUser, "name" | "needsMouthmaskAmount" | "numEvaluations" | "stars"> & {
+    relationId: number;
+  };

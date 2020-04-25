@@ -119,17 +119,13 @@ export const EnterStreet = () => {
             </Select>
           </Form.Item>
 
-          <Form.Item
-            {...tailLayout}
-            validateStatus="validating"
-            hasFeedback={isPostingMe}
-            shouldUpdate
-          >
+          <Form.Item {...tailLayout} shouldUpdate>
             {() => (
               <Button
                 type="primary"
                 htmlType="submit"
                 disabled={!form.getFieldValue("streetId")}
+                loading={isPostingMe}
               >
                 Ga verder
               </Button>

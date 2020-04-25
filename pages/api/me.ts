@@ -1,12 +1,12 @@
-import { db } from "../../../db";
+import { db } from "../../db";
 import { NextApiRequest, NextApiResponse } from "next";
-import { initFirebaseAdmin } from "../../../apiHelpers/me/firebaseAdmin";
+import { initFirebaseAdmin } from "../../apiHelpers/me/firebaseAdmin";
 import {
   getFirebaseUser,
   getMe,
   getMeOrFail,
   updateUser,
-} from "../../../apiHelpers/me/helpers";
+} from "../../apiHelpers/me/helpers";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   // Create myself
@@ -17,6 +17,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       initFirebaseAdmin();
       const firebaseUser = await getFirebaseUser(req);
+
+      console.log(firebaseUser);
 
       await db("user").insert({
         user_id: firebaseUser.uid,
