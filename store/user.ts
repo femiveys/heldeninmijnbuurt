@@ -18,10 +18,14 @@ export const userStore: StoreonModule<TStoreState, TStoreEvents> = (store) => {
     user: null,
   }));
 
-  store.on("user/setUser", (state, user) => {
-    return { ...state, user, fetchingUser: false };
-  });
-  store.on("user/fetchingUser", (state, fetchingUser) => {
-    return { ...state, fetchingUser };
-  });
+  store.on("user/setUser", (state, user) => ({
+    ...state,
+    user,
+    fetchingUser: false,
+  }));
+
+  store.on("user/fetchingUser", (state, fetchingUser) => ({
+    ...state,
+    fetchingUser,
+  }));
 };

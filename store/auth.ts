@@ -24,13 +24,19 @@ export const authStore: StoreonModule<TStoreState, TStoreEvents> = (store) => {
     idToken: null,
   }));
 
-  store.on("auth/setFirebaseUser", (state, firebaseUser) => {
-    return { ...state, firebaseUser, fetchingFirebaseUser: false };
-  });
-  store.on("auth/setIdToken", (state, idToken) => {
-    return { ...state, idToken };
-  });
-  store.on("auth/fetchingIdToken", (state, fetchingIdToken) => {
-    return { ...state, fetchingIdToken };
-  });
+  store.on("auth/setFirebaseUser", (state, firebaseUser) => ({
+    ...state,
+    firebaseUser,
+    fetchingFirebaseUser: false,
+  }));
+
+  store.on("auth/setIdToken", (state, idToken) => ({
+    ...state,
+    idToken,
+  }));
+
+  store.on("auth/fetchingIdToken", (state, fetchingIdToken) => ({
+    ...state,
+    fetchingIdToken,
+  }));
 };

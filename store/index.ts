@@ -4,9 +4,10 @@ import { storeonLogger } from "storeon/devtools";
 import { storeonDevtools } from "storeon/devtools";
 import { TAuthEvents, TAuthState, authStore } from "./auth";
 import { TUserState, TUserEvents, userStore } from "./user";
+import { TAppState, TAppEvents } from "./app";
 
-export type TStoreState = TAuthState & TUserState;
-export type TStoreEvents = TAuthEvents & TUserEvents;
+export type TStoreState = TAuthState & TUserState & TAppState;
+export type TStoreEvents = TAuthEvents & TUserEvents & TAppEvents;
 
 export const store = createStoreon<TStoreState, TStoreEvents>([
   authStore,
