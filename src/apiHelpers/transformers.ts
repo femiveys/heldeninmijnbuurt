@@ -22,8 +22,7 @@ export const transformStreetsFromDb = (
 
 export const transformUserFromDb = (user?: TUserFromDb) => {
   if (!user) return null;
-  const { __name, __email, ...userWithout__ } = user;
-  const transformedUser = humps.camelizeKeys(userWithout__) as TUser;
+  const transformedUser = humps.camelizeKeys(user) as TUser;
   return makeBooleans(transformedUser, [
     "isMaker",
     "needsMouthmask",

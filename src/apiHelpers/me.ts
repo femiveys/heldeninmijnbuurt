@@ -1,13 +1,21 @@
 import admin from "firebase-admin";
-import { db } from "../../db";
-import { TUserFromDb } from "../../apiHelpers/types.db";
-import {
-  transformUserFromDb,
-  transformObjectToDb,
-} from "../../apiHelpers/transformers";
-import { initFirebaseAdmin } from "./firebaseAdmin";
 import { NextApiRequest } from "next";
-import { TUser } from "../../types";
+import { db } from "../db";
+import { transformUserFromDb, transformObjectToDb } from "./transformers";
+import serviceAccount from "../../mijn-mondmasker-firebase-adminsdk-tjfdw-13a74f43d0.json";
+import { TUserFromDb } from "./types.db";
+import { TUser } from "../types";
+
+export const initFirebaseAdmin = () => {
+  try {
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount as any),
+      databaseURL: "https://mijn-mondmasker.firebaseio.com",
+    });
+  } catch (error) {
+    // error
+  }
+};
 
 export async function getFirebaseUser(req: NextApiRequest) {
   initFirebaseAdmin();
