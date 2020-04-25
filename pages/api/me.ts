@@ -1,12 +1,12 @@
 import { db } from "../../src/db";
 import { NextApiRequest, NextApiResponse } from "next";
-import { initFirebaseAdmin } from "../../src/apiHelpers/me/firebaseAdmin";
 import {
   getFirebaseUser,
   getMe,
   getMeOrFail,
   updateUser,
-} from "../../src/apiHelpers/me/helpers";
+  initFirebaseAdmin,
+} from "../../src/apiHelpers/me";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   // Create myself

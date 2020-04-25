@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getFirebaseUser } from "../../../src/apiHelpers/me/helpers";
+import { getFirebaseUser } from "../../../src/apiHelpers/me";
 import { getRequestedRequests } from "../../../src/apiHelpers/superHero/requests";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
