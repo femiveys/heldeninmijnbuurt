@@ -24,7 +24,7 @@ export const AvailableForm = () => {
       layout="inline"
       onFinish={onFinish}
       colon={false}
-      initialValues={{ maskStock: user.maskStock }}
+      initialValues={{ maskStock: Number(user.maskStock) }}
     >
       <Form.Item label={t("maker.available.label")} name="maskStock">
         <Input name="maskStock" style={{ width: "50px" }} />

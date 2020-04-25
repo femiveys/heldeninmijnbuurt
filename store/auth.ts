@@ -1,4 +1,4 @@
-import { User as FirebaseUser } from "firebase";
+import { User as FirebaseUser } from "firebase/app";
 import "firebase/auth";
 import { StoreonModule } from "storeon";
 import { TStoreState, TStoreEvents } from "./index";

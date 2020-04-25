@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { Button, Avatar, Row, Col } from "antd";
 import { useAuth } from "../base/auth";
-import firebase from "firebase";
+import firebase from "firebase/app";
 import { store } from "../store";
 
 export const ApplicationHeader = () => {
