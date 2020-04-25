@@ -1,10 +1,17 @@
-import { useAuth } from "../base/auth";
+import "../firebase";
+
 import React from "react";
-import { Dashboard } from "../components";
-import { Login } from "../components/Login";
 
-export default () => {
-  const { isLoggedIn, loggingIn } = useAuth();
+import { StoreContext } from "storeon/react";
+import { store } from "../store";
+import { AppLayout } from "../components/AppLayout";
+import { listenToAuthChanges } from "../base/auth";
 
-  return isLoggedIn ? <Dashboard /> : <Login />;
-};
+// Listen to firebase auth changes
+listenToAuthChanges();
+
+export default () => (
+  <StoreContext.Provider value={store}>
+    <AppLayout />
+  </StoreContext.Provider>
+);
