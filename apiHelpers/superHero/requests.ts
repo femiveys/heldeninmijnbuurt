@@ -1,18 +1,65 @@
 import { db } from "../../db";
-import { ERelationStatus } from "../../types";
+import { ERelationStatus, TRelationUser, TRequestedRequest } from "../../types";
 import { TRelationFromDb, TUserFromDb } from "../types.db";
-import { transformUserFrtransformRelationFromDblation } from "../transformers";
+import { transformUserFromDb, transformRelationFromDb } from "../transformers";
+import { pick } from "lodash";
+import { checkMaker } from "./common";
 
 /**
- * Gets an array of all pending and requested requests
+ * Gets an array of all requested requests
+ *
+ * @param makerId - the userId of the maker
+ * @returns Array of all requested requests with relationId and limited user
+ *          and relations data
+ */
+export const getRequestedRequests = async (makerId: string) => {
+  const assignedRequests = await getAssignedRequests(makerId);
+
+  return assignedRequests
+    .filter(
+      (assignedRequest) =>
+        assignedRequest.relation.status === ERelationStatus.requested
+    )
+    .map((assignedRequest) => ({
+      ...pick(
+        assignedRequest.user,
+        "name",
+        "needsMouthmaskAmount",
+        "numEvaluations",
+        "stars"
+      ),
+      ...pick(assignedRequest.relation, "distance", "requestDate"),
+      relationId: assignedRequest.relation.id,
+    })) as TRequestedRequest[];
+};
+
+/**
+ * Gets an array of all accepted requests
+ *
+ * @param makerId - the userId of the maker
+ * @returns Array of all accepted requests
+ */
+export const getAcceptedRequests = async (makerId: string) => {
+  const assignedRequests = await getAssignedRequests(makerId);
+
+  return assignedRequests.filter(
+    (assignedRequest) =>
+      assignedRequest.relation.status === ERelationStatus.accepted
+  );
+};
+
+/**
+ * Gets an array of all requested and accepted requests
  *
  * @param makerId - the userId of the maker
  * @returns Array of all requested and accepted requests
  */
-export const getAssignedRequests = async (makerId: string) => {
+const getAssignedRequests = async (makerId: string) => {
+  await checkMaker(makerId);
+
   const results = await db<TRelationFromDb>("relation")
     .where("relation.hero_id", makerId)
-    .whereIn("status", [ERelationStatus.accepted, ERelationStatus.requested])
+    .whereIn("status", [ERelationStatus.requested, ERelationStatus.accepted])
     .select();
 
   const assignedRequests = await Promise.all(
@@ -29,12 +76,12 @@ export const getAssignedRequests = async (makerId: string) => {
       }
 
       return {
-        requestor: transformUserFromDb(requestor),
         relation: transformRelationFromDb(relation),
-      };
+        user: transformUserFromDb(requestor),
+      } as TRelationUser;
     })
   );
 
   // Filter out the assignedRequests that don't have a requestor
-  return assignedRequests.filter((request) => !!request.requestor);
+  return assignedRequests.filter((request) => !!request.user);
 };
