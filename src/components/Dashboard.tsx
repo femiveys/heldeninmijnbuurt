@@ -3,25 +3,24 @@ import { EnterStreet } from "./EnterStreet";
 import { MakeMouthmask } from "./MakeMouthmask";
 import { SearchMouthmask } from "./SearchMouthmask";
 import { useUser } from "../hooks";
+import { FullSpinner } from "./FullSpinner";
 
 export const Dashboard = () => {
-  const { fetchingUser, user } = useUser();
+  const { isFetchingUser, user } = useUser();
 
-  if (!user && !fetchingUser) {
-    return <EnterStreet />;
-  } else if (user) {
-    return (
-      <Space
-        className="dashboard"
-        direction="vertical"
-        size="large"
-        style={{ width: "100%" }}
-      >
-        <SearchMouthmask />
-        <MakeMouthmask />
-      </Space>
-    );
-  } else {
-    return null;
-  }
+  return user ? (
+    <Space
+      className="dashboard"
+      direction="vertical"
+      size="large"
+      style={{ width: "100%" }}
+    >
+      <SearchMouthmask />
+      <MakeMouthmask />
+    </Space>
+  ) : isFetchingUser ? (
+    <FullSpinner />
+  ) : (
+    <EnterStreet />
+  );
 };

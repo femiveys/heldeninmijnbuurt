@@ -5,15 +5,17 @@ import { TUser } from "../types";
 
 export const useUser = () => {
   const [isUpdatingUser, setIsUpdatingUser] = useState(false);
-  const { user, fetchingUser } = useTypedStoreon("user", "fetchingUser");
+  const { user, isFetchingUser } = useTypedStoreon("user", "isFetchingUser");
 
-  const refreshUser = useCallback(async () => {
+  const fetchUser = useCallback(async () => {
     try {
+      store.dispatch("user/isFetchingUser", true);
       const me = await apiCall("GET", "me");
       store.dispatch("user/setUser", me);
+      store.dispatch("user/isFetchingUser", false);
     } catch (error) {
       // TODO: Should be removed
-      store.dispatch("user/fetchingUser", false);
+      store.dispatch("user/isFetchingUser", false);
     }
   }, []);
 
@@ -26,13 +28,13 @@ export const useUser = () => {
         setIsUpdatingUser(false);
       } catch (error) {
         // TODO: Should be removed
-        store.dispatch("user/fetchingUser", false);
+        store.dispatch("user/isFetchingUser", false);
       }
     },
     [user]
   );
 
   // return useMemo(() => {
-  return { refreshUser, updateUser, fetchingUser, isUpdatingUser, user };
-  // }, [refreshUser, updateUser, fetchingUser, isUpdatingUser, user]);
+  return { fetchUser, isFetchingUser, updateUser, isUpdatingUser, user };
+  // }, [fetchUser, updateUser, isFetchingUser, isUpdatingUser, user]);
 };

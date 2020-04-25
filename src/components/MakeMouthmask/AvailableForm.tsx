@@ -10,7 +10,7 @@ type TFormValues = {
 export const AvailableForm = () => {
   const [form] = Form.useForm();
   const { t } = useTranslation();
-  const { updateUser, fetchingUser: isUpdatingUser, user } = useUser();
+  const { updateUser, isUpdatingUser, user } = useUser();
 
   const onFinish = useCallback(async (values: TFormValues) => {
     console.log(values);

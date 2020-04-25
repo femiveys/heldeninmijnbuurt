@@ -11,7 +11,7 @@ type TFormValues = {
 
 export const EnterMouthmaskAmount = () => {
   const [form] = Form.useForm();
-  const { updateUser, fetchingUser: isUpdatingUser } = useUser();
+  const { updateUser, isUpdatingUser } = useUser();
   const { isLoading: isAssigning, callApi: assign } = useApi(
     "PUT",
     "requestor/assign"

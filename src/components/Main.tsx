@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import { Spin } from "antd";
 import { Login } from "./Login";
 import { Dashboard } from "./Dashboard";
 import { useAuth, useUser } from "../hooks";
+import { FullSpinner } from "./FullSpinner";
 
 export const Main = () => {
   const [isInitialized, setIsInitialized] = useState(false);
   const { firebaseUser, isLoggedIn, loggingIn } = useAuth();
-  const { refreshUser, user } = useUser();
+  const { fetchUser } = useUser();
 
   useEffect(() => {
     const initializeUser = async () => {
-      await refreshUser();
+      await fetchUser();
       setIsInitialized(true);
     };
 
@@ -19,12 +19,10 @@ export const Main = () => {
       if (firebaseUser) initializeUser();
       else setIsInitialized(true);
     }
-  }, [refreshUser, setIsInitialized, loggingIn, firebaseUser]);
+  }, [fetchUser, setIsInitialized, loggingIn, firebaseUser]);
 
   return !isInitialized ? (
-    <div className="centered-spinner">
-      <Spin size="large" />
-    </div>
+    <FullSpinner />
   ) : isLoggedIn ? (
     <Dashboard />
   ) : (
