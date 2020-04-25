@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getFirebaseUser } from "../../../apiHelpers/me/helpers";
-import { assignMakerTo } from "../../../apiHelpers/requestor/assign";
+import { getFirebaseUser } from "../../../src/apiHelpers/me/helpers";
+import { assignMakerTo } from "../../../src/apiHelpers/requestor/assign";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "PUT") {

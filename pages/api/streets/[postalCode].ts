@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getStreetsByPostalCode } from "../../../apiHelpers/enterStreet";
+import { getStreetsByPostalCode } from "../../../src/apiHelpers/enterStreet";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {

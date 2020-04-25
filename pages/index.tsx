@@ -1,17 +1,14 @@
-import "../firebase";
-
 import React from "react";
 
 import { StoreContext } from "storeon/react";
-import { store } from "../store";
-import { AppLayout } from "../components/AppLayout";
-import { listenToAuthChanges } from "../base/auth";
+import { store } from "../src/store";
+import { App } from "../src/components/App";
+import { initializeFirebaseApp } from "../src/firebase";
 
-// Listen to firebase auth changes
-listenToAuthChanges();
+initializeFirebaseApp();
 
 export default () => (
   <StoreContext.Provider value={store}>
-    <AppLayout />
+    <App />
   </StoreContext.Provider>
 );
