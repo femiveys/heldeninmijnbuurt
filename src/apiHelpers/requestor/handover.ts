@@ -5,7 +5,7 @@ import { db } from "../../db";
  * Sets the requestor_handover_date to now() on the accepted maker relation
  *
  * @param requestorId - the userId of the requestor
- * @returns 1 if update has been done, else 0
+ * @returns 1 if updated, else 0
  */
 export const setHandoverDone = async (requestorId: string) => {
   await checkRequestor(requestorId);

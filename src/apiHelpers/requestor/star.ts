@@ -8,7 +8,7 @@ import { db } from "../../db";
  *
  * @param requestorId - the userId of the requestor
  * @param numStars - the number of stars to set should be between 1 and 5
- * @returns 1 if updates have been done, else 0
+ * @returns 1 if updated, else 0
  */
 export const giveStarsToAcceptedMaker = async (
   requestorId: string,
