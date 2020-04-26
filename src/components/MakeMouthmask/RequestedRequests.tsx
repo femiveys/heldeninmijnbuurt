@@ -3,8 +3,7 @@ import { Table, Space, Typography, Empty, Button, Spin } from "antd";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { keyBy, find, mapValues } from "lodash";
-
-import { formatLengthDistance, sendAppMail } from "../../helpers";
+import { formatLengthDistance } from "../../helpers";
 import { apiCall } from "../../axios";
 import { useApi } from "../../hooks";
 import { TRequestedRequest } from "../../types";
@@ -34,7 +33,6 @@ export const RequestedRequests = () => {
   ) => async () => {
     setIsUpdatingRow({ ...isUpdatingRelation, [relationId]: true });
     if (await apiCall("PUT", `superHero/${action}/${relationId}`)) {
-      sendAppMail(relationId, action === "accept" ? "accepted" : "declined", t);
       await callApi();
     }
     setIsUpdatingRow({ ...isUpdatingRelation, [relationId]: false });
