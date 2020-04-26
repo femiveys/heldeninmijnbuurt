@@ -26,8 +26,10 @@ export type TRelationFromDb = {
   distance: number;
   status: ERelationStatus;
   request_date: Date;
-  requestor_Handover_date: Date;
-  heroHandover_date: Date;
+  accept_date: Date;
+  decline_date: Date;
+  requestor_handover_date: Date;
+  hero_handover_date: Date;
   requestor_stars: number;
   hero_stars: number;
 };

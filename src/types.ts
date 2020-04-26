@@ -6,8 +6,9 @@ export enum ERelationType {
 export enum ERelationStatus {
   requested = "requested",
   accepted = "accepted",
-  delivered = "delivered",
   declined = "declined",
+  setDeliveredByRequestor = "setDeliveredByRequestor",
+  setDeliveredByHero = "setDeliveredByHero",
 }
 
 // Types
@@ -37,6 +38,8 @@ export type TRelation = {
   distance: number;
   status: ERelationStatus;
   requestDate: Date;
+  acceptDate: Date;
+  declineDate: Date;
   requestorHandoverDate: Date;
   heroHandoverDate: Date;
   requestorStars: number;
