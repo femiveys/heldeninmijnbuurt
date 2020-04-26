@@ -60,3 +60,17 @@ export type TRequestedRequest = Pick<TRelation, "distance" | "requestDate"> &
   Pick<TUser, "name" | "needsMouthmaskAmount" | "numEvaluations" | "stars"> & {
     relationId: number;
   };
+
+export type SentMessageInfo = {
+  accepted: string[];
+  rejected: string[];
+  envelopeTime: number;
+  messageTime: number;
+  messageSize: number;
+  response: string;
+  envelope: {
+    from: string;
+    to: string[];
+  };
+  messageId: string;
+};

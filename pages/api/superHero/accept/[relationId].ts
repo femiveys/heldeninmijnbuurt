@@ -5,10 +5,7 @@ import { acceptRequest } from "../../../../src/apiHelpers/superHero/actions";
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "PUT") {
     try {
-      const {
-        query: { relationId },
-      } = req;
-
+      const { relationId } = req.query;
       if (!relationId) throw new Error("No relationId was provided");
 
       const firebaseUser = await getFirebaseUser(req);

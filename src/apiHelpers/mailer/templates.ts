@@ -4,8 +4,8 @@ import { SendMailOptions } from "nodemailer";
 type TMailOptions = {
   subject: string;
   text: string;
-  html: string;
-  attachments: SendMailOptions["attachments"];
+  html?: string;
+  attachments?: SendMailOptions["attachments"];
 };
 
 export const templates: Dictionary<TMailOptions> = {
@@ -27,5 +27,9 @@ export const templates: Dictionary<TMailOptions> = {
         cid: "example", //same cid value as in the html img src
       },
     ],
+  },
+  test: {
+    subject: "Test ✔",
+    text: "Korte body tekst",
   },
 };

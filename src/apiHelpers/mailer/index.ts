@@ -1,5 +1,7 @@
 import nodemailer from "nodemailer";
 import { templates } from "./templates";
+import { SentMessageInfo } from "../../types";
+import { getRequestorEmailByRelationId } from "../superHero/common";
 
 const transporter = nodemailer.createTransport({
   host: "178.208.49.162",
@@ -13,21 +15,7 @@ const transporter = nodemailer.createTransport({
 
 const from = '"Femi Veys 👻" <femi@itsimplyworks.be>';
 
-type SentMessageInfo = {
-  accepted: string[];
-  rejected: string[];
-  envelopeTime: number;
-  messageTime: number;
-  messageSize: number;
-  response: string;
-  envelope: {
-    from: string;
-    to: string[];
-  };
-  messageId: string;
-};
-
-export async function sendMail(to: string, mailId: string) {
+export const sendMail = async (to: string, mailId: string) => {
   const info: SentMessageInfo = await transporter.sendMail({
     from,
     to,
@@ -35,4 +23,27 @@ export async function sendMail(to: string, mailId: string) {
   });
   console.log("Message sent: %s", info.messageId);
   return info;
-}
+};
+
+/**
+ * Puts de status of a relation on accepted and sets the accept_date
+ *
+ * @param makerId - the userId of the maker to check if he is allowed to do this
+ * @param relationId - the id of relation having a hero_id linking to the user
+ *                     to send a mail to
+ * @returns SentMessageInfo if sent, else null
+ */
+
+export const sendMailByRelationId = async (
+  makerId: string,
+  relationId: number,
+  mailId: string
+) => {
+  const email = await getRequestorEmailByRelationId(makerId, relationId);
+
+  if (email) {
+    return await sendMail(email, mailId);
+  } else {
+    return null;
+  }
+};

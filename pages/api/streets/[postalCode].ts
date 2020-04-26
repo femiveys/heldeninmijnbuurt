@@ -4,9 +4,7 @@ import { getStreetsByPostalCode } from "../../../src/apiHelpers/enterStreet";
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     try {
-      const {
-        query: { postalCode },
-      } = req;
+      const { postalCode } = req.query;
       const streets = await getStreetsByPostalCode(Number(postalCode));
       res.send(streets);
     } catch (error) {
