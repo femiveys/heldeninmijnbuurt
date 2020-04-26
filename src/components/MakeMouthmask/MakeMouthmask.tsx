@@ -5,6 +5,7 @@ import { ToggleableWidget } from "../ToggleableWidget";
 import { AvailableForm } from "./AvailableForm";
 import { RequestedRequests } from "./RequestedRequests";
 import { useUser } from "../../hooks";
+import { AcceptedRequests } from "./AcceptedRequests";
 
 export const MakeMouthmask = () => {
   const { user } = useUser();
@@ -20,6 +21,7 @@ export const MakeMouthmask = () => {
         <HeroTitle numDelivered={user.numDelivered} />
         <AvailableForm />
         <RequestedRequests />
+        <AcceptedRequests />
       </Space>
     </ToggleableWidget>
   );

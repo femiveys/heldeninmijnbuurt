@@ -21,7 +21,7 @@
     },
     "requested": {
       "title": "Aanvragen",
-      "loading": "Aanvragen aan het ophalen...",
+      "loading": "Aangevraagde mondmaskers aan het ophalen...",
       "empty": "Voorlopig geen aanvragen",
       "requestDate": "Aangevraagd",
       "distance": "Afstand",
@@ -30,8 +30,11 @@
     },
     "accepted": {
       "title": "Op te halen / Af te leveren",
-      "empty": "Alle maskers zijn geleverd.",
-      "contact": "Contacteer"
+      "loading": "Te overhandigen mondmaskers aan het ophalen...",
+      "empty": "Alle maskers zijn overhandigd",
+      "contact": "Contacteer",
+      "setDelivered": "Markeer as overhandigd",
+      "problem": "Er is een probleem"
     }
   },
   "requestor": {
