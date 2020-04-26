@@ -1,14 +1,20 @@
-import { Table, Spin, Space, Typography } from "antd";
+import { useEffect, useCallback, useState } from "react";
+import { Table, Space, Typography, Empty, Button, Spin } from "antd";
+import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import { ColumnProps } from "antd/es/table";
-import { TRequestedRequest } from "../../types";
-import { useEffect } from "react";
+import { keyBy, find, mapValues } from "lodash";
+
+import { formatLengthDistance, sendAppMail } from "../../helpers";
+import { apiCall } from "../../axios";
 import { useApi } from "../../hooks";
+import { TRequestedRequest } from "../../types";
 
 const { Title } = Typography;
+const { Column } = Table;
 
 export const RequestedRequests = () => {
   const { t } = useTranslation();
+  const [isUpdatingRelation, setIsUpdatingRow] = useState({});
   const { isLoading, callApi, data } = useApi<TRequestedRequest[]>(
     "GET",
     "superHero/requestedRequests",
@@ -19,36 +25,89 @@ export const RequestedRequests = () => {
     callApi();
   }, []);
 
-  const columns: ColumnProps<TRequestedRequest>[] = [
-    {
-      title: t("name"),
-      dataIndex: "name",
-    },
-    {
-      title: t("needsMouthmaskAmount"),
-      dataIndex: "needsMouthmaskAmount",
-    },
-    {
-      title: t("distance"),
-      dataIndex: "distance",
-    },
-    // {
-    //   key: "action",
-    //   render: (text, record) => (
-    //     <span>
-    //       <a style={{ marginRight: 16 }}>Invite {record.name}</a>
-    //       <a>Delete</a>
-    //     </span>
-    //   ),
-    // },
-  ];
+  useEffect(() => {
+    setIsUpdatingRow(mapValues(keyBy(data, "relationId"), () => false));
+  }, [data]);
 
-  return isLoading ? (
-    <Spin />
-  ) : data.length > 0 ? (
+  const acceptOrDecline = (action: "accept" | "decline") => (
+    relationId: number
+  ) => async () => {
+    setIsUpdatingRow({ ...isUpdatingRelation, [relationId]: true });
+    if (await apiCall("PUT", `superHero/${action}/${relationId}`)) {
+      sendAppMail(relationId, action === "accept" ? "accepted" : "declined", t);
+      await callApi();
+    }
+    setIsUpdatingRow({ ...isUpdatingRelation, [relationId]: false });
+  };
+
+  const accept = useCallback(acceptOrDecline("accept"), [isUpdatingRelation]);
+  const decline = useCallback(acceptOrDecline("decline"), [isUpdatingRelation]);
+
+  const showTableLoader =
+    isLoading && !find(isUpdatingRelation, (value) => value === true);
+
+  return (
     <Space direction="vertical">
       <Title level={4}>{t("maker.requested")}</Title>
-      <Table columns={columns} dataSource={data} />
+      <Table
+        dataSource={data}
+        loading={showTableLoader}
+        pagination={false}
+        locale={{
+          emptyText: <Empty description={t("maker.emptyRequested")} />,
+        }}
+      >
+        <Column
+          title={t("maker.requestDate")}
+          dataIndex="requestDate"
+          render={(requestDate) => t("ago", { date: requestDate })}
+        />
+        <Column
+          title={t("needsMouthmaskAmount")}
+          dataIndex="needsMouthmaskAmount"
+          align="center"
+        />
+        <Column
+          title={t("distance")}
+          dataIndex="distance"
+          align="right"
+          render={(distance) => formatLengthDistance(distance)}
+        />
+        <Column
+          key="accept"
+          dataIndex="relationId"
+          render={(relationId) => (
+            <Button
+              type="link"
+              icon={<PlusOutlined />}
+              onClick={accept(relationId)}
+            >
+              {t("accept")}
+            </Button>
+          )}
+        />
+        <Column
+          key="decline"
+          dataIndex="relationId"
+          render={(relationId) => (
+            <Button
+              danger
+              type="link"
+              icon={<MinusOutlined />}
+              onClick={decline(relationId)}
+            >
+              {t("decline")}
+            </Button>
+          )}
+        />
+        <Column
+          key="loading"
+          dataIndex="relationId"
+          render={(relationId) => (
+            <Spin spinning={isUpdatingRelation[relationId]} />
+          )}
+        />
+      </Table>
     </Space>
-  ) : null;
+  );
 };

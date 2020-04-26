@@ -1,10 +1,13 @@
 {
+  "accept": "Accepteer",
+  "decline": "Weiger",
   "distance": "Afstand",
   "no": "Nee",
   "name": "Naam",
-  "needsMouthmaskAmount": "Aantal nodig",
+  "needsMouthmaskAmount": "Aantal",
   "update": "Pas aan",
   "yes": "Ja",
+  "ago": "{{date, ago}} geleden",
   "login": {
     "google": "Login met google",
     "facebook": "Login met Facebook"
@@ -19,9 +22,14 @@
     },
     "available": {
       "label": "Hoeveel mondmaskers heb je beschikbaar?"
-    }
+    },
+    "requestDate": "Aangevraagd",
+    "emptyRequested": "Voorlopig geen aanvragen"
   },
   "requestor": {
     "collapseTitle": "Ik zoek mondmaskers"
+  },
+  "error": {
+    "mail": "Er was een probleem bij het versturen van de mail"
   }
 }

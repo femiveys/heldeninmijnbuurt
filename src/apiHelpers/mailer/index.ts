@@ -2,6 +2,7 @@ import nodemailer from "nodemailer";
 import { templates } from "./templates";
 import { SentMessageInfo } from "../../types";
 import { getRequestorEmailByRelationId } from "../superHero/common";
+import { IS_DEV } from "../../helpers";
 
 const transporter = nodemailer.createTransport({
   host: "178.208.49.162",
@@ -16,13 +17,21 @@ const transporter = nodemailer.createTransport({
 const from = '"Femi Veys 👻" <femi@itsimplyworks.be>';
 
 export const sendMail = async (to: string, mailId: string) => {
-  const info: SentMessageInfo = await transporter.sendMail({
-    from,
-    to,
-    ...templates[mailId],
-  });
-  console.log("Message sent: %s", info.messageId);
-  return info;
+  if (process.env.NODE_ENV === "production") {
+    const info: SentMessageInfo = await transporter.sendMail({
+      from,
+      to,
+      ...templates[mailId],
+    });
+    console.log("Message sent: %s", info.messageId);
+    return info;
+  } else {
+    console.info(
+      `In DEV we don't send real mails. Message "${mailId}" would have been sent to "${to}":`
+    );
+    if (!templates[mailId]) console.log(`No template defined for: ${mailId}`);
+    return true;
+  }
 };
 
 /**

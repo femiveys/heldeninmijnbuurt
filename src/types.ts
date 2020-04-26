@@ -57,7 +57,7 @@ export type TRelationUser = {
 };
 
 export type TRequestedRequest = Pick<TRelation, "distance" | "requestDate"> &
-  Pick<TUser, "name" | "needsMouthmaskAmount" | "numEvaluations" | "stars"> & {
+  Pick<TUser, "needsMouthmaskAmount" | "numEvaluations" | "stars"> & {
     relationId: number;
   };
 

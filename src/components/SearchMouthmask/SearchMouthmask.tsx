@@ -21,20 +21,22 @@ export const SearchMouthmask = () => {
   );
 
   useEffect(() => {
-    fetchSuperHero();
+    if (user.needsMouthmask) fetchSuperHero();
   }, []);
 
-  const Switch = () => {
-    if (user.needsMouthmaskAmount === 0) {
-      return <EnterMouthmaskAmount />;
-    } else if (!!superHero) {
-      return (
+  return (
+    <ToggleableWidget
+      title={t("requestor.collapseTitle")}
+      toggleField="needsMouthmask"
+      toggleOffConfirmText="Ben je zeker enzovoort?"
+    >
+      {user.needsMouthmaskAmount === 0 ? (
+        <EnterMouthmaskAmount />
+      ) : !!superHero ? (
         <Spin spinning={isFetchingSuperHero}>
           <SuperHeroContactInfo {...superHero} />
         </Spin>
-      );
-    } else {
-      return (
+      ) : (
         <div>
           <p>
             We hebben jammergenoeg niemand in je buurt gevonden die maskers
@@ -47,17 +49,7 @@ export const SearchMouthmask = () => {
           </p>
           <p>Knoppen en zo...</p>
         </div>
-      );
-    }
-  };
-
-  return (
-    <ToggleableWidget
-      title={t("requestor.collapseTitle")}
-      toggleField="needsMouthmask"
-      toggleOffConfirmText="Ben je zeker enzovoort?"
-    >
-      <Switch />
+      )}
     </ToggleableWidget>
   );
 };

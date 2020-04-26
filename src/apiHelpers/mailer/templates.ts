@@ -32,4 +32,8 @@ export const templates: Dictionary<TMailOptions> = {
     subject: "Test ✔",
     text: "Korte body tekst",
   },
+  accepted: {
+    subject: "Todo ✔",
+    text: "Todo",
+  },
 };

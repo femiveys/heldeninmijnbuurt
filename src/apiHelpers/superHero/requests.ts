@@ -23,7 +23,6 @@ export const getRequestedRequests = async (makerId: string) => {
     .map((assignedRequest) => ({
       ...pick(
         assignedRequest.user,
-        "name",
         "needsMouthmaskAmount",
         "numEvaluations",
         "stars"
@@ -60,6 +59,7 @@ const getAssignedRequests = async (makerId: string) => {
   const results = await db<TRelationFromDb>("relation")
     .where("relation.hero_id", makerId)
     .whereIn("status", [ERelationStatus.requested, ERelationStatus.accepted])
+    .orderBy("request_date")
     .select();
 
   const assignedRequests = await Promise.all(
