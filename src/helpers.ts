@@ -5,8 +5,9 @@ import { formatDistance } from "date-fns";
 export const IS_DEV = process.env.NODE_ENV !== "production";
 
 export const formatLengthDistance = (distance: number) => {
-  const rounded = Math.round(distance / 100) * 100;
-  return rounded < 1000 ? `${rounded} m` : `${rounded / 1000} km`;
+  return distance < 1000
+    ? `${Math.round(distance / 10) * 10} m`
+    : `${(Math.round(distance / 100) * 100) / 1000} km`;
 };
 
 export const formatAgo = (date: string) =>
