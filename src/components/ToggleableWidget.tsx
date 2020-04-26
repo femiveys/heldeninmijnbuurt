@@ -47,7 +47,10 @@ export const ToggleableWidget: React.FunctionComponent<TProps> = (props) => {
             cancelText="Nee"
           >
             {isUpdatingUser ? (
-              <Spin size="small" />
+              <Spin
+                size="small"
+                style={{ marginLeft: "1px", marginRight: "1px" }}
+              />
             ) : (
               <Checkbox checked={checked} onChange={onChange} />
             )}

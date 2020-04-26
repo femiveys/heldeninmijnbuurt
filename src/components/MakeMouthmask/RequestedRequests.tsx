@@ -25,7 +25,9 @@ export const RequestedRequests = () => {
   }, []);
 
   useEffect(() => {
-    setIsUpdatingRow(mapValues(keyBy(data, "relationId"), () => false));
+    const dataByRelationId = keyBy(data, "relationId");
+    const initialMap = mapValues(dataByRelationId, () => false);
+    setIsUpdatingRow(initialMap);
   }, [data]);
 
   const acceptOrDecline = (action: "accept" | "decline") => (

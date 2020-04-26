@@ -27,7 +27,7 @@ export const sendMail = async (to: string, mailId: string) => {
     console.log("Message sent", info);
     return info.messageId;
   } else {
-    const fakeMessageId = `DEV: Message "${mailId}" would have been sent to "${to}"`;
+    const fakeMessageId = `DEV: Message "${mailId}" would have been sent to "${to}". In production we would have seen the messageId here.`;
     console.log(fakeMessageId);
     return fakeMessageId;
   }
