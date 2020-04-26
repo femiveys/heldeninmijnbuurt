@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useState } from "react";
-import { Table, Space, Typography, Empty, Button, Spin } from "antd";
+import { Table, Space, Typography, Button, Spin } from "antd";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { keyBy, find, mapValues } from "lodash";
@@ -43,22 +43,20 @@ export const RequestedRequests = () => {
   const accept = useCallback(acceptOrDecline("accept"), [isUpdatingRelation]);
   const decline = useCallback(acceptOrDecline("decline"), [isUpdatingRelation]);
 
-  const showTableLoader =
+  const isInitialLoading =
     isLoading && !find(isUpdatingRelation, (value) => value === true);
 
-  return (
+  return isInitialLoading ? (
+    <Space>
+      <Title level={4}>{t("maker.requested.loading")}</Title>
+      <Spin />
+    </Space>
+  ) : data.length > 0 ? (
     <Space direction="vertical">
-      <Title level={4}>{t("maker.requested")}</Title>
-      <Table
-        dataSource={data}
-        loading={showTableLoader}
-        pagination={false}
-        locale={{
-          emptyText: <Empty description={t("maker.emptyRequested")} />,
-        }}
-      >
+      <Title level={4}>{t("maker.requested.title")}</Title>
+      <Table dataSource={data} pagination={false}>
         <Column
-          title={t("maker.requestDate")}
+          title={t("maker.requested.requestDate")}
           dataIndex="requestDate"
           render={(requestDate) => t("ago", { date: requestDate })}
         />
@@ -68,7 +66,7 @@ export const RequestedRequests = () => {
           align="center"
         />
         <Column
-          title={t("distance")}
+          title={t("maker.requested.distance")}
           dataIndex="distance"
           align="right"
           render={(distance) => formatLengthDistance(distance)}
@@ -82,7 +80,7 @@ export const RequestedRequests = () => {
               icon={<PlusOutlined />}
               onClick={accept(relationId)}
             >
-              {t("accept")}
+              {t("maker.requested.accept")}
             </Button>
           )}
         />
@@ -96,7 +94,7 @@ export const RequestedRequests = () => {
               icon={<MinusOutlined />}
               onClick={decline(relationId)}
             >
-              {t("decline")}
+              {t("maker.requested.decline")}
             </Button>
           )}
         />
@@ -109,5 +107,7 @@ export const RequestedRequests = () => {
         />
       </Table>
     </Space>
+  ) : (
+    <Title level={4}>{t("maker.requested.empty")}</Title>
   );
 };

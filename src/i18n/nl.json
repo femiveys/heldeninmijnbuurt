@@ -1,12 +1,9 @@
 {
-  "accept": "Accepteer",
-  "decline": "Weiger",
-  "distance": "Afstand",
   "no": "Nee",
+  "yes": "Ja",
   "name": "Naam",
   "needsMouthmaskAmount": "Aantal",
   "update": "Pas aan",
-  "yes": "Ja",
   "ago": "{{date, ago}} geleden",
   "login": {
     "google": "Login met google",
@@ -14,7 +11,6 @@
   },
   "maker": {
     "collapseTitle": "Ik heb een naaimachine",
-    "requested": "Aanvragen",
     "heroTitle": {
       "zero": "Je hebt nog geen maskers gemaakt.",
       "few": "Je hebt al <0>{{count}}</0> maskers gemaakt.",
@@ -23,8 +19,20 @@
     "available": {
       "label": "Hoeveel mondmaskers heb je beschikbaar?"
     },
-    "requestDate": "Aangevraagd",
-    "emptyRequested": "Voorlopig geen aanvragen"
+    "requested": {
+      "title": "Aanvragen",
+      "loading": "Aanvragen aan het ophalen...",
+      "empty": "Voorlopig geen aanvragen",
+      "requestDate": "Aangevraagd",
+      "distance": "Afstand",
+      "accept": "Accepteer",
+      "decline": "Weiger"
+    },
+    "accepted": {
+      "title": "Op te halen / Af te leveren",
+      "empty": "Alle maskers zijn geleverd.",
+      "contact": "Contacteer"
+    }
   },
   "requestor": {
     "collapseTitle": "Ik zoek mondmaskers"
