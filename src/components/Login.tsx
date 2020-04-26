@@ -1,4 +1,5 @@
 import { Row, Col, Typography, Button, Space } from "antd";
+import { FacebookOutlined, GoogleOutlined } from "@ant-design/icons";
 import firebase from "firebase/app";
 import { useTranslation } from "react-i18next";
 
@@ -23,7 +24,9 @@ export const Login = () => {
           <Col>
             <Space size="large">
               <Button
-                className="button-google"
+                size="large"
+                icon={<GoogleOutlined />}
+                style={{ backgroundColor: "#de5246", color: "white" }}
                 onClick={() => {
                   const provider = new firebase.auth.GoogleAuthProvider();
                   firebase.auth().signInWithPopup(provider);
@@ -32,7 +35,9 @@ export const Login = () => {
                 {t("login.google")}
               </Button>
               <Button
-                className="button-facebook"
+                size="large"
+                icon={<FacebookOutlined />}
+                style={{ backgroundColor: "#3b5998", color: "white" }}
                 onClick={() => {
                   const provider = new firebase.auth.FacebookAuthProvider();
                   firebase.auth().signInWithPopup(provider);
