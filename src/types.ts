@@ -7,8 +7,8 @@ export enum ERelationStatus {
   requested = "requested",
   accepted = "accepted",
   declined = "declined",
-  setDeliveredByRequestor = "setDeliveredByRequestor",
-  setDeliveredByHero = "setDeliveredByHero",
+  heroMarkedAsHandedOver = "heroMarkedAsHandedOver",
+  requestorMarkedAsHandedOver = "requestorMarkedAsHandedOver",
 }
 
 // Types

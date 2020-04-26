@@ -33,9 +33,9 @@ export const AcceptedRequests = () => {
     setIsUpdatingRow(initialMap);
   }, [data]);
 
-  const setDeliverOrDecline = (action: "setDelivered" | "decline") => (
-    relationId: number
-  ) => async () => {
+  const markByHeroAsHandedOverOrDecline = (
+    action: "markByHeroAsHandedOver" | "decline"
+  ) => (relationId: number) => async () => {
     setIsUpdatingRow({ ...isUpdatingRelation, [relationId]: true });
     if (await apiCall("PUT", `superHero/${action}/${relationId}`)) {
       await callApi();
@@ -43,10 +43,11 @@ export const AcceptedRequests = () => {
     setIsUpdatingRow({ ...isUpdatingRelation, [relationId]: false });
   };
 
-  const setDelivered = useCallback(setDeliverOrDecline("setDelivered"), [
-    isUpdatingRelation,
-  ]);
-  const decline = useCallback(setDeliverOrDecline("decline"), [
+  const setDelivered = useCallback(
+    markByHeroAsHandedOverOrDecline("markByHeroAsHandedOver"),
+    [isUpdatingRelation]
+  );
+  const decline = useCallback(markByHeroAsHandedOverOrDecline("decline"), [
     isUpdatingRelation,
   ]);
 

@@ -26,6 +26,10 @@ export const checkMaker = async (makerId: string) => {
   }
 };
 
+export const checkRelationId = async (relationId: number) => {
+  if (!relationId) throw new Error("No relationId was provided");
+};
+
 /**
  * Gets the email address of the user related to the relation specified
  *
