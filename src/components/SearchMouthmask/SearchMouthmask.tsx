@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { TRelationUser } from "../../types";
 import { Spin } from "antd";
 import { NoSuperHeroFound } from "./NoSuperHeroFound";
+import { Done } from "./Done";
 
 export const SearchMouthmask = () => {
   const { t } = useTranslation();
@@ -35,10 +36,15 @@ export const SearchMouthmask = () => {
       ) : isFetchingSuperHero ? (
         <Spin tip={t("requestor.contact.loading")} />
       ) : relationUser ? (
-        <SuperHeroContactInfo
-          relationUser={relationUser}
-          needsMouthmaskAmount={needsMouthmaskAmount}
-        />
+        relationUser.relation.heroHandoverDate &&
+        relationUser.relation.requestorHandoverDate ? (
+          <Done needsMouthmaskAmount={needsMouthmaskAmount}></Done>
+        ) : (
+          <SuperHeroContactInfo
+            relationUser={relationUser}
+            needsMouthmaskAmount={needsMouthmaskAmount}
+          />
+        )
       ) : (
         <NoSuperHeroFound />
       )}

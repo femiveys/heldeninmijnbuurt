@@ -1,7 +1,8 @@
 import { db } from "../../db";
-import { checkMaker, checkRelationId } from "./common";
+import { checkMaker } from "./common";
 import { ERelationStatus } from "../../types";
-import { mailRequestorByRelationId } from "../mailer";
+import { mailByRelationId } from "../mailer";
+import { checkRelationId } from "../common";
 
 /**
  * Puts de status of a relation on heroMarkedAsHandedOver.
@@ -12,10 +13,7 @@ import { mailRequestorByRelationId } from "../mailer";
  * @param relationId - the relationId to update
  * @returns The messageId of the mail sent
  */
-export const markByHeroAsHandedOver = async (
-  makerId: string,
-  relationId: number
-) => {
+export const markAsHandedOver = async (makerId: string, relationId: number) => {
   checkRelationId(relationId);
   await checkMaker(makerId);
 
@@ -27,7 +25,8 @@ export const markByHeroAsHandedOver = async (
     });
 
   if (result) {
-    return await mailRequestorByRelationId(
+    return await mailByRelationId(
+      "requestor",
       relationId,
       "heroMarkedAsHandedOver"
     );

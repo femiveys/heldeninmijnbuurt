@@ -62,6 +62,13 @@
       "heroMarkedAsHandedOver_plural": "Blijkbaar heb je je maskers al ontvangen. Klopt dit?",
       "received": "Ik heb mijn mondmasker ontvangen",
       "received_plural": "Ik heb mijn mondmaskers ontvangen"
+    },
+    "done": {
+      "title": "Je hebt mondmasker ontvangen",
+      "title_plural": "Je hebt mondmaskers ontvangen",
+      "share": {
+        "facebook": "Deel je ervaring op Facebook"
+      }
     }
   },
   "error": {

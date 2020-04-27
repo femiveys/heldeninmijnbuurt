@@ -77,3 +77,5 @@ export type SentMessageInfo = {
   };
   messageId: string;
 };
+
+export type TRelationRoles = "hero" | "requestor";

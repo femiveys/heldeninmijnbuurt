@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 import { templates } from "./templates";
 import { SentMessageInfo } from "../../types";
-import { getRequestorEmailByRelationId } from "../superHero/common";
+import { getEmailByRelationId } from "./helpers";
 
 const transporter = nodemailer.createTransport({
   host: "178.208.49.162",
@@ -34,17 +34,18 @@ export const sendMail = async (to: string, mailId: string) => {
 };
 
 /**
- * Sends email to requestor of relation
+ * Sends email to the hero or the requestor a specific relation
  *
- * @param relationId - the id of relation for which a mails will be sent to the
- *                     requestor
+ * @param relationId - the id of the relation for which a mails will be sent to
+ *                     the hero or the requestor
  * @returns SentMessageInfo if sent, else null
  */
 
-export const mailRequestorByRelationId = async (
+export const mailByRelationId = async (
+  role: "hero" | "requestor",
   relationId: number,
   mailId: string
 ) => {
-  const email = await getRequestorEmailByRelationId(relationId);
+  const email = await getEmailByRelationId(role, relationId);
   return await sendMail(email, mailId);
 };

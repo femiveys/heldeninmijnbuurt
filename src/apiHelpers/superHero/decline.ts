@@ -1,7 +1,8 @@
 import { db } from "../../db";
-import { checkMaker, checkRelationId } from "./common";
-import { mailRequestorByRelationId } from "../mailer";
+import { checkMaker } from "./common";
 import { assignMakerTo } from "../requestor/assign";
+import { checkRelationId } from "../common";
+import { mailByRelationId } from "../mailer";
 import { ERelationStatus } from "../../types";
 import { TRelationFromDb } from "../types.db";
 
@@ -26,8 +27,8 @@ export const decline = async (makerId: string, relationId: number) => {
   if (result) {
     const distanceUserId = await reAssign(relationId);
     return distanceUserId
-      ? await mailRequestorByRelationId(relationId, "declinedAndReassigned")
-      : await mailRequestorByRelationId(relationId, "declined");
+      ? await mailByRelationId("requestor", relationId, "declinedAndReassigned")
+      : await mailByRelationId("requestor", relationId, "declined");
   } else {
     throw new Error(
       `There was a problem setting relation ${relationId} to declined`

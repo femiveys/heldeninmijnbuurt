@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Card, Space, Spin, Typography, Row, Col, Button } from "antd";
+import { Card, Space, Typography, Row, Col, Button } from "antd";
 
 import {
   MailOutlined,
@@ -7,9 +7,10 @@ import {
   WhatsAppOutlined,
 } from "@ant-design/icons";
 import { TRelationUser } from "../../types";
-import { useUser, useApi } from "../../hooks";
+import { useApi } from "../../hooks";
+import { notImplemented } from "../../helpers";
 
-const { Paragraph, Text } = Typography;
+const { Paragraph } = Typography;
 
 const iconStyle = {
   fontSize: 32,
@@ -22,11 +23,10 @@ type TProps = {
 
 export const SuperHeroContactInfo = (props: TProps) => {
   const { t } = useTranslation();
-  const { isLoading, callApi, data } = useApi(
-    "GET",
-    "requestor/requestedRequests",
-    []
-  );
+  const {
+    isLoading: isMarkingAsHandedOver,
+    callApi: markAsHandedOver,
+  } = useApi("PUT", "requestor/markAsHandedOver", []);
 
   const { relationUser, needsMouthmaskAmount } = props;
 
@@ -61,8 +61,14 @@ export const SuperHeroContactInfo = (props: TProps) => {
                   {t("requestor.contact.heroMarkedAsHandedOver", count)}
                 </Paragraph>
                 <Space>
-                  <Button type="primary">{t("yes")}</Button>
-                  <Button>{t("no")}</Button>
+                  <Button
+                    type="primary"
+                    onClick={markAsHandedOver}
+                    loading={isMarkingAsHandedOver}
+                  >
+                    {t("yes")}
+                  </Button>
+                  <Button onClick={() => notImplemented()}>{t("no")}</Button>
                 </Space>
               </div>
             ) : (
