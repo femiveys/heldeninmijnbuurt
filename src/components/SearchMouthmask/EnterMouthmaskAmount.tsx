@@ -1,15 +1,16 @@
-import { Select, Form, Row, Col, Button } from "antd";
-import { Typography } from "antd";
+import { Select, Form, Button } from "antd";
 import { useCallback } from "react";
 import { useApi, useUser } from "../../hooks";
-
-const { Title } = Typography;
 
 type TFormValues = {
   needsMouthmaskAmount?: number;
 };
 
-export const EnterMouthmaskAmount = () => {
+type TProps = {
+  fetchSuperHero: () => Promise<void>;
+};
+
+export const EnterMouthmaskAmount = ({ fetchSuperHero }: TProps) => {
   const [form] = Form.useForm();
   const { updateUser, isUpdatingUser } = useUser();
   const { isLoading: isAssigning, callApi: assign } = useApi(
@@ -19,39 +20,48 @@ export const EnterMouthmaskAmount = () => {
 
   const numberList = [1, 2, 3, 4, 5];
 
-  const onFinish = useCallback(async (values: TFormValues) => {
-    await updateUser(values);
-    await assign();
-  }, []);
+  const onFinish = useCallback(
+    (values: TFormValues) => {
+      const f = async () => {
+        await updateUser(values);
+        await assign();
+        await fetchSuperHero();
+      };
+      f();
+    },
+    [updateUser, assign, fetchSuperHero]
+  );
 
   return (
-    <Form form={form} size="large" onFinish={onFinish}>
-      <Title level={4}>Hoeveel mondmaskers heb je nodig?</Title>
-      <Row>
-        <Col>
-          <Form.Item name="needsMouthmaskAmount">
-            <Select>
-              {numberList.map((num) => (
-                <Select.Option key={num} value={num}>
-                  {num}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item shouldUpdate>
-            {() => (
-              <Button
-                type="primary"
-                loading={isUpdatingUser || isAssigning}
-                htmlType="submit"
-                disabled={!form.getFieldValue("needsMouthmaskAmount")}
-              >
-                Ga verder
-              </Button>
-            )}
-          </Form.Item>
-        </Col>
-      </Row>
+    <Form form={form} size="large" onFinish={onFinish} layout="inline">
+      <Form.Item
+        label="Hoeveel mondmaskers heb je nodig?"
+        name="needsMouthmaskAmount"
+      >
+        <Select
+          showArrow={false}
+          style={{ width: 70, textAlign: "center" }}
+          dropdownStyle={{ textAlign: "center" }}
+        >
+          {numberList.map((num) => (
+            <Select.Option key={num} value={num}>
+              {num}
+            </Select.Option>
+          ))}
+        </Select>
+      </Form.Item>
+      <Form.Item shouldUpdate>
+        {() => (
+          <Button
+            type="primary"
+            loading={isUpdatingUser || isAssigning}
+            htmlType="submit"
+            disabled={!form.getFieldValue("needsMouthmaskAmount")}
+          >
+            Ga verder
+          </Button>
+        )}
+      </Form.Item>
     </Form>
   );
 };

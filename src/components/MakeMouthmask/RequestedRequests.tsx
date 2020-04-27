@@ -68,8 +68,6 @@ export const RequestedRequests = forwardRef(
     const isInitialLoading =
       isLoading && !find(isUpdatingRelation, (value) => value === true);
 
-    console.log(isUpdatingRelation);
-
     return isInitialLoading ? (
       <Space>
         <Title level={4}>{t("maker.requested.loading")}</Title>

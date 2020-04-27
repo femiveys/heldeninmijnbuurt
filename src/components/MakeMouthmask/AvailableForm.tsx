@@ -1,28 +1,18 @@
-import { useCallback } from "react";
 import { Form, Input, Button } from "antd";
 import { useTranslation } from "react-i18next";
 import { useUser } from "../../hooks";
-
-type TFormValues = {
-  maskStock?: number;
-};
 
 export const AvailableForm = () => {
   const [form] = Form.useForm();
   const { t } = useTranslation();
   const { updateUser, isUpdatingUser, user } = useUser();
 
-  const onFinish = useCallback(async (values: TFormValues) => {
-    console.log(values);
-    await updateUser(values);
-  }, []);
-
   return (
     <Form
       form={form}
       size="large"
       layout="inline"
-      onFinish={onFinish}
+      onFinish={updateUser}
       colon={false}
       initialValues={{ maskStock: Number(user?.maskStock) }}
     >

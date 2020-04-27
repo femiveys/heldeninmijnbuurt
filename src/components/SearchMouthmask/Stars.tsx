@@ -52,7 +52,7 @@ export const Stars = () => {
           </Form.Item>
         </Form>
       ) : (
-        <Alert message={t("thanks")} type="info" showIcon />
+        <Alert message={t("thanks")} type="info" showIcon closable />
       )}
       <Divider />
     </>

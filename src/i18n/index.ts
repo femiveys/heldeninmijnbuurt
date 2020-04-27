@@ -10,7 +10,7 @@ export const language = "nl";
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
-    debug: process.env.NODE_ENV !== "production",
+    // debug: process.env.NODE_ENV !== "production",
     resources: {
       nl: { translation: nl },
       fr: { translation: fr },

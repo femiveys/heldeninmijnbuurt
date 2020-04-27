@@ -128,6 +128,7 @@ export const EnterStreet = () => {
           </Form.Item>
           <Form.Item label="WhatsApp" name="whatsapp">
             <Input
+              maxLength={9}
               addonBefore="+32"
               placeholder={t("requestor.enterStreet.whatsapp.placeholder")}
             />

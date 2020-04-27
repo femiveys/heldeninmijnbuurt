@@ -4,23 +4,24 @@ import { SuperHeroContactInfo } from "./SuperHeroContactInfo";
 import { useTranslation } from "react-i18next";
 import { useUser, useApi } from "../../hooks";
 import { useEffect } from "react";
-import { TRelationUser } from "../../types";
+import { TRelationUser, ERelationStatus } from "../../types";
 import { Spin } from "antd";
 import { NoSuperHeroFound } from "./NoSuperHeroFound";
 import { Done } from "./Done";
+import { WaitingForAcceptance } from "./WaitingForAcceptance";
 
 export const SearchMouthmask = () => {
   const { t } = useTranslation();
   const { user } = useUser();
   const {
     isLoading: isFetchingSuperHero,
-    data: relationUser,
+    data: superHero,
     error,
     callApi: fetchSuperHero,
   } = useApi<TRelationUser>("GET", "requestor/superHero");
 
   useEffect(() => {
-    fetchSuperHero();
+    if (user?.needsMouthmaskAmount) fetchSuperHero();
   }, []);
 
   const needsMouthmaskAmount = Number(user?.needsMouthmaskAmount);
@@ -32,23 +33,23 @@ export const SearchMouthmask = () => {
       toggleOffConfirmText="Ben je zeker enzovoort?"
     >
       {needsMouthmaskAmount === 0 ? (
-        <EnterMouthmaskAmount />
+        <EnterMouthmaskAmount fetchSuperHero={fetchSuperHero} />
       ) : isFetchingSuperHero ? (
         <Spin tip={t("requestor.contact.loading")} />
-      ) : relationUser ? (
-        relationUser.relation.requestorHandoverDate ? (
-          <Done
-            needsMouthmaskAmount={needsMouthmaskAmount}
-            showStars={!relationUser.relation.heroStars}
-          ></Done>
-        ) : (
-          <SuperHeroContactInfo
-            relationUser={relationUser}
-            needsMouthmaskAmount={needsMouthmaskAmount}
-          />
-        )
-      ) : (
+      ) : !superHero ? (
         <NoSuperHeroFound />
+      ) : superHero.relation.status === ERelationStatus.requested ? (
+        <WaitingForAcceptance />
+      ) : superHero.relation.requestorHandoverDate ? (
+        <Done
+          needsMouthmaskAmount={needsMouthmaskAmount}
+          showStars={!superHero.relation.heroStars}
+        ></Done>
+      ) : (
+        <SuperHeroContactInfo
+          relationUser={superHero}
+          needsMouthmaskAmount={needsMouthmaskAmount}
+        />
       )}
     </ToggleableWidget>
   );
