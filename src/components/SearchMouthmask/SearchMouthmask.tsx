@@ -36,9 +36,11 @@ export const SearchMouthmask = () => {
       ) : isFetchingSuperHero ? (
         <Spin tip={t("requestor.contact.loading")} />
       ) : relationUser ? (
-        relationUser.relation.heroHandoverDate &&
         relationUser.relation.requestorHandoverDate ? (
-          <Done needsMouthmaskAmount={needsMouthmaskAmount}></Done>
+          <Done
+            needsMouthmaskAmount={needsMouthmaskAmount}
+            showStars={!relationUser.relation.heroStars}
+          ></Done>
         ) : (
           <SuperHeroContactInfo
             relationUser={relationUser}

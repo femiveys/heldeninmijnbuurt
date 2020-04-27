@@ -42,10 +42,10 @@ export const sendMail = async (to: string, mailId: string) => {
  */
 
 export const mailByRelationId = async (
-  role: "hero" | "requestor",
+  toRole: "hero" | "requestor",
   relationId: number,
   mailId: string
 ) => {
-  const email = await getEmailByRelationId(role, relationId);
+  const email = await getEmailByRelationId(toRole, relationId);
   return await sendMail(email, mailId);
 };

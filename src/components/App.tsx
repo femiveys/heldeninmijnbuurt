@@ -5,7 +5,7 @@ import { Layout } from "antd";
 import { Main } from "../components/Main";
 import { ApplicationHeader } from "../components/ApplicationHeader";
 
-import "../styles/index.less";
+import "../styles.less";
 import "../i18n";
 import { subscribeToAuthChanges } from "../firebase";
 

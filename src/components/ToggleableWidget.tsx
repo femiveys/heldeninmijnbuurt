@@ -4,6 +4,8 @@ import { CheckboxChangeEvent } from "antd/lib/checkbox";
 import { TUser } from "../types";
 import { useUser } from "../hooks";
 
+import "./styles.less";
+
 type TProps = {
   title: string;
   toggleOffConfirmText: string;
@@ -57,9 +59,7 @@ export const ToggleableWidget: React.FunctionComponent<TProps> = (props) => {
           </Popconfirm>
           <span className="title">{props.title}</span>
         </Space>
-        {checked && (
-          <div className="widget-header-body padding">{props.children}</div>
-        )}
+        {checked && <div className="widget-header-body">{props.children}</div>}
       </Col>
     </Row>
   );

@@ -2,7 +2,9 @@
   "no": "Nee",
   "yes": "Ja",
   "name": "Naam",
+  "send": "Verstuur",
   "next": "Ga verder",
+  "thanks": "Bedankt",
   "needsMouthmaskAmount": "Aantal",
   "update": "Pas aan",
   "ago": "{{date, ago}} geleden",
@@ -64,8 +66,13 @@
       "received_plural": "Ik heb mijn mondmaskers ontvangen"
     },
     "done": {
-      "title": "Je hebt mondmasker ontvangen",
-      "title_plural": "Je hebt mondmaskers ontvangen",
+      "title": "Je hebt je mondmasker ontvangen",
+      "title_plural": "Je hebt je mondmaskers ontvangen",
+      "rate": "Toon je waardering voor je superheld(in)",
+      "message": {
+        "placeholder": "Als je wil, kan je je superheld ook een persoonlijk dankwoordje schrijven.",
+        "send": "Stuur een dankwoordje"
+      },
       "share": {
         "facebook": "Deel je ervaring op Facebook"
       }

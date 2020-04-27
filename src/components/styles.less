@@ -1,19 +1,7 @@
 @import "~antd/dist/antd.less";
 
-.ant-layout {
-  min-height: 100vh;
-}
-
-.ant-layout-content {
-  padding: @padding-lg;
-}
-
-.padding {
-  padding: @padding-lg;
-}
-
 .toggleable-widget {
-  border: 2px solid @primary-color;
+  border: 1px solid @primary-color;
 
   .widget-header {
     background-color: @primary-color;
@@ -27,5 +15,9 @@
     .ant-spin-dot-item {
       background-color: @white;
     }
+  }
+
+  .widget-header-body {
+    padding: @padding-lg;
   }
 }

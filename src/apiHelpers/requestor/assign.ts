@@ -1,9 +1,11 @@
 import { db } from "../../db";
 import { ERelationType, ERelationStatus } from "../../types";
 import { checkRequestor } from "./common";
+import { mailByRelationId } from "../mailer";
 
 /**
  * Tries to assign a requestor to a maker that has not declined yet
+ * Then sends a mail to the maker and to the requestor (in the background)
  *
  * @param requestorId - the userId of the requestor
  * @returns The distance and userId of the maker if found
@@ -24,7 +26,17 @@ export const assignMakerTo = async (requestorId: string) => {
   );
 
   const { distance, userId } = distanceAndMakerId;
-  await createMaskRelation(requestorId, userId, distance);
+  const returningArray = await createMaskRelation(
+    requestorId,
+    userId,
+    distance
+  );
+
+  const relationId = returningArray[0];
+  if (relationId) {
+    mailByRelationId("hero", relationId, "assignedToHero");
+    mailByRelationId("requestor", relationId, "assignedToRequestor");
+  }
 
   return { distance, userId };
 };
@@ -84,19 +96,22 @@ const findNearestMakerId = async (
  * @param requestorId - the userId of the requestor
  * @param makerId - the userId of the maker
  * @param distance - the distance between the requestor and the maker
+ * @returns The id of the inserted relation wrapped in an array
  */
 const createMaskRelation = async (
   requestorId: string,
   makerId: string,
   distance: number
 ) => {
-  await db("relation").insert({
-    type: ERelationType.maskRequest,
-    status: ERelationStatus.requested,
-    requestor_id: requestorId,
-    hero_id: makerId,
-    distance: Math.round(distance),
-  });
+  return await db("relation")
+    .returning("id")
+    .insert({
+      type: ERelationType.maskRequest,
+      status: ERelationStatus.requested,
+      requestor_id: requestorId,
+      hero_id: makerId,
+      distance: Math.round(distance),
+    });
 };
 
 /**

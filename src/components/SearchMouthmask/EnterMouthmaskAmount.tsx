@@ -38,15 +38,17 @@ export const EnterMouthmaskAmount = () => {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item>
-            <Button
-              type="primary"
-              loading={isUpdatingUser || isAssigning}
-              htmlType="submit"
-              disabled={!form.getFieldValue("needsMouthmaskAmount")}
-            >
-              Ga verder
-            </Button>
+          <Form.Item shouldUpdate>
+            {() => (
+              <Button
+                type="primary"
+                loading={isUpdatingUser || isAssigning}
+                htmlType="submit"
+                disabled={!form.getFieldValue("needsMouthmaskAmount")}
+              >
+                Ga verder
+              </Button>
+            )}
           </Form.Item>
         </Col>
       </Row>
