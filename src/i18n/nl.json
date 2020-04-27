@@ -2,6 +2,7 @@
   "no": "Nee",
   "yes": "Ja",
   "name": "Naam",
+  "next": "Ga verder",
   "needsMouthmaskAmount": "Aantal",
   "update": "Pas aan",
   "ago": "{{date, ago}} geleden",
@@ -39,6 +40,21 @@
     }
   },
   "requestor": {
+    "enterStreet": {
+      "postalCode": {
+        "label": "Postnummer",
+        "error": "Gelieve je postnummer op te geven!",
+        "placeholder": "Geef je postnummer in"
+      },
+      "street": {
+        "label": "Straat",
+        "error": "Gelieve je straat op te geven!",
+        "placeholder": "Geef je straat in"
+      },
+      "whatsapp": {
+        "placeholder": "Optioneel kan je je WhatsApp nummer opgeven"
+      }
+    },
     "collapseTitle": "Ik zoek mondmaskers"
   },
   "error": {

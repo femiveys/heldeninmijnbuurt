@@ -31,7 +31,7 @@ export const ToggleableWidget: React.FunctionComponent<TProps> = (props) => {
   }, []);
 
   // TODO: explain in type that it should be a boolean
-  const checked = user[props.toggleField] as boolean;
+  const checked = (user && user[props.toggleField]) as boolean;
 
   return (
     <Row className="toggleable-widget">

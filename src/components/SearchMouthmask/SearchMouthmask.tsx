@@ -41,7 +41,7 @@ export const SearchMouthmask = () => {
           <p>
             We hebben jammergenoeg niemand in je buurt gevonden die maskers
             heeft. We blijven zoeken en zullen je een e-mail sturen zodra we
-            niemand vinden.
+            iemand vinden.
           </p>
           <p>
             Laat op sociale media weten van deze applicatie. Misschien vinden we

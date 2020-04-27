@@ -6,7 +6,7 @@ import { useApi, useUser } from "../../hooks";
 const { Title } = Typography;
 
 type TFormValues = {
-  needsMouthmaskAmount: number;
+  needsMouthmaskAmount?: number;
 };
 
 export const EnterMouthmaskAmount = () => {

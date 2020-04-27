@@ -8,7 +8,7 @@ import { FullSpinner } from "./FullSpinner";
 export const Dashboard = () => {
   const { isFetchingUser, user } = useUser();
 
-  return user ? (
+  return user && user.streetId ? (
     <Space
       className="dashboard"
       direction="vertical"

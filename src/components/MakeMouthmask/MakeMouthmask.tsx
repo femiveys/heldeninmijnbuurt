@@ -22,7 +22,7 @@ export const MakeMouthmask = () => {
       toggleOffConfirmText="Ben je zeker enzovoort?"
     >
       <Space direction="vertical" size="large">
-        <HeroTitle numDelivered={user.numDelivered} />
+        <HeroTitle numDelivered={user ? user.numDelivered : 0} />
         <AvailableForm />
         <RequestedRequests
           ref={requestedRequestsRef}

@@ -12,7 +12,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // Create myself
   if (req.method === "POST") {
     try {
-      const { streetId } = req.body;
+      const { streetId, whatsapp } = req.body;
       if (!streetId) throw new Error("StreetId should have a value");
 
       initFirebaseAdmin();
@@ -24,6 +24,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         email: firebaseUser.email,
         picture: firebaseUser.picture,
         street_id: streetId,
+        whatsapp,
       });
       const me = await getMe(req);
       res.send(me);

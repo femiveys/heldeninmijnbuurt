@@ -8,7 +8,7 @@ import {
 import { Table, Space, Typography, Button, Spin } from "antd";
 import { CloseOutlined, DownloadOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import { keyBy, find, mapValues } from "lodash";
+import { keyBy, find, mapValues, NumericDictionary } from "lodash";
 import { formatLengthDistance } from "../../helpers";
 import { apiCall } from "../../axios";
 import { useApi } from "../../hooks";
@@ -24,7 +24,9 @@ type TProps = {
 export const RequestedRequests = forwardRef(
   ({ acceptedRequestsRef }: TProps, ref) => {
     const { t } = useTranslation();
-    const [isUpdatingRelation, setIsUpdatingRow] = useState({});
+    const [isUpdatingRelation, setIsUpdatingRow] = useState<
+      NumericDictionary<boolean>
+    >({});
     const { isLoading, callApi, data } = useApi<TRequestedRequest[]>(
       "GET",
       "superHero/requestedRequests",
@@ -73,10 +75,10 @@ export const RequestedRequests = forwardRef(
         <Title level={4}>{t("maker.requested.loading")}</Title>
         <Spin />
       </Space>
-    ) : data.length > 0 ? (
+    ) : data && data.length > 0 ? (
       <Space direction="vertical">
         <Title level={4}>{t("maker.requested.title")}</Title>
-        <Table dataSource={data} pagination={false}>
+        <Table size="small" dataSource={data} pagination={false}>
           <Column
             key="requestDate"
             title={t("maker.requested.requestDate")}

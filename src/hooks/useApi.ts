@@ -10,7 +10,7 @@ export const useApi = <T>(
 ) => {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState();
-  const [data, setResponse] = useState<T>(defaultValue);
+  const [data, setResponse] = useState<T | undefined>(defaultValue);
 
   const callApi = useCallback(
     async (body?: object) => {

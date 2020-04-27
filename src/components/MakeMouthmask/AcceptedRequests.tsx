@@ -12,7 +12,7 @@ import {
   WhatsAppOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import { keyBy, find, mapValues } from "lodash";
+import { keyBy, find, mapValues, NumericDictionary } from "lodash";
 import { apiCall } from "../../axios";
 import { useApi } from "../../hooks";
 import { TRelationUser } from "../../types";
@@ -23,7 +23,9 @@ const { Column } = Table;
 export const AcceptedRequests = forwardRef(
   ({ requestedRequestsRef }: any, ref) => {
     const { t } = useTranslation();
-    const [isUpdatingRelation, setIsUpdatingRow] = useState({});
+    const [isUpdatingRelation, setIsUpdatingRow] = useState<
+      NumericDictionary<boolean>
+    >({});
     const { isLoading, callApi, data } = useApi<TRelationUser[]>(
       "GET",
       "superHero/acceptedRequests",
@@ -72,10 +74,10 @@ export const AcceptedRequests = forwardRef(
         <Title level={4}>{t("maker.accepted.loading")}</Title>
         <Spin />
       </Space>
-    ) : data.length > 0 ? (
+    ) : data && data.length > 0 ? (
       <Space direction="vertical">
         <Title level={4}>{t("maker.accepted.title")}</Title>
-        <Table dataSource={data} pagination={false}>
+        <Table size="small" dataSource={data} pagination={false}>
           <Column key="name" title={t("name")} dataIndex={["user", "name"]} />
           <Column
             key="needsMouthmaskAmount"

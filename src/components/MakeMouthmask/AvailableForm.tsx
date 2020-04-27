@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useUser } from "../../hooks";
 
 type TFormValues = {
-  maskStock: number;
+  maskStock?: number;
 };
 
 export const AvailableForm = () => {
@@ -24,7 +24,7 @@ export const AvailableForm = () => {
       layout="inline"
       onFinish={onFinish}
       colon={false}
-      initialValues={{ maskStock: Number(user.maskStock) }}
+      initialValues={{ maskStock: Number(user?.maskStock) }}
     >
       <Form.Item label={t("maker.available.label")} name="maskStock">
         <Input name="maskStock" style={{ width: "50px" }} />

@@ -24,7 +24,7 @@ export const useUser = () => {
       try {
         setIsUpdatingUser(true);
         await apiCall("PUT", "me", fields);
-        store.dispatch("user/setUser", { ...user, ...fields });
+        store.dispatch("user/setUser", { ...user, ...fields } as TUser);
         setIsUpdatingUser(false);
       } catch (error) {
         // TODO: Should be removed

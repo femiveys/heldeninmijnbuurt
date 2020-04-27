@@ -1,8 +1,9 @@
 import { useEffect, useState, useCallback } from "react";
-import { Form, Button, Row, Col, Select } from "antd";
+import { Form, Button, Row, Col, Select, Input } from "antd";
+import { useTranslation } from "react-i18next";
 import { store } from "../store";
-import { TStreet, TUser } from "../types";
 import { useApi } from "../hooks";
+import { TStreet, TUser } from "../types";
 
 const getStreetInUserLanguage = (street: TStreet, language = "nl") => {
   switch (language) {
@@ -17,6 +18,7 @@ const getStreetInUserLanguage = (street: TStreet, language = "nl") => {
 
 export const EnterStreet = () => {
   const [form] = Form.useForm();
+  const { t } = useTranslation();
   const [postalCode, setPostalCode] = useState<number>();
   const {
     data: postalCodes,
@@ -71,23 +73,26 @@ export const EnterStreet = () => {
           hideRequiredMark
         >
           <Form.Item
-            label="Postnummer"
+            label={t("requestor.enterStreet.postalCode.label")}
             name="postalCode"
             hasFeedback={isFetchingPostalCodes}
             validateStatus="validating"
             rules={[
-              { required: true, message: "Gelieve je postnummer op te geven!" },
+              {
+                required: true,
+                message: t("requestor.enterStreet.postalCode.error"),
+              },
             ]}
           >
             <Select
               showSearch
-              placeholder="Geef je postnummer in"
+              placeholder={t("requestor.enterStreet.postalCode.placeholder")}
               onChange={onPostalCodeChange}
               filterOption={(input, option) =>
                 option?.value.toString().startsWith(input)
               }
             >
-              {postalCodes.map((postalCode) => (
+              {postalCodes?.map((postalCode) => (
                 <Select.Option key={postalCode} value={postalCode}>
                   {postalCode}
                 </Select.Option>
@@ -95,28 +100,37 @@ export const EnterStreet = () => {
             </Select>
           </Form.Item>
           <Form.Item
-            label="Straat"
+            label={t("requestor.enterStreet.street.label")}
             name="streetId"
             validateStatus="validating"
             hasFeedback={isFetchingStreets}
             rules={[
-              { required: true, message: "Gelieve je straat op te geven!" },
+              {
+                required: true,
+                message: t("requestor.enterStreet.street.error"),
+              },
             ]}
           >
             <Select
               showSearch
-              placeholder="Geef je straat in"
+              placeholder={t("requestor.enterStreet.street.placeholder")}
               disabled={!postalCode}
               filterOption={(input, option) =>
                 option?.children.toLowerCase().includes(input.toLowerCase())
               }
             >
-              {streets.map((street) => (
+              {streets?.map((street) => (
                 <Select.Option key={street.id} value={street.id}>
                   {getStreetInUserLanguage(street)}
                 </Select.Option>
               ))}
             </Select>
+          </Form.Item>
+          <Form.Item label="WhatsApp" name="whatsapp">
+            <Input
+              addonBefore="+32"
+              placeholder={t("requestor.enterStreet.whatsapp.placeholder")}
+            />
           </Form.Item>
 
           <Form.Item {...tailLayout} shouldUpdate>
@@ -127,7 +141,7 @@ export const EnterStreet = () => {
                 disabled={!form.getFieldValue("streetId")}
                 loading={isPostingMe}
               >
-                Ga verder
+                {t("next")}
               </Button>
             )}
           </Form.Item>
