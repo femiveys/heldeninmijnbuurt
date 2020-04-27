@@ -1,7 +1,13 @@
-import { useEffect, useCallback, useState } from "react";
-import { Table, Space, Typography, Empty, Button, Spin } from "antd";
 import {
-  MinusOutlined,
+  useEffect,
+  useCallback,
+  useState,
+  useImperativeHandle,
+  forwardRef,
+} from "react";
+import { Table, Space, Typography, Button, Spin } from "antd";
+import {
+  ExclamationCircleOutlined,
   CheckOutlined,
   WhatsAppOutlined,
 } from "@ant-design/icons";
@@ -14,110 +20,122 @@ import { TRelationUser } from "../../types";
 const { Title } = Typography;
 const { Column } = Table;
 
-export const AcceptedRequests = () => {
-  const { t } = useTranslation();
-  const [isUpdatingRelation, setIsUpdatingRow] = useState({});
-  const { isLoading, callApi, data } = useApi<TRelationUser[]>(
-    "GET",
-    "superHero/acceptedRequests",
-    []
-  );
+export const AcceptedRequests = forwardRef(
+  ({ requestedRequestsRef }: any, ref) => {
+    const { t } = useTranslation();
+    const [isUpdatingRelation, setIsUpdatingRow] = useState({});
+    const { isLoading, callApi, data } = useApi<TRelationUser[]>(
+      "GET",
+      "superHero/acceptedRequests",
+      []
+    );
 
-  useEffect(() => {
-    callApi();
-  }, []);
+    useImperativeHandle(ref, () => ({ callApi }));
 
-  useEffect(() => {
-    const dataByRelationId = keyBy(data, "relationId");
-    const initialMap = mapValues(dataByRelationId, () => false);
-    setIsUpdatingRow(initialMap);
-  }, [data]);
+    useEffect(() => {
+      callApi();
+    }, []);
 
-  const markByHeroAsHandedOverOrDecline = (
-    action: "markByHeroAsHandedOver" | "decline"
-  ) => (relationId: number) => async () => {
-    setIsUpdatingRow({ ...isUpdatingRelation, [relationId]: true });
-    if (await apiCall("PUT", `superHero/${action}/${relationId}`)) {
-      await callApi();
-    }
-    setIsUpdatingRow({ ...isUpdatingRelation, [relationId]: false });
-  };
+    useEffect(() => {
+      const dataByRelationId = keyBy(data, "relation.id");
+      const initialMap = mapValues(dataByRelationId, () => false);
+      setIsUpdatingRow(initialMap);
+    }, [data]);
 
-  const setDelivered = useCallback(
-    markByHeroAsHandedOverOrDecline("markByHeroAsHandedOver"),
-    [isUpdatingRelation]
-  );
-  const decline = useCallback(markByHeroAsHandedOverOrDecline("decline"), [
-    isUpdatingRelation,
-  ]);
+    const markByHeroAsHandedOverOrDecline = (
+      action: "markByHeroAsHandedOver" | "decline"
+    ) => (relationId: number) => async () => {
+      setIsUpdatingRow({ ...isUpdatingRelation, [relationId]: true });
+      try {
+        if (await apiCall("PUT", `superHero/${action}/${relationId}`)) {
+          await callApi();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+      setIsUpdatingRow({ ...isUpdatingRelation, [relationId]: false });
+    };
 
-  const isInitialLoading =
-    isLoading && !find(isUpdatingRelation, (value) => value === true);
+    const setDelivered = useCallback(
+      markByHeroAsHandedOverOrDecline("markByHeroAsHandedOver"),
+      [isUpdatingRelation]
+    );
+    const decline = useCallback(markByHeroAsHandedOverOrDecline("decline"), [
+      isUpdatingRelation,
+    ]);
 
-  return isInitialLoading ? (
-    <Space>
-      <Title level={4}>{t("maker.accepted.loading")}</Title>
-      <Spin />
-    </Space>
-  ) : data.length > 0 ? (
-    <Space direction="vertical">
-      <Title level={4}>{t("maker.accepted.title")}</Title>
-      <Table dataSource={data} pagination={false}>
-        <Column title={t("name")} dataIndex={["user", "name"]} />
-        <Column
-          title={t("needsMouthmaskAmount")}
-          dataIndex={["user", "needsMouthmaskAmount"]}
-          align="center"
-        />
-        <Column
-          dataIndex={["relation", "id"]}
-          render={(relationId) => (
-            <Button
-              type="link"
-              icon={<WhatsAppOutlined />}
-              onClick={() => console.log("expand", relationId)}
-            >
-              {t("maker.accepted.contact")}
-            </Button>
-          )}
-        />
-        <Column
-          key="accept"
-          dataIndex="relation.id"
-          render={(relationId) => (
-            <Button
-              type="link"
-              icon={<CheckOutlined />}
-              onClick={setDelivered(relationId)}
-            >
-              {t("maker.accepted.setDelivered")}
-            </Button>
-          )}
-        />
-        <Column
-          key="problem"
-          dataIndex="relationId"
-          render={(relationId) => (
-            <Button
-              danger
-              type="link"
-              icon={<MinusOutlined />}
-              onClick={decline(relationId)}
-            >
-              {t("maker.accepted.problem")}
-            </Button>
-          )}
-        />
-        <Column
-          key="loading"
-          dataIndex="relationId"
-          render={(relationId) => (
-            <Spin spinning={isUpdatingRelation[relationId]} />
-          )}
-        />
-      </Table>
-    </Space>
-  ) : (
-    <Title level={4}>{t("maker.accepted.empty")}</Title>
-  );
-};
+    const isInitialLoading =
+      isLoading && !find(isUpdatingRelation, (value) => value === true);
+
+    return isInitialLoading ? (
+      <Space>
+        <Title level={4}>{t("maker.accepted.loading")}</Title>
+        <Spin />
+      </Space>
+    ) : data.length > 0 ? (
+      <Space direction="vertical">
+        <Title level={4}>{t("maker.accepted.title")}</Title>
+        <Table dataSource={data} pagination={false}>
+          <Column key="name" title={t("name")} dataIndex={["user", "name"]} />
+          <Column
+            key="needsMouthmaskAmount"
+            title={t("needsMouthmaskAmount")}
+            dataIndex={["user", "needsMouthmaskAmount"]}
+            align="center"
+          />
+          <Column
+            key="contact"
+            dataIndex={["relation", "id"]}
+            render={(relationId) => (
+              <Button
+                type="link"
+                icon={<WhatsAppOutlined />}
+                onClick={() => {
+                  console.log("expand", relationId);
+                }}
+              >
+                {t("maker.accepted.contact")}
+              </Button>
+            )}
+          />
+          <Column
+            key="accept"
+            dataIndex={["relation", "id"]}
+            render={(relationId) => (
+              <Button
+                type="primary"
+                icon={<CheckOutlined />}
+                onClick={setDelivered(relationId)}
+              >
+                {t("maker.accepted.setDelivered")}
+              </Button>
+            )}
+          />
+          <Column
+            key="problem"
+            dataIndex={["relation", "id"]}
+            render={(relationId) => (
+              <Button
+                danger
+                type="link"
+                icon={<ExclamationCircleOutlined />}
+                onClick={decline(relationId)}
+              >
+                {t("maker.accepted.problem")}
+              </Button>
+            )}
+          />
+          <Column
+            key="loading"
+            dataIndex={["relation", "id"]}
+            render={(relationId) => (
+              <Spin spinning={isUpdatingRelation[relationId]} />
+            )}
+          />
+        </Table>
+      </Space>
+    ) : (
+      <Title level={4}>{t("maker.accepted.empty")}</Title>
+    );
+  }
+);

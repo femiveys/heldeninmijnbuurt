@@ -6,10 +6,14 @@ import { AvailableForm } from "./AvailableForm";
 import { RequestedRequests } from "./RequestedRequests";
 import { useUser } from "../../hooks";
 import { AcceptedRequests } from "./AcceptedRequests";
+import { useRef } from "react";
 
 export const MakeMouthmask = () => {
   const { user } = useUser();
   const { t } = useTranslation();
+
+  const acceptedRequestsRef = useRef<typeof AcceptedRequests>(null);
+  const requestedRequestsRef = useRef<typeof RequestedRequests>(null);
 
   return (
     <ToggleableWidget
@@ -20,8 +24,14 @@ export const MakeMouthmask = () => {
       <Space direction="vertical" size="large">
         <HeroTitle numDelivered={user.numDelivered} />
         <AvailableForm />
-        <RequestedRequests />
-        <AcceptedRequests />
+        <RequestedRequests
+          ref={requestedRequestsRef}
+          acceptedRequestsRef={acceptedRequestsRef}
+        />
+        <AcceptedRequests
+          ref={acceptedRequestsRef}
+          requestedRequestsRef={requestedRequestsRef}
+        />
       </Space>
     </ToggleableWidget>
   );

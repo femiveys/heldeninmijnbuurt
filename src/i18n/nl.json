@@ -24,6 +24,7 @@
       "loading": "Aangevraagde mondmaskers aan het ophalen...",
       "empty": "Voorlopig geen aanvragen",
       "requestDate": "Aangevraagd",
+      "ableToHelp": "Kan je helpen?",
       "distance": "Afstand",
       "accept": "Accepteer",
       "decline": "Weiger"
@@ -34,7 +35,7 @@
       "empty": "Alle maskers zijn overhandigd",
       "contact": "Contacteer",
       "setDelivered": "Markeer as overhandigd",
-      "problem": "Er is een probleem"
+      "problem": "Meld een probleem"
     }
   },
   "requestor": {
