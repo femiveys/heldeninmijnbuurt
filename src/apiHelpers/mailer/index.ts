@@ -34,19 +34,17 @@ export const sendMail = async (to: string, mailId: string) => {
 };
 
 /**
- * Puts de status of a relation on accepted and sets the accept_date
+ * Sends email to requestor of relation
  *
- * @param makerId - the userId of the maker to check if he is allowed to do this
- * @param relationId - the id of relation having a hero_id linking to the user
- *                     to send a mail to
+ * @param relationId - the id of relation for which a mails will be sent to the
+ *                     requestor
  * @returns SentMessageInfo if sent, else null
  */
 
-export const sendMailByRelationId = async (
-  makerId: string,
+export const mailRequestorByRelationId = async (
   relationId: number,
   mailId: string
 ) => {
-  const email = await getRequestorEmailByRelationId(makerId, relationId);
+  const email = await getRequestorEmailByRelationId(relationId);
   return await sendMail(email, mailId);
 };

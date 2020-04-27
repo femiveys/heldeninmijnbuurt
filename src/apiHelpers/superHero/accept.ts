@@ -1,7 +1,7 @@
 import { db } from "../../db";
 import { checkMaker, checkRelationId } from "./common";
 import { ERelationStatus } from "../../types";
-import { sendMailByRelationId } from "../mailer";
+import { mailRequestorByRelationId } from "../mailer";
 
 /**
  * Puts de status of a relation on accepted.
@@ -21,7 +21,7 @@ export const accept = async (makerId: string, relationId: number) => {
     .update({ status: ERelationStatus.accepted, accept_date: new Date() });
 
   if (result) {
-    return await sendMailByRelationId(makerId, relationId, "accepted");
+    return await mailRequestorByRelationId(relationId, "accepted");
   } else {
     throw new Error(
       `There was a problem setting relation ${relationId} to accepted`

@@ -33,23 +33,14 @@ export const checkRelationId = (relationId: number) => {
 /**
  * Gets the email address of the user related to the relation specified
  *
- * @param makerId - the userId of the maker to check if he is allowed to do this
  * @param relationId - the id of the relation having a hero_id matching the makerId
  * @returns the email of the user referenced by the requestor_id of the relation
  */
-export const getRequestorEmailByRelationId = async (
-  makerId: string,
-  relationId: number
-) => {
+export const getRequestorEmailByRelationId = async (relationId: number) => {
   checkRelationId(relationId);
-  await checkMaker(makerId);
-
   const result = await db("user")
     .join("relation", "user.user_id", "relation.requestor_id")
-    .where({
-      "relation.id": relationId,
-      "relation.hero_id": makerId,
-    })
+    .where({ "relation.id": relationId })
     .first("email");
 
   return result ? result.email : null;
