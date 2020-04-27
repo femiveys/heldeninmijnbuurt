@@ -55,7 +55,10 @@
         "placeholder": "Optioneel kan je je WhatsApp nummer opgeven"
       }
     },
-    "collapseTitle": "Ik zoek mondmaskers"
+    "collapseTitle": "Ik zoek mondmaskers",
+    "contact": {
+      "loading": "Jouw superheld aan het zoeken"
+    }
   },
   "error": {
     "mail": "Er was een probleem bij het versturen van de mail"
