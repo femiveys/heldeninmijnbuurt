@@ -1,4 +1,4 @@
-import { getAcceptedMakerRelationOf, checkRequestor } from "./common";
+import { getMakerRelationOf, checkRequestor } from "./common";
 import { db } from "../../db";
 
 /**
@@ -10,7 +10,7 @@ import { db } from "../../db";
 export const setHandoverDone = async (requestorId: string) => {
   await checkRequestor(requestorId);
 
-  const acceptedMakerRelation = await getAcceptedMakerRelationOf(requestorId);
+  const acceptedMakerRelation = await getMakerRelationOf(requestorId);
 
   if (acceptedMakerRelation) {
     return await db("relation").where("id", acceptedMakerRelation.id).update({

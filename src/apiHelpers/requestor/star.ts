@@ -1,4 +1,4 @@
-import { getAcceptedMakerRelationOf, checkRequestor } from "./common";
+import { getMakerRelationOf, checkRequestor } from "./common";
 import { db } from "../../db";
 
 /**
@@ -20,7 +20,7 @@ export const giveStarsToAcceptedMaker = async (
     throw new Error("numStars should be 1, 2, 3, 4 or 5");
   }
 
-  const acceptedMakerRelation = await getAcceptedMakerRelationOf(requestorId);
+  const acceptedMakerRelation = await getMakerRelationOf(requestorId);
 
   if (acceptedMakerRelation) {
     await db("relation").where("id", acceptedMakerRelation.id).update({

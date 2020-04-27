@@ -1,4 +1,4 @@
-import { getAcceptedMakerRelationOf, checkRequestor } from "./common";
+import { getMakerRelationOf, checkRequestor } from "./common";
 import { db } from "../../db";
 import { transformUserFromDb } from "../transformers";
 import { TUserFromDb } from "../types.db";
@@ -12,20 +12,17 @@ import { TUserFromDb } from "../types.db";
 export const getSuperHeroOf = async (requestorId: string) => {
   await checkRequestor(requestorId);
 
-  const acceptedMakerRelation = await getAcceptedMakerRelationOf(requestorId);
+  const relation = await getMakerRelationOf(requestorId);
 
-  if (acceptedMakerRelation) {
+  if (relation) {
     const superHero = await db("user")
-      .where("user_id", acceptedMakerRelation.heroId)
+      .where("user_id", relation.heroId)
       .first<TUserFromDb>();
     return {
-      relation: acceptedMakerRelation,
+      relation: relation,
       user: transformUserFromDb(superHero),
     };
   } else {
-    console.log(
-      `getSuperHeroOf: user (${requestorId}) doesn't have an accepted maker relation, so no heroes to be found here`
-    );
     return null;
   }
 };
