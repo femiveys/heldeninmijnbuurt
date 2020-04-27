@@ -106,15 +106,15 @@ const createMaskRelation = async (
  * @returns The list of makerIds that have already declined for this requestor
  */
 const getDeclinedMakerIds = async (requestorId: string) => {
-  const declinedMakerIds = await db("relation")
+  const rows = await db("relation")
     .where({
       type: ERelationType.maskRequest,
       status: ERelationStatus.declined,
       requestor_id: requestorId,
     })
-    .select("hero_id");
+    .select();
 
-  return declinedMakerIds;
+  return rows.map((row) => row.hero_id);
 };
 
 /**

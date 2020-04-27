@@ -26,7 +26,7 @@ export const checkMaker = async (makerId: string) => {
   }
 };
 
-export const checkRelationId = async (relationId: number) => {
+export const checkRelationId = (relationId: number) => {
   if (!relationId) throw new Error("No relationId was provided");
 };
 
@@ -41,6 +41,7 @@ export const getRequestorEmailByRelationId = async (
   makerId: string,
   relationId: number
 ) => {
+  checkRelationId(relationId);
   await checkMaker(makerId);
 
   const result = await db("user")
