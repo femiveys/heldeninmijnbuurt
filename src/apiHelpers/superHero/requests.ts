@@ -43,7 +43,8 @@ export const getAcceptedRequests = async (makerId: string) => {
 
   return assignedRequests.filter(
     (assignedRequest) =>
-      assignedRequest.relation.status === ERelationStatus.accepted
+      assignedRequest.relation.status === ERelationStatus.accepted ||
+      assignedRequest.relation.requestorHandoverDate
   );
 };
 
@@ -58,7 +59,11 @@ const getAssignedRequests = async (makerId: string) => {
 
   const results = await db<TRelationFromDb>("relation")
     .where("relation.hero_id", makerId)
-    .whereIn("status", [ERelationStatus.requested, ERelationStatus.accepted])
+    .whereIn("status", [
+      ERelationStatus.requested,
+      ERelationStatus.accepted,
+      ERelationStatus.handedOver,
+    ])
     .orderBy("request_date")
     .select();
 

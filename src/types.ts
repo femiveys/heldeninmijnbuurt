@@ -8,8 +8,7 @@ export enum ERelationStatus {
   accepted = "accepted",
   declined = "declined",
   cancelled = "cancelled",
-  heroMarkedAsHandedOver = "heroMarkedAsHandedOver",
-  requestorMarkedAsHandedOver = "requestorMarkedAsHandedOver",
+  handedOver = "handedOver",
 }
 
 // Types
