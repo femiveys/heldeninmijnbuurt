@@ -1,4 +1,4 @@
-import { db } from "../../src/db";
+import { db } from "../../../src/db";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
   getFirebaseUser,
@@ -6,7 +6,7 @@ import {
   getMeOrFail,
   updateUser,
   initFirebaseAdmin,
-} from "../../src/apiHelpers/me";
+} from "../../../src/apiHelpers/me";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   // Create myself
@@ -38,17 +38,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const me = await getMeOrFail(req);
       res.send(me);
-    } catch (error) {
-      res.status(500).send({ error: error.message });
-    }
-  }
-
-  // Update myself
-  if (req.method === "PUT") {
-    try {
-      const firebaseUser = await getFirebaseUser(req);
-      const result = await updateUser(firebaseUser.uid, req.body);
-      res.send(result);
     } catch (error) {
       res.status(500).send({ error: error.message });
     }
