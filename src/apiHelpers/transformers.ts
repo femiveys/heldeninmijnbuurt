@@ -6,6 +6,7 @@ import {
   TShortStreetFromDb,
 } from "./types.db";
 import { TUser, TStreet, TRelation } from "../types";
+import { Dictionary } from "lodash";
 
 // Transformers from DB to App
 export const makeBooleans = <T>(obj: T, keys: (keyof T)[]) => {
@@ -34,7 +35,7 @@ export const transformRelationFromDb = (relation?: TRelationFromDb) =>
   relation ? (humps.camelizeKeys(relation) as TRelation) : null;
 
 // Transformers from App to DB
-export const transformObjectToDb = (o: object) => {
+export const transformObjectToDb = (o: Dictionary<any>) => {
   // Make integers of booleans
   Object.keys(o).forEach((key) => {
     if (typeof o[key] === "boolean") o[key] = o[key] ? 1 : 0;
