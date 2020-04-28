@@ -1,0 +1,93 @@
+{
+  "no": "Nee",
+  "yes": "Ja",
+  "name": "Naam",
+  "send": "Verstuur",
+  "next": "Ga verder",
+  "thanks": "Bedankt",
+  "cancel": "annuleer",
+  "thePerson": "De persoon",
+  "needsMouthmaskAmount": "Aantal",
+  "update": "Pas aan",
+  "ago": "{{date, ago}} geleden",
+  "login": {
+    "google": "Login met google",
+    "facebook": "Login met Facebook"
+  },
+  "maker": {
+    "collapseTitle": "Ik heb een naaimachine",
+    "heroTitle": {
+      "zero": "Je hebt nog geen maskers gemaakt.",
+      "few": "Je hebt al <0>{{count}}</0> maskers gemaakt.",
+      "many": "Je bent een super held. jebt al <0>{{count}}</0> maskers gemaakt."
+    },
+    "available": {
+      "label": "Hoeveel mondmaskers heb je beschikbaar?"
+    },
+    "requested": {
+      "title": "Aanvragen",
+      "loading": "Aangevraagde mondmaskers aan het ophalen...",
+      "empty": "Voorlopig geen aanvragen",
+      "requestDate": "Aangevraagd",
+      "ableToHelp": "Kan je helpen?",
+      "distance": "Afstand",
+      "accept": "Accepteer",
+      "decline": "Weiger"
+    },
+    "accepted": {
+      "title": "Op te halen / Af te leveren",
+      "loading": "Te overhandigen mondmaskers aan het ophalen...",
+      "empty": "Alle maskers zijn overhandigd",
+      "contact": "Contacteer",
+      "setDelivered": "Markeer as overhandigd",
+      "problem": "Meld een probleem"
+    }
+  },
+  "requestor": {
+    "enterStreet": {
+      "postalCode": {
+        "label": "Postnummer",
+        "error": "Gelieve je postnummer op te geven!",
+        "placeholder": "Geef je postnummer in"
+      },
+      "street": {
+        "label": "Straat",
+        "error": "Gelieve je straat op te geven!",
+        "placeholder": "Geef je straat in"
+      },
+      "whatsapp": {
+        "placeholder": "Optioneel kan je je WhatsApp nummer opgeven"
+      }
+    },
+    "collapseTitle": "Ik zoek mondmaskers",
+    "contact": {
+      "title": "Jouw superheld",
+      "loading": "Jouw superheld aan het zoeken",
+      "heroMarkedAsHandedOver": "Blijkbaar heb je je masker al ontvangen. Klopt dit?",
+      "heroMarkedAsHandedOver_plural": "Blijkbaar heb je je maskers al ontvangen. Klopt dit?",
+      "received": "Ik heb mijn mondmasker ontvangen",
+      "received_plural": "Ik heb mijn mondmaskers ontvangen",
+      "cancel": {
+        "title": "Ben je zeker dat je je aanvraag wilt annuleren?",
+        "consequences1": "Als je je aanvraag annuleert, zal je geen nieuwe aanvragen meer kunnen doen. Je kan wel zelf nog anderen meehelpen",
+        "consequences2": "{{name}} zal verwittigd worden dat je geen mondmasker meer nodig hebt.",
+        "consequences2_plural": "{{name}} zal verwittigd worden dat je geen mondmaskers meer nodig hebt."
+      }
+    },
+    "done": {
+      "title": "Je hebt je mondmasker ontvangen",
+      "title_plural": "Je hebt je mondmaskers ontvangen",
+      "rate": "Toon je waardering voor je superheld(in)",
+      "message": {
+        "placeholder": "Als je wil, kan je je superheld ook een persoonlijk dankwoordje schrijven.",
+        "send": "Stuur een dankwoordje"
+      },
+      "share": {
+        "facebook": "Deel je ervaring op Facebook"
+      }
+    }
+  },
+  "error": {
+    "mail": "Er was een probleem bij het versturen van de mail"
+  }
+}

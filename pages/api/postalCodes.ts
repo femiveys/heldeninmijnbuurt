@@ -1,13 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { sendMail } from "../../src/apiHelpers/mailer";
+import { getPostalCodes } from "../../src/apiHelpers/enterStreet";
 
-// TO BE USED TO TEST THE DB FUNCTIONS
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     try {
-      const result = await sendMail("femiveys@gmail.com", "example");
-      console.log(result);
-      res.send(result);
+      const postalCodes = await getPostalCodes();
+      res.send(postalCodes);
     } catch (error) {
       res.status(500).send({ error: error.message });
     }
