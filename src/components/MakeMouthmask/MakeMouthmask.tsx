@@ -7,10 +7,9 @@ import { RequestedRequests } from "./RequestedRequests";
 import { useUser, useApi } from "../../hooks";
 import { AcceptedRequests } from "./AcceptedRequests";
 import { useRef, useCallback } from "react";
-import { store } from "../../store";
 
 export const MakeMouthmask = () => {
-  const { user } = useUser();
+  const { user, updateUser } = useUser();
   const { t } = useTranslation();
   const acceptedRequestsRef = useRef<typeof AcceptedRequests>(null);
   const requestedRequestsRef = useRef<typeof RequestedRequests>(null);
@@ -19,11 +18,11 @@ export const MakeMouthmask = () => {
   const onToggle = useCallback(() => {
     const toggleOn = async () => {
       await callApi({ name: "setIsMaker" });
-      store.dispatch("user/setUser", { ...user!, isMaker: true });
+      updateUser({ isMaker: true });
     };
     const toggleOff = async () => {
       await callApi({ name: "unsetIsMaker" });
-      store.dispatch("user/setUser", { ...user!, isMaker: false });
+      updateUser({ isMaker: false });
     };
 
     if (user?.isMaker) {

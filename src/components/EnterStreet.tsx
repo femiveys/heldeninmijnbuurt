@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { Form, Button, Row, Col, Select, Input } from "antd";
 import { useTranslation } from "react-i18next";
 import { store } from "../store";
-import { useApi } from "../hooks";
+import { useApi, useUser } from "../hooks";
 import { TStreet, TUser } from "../types";
 
 const getStreetInUserLanguage = (street: TStreet, language = "nl") => {
@@ -19,6 +19,7 @@ const getStreetInUserLanguage = (street: TStreet, language = "nl") => {
 export const EnterStreet = () => {
   const [form] = Form.useForm();
   const { t } = useTranslation();
+  const { updateUser } = useUser();
   const [postalCode, setPostalCode] = useState<number>();
   const {
     data: postalCodes,
@@ -48,7 +49,7 @@ export const EnterStreet = () => {
 
   useEffect(() => {
     if (me) {
-      store.dispatch("user/setUser", me);
+      updateUser(me);
     }
   }, [me]);
 
