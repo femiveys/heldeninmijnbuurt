@@ -1,6 +1,7 @@
 import { db } from "../../db";
 import { TUserFromDb } from "../types.db";
 import { checkRequestor } from "./common";
+import { assignMakerTo } from "./assign";
 
 /**
  * Sets needs_mouthmask_amount to amount
@@ -9,7 +10,8 @@ import { checkRequestor } from "./common";
  *
  * @param requestorId - the userId of the requestor
  * @param amount - the number to set
- * @returns 1 if the update succeeded, 0 otherwise
+ * @returns The distance and userId of the maker if found
+ *          null if a relation already exists or all relations are declined
  */
 export const setNeedsMouthmaskAmount = async (
   requestorId: string,
@@ -17,7 +19,9 @@ export const setNeedsMouthmaskAmount = async (
 ) => {
   await checkRequestor(requestorId);
 
-  return await db<TUserFromDb>("user").where({ user_id: requestorId }).update({
+  await db<TUserFromDb>("user").where({ user_id: requestorId }).update({
     needs_mouthmask_amount: amount,
   });
+
+  return await assignMakerTo(requestorId);
 };

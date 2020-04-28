@@ -12,10 +12,6 @@ type TProps = {
 
 export const EnterMouthmaskAmount = ({ fetchSuperHero }: TProps) => {
   const [form] = Form.useForm();
-  const { isLoading: isAssigning, callApi: assign } = useApi(
-    "PUT",
-    "requestor/assign"
-  );
   const {
     isLoading: issettingNeedsMouthmaskAmount,
     callApi: setNeedsMouthmaskAmount,
@@ -27,12 +23,11 @@ export const EnterMouthmaskAmount = ({ fetchSuperHero }: TProps) => {
     (values: TFormValues) => {
       const f = async () => {
         await setNeedsMouthmaskAmount(values);
-        await assign(); // TODO: backend needs to do this
         await fetchSuperHero();
       };
       f();
     },
-    [setNeedsMouthmaskAmount, assign, fetchSuperHero]
+    [setNeedsMouthmaskAmount, fetchSuperHero]
   );
 
   return (
@@ -57,7 +52,7 @@ export const EnterMouthmaskAmount = ({ fetchSuperHero }: TProps) => {
         {() => (
           <Button
             type="primary"
-            loading={issettingNeedsMouthmaskAmount || isAssigning}
+            loading={issettingNeedsMouthmaskAmount}
             htmlType="submit"
             disabled={!form.getFieldValue("needsMouthmaskAmount")}
           >
