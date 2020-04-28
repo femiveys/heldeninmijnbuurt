@@ -6,7 +6,7 @@ import { ERelationStatus } from "../../types";
 /**
  * Sets the status of the maker relation to requestorMarkedAsHandedOver.
  * Sets the requestor_handover_date to now
- * Sends a requestorMarkedAsHandedOver mail
+ * Sends a requestorMarkedAsHandedOver mail to the hero
  *
  * @param requestorId - the userId of the requestor
  * @returns The messageId of the mail sent
@@ -35,7 +35,7 @@ export const markAsHandedOver = async (requestorId: string) => {
     }
   } else {
     throw new Error(
-      `setHandoverDone: user (${requestorId}) doesn't have an accepted maker relation, so nothing has been updated`
+      `markAsHandedOver: user (${requestorId}) doesn't have an accepted maker relation, so nothing has been updated`
     );
   }
 };

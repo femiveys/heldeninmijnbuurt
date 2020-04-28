@@ -7,6 +7,8 @@ import { mailByRelationId } from "../mailer";
  * - The stars are set on the heroStars on the relation
  * - The stars and numEvaluation fields on the maker are also updated
  *
+ *  Sends a requestorStarredHero mail to the hero
+ *
  * @param requestorId - the userId of the requestor
  * @param numStars - the number of stars to set should be between 1 and 5
  * @returns The messageId of the mail sent

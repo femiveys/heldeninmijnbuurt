@@ -6,7 +6,11 @@ import {
   useImperativeHandle,
 } from "react";
 import { Table, Space, Typography, Button, Spin } from "antd";
-import { CloseOutlined, DownloadOutlined } from "@ant-design/icons";
+import {
+  CloseOutlined,
+  DownloadOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { keyBy, find, mapValues, NumericDictionary } from "lodash";
 import { formatLengthDistance } from "../../helpers";
@@ -130,6 +134,7 @@ export const RequestedRequests = forwardRef(
           />
           <Column
             key="loading"
+            title={<InfoCircleOutlined />}
             dataIndex="relationId"
             render={(relationId) => (
               <Spin spinning={isUpdatingRelation[relationId]} />

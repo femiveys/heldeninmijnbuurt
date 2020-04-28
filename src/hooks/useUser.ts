@@ -19,6 +19,8 @@ export const useUser = () => {
     }
   }, []);
 
+  // TODO: Remove this as with this function, the user can potentially update
+  // EVERY field on the user. This is dangerous
   const updateUser = useCallback(
     async (fields: Partial<TUser>) => {
       try {

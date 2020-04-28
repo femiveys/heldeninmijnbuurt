@@ -7,6 +7,7 @@ export enum ERelationStatus {
   requested = "requested",
   accepted = "accepted",
   declined = "declined",
+  cancelled = "cancelled",
   heroMarkedAsHandedOver = "heroMarkedAsHandedOver",
   requestorMarkedAsHandedOver = "requestorMarkedAsHandedOver",
 }
@@ -28,6 +29,7 @@ export type TUser = {
   whatsapp?: string;
   hasMaterial: boolean;
   materials?: string;
+  cancelDate: Date;
 };
 
 export type TRelation = {
@@ -39,6 +41,7 @@ export type TRelation = {
   status: ERelationStatus;
   requestDate: Date;
   acceptDate: Date;
+  cancelDate: Date;
   declineDate: Date;
   requestorHandoverDate: Date;
   heroHandoverDate: Date;
