@@ -39,7 +39,7 @@ export const MakeMouthmask = () => {
       onToggle={onToggle}
       isToggling={isLoading}
     >
-      <Space direction="vertical" size="large">
+      <Space direction="vertical" size="large" style={{ width: "100%" }}>
         <HeroTitle numDelivered={user ? user.numDelivered : 0} />
         <AvailableForm />
         <RequestedRequests

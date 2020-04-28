@@ -22,7 +22,7 @@
       "many": "Je bent een super held. jebt al <0>{{count}}</0> maskers gemaakt."
     },
     "available": {
-      "label": "Hoeveel mondmaskers heb je beschikbaar?"
+      "label": "Aantal mondmaskers beschikbaar"
     },
     "requested": {
       "title": "Aanvragen",
@@ -39,8 +39,9 @@
       "loading": "Te overhandigen mondmaskers aan het ophalen...",
       "empty": "Alle maskers zijn overhandigd",
       "contact": "Contacteer",
+      "received": "Reeds ontvangen",
       "setDelivered": "Markeer as overhandigd",
-      "problem": "Meld een probleem"
+      "problem": "probleem melden"
     }
   },
   "requestor": {
@@ -60,6 +61,9 @@
       }
     },
     "collapseTitle": "Ik zoek mondmaskers",
+    "numNeeded": {
+      "title": "Hoeveel mondmaskers heb je nodig?"
+    },
     "contact": {
       "title": "Jouw superheld",
       "loading": "Jouw superheld aan het zoeken",

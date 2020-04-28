@@ -55,8 +55,11 @@ export const SearchMouthmask = () => {
     >
       {needsMouthmaskAmount === 0 ? (
         <EnterMouthmaskAmount fetchSuperHero={fetchSuperHero} />
-      ) : isFetchingSuperHero ? (
-        <Spin tip={t("requestor.contact.loading")} />
+      ) : true && isFetchingSuperHero ? (
+        <Spin
+          tip={t("requestor.contact.loading")}
+          style={{ width: "100%", padding: 16 }}
+        />
       ) : !superHero ? (
         <NoSuperHeroFound />
       ) : superHero.relation.status === ERelationStatus.requested ? (
