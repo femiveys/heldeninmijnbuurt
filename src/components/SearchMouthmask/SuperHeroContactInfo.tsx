@@ -9,6 +9,7 @@ import { useApi } from "../../hooks";
 import { notImplemented } from "../../helpers";
 import { CancelButton } from "./CancelButton";
 import { TRelationUser } from "../../types";
+import { useCallback } from "react";
 
 const { Paragraph } = Typography;
 
@@ -18,6 +19,7 @@ const iconStyle = {
 
 type TProps = {
   superHero: TRelationUser;
+  fetchSuperHero: () => Promise<void>;
   needsMouthmaskAmount: number;
 };
 
@@ -28,7 +30,12 @@ export const SuperHeroContactInfo = (props: TProps) => {
     "requestor/action"
   );
 
-  const { superHero, needsMouthmaskAmount } = props;
+  const { superHero, needsMouthmaskAmount, fetchSuperHero } = props;
+
+  const markAsHandedOver = useCallback(async () => {
+    await callApi({ name: "markAsHandedOver" });
+    await fetchSuperHero();
+  }, []);
 
   const count = {
     count: needsMouthmaskAmount,
@@ -71,7 +78,7 @@ export const SuperHeroContactInfo = (props: TProps) => {
                 <Space>
                   <Button
                     type="primary"
-                    onClick={() => callApi({ name: "markAsHandedOver" })}
+                    onClick={markAsHandedOver}
                     loading={isMarkingAsHandedOver}
                   >
                     {t("yes")}
@@ -80,7 +87,12 @@ export const SuperHeroContactInfo = (props: TProps) => {
                 </Space>
               </div>
             ) : (
-              <Button type="primary" block>
+              <Button
+                block
+                type="primary"
+                onClick={markAsHandedOver}
+                loading={isMarkingAsHandedOver}
+              >
                 {t("requestor.contact.received", count)}
               </Button>
             )}

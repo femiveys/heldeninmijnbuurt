@@ -19,5 +19,5 @@ export const HeroTitle = ({ numDelivered }: TProps) => {
     text = t("maker.heroTitle.many");
   }
 
-  return <Title level={3}>{text}</Title>;
+  return <Title level={4}>{text}</Title>;
 };

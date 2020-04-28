@@ -63,6 +63,7 @@ const findNearestMakerId = async (
     AND requestor.street_id = r_street.id
     AND hero.street_id = h_street.id
     AND hero.is_maker = 1
+    AND hero.user_id <> requestor.user_id
     AND hero.mask_stock >= requestor.needs_mouthmask_amount
     ${
       excludedMakerIds.length > 0

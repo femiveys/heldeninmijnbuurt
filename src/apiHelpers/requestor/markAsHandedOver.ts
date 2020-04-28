@@ -4,7 +4,7 @@ import { getMakerRelationOf, checkRequestor } from "./common";
 import { ERelationStatus } from "../../types";
 
 /**
- * Sets the status of the maker relation to requestorMarkedAsHandedOver.
+ * Sets the status of the maker relation to handedOver.
  * Sets the requestor_handover_date to now
  * Sends a requestorMarkedAsHandedOver mail to the hero
  *
@@ -18,7 +18,7 @@ export const markAsHandedOver = async (requestorId: string) => {
 
   if (relation) {
     const result = await db("relation").where({ id: relation.id }).update({
-      status: ERelationStatus.requestorMarkedAsHandedOver,
+      status: ERelationStatus.handedOver,
       requestor_handover_date: new Date(),
     });
 

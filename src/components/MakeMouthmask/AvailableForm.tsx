@@ -1,6 +1,8 @@
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import { useUser, useApi } from "../../hooks";
+
+const { Title } = Typography;
 
 export const AvailableForm = () => {
   const [form] = Form.useForm();
@@ -12,29 +14,25 @@ export const AvailableForm = () => {
   );
 
   return (
-    <Form
-      form={form}
-      size="large"
-      layout="inline"
-      onFinish={setMaskStock}
-      colon={false}
-      initialValues={{ maskStock: Number(user?.maskStock) }}
-    >
-      <Form.Item label={t("maker.available.label")} name="maskStock">
-        <Input name="maskStock" style={{ width: "50px" }} />
-      </Form.Item>
-      <Form.Item shouldUpdate>
-        {() => (
-          <Button
-            type="primary"
-            htmlType="submit"
-            size="small"
-            loading={isSettingIsMaker}
-          >
-            {t("update")}
-          </Button>
-        )}
-      </Form.Item>
-    </Form>
+    <div>
+      <Title level={4}>{t("maker.available.label")}</Title>
+      <Form
+        form={form}
+        onFinish={setMaskStock}
+        initialValues={{ maskStock: Number(user?.maskStock) }}
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        <Form.Item name="maskStock" style={{ display: "inline-block" }}>
+          <Input name="maskStock" style={{ marginLeft: 10, width: "40px" }} />
+        </Form.Item>
+        <Form.Item shouldUpdate>
+          {() => (
+            <Button type="primary" htmlType="submit" loading={isSettingIsMaker}>
+              {t("update")}
+            </Button>
+          )}
+        </Form.Item>
+      </Form>
+    </div>
   );
 };

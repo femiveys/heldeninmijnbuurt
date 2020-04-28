@@ -1,7 +1,9 @@
-import { Select, Form, Button } from "antd";
+import { Select, Form, Button, Typography } from "antd";
 import { useCallback } from "react";
 import { useApi, useUser } from "../../hooks";
-import { store } from "../../store";
+import { useTranslation } from "react-i18next";
+
+const { Title } = Typography;
 
 type TFormValues = {
   needsMouthmaskAmount?: number;
@@ -12,7 +14,8 @@ type TProps = {
 };
 
 export const EnterMouthmaskAmount = ({ fetchSuperHero }: TProps) => {
-  const { user } = useUser();
+  const { t } = useTranslation();
+  const { updateUser } = useUser();
   const [form] = Form.useForm();
   const { isLoading: issettingNeedsMouthmaskAmount, callApi } = useApi(
     "PUT",
@@ -27,45 +30,47 @@ export const EnterMouthmaskAmount = ({ fetchSuperHero }: TProps) => {
         name: "setNeedsMouthmaskAmount",
         num: values.needsMouthmaskAmount,
       });
-      store.dispatch("user/setUser", {
-        ...user!,
-        needsMouthmaskAmount: values.needsMouthmaskAmount,
-      });
+      updateUser({ needsMouthmaskAmount: values.needsMouthmaskAmount });
       await fetchSuperHero();
     };
     f();
   }, []);
 
   return (
-    <Form form={form} size="large" onFinish={onFinish} layout="inline">
-      <Form.Item
-        label="Hoeveel mondmaskers heb je nodig?"
-        name="needsMouthmaskAmount"
+    <div>
+      <Title level={4}>{t("requestor.numNeeded.title")}</Title>
+      <Form
+        form={form}
+        size="large"
+        onFinish={onFinish}
+        style={{ display: "flex", justifyContent: "center" }}
       >
-        <Select
-          showArrow={false}
-          style={{ width: 70, textAlign: "center" }}
-          dropdownStyle={{ textAlign: "center" }}
-        >
-          {numberList.map((num) => (
-            <Select.Option key={num} value={num}>
-              {num}
-            </Select.Option>
-          ))}
-        </Select>
-      </Form.Item>
-      <Form.Item shouldUpdate>
-        {() => (
-          <Button
-            type="primary"
-            loading={issettingNeedsMouthmaskAmount}
-            htmlType="submit"
-            disabled={!form.getFieldValue("needsMouthmaskAmount")}
+        <Form.Item name="needsMouthmaskAmount">
+          <Select
+            showArrow={false}
+            style={{ width: 70, textAlign: "center" }}
+            dropdownStyle={{ textAlign: "center" }}
           >
-            Ga verder
-          </Button>
-        )}
-      </Form.Item>
-    </Form>
+            {numberList.map((num) => (
+              <Select.Option key={num} value={num}>
+                {num}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item shouldUpdate>
+          {() => (
+            <Button
+              type="primary"
+              loading={issettingNeedsMouthmaskAmount}
+              htmlType="submit"
+              disabled={!form.getFieldValue("needsMouthmaskAmount")}
+            >
+              Ga verder
+            </Button>
+          )}
+        </Form.Item>
+      </Form>
+    </div>
   );
 };

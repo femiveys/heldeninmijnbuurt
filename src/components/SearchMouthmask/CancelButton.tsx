@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { Typography, Button, Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useApi, useUser } from "../../hooks";
-import { store } from "../../store";
 
 const { confirm } = Modal;
 const { Paragraph } = Typography;
@@ -15,7 +14,7 @@ type TProps = {
 
 export const CancelButton = (props: TProps) => {
   const { t } = useTranslation();
-  const { user } = useUser();
+  const { updateUser } = useUser();
   const { isLoading: isCancelling, callApi } = useApi(
     "PUT",
     "requestor/action"
@@ -41,7 +40,7 @@ export const CancelButton = (props: TProps) => {
       cancelText: t("no"),
       onOk: async () => {
         await callApi({ name: "cancel" });
-        store.dispatch("user/setUser", { ...user!, cancelDate: new Date() });
+        updateUser({ cancelDate: new Date() });
       },
     });
   }, []);

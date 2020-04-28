@@ -73,20 +73,11 @@ export const RequestedRequests = forwardRef(
       isLoading && !find(isUpdatingRelation, (value) => value === true);
 
     return isInitialLoading ? (
-      <Space>
-        <Title level={4}>{t("maker.requested.loading")}</Title>
-        <Spin />
-      </Space>
+      <Spin />
     ) : data && data.length > 0 ? (
-      <Space direction="vertical">
+      <div>
         <Title level={4}>{t("maker.requested.title")}</Title>
         <Table size="small" dataSource={data} pagination={false}>
-          <Column
-            key="requestDate"
-            title={t("maker.requested.requestDate")}
-            dataIndex="requestDate"
-            render={(requestDate) => t("ago", { date: requestDate })}
-          />
           <Column
             key="needsMouthmaskAmount"
             title={t("needsMouthmaskAmount")}
@@ -105,6 +96,7 @@ export const RequestedRequests = forwardRef(
             title={t("maker.requested.ableToHelp")}
             dataIndex="relationId"
             colSpan={2}
+            align="center"
             render={(relationId) => (
               <Button
                 type="primary"
@@ -120,6 +112,7 @@ export const RequestedRequests = forwardRef(
             key="decline"
             dataIndex="relationId"
             colSpan={0}
+            align="center"
             render={(relationId) => (
               <Button
                 danger
@@ -134,16 +127,13 @@ export const RequestedRequests = forwardRef(
           />
           <Column
             key="loading"
-            title={<InfoCircleOutlined />}
             dataIndex="relationId"
             render={(relationId) => (
               <Spin spinning={isUpdatingRelation[relationId]} />
             )}
           />
         </Table>
-      </Space>
-    ) : (
-      <Title level={4}>{t("maker.requested.empty")}</Title>
-    );
+      </div>
+    ) : null;
   }
 );

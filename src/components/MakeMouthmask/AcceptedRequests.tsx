@@ -5,32 +5,45 @@ import {
   useImperativeHandle,
   forwardRef,
 } from "react";
-import { Table, Space, Typography, Button, Spin } from "antd";
 import {
-  ExclamationCircleOutlined,
-  CheckOutlined,
+  MailOutlined,
   WhatsAppOutlined,
+  CheckOutlined,
 } from "@ant-design/icons";
+import { Table, Space, Typography, Button, Spin, Row, Col, Modal } from "antd";
 import { useTranslation } from "react-i18next";
 import { keyBy, find, mapValues, NumericDictionary } from "lodash";
 import { apiCall } from "../../axios";
 import { useApi } from "../../hooks";
 import { TRelationUser } from "../../types";
 
+type TRecord = TRelationUser & { key: number };
+
 const { Title } = Typography;
 const { Column } = Table;
+const { confirm } = Modal;
+
+const addRemoveKey = (list: number[], record: TRecord) =>
+  list.includes(record.key)
+    ? list.filter((rowKey) => rowKey !== record.key)
+    : [...list, record.key];
+
+const iconStyle = {
+  fontSize: 16,
+};
 
 export const AcceptedRequests = forwardRef(
   ({ requestedRequestsRef }: any, ref) => {
     const { t } = useTranslation();
-    const [isUpdatingRelation, setIsUpdatingRow] = useState<
-      NumericDictionary<boolean>
-    >({});
     const { isLoading, callApi, data } = useApi<TRelationUser[]>(
       "GET",
       "superHero/requests/accepted",
       []
     );
+    const [isUpdatingRelation, setUpdatingRelation] = useState<
+      NumericDictionary<boolean>
+    >({});
+    const [expandedRowKeys, setExpandedRowKeys] = useState<number[]>([]);
 
     useImperativeHandle(ref, () => ({ callApi }));
 
@@ -41,13 +54,13 @@ export const AcceptedRequests = forwardRef(
     useEffect(() => {
       const dataByRelationId = keyBy(data, "relation.id");
       const initialMap = mapValues(dataByRelationId, () => false);
-      setIsUpdatingRow(initialMap);
+      setUpdatingRelation(initialMap);
     }, [data]);
 
     const markByHeroAsHandedOverOrDecline = (
       action: "markAsHandedOver" | "decline"
     ) => (relationId: number) => async () => {
-      setIsUpdatingRow({ ...isUpdatingRelation, [relationId]: true });
+      setUpdatingRelation({ ...isUpdatingRelation, [relationId]: true });
       try {
         if (await apiCall("PUT", `superHero/${action}/${relationId}`)) {
           await callApi();
@@ -55,7 +68,11 @@ export const AcceptedRequests = forwardRef(
       } catch (error) {
         console.error(error);
       }
-      setIsUpdatingRow({ ...isUpdatingRelation, [relationId]: false });
+      setUpdatingRelation({ ...isUpdatingRelation, [relationId]: false });
+    };
+
+    const onContactClick = (record: TRecord) => () => {
+      setExpandedRowKeys(addRemoveKey(expandedRowKeys, record));
     };
 
     const setDelivered = useCallback(
@@ -69,75 +86,102 @@ export const AcceptedRequests = forwardRef(
     const isInitialLoading =
       isLoading && !find(isUpdatingRelation, (value) => value === true);
 
+    const dataWithKeys =
+      data && data.length > 0
+        ? data.map((record) => ({ key: record.relation.id, ...record }))
+        : [];
+
     return isInitialLoading ? (
-      <Space>
-        <Title level={4}>{t("maker.accepted.loading")}</Title>
-        <Spin />
-      </Space>
-    ) : data && data.length > 0 ? (
-      <Space direction="vertical">
+      <Spin />
+    ) : dataWithKeys.length > 0 ? (
+      <div>
         <Title level={4}>{t("maker.accepted.title")}</Title>
-        <Table size="small" dataSource={data} pagination={false}>
-          <Column key="name" title={t("name")} dataIndex={["user", "name"]} />
-          <Column
+        <Table<TRecord>
+          size="small"
+          dataSource={dataWithKeys}
+          pagination={false}
+          expandable={{
+            expandedRowKeys,
+            onExpand: (_, record) => onContactClick(record)(),
+            expandedRowRender: (record) => (
+              <Row justify="space-between" align="bottom">
+                <Col>
+                  <Space direction="vertical">
+                    <Space>
+                      <MailOutlined style={iconStyle} />
+                      <a href={`mailto:${record.user.email}`} target="_blank">
+                        {record.user.email}
+                      </a>
+                    </Space>
+                    {record.user.whatsapp && (
+                      <Space>
+                        <WhatsAppOutlined style={iconStyle} />
+                        {`+32${record.user.whatsapp}`}
+                      </Space>
+                    )}
+                  </Space>
+                </Col>
+                <Col>
+                  <Button
+                    size="small"
+                    danger
+                    type="link"
+                    onClick={() => {
+                      confirm({
+                        title: "TODO",
+                      });
+                    }}
+                  >
+                    {t("maker.accepted.problem")}
+                  </Button>
+                </Col>
+              </Row>
+            ),
+          }}
+        >
+          <Column<TRecord>
+            key="name"
+            title={t("name")}
+            dataIndex={["user", "name"]}
+          />
+          <Column<TRecord>
             key="needsMouthmaskAmount"
             title={t("needsMouthmaskAmount")}
             dataIndex={["user", "needsMouthmaskAmount"]}
             align="center"
           />
-          <Column
+          <Column<TRecord>
             key="contact"
             dataIndex={["relation", "id"]}
-            render={(relationId) => (
-              <Button
-                type="link"
-                icon={<WhatsAppOutlined />}
-                onClick={() => {
-                  console.log("expand", relationId);
-                }}
-              >
-                {t("maker.accepted.contact")}
-              </Button>
-            )}
+            render={(_relationId, record) =>
+              record.relation.requestorHandoverDate ? (
+                <>{t("maker.accepted.received")}</>
+              ) : (
+                <Button
+                  type="link"
+                  icon={<WhatsAppOutlined />}
+                  onClick={onContactClick(record)}
+                >
+                  {t("maker.accepted.contact")}
+                </Button>
+              )
+            }
           />
-          <Column
+          <Column<TRecord>
             key="accept"
             dataIndex={["relation", "id"]}
             render={(relationId) => (
               <Button
                 type="primary"
+                size="small"
                 icon={<CheckOutlined />}
                 onClick={setDelivered(relationId)}
-              >
-                {t("maker.accepted.setDelivered")}
-              </Button>
-            )}
-          />
-          <Column
-            key="problem"
-            dataIndex={["relation", "id"]}
-            render={(relationId) => (
-              <Button
-                danger
-                type="link"
-                icon={<ExclamationCircleOutlined />}
-                onClick={decline(relationId)}
-              >
-                {t("maker.accepted.problem")}
-              </Button>
-            )}
-          />
-          <Column
-            key="loading"
-            dataIndex={["relation", "id"]}
-            render={(relationId) => (
-              <Spin spinning={isUpdatingRelation[relationId]} />
+                loading={isUpdatingRelation[relationId]}
+              ></Button>
             )}
           />
         </Table>
-      </Space>
-    ) : (
-      <Title level={4}>{t("maker.accepted.empty")}</Title>
-    );
+      </div>
+    ) : null;
   }
 );

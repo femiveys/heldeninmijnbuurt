@@ -9,11 +9,10 @@ import { TRelationUser, ERelationStatus } from "../../types";
 import { NoSuperHeroFound } from "./NoSuperHeroFound";
 import { Done } from "./Done";
 import { WaitingForAcceptance } from "./WaitingForAcceptance";
-import { store } from "../../store";
 
 export const SearchMouthmask = () => {
   const { t } = useTranslation();
-  const { user } = useUser();
+  const { user, updateUser } = useUser();
   const {
     isLoading: isFetchingSuperHero,
     data: superHero,
@@ -28,11 +27,11 @@ export const SearchMouthmask = () => {
   const onToggle = useCallback(() => {
     const toggleOn = async () => {
       await callApi({ name: "setNeedsMouthmask" });
-      store.dispatch("user/setUser", { ...user!, needsMouthmask: true });
+      updateUser({ needsMouthmask: true });
     };
     const toggleOff = async () => {
       await callApi({ name: "unsetNeedsMouthmask" });
-      store.dispatch("user/setUser", { ...user!, needsMouthmask: false });
+      updateUser({ needsMouthmask: false });
     };
 
     if (user?.needsMouthmask) {
@@ -56,8 +55,11 @@ export const SearchMouthmask = () => {
     >
       {needsMouthmaskAmount === 0 ? (
         <EnterMouthmaskAmount fetchSuperHero={fetchSuperHero} />
-      ) : isFetchingSuperHero ? (
-        <Spin tip={t("requestor.contact.loading")} />
+      ) : true && isFetchingSuperHero ? (
+        <Spin
+          tip={t("requestor.contact.loading")}
+          style={{ width: "100%", padding: 16 }}
+        />
       ) : !superHero ? (
         <NoSuperHeroFound />
       ) : superHero.relation.status === ERelationStatus.requested ? (
@@ -70,6 +72,7 @@ export const SearchMouthmask = () => {
       ) : (
         <SuperHeroContactInfo
           superHero={superHero}
+          fetchSuperHero={fetchSuperHero}
           needsMouthmaskAmount={needsMouthmaskAmount}
         />
       )}

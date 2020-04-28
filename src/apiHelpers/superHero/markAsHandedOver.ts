@@ -5,7 +5,7 @@ import { mailByRelationId } from "../mailer";
 import { checkRelationId } from "../common";
 
 /**
- * Puts de status of a relation on heroMarkedAsHandedOver.
+ * Sets de status of a relation to handedOver.
  * Sets the hero_handover_date to now
  * Sends a heroMarkedAsHandedOver mail
  *
@@ -20,7 +20,7 @@ export const markAsHandedOver = async (makerId: string, relationId: number) => {
   const result = await db("relation")
     .where({ id: relationId, hero_id: makerId })
     .update({
-      status: ERelationStatus.heroMarkedAsHandedOver,
+      status: ERelationStatus.handedOver,
       hero_handover_date: new Date(),
     });
 

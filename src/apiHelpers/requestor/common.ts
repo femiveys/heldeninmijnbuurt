@@ -19,8 +19,7 @@ export const getMakerRelationOf = async (requestorId: string) => {
     .whereIn("status", [
       ERelationStatus.requested,
       ERelationStatus.accepted,
-      ERelationStatus.heroMarkedAsHandedOver,
-      ERelationStatus.requestorMarkedAsHandedOver,
+      ERelationStatus.handedOver,
     ])
     .first<TRelationFromDb>();
 

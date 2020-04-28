@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { store, useTypedStoreon } from "../store";
 import { apiCall } from "../axios";
+import { TUser } from "../types";
 
 export const useUser = () => {
   const { user, isFetchingUser } = useTypedStoreon("user", "isFetchingUser");
@@ -17,7 +18,11 @@ export const useUser = () => {
     }
   }, []);
 
+  const updateUser = useCallback((fields: Partial<TUser>) => {
+    store.dispatch("user/setUser", { ...user, ...fields } as TUser);
+  }, []);
+
   // return useMemo(() => {
-  return { fetchUser, isFetchingUser, user };
+  return { fetchUser, isFetchingUser, user, updateUser };
   // }, [fetchUser, isFetchingUser, user]);
 };
