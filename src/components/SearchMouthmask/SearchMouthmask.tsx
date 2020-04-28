@@ -19,14 +19,7 @@ export const SearchMouthmask = () => {
     data: superHero,
     callApi: fetchSuperHero,
   } = useApi<TRelationUser>("GET", "requestor/superHero");
-  const {
-    isLoading: isSettingNeedsMouthmask,
-    callApi: setNeedsMouthmask,
-  } = useApi("PUT", "me/setNeedsMouthmask");
-  const {
-    isLoading: isUnsettingNeedsMouthmask,
-    callApi: unsetNeedsMouthmask,
-  } = useApi("PUT", "me/unsetNeedsMouthmask");
+  const { isLoading, callApi } = useApi("PUT", "me/action");
 
   useEffect(() => {
     if (user!.needsMouthmaskAmount) fetchSuperHero();
@@ -34,11 +27,11 @@ export const SearchMouthmask = () => {
 
   const onToggle = useCallback(() => {
     const toggleOn = async () => {
-      await setNeedsMouthmask();
+      await callApi({ name: "setNeedsMouthmask" });
       store.dispatch("user/setUser", { ...user!, needsMouthmask: true });
     };
     const toggleOff = async () => {
-      await unsetNeedsMouthmask();
+      await callApi({ name: "unsetNeedsMouthmask" });
       store.dispatch("user/setUser", { ...user!, needsMouthmask: false });
     };
 
@@ -59,7 +52,7 @@ export const SearchMouthmask = () => {
       title={t("requestor.collapseTitle")}
       isOpen={!!user?.needsMouthmask}
       onToggle={user?.needsMouthmaskAmount === 0 ? onToggle : null}
-      isToggling={isSettingNeedsMouthmask || isUnsettingNeedsMouthmask}
+      isToggling={isLoading}
     >
       {needsMouthmaskAmount === 0 ? (
         <EnterMouthmaskAmount fetchSuperHero={fetchSuperHero} />

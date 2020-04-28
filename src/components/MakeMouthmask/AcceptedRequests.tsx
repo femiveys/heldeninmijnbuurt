@@ -28,7 +28,7 @@ export const AcceptedRequests = forwardRef(
     >({});
     const { isLoading, callApi, data } = useApi<TRelationUser[]>(
       "GET",
-      "superHero/acceptedRequests",
+      "superHero/requests/accepted",
       []
     );
 

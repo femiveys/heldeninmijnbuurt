@@ -14,27 +14,27 @@ type TProps = {
 export const EnterMouthmaskAmount = ({ fetchSuperHero }: TProps) => {
   const { user } = useUser();
   const [form] = Form.useForm();
-  const {
-    isLoading: issettingNeedsMouthmaskAmount,
-    callApi: setNeedsMouthmaskAmount,
-  } = useApi("PUT", "requestor/setNeedsMouthmaskAmount");
+  const { isLoading: issettingNeedsMouthmaskAmount, callApi } = useApi(
+    "PUT",
+    "requestor/action"
+  );
 
   const numberList = [1, 2, 3, 4, 5];
 
-  const onFinish = useCallback(
-    (values: TFormValues) => {
-      const f = async () => {
-        await setNeedsMouthmaskAmount(values);
-        store.dispatch("user/setUser", {
-          ...user!,
-          needsMouthmaskAmount: values.needsMouthmaskAmount,
-        });
-        await fetchSuperHero();
-      };
-      f();
-    },
-    [setNeedsMouthmaskAmount, fetchSuperHero]
-  );
+  const onFinish = useCallback((values: TFormValues) => {
+    const f = async () => {
+      await callApi({
+        name: "setNeedsMouthmaskAmount",
+        num: values.needsMouthmaskAmount,
+      });
+      store.dispatch("user/setUser", {
+        ...user!,
+        needsMouthmaskAmount: values.needsMouthmaskAmount,
+      });
+      await fetchSuperHero();
+    };
+    f();
+  }, []);
 
   return (
     <Form form={form} size="large" onFinish={onFinish} layout="inline">

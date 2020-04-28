@@ -23,10 +23,10 @@ type TProps = {
 
 export const SuperHeroContactInfo = (props: TProps) => {
   const { t } = useTranslation();
-  const {
-    isLoading: isMarkingAsHandedOver,
-    callApi: markAsHandedOver,
-  } = useApi("PUT", "requestor/markAsHandedOver", []);
+  const { isLoading: isMarkingAsHandedOver, callApi } = useApi(
+    "PUT",
+    "requestor/action"
+  );
 
   const { superHero, needsMouthmaskAmount } = props;
 
@@ -71,7 +71,7 @@ export const SuperHeroContactInfo = (props: TProps) => {
                 <Space>
                   <Button
                     type="primary"
-                    onClick={markAsHandedOver}
+                    onClick={() => callApi({ name: "markAsHandedOver" })}
                     loading={isMarkingAsHandedOver}
                   >
                     {t("yes")}
