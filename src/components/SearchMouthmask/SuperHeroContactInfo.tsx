@@ -7,8 +7,8 @@ import {
 } from "@ant-design/icons";
 import { useApi } from "../../hooks";
 import { notImplemented } from "../../helpers";
-import { TRelationUser } from "../../types";
 import { CancelButton } from "./CancelButton";
+import { TRelationUser } from "../../types";
 
 const { Paragraph } = Typography;
 

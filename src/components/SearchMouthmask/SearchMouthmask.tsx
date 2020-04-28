@@ -22,11 +22,11 @@ export const SearchMouthmask = () => {
   const {
     isLoading: isSettingNeedsMouthmask,
     callApi: setNeedsMouthmask,
-  } = useApi("GET", "requestor/setNeedsMouthmask");
+  } = useApi("PUT", "requestor/setNeedsMouthmask");
   const {
     isLoading: isUnsettingNeedsMouthmask,
     callApi: unsetNeedsMouthmask,
-  } = useApi("GET", "requestor/unsetNeedsMouthmask");
+  } = useApi("PUT", "requestor/unsetNeedsMouthmask");
 
   useEffect(() => {
     if (user?.needsMouthmaskAmount) fetchSuperHero();
