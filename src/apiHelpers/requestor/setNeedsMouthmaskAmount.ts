@@ -1,6 +1,5 @@
 import { db } from "../../db";
 import { TUserFromDb } from "../types.db";
-import { checkRequestor } from "./common";
 import { assignMakerTo } from "./assign";
 
 /**
@@ -17,7 +16,13 @@ export const setNeedsMouthmaskAmount = async (
   requestorId: string,
   amount: number
 ) => {
-  await checkRequestor(requestorId);
+  //  Check that it is a requestor
+  const result = await db("user").where({
+    user_id: requestorId,
+    needs_mouthmask: 1,
+  });
+
+  if (!result) throw new Error("User is not a requestor");
 
   await db<TUserFromDb>("user").where({ user_id: requestorId }).update({
     needs_mouthmask_amount: amount,

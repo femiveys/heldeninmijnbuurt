@@ -36,4 +36,28 @@ export const templates: Dictionary<TMailOptions> = {
     subject: "Todo ✔",
     text: "Todo",
   },
+  assignedToHero: {
+    subject: "Todo ✔",
+    text: "Todo",
+  },
+  assignedToRequestor: {
+    subject: "Todo ✔",
+    text: "Todo",
+  },
+  declinedAndReassigned: {
+    subject: "Todo ✔",
+    text: "Todo",
+  },
+  heroMarkedAsHandedOver: {
+    subject: "Todo ✔",
+    text: "Todo",
+  },
+  requestorMarkedAsHandedOver: {
+    subject: "Todo ✔",
+    text: "Todo",
+  },
+  cancelled: {
+    subject: "Todo ✔",
+    text: "Todo",
+  },
 };

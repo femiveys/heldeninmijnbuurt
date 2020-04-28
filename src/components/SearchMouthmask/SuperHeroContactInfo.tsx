@@ -17,7 +17,7 @@ const iconStyle = {
 };
 
 type TProps = {
-  relationUser: TRelationUser;
+  superHero: TRelationUser;
   needsMouthmaskAmount: number;
 };
 
@@ -28,7 +28,7 @@ export const SuperHeroContactInfo = (props: TProps) => {
     callApi: markAsHandedOver,
   } = useApi("PUT", "requestor/markAsHandedOver", []);
 
-  const { relationUser, needsMouthmaskAmount } = props;
+  const { superHero, needsMouthmaskAmount } = props;
 
   const count = {
     count: needsMouthmaskAmount,
@@ -41,7 +41,7 @@ export const SuperHeroContactInfo = (props: TProps) => {
           title={t("requestor.contact.title")}
           extra={
             <CancelButton
-              name={relationUser.user.name}
+              name={superHero.user.name}
               needsMouthmaskAmount={needsMouthmaskAmount}
             />
           }
@@ -49,21 +49,21 @@ export const SuperHeroContactInfo = (props: TProps) => {
           <Space size="large" direction="vertical" style={{ width: "100%" }}>
             <Space>
               <UserOutlined style={iconStyle} />
-              {relationUser.user.name}
+              {superHero.user.name}
             </Space>
             <Space>
               <MailOutlined style={iconStyle} />
-              <a href={`mailto:${relationUser.user.email}`} target="_blank">
-                {relationUser.user.email}
+              <a href={`mailto:${superHero.user.email}`} target="_blank">
+                {superHero.user.email}
               </a>
             </Space>
-            {relationUser.user.whatsapp && (
+            {superHero.user.whatsapp && (
               <Space>
                 <WhatsAppOutlined style={iconStyle} />
-                {`+32${relationUser.user.whatsapp}`}
+                {`+32${superHero.user.whatsapp}`}
               </Space>
             )}
-            {relationUser.relation.heroHandoverDate ? (
+            {superHero.relation.heroHandoverDate ? (
               <div>
                 <Paragraph>
                   {t("requestor.contact.heroMarkedAsHandedOver", count)}

@@ -29,7 +29,7 @@ export const SearchMouthmask = () => {
   } = useApi("PUT", "me/unsetNeedsMouthmask");
 
   useEffect(() => {
-    if (user?.needsMouthmaskAmount) fetchSuperHero();
+    if (user!.needsMouthmaskAmount) fetchSuperHero();
   }, []);
 
   const onToggle = useCallback(() => {
@@ -76,7 +76,7 @@ export const SearchMouthmask = () => {
         ></Done>
       ) : (
         <SuperHeroContactInfo
-          relationUser={superHero}
+          superHero={superHero}
           needsMouthmaskAmount={needsMouthmaskAmount}
         />
       )}

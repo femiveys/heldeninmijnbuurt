@@ -28,7 +28,11 @@ export const sendMail = async (to: string, mailId: string) => {
     return info.messageId;
   } else {
     const fakeMessageId = `DEV: Message "${mailId}" would have been sent to "${to}". In production we would have seen the messageId here.`;
-    console.log(fakeMessageId);
+    console.log("--- MAIL SENT ---");
+    console.log("templateId:", mailId);
+    console.log("to:", to);
+    console.log("");
+    // console.log(fakeMessageId);
     return fakeMessageId;
   }
 };

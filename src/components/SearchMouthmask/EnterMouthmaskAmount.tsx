@@ -1,6 +1,7 @@
 import { Select, Form, Button } from "antd";
 import { useCallback } from "react";
-import { useApi } from "../../hooks";
+import { useApi, useUser } from "../../hooks";
+import { store } from "../../store";
 
 type TFormValues = {
   needsMouthmaskAmount?: number;
@@ -11,11 +12,12 @@ type TProps = {
 };
 
 export const EnterMouthmaskAmount = ({ fetchSuperHero }: TProps) => {
+  const { user } = useUser();
   const [form] = Form.useForm();
   const {
     isLoading: issettingNeedsMouthmaskAmount,
     callApi: setNeedsMouthmaskAmount,
-  } = useApi("PUT", "superHero/setNeedsMouthmaskAmount");
+  } = useApi("PUT", "requestor/setNeedsMouthmaskAmount");
 
   const numberList = [1, 2, 3, 4, 5];
 
@@ -23,6 +25,10 @@ export const EnterMouthmaskAmount = ({ fetchSuperHero }: TProps) => {
     (values: TFormValues) => {
       const f = async () => {
         await setNeedsMouthmaskAmount(values);
+        store.dispatch("user/setUser", {
+          ...user!,
+          needsMouthmaskAmount: values.needsMouthmaskAmount,
+        });
         await fetchSuperHero();
       };
       f();

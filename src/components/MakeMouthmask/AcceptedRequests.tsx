@@ -45,7 +45,7 @@ export const AcceptedRequests = forwardRef(
     }, [data]);
 
     const markByHeroAsHandedOverOrDecline = (
-      action: "markByHeroAsHandedOver" | "decline"
+      action: "markAsHandedOver" | "decline"
     ) => (relationId: number) => async () => {
       setIsUpdatingRow({ ...isUpdatingRelation, [relationId]: true });
       try {
@@ -59,7 +59,7 @@ export const AcceptedRequests = forwardRef(
     };
 
     const setDelivered = useCallback(
-      markByHeroAsHandedOverOrDecline("markByHeroAsHandedOver"),
+      markByHeroAsHandedOverOrDecline("markAsHandedOver"),
       [isUpdatingRelation]
     );
     const decline = useCallback(markByHeroAsHandedOverOrDecline("decline"), [

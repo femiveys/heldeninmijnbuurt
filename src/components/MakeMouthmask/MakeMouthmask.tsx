@@ -12,6 +12,8 @@ import { store } from "../../store";
 export const MakeMouthmask = () => {
   const { user } = useUser();
   const { t } = useTranslation();
+  const acceptedRequestsRef = useRef<typeof AcceptedRequests>(null);
+  const requestedRequestsRef = useRef<typeof RequestedRequests>(null);
   const { isLoading: isSettingIsMaker, callApi: setIsMaker } = useApi(
     "PUT",
     "me/setIsMaker"
@@ -20,9 +22,6 @@ export const MakeMouthmask = () => {
     "PUT",
     "me/unsetIsMaker"
   );
-
-  const acceptedRequestsRef = useRef<typeof AcceptedRequests>(null);
-  const requestedRequestsRef = useRef<typeof RequestedRequests>(null);
 
   const onToggle = useCallback(() => {
     const toggleOn = async () => {
