@@ -1,10 +1,8 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { store, useTypedStoreon } from "../store";
 import { apiCall } from "../axios";
-import { TUser } from "../types";
 
 export const useUser = () => {
-  const [isUpdatingUser, setIsUpdatingUser] = useState(false);
   const { user, isFetchingUser } = useTypedStoreon("user", "isFetchingUser");
 
   const fetchUser = useCallback(async () => {
@@ -19,24 +17,7 @@ export const useUser = () => {
     }
   }, []);
 
-  // TODO: Remove this as with this function, the user can potentially update
-  // EVERY field on the user. This is dangerous
-  const updateUser = useCallback(
-    async (fields: Partial<TUser>) => {
-      try {
-        setIsUpdatingUser(true);
-        await apiCall("PUT", "me", fields);
-        store.dispatch("user/setUser", { ...user, ...fields } as TUser);
-        setIsUpdatingUser(false);
-      } catch (error) {
-        // TODO: Should be removed
-        store.dispatch("user/isFetchingUser", false);
-      }
-    },
-    [user]
-  );
-
   // return useMemo(() => {
-  return { fetchUser, isFetchingUser, updateUser, isUpdatingUser, user };
-  // }, [fetchUser, updateUser, isFetchingUser, isUpdatingUser, user]);
+  return { fetchUser, isFetchingUser, user };
+  // }, [fetchUser, isFetchingUser, user]);
 };

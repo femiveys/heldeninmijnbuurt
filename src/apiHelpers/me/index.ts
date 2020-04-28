@@ -1,10 +1,9 @@
 import admin from "firebase-admin";
 import { NextApiRequest } from "next";
-import { db } from "../db";
-import { transformUserFromDb, transformObjectToDb } from "./transformers";
-import serviceAccount from "../../mijn-mondmasker-firebase-adminsdk-tjfdw-13a74f43d0.json";
-import { TUserFromDb } from "./types.db";
-import { TUser } from "../types";
+import { db } from "../../db";
+import { transformUserFromDb } from "../transformers";
+import serviceAccount from "../../../mijn-mondmasker-firebase-adminsdk-tjfdw-13a74f43d0.json";
+import { TUserFromDb } from "../types.db";
 
 export const initFirebaseAdmin = () => {
   try {
@@ -37,12 +36,3 @@ export async function getMeOrFail(req: NextApiRequest) {
   if (!me) throw new Error("Me not found");
   return me;
 }
-
-export const updateUser = async (userId: string, fields: Partial<TUser>) => {
-  if (fields.needsMouthmaskAmount && fields.needsMouthmaskAmount > 5)
-    throw new Error("needsMouthmaskAmount cannot be more than 5");
-
-  return await db("user")
-    .where("user_id", userId)
-    .update(transformObjectToDb(fields));
-};

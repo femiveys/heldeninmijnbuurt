@@ -1,6 +1,6 @@
 import { Select, Form, Button } from "antd";
 import { useCallback } from "react";
-import { useApi, useUser } from "../../hooks";
+import { useApi } from "../../hooks";
 
 type TFormValues = {
   needsMouthmaskAmount?: number;
@@ -12,24 +12,27 @@ type TProps = {
 
 export const EnterMouthmaskAmount = ({ fetchSuperHero }: TProps) => {
   const [form] = Form.useForm();
-  const { updateUser, isUpdatingUser } = useUser();
   const { isLoading: isAssigning, callApi: assign } = useApi(
     "PUT",
     "requestor/assign"
   );
+  const {
+    isLoading: issettingNeedsMouthmaskAmount,
+    callApi: setNeedsMouthmaskAmount,
+  } = useApi("PUT", "superHero/setNeedsMouthmaskAmount");
 
   const numberList = [1, 2, 3, 4, 5];
 
   const onFinish = useCallback(
     (values: TFormValues) => {
       const f = async () => {
-        await updateUser(values);
-        await assign();
+        await setNeedsMouthmaskAmount(values);
+        await assign(); // TODO: backend needs to do this
         await fetchSuperHero();
       };
       f();
     },
-    [updateUser, assign, fetchSuperHero]
+    [setNeedsMouthmaskAmount, assign, fetchSuperHero]
   );
 
   return (
@@ -54,7 +57,7 @@ export const EnterMouthmaskAmount = ({ fetchSuperHero }: TProps) => {
         {() => (
           <Button
             type="primary"
-            loading={isUpdatingUser || isAssigning}
+            loading={issettingNeedsMouthmaskAmount || isAssigning}
             htmlType="submit"
             disabled={!form.getFieldValue("needsMouthmaskAmount")}
           >

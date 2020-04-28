@@ -4,7 +4,6 @@ import {
   getFirebaseUser,
   getMe,
   getMeOrFail,
-  updateUser,
   initFirebaseAdmin,
 } from "../../../src/apiHelpers/me";
 

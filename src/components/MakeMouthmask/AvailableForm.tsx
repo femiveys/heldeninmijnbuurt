@@ -1,18 +1,22 @@
 import { Form, Input, Button } from "antd";
 import { useTranslation } from "react-i18next";
-import { useUser } from "../../hooks";
+import { useUser, useApi } from "../../hooks";
 
 export const AvailableForm = () => {
   const [form] = Form.useForm();
   const { t } = useTranslation();
-  const { updateUser, isUpdatingUser, user } = useUser();
+  const { user } = useUser();
+  const { isLoading: isSettingIsMaker, callApi: setMaskStock } = useApi(
+    "PUT",
+    "superHero/setMaskStock"
+  );
 
   return (
     <Form
       form={form}
       size="large"
       layout="inline"
-      onFinish={updateUser}
+      onFinish={setMaskStock}
       colon={false}
       initialValues={{ maskStock: Number(user?.maskStock) }}
     >
@@ -25,7 +29,7 @@ export const AvailableForm = () => {
             type="primary"
             htmlType="submit"
             size="small"
-            loading={isUpdatingUser}
+            loading={isSettingIsMaker}
           >
             {t("update")}
           </Button>
