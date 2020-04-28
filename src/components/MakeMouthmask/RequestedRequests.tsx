@@ -33,7 +33,7 @@ export const RequestedRequests = forwardRef(
     >({});
     const { isLoading, callApi, data } = useApi<TRequestedRequest[]>(
       "GET",
-      "superHero/requestedRequests",
+      "superHero/requests/requested",
       []
     );
 

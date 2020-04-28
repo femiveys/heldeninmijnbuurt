@@ -16,9 +16,9 @@ type TProps = {
 export const CancelButton = (props: TProps) => {
   const { t } = useTranslation();
   const { user } = useUser();
-  const { isLoading: isCancelling, callApi: cancel } = useApi(
+  const { isLoading: isCancelling, callApi } = useApi(
     "PUT",
-    "requestor/cancel"
+    "requestor/action"
   );
 
   const onCancel = useCallback(() => {
@@ -40,7 +40,7 @@ export const CancelButton = (props: TProps) => {
       okType: "danger",
       cancelText: t("no"),
       onOk: async () => {
-        await cancel();
+        await callApi({ name: "cancel" });
         store.dispatch("user/setUser", { ...user!, cancelDate: new Date() });
       },
     });

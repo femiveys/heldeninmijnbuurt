@@ -14,22 +14,15 @@ export const MakeMouthmask = () => {
   const { t } = useTranslation();
   const acceptedRequestsRef = useRef<typeof AcceptedRequests>(null);
   const requestedRequestsRef = useRef<typeof RequestedRequests>(null);
-  const { isLoading: isSettingIsMaker, callApi: setIsMaker } = useApi(
-    "PUT",
-    "me/setIsMaker"
-  );
-  const { isLoading: isUnsettingIsMaker, callApi: unsetIsMaker } = useApi(
-    "PUT",
-    "me/unsetIsMaker"
-  );
+  const { isLoading, callApi } = useApi("PUT", "me/action");
 
   const onToggle = useCallback(() => {
     const toggleOn = async () => {
-      await setIsMaker();
+      await callApi({ name: "setIsMaker" });
       store.dispatch("user/setUser", { ...user!, isMaker: true });
     };
     const toggleOff = async () => {
-      await unsetIsMaker();
+      await callApi({ name: "unsetIsMaker" });
       store.dispatch("user/setUser", { ...user!, isMaker: false });
     };
 
@@ -45,7 +38,7 @@ export const MakeMouthmask = () => {
       title={t("maker.collapseTitle")}
       isOpen={!!user?.isMaker}
       onToggle={onToggle}
-      isToggling={isSettingIsMaker || isUnsettingIsMaker}
+      isToggling={isLoading}
     >
       <Space direction="vertical" size="large">
         <HeroTitle numDelivered={user ? user.numDelivered : 0} />

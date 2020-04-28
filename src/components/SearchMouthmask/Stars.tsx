@@ -13,14 +13,11 @@ export const Stars = () => {
   const { t } = useTranslation();
   const [form] = Form.useForm();
   const [showStars, setShowStars] = useState(true);
-  const { isLoading: isStarring, callApi: star } = useApi(
-    "PUT",
-    "requestor/star"
-  );
+  const { isLoading: isStarring, callApi } = useApi("PUT", "requestor/action");
 
   const onFinish = useCallback((values: TFormValues) => {
     (async () => {
-      await star(values);
+      await callApi({ name: "starMaker", num: values.stars });
       setShowStars(false);
     })();
   }, []);
