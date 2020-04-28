@@ -15,7 +15,7 @@ import { ERelationStatus } from "../../types";
 export const cancel = async (requestorId: string) => {
   await checkRequestor(requestorId);
 
-  db("user").where({ user_id: requestorId }).update({
+  await db("user").where({ user_id: requestorId }).update({
     cancel_date: new Date(),
   });
 

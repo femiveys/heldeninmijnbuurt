@@ -26,6 +26,9 @@ export const SearchMouthmask = () => {
 
   const needsMouthmaskAmount = Number(user?.needsMouthmaskAmount);
 
+  // A user that has cancelled cannot see the widget
+  if (user?.cancelDate) return null;
+
   return (
     <ToggleableWidget
       title={t("requestor.collapseTitle")}
