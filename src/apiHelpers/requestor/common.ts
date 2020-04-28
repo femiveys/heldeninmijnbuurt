@@ -1,5 +1,5 @@
 import { db } from "../../db";
-import { ERelationType } from "../../types";
+import { ERelationType, ERelationStatus } from "../../types";
 import { TRelationFromDb } from "../types.db";
 import { transformRelationFromDb } from "../transformers";
 
@@ -16,6 +16,12 @@ export const getMakerRelationOf = async (requestorId: string) => {
       type: ERelationType.maskRequest,
       requestor_id: requestorId,
     })
+    .whereIn("status", [
+      ERelationStatus.requested,
+      ERelationStatus.accepted,
+      ERelationStatus.heroMarkedAsHandedOver,
+      ERelationStatus.requestorMarkedAsHandedOver,
+    ])
     .first<TRelationFromDb>();
 
   return transformRelationFromDb(relation);

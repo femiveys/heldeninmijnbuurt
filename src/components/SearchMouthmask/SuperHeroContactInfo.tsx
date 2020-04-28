@@ -1,17 +1,15 @@
-import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { Card, Space, Typography, Row, Col, Button, Modal } from "antd";
+import { Card, Space, Typography, Row, Col, Button } from "antd";
 import {
   MailOutlined,
   UserOutlined,
   WhatsAppOutlined,
-  ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import { useApi, useUser } from "../../hooks";
+import { useApi } from "../../hooks";
 import { notImplemented } from "../../helpers";
 import { TRelationUser } from "../../types";
+import { CancelButton } from "./CancelButton";
 
-const { confirm } = Modal;
 const { Paragraph } = Typography;
 
 const iconStyle = {
@@ -25,12 +23,10 @@ type TProps = {
 
 export const SuperHeroContactInfo = (props: TProps) => {
   const { t } = useTranslation();
-  const { fetchUser } = useUser();
   const {
     isLoading: isMarkingAsHandedOver,
     callApi: markAsHandedOver,
   } = useApi("PUT", "requestor/markAsHandedOver", []);
-  const { callApi: cancel } = useApi("PUT", "requestor/cancel");
 
   const { relationUser, needsMouthmaskAmount } = props;
 
@@ -38,40 +34,16 @@ export const SuperHeroContactInfo = (props: TProps) => {
     count: needsMouthmaskAmount,
   };
 
-  const onCancel = useCallback(() => {
-    confirm({
-      title: t("requestor.contact.cancel.title"),
-      icon: <ExclamationCircleOutlined />,
-      content: (
-        <Typography>
-          <Paragraph>{t("requestor.contact.cancel.consequences1")}</Paragraph>
-          <Paragraph>
-            {t("requestor.contact.cancel.consequences2", {
-              name: relationUser.user.name,
-              count: needsMouthmaskAmount,
-            })}
-          </Paragraph>
-        </Typography>
-      ),
-      okText: t("yes"),
-      okType: "danger",
-      cancelText: t("no"),
-      onOk: async () => {
-        await cancel();
-        fetchUser();
-      },
-    });
-  }, []);
-
   return (
     <Row>
       <Col flex="1 1">
         <Card
           title={t("requestor.contact.title")}
           extra={
-            <Button size="small" type="link" danger onClick={onCancel}>
-              {t("cancel")}
-            </Button>
+            <CancelButton
+              name={relationUser.user.name}
+              needsMouthmaskAmount={needsMouthmaskAmount}
+            />
           }
         >
           <Space size="large" direction="vertical" style={{ width: "100%" }}>

@@ -1,14 +1,15 @@
+import { useEffect, useCallback } from "react";
+import { useTranslation } from "react-i18next";
+import { Spin } from "antd";
 import { ToggleableWidget } from "../ToggleableWidget";
 import { EnterMouthmaskAmount } from "./EnterMouthmaskAmount";
 import { SuperHeroContactInfo } from "./SuperHeroContactInfo";
-import { useTranslation } from "react-i18next";
 import { useUser, useApi } from "../../hooks";
-import { useEffect } from "react";
 import { TRelationUser, ERelationStatus } from "../../types";
-import { Spin } from "antd";
 import { NoSuperHeroFound } from "./NoSuperHeroFound";
 import { Done } from "./Done";
 import { WaitingForAcceptance } from "./WaitingForAcceptance";
+import { store } from "../../store";
 
 export const SearchMouthmask = () => {
   const { t } = useTranslation();
@@ -16,13 +17,37 @@ export const SearchMouthmask = () => {
   const {
     isLoading: isFetchingSuperHero,
     data: superHero,
-    error,
     callApi: fetchSuperHero,
   } = useApi<TRelationUser>("GET", "requestor/superHero");
+  const {
+    isLoading: isSettingNeedsMouthmask,
+    callApi: setNeedsMouthmask,
+  } = useApi("GET", "requestor/setNeedsMouthmask");
+  const {
+    isLoading: isUnsettingNeedsMouthmask,
+    callApi: unsetNeedsMouthmask,
+  } = useApi("GET", "requestor/unsetNeedsMouthmask");
 
   useEffect(() => {
     if (user?.needsMouthmaskAmount) fetchSuperHero();
   }, []);
+
+  const onToggle = useCallback(() => {
+    const toggleOn = async () => {
+      await setNeedsMouthmask();
+      store.dispatch("user/setUser", { ...user!, needsMouthmask: true });
+    };
+    const toggleOff = async () => {
+      await unsetNeedsMouthmask();
+      store.dispatch("user/setUser", { ...user!, needsMouthmask: false });
+    };
+
+    if (user?.needsMouthmask) {
+      toggleOff();
+    } else {
+      toggleOn();
+    }
+  }, [user]);
 
   const needsMouthmaskAmount = Number(user?.needsMouthmaskAmount);
 
@@ -32,8 +57,9 @@ export const SearchMouthmask = () => {
   return (
     <ToggleableWidget
       title={t("requestor.collapseTitle")}
-      toggleField="needsMouthmask"
-      toggleOffConfirmText="Ben je zeker enzovoort?"
+      isOpen={!!user?.needsMouthmask}
+      onToggle={user?.needsMouthmaskAmount === 0 ? onToggle : null}
+      isToggling={isSettingNeedsMouthmask || isUnsettingNeedsMouthmask}
     >
       {needsMouthmaskAmount === 0 ? (
         <EnterMouthmaskAmount fetchSuperHero={fetchSuperHero} />
