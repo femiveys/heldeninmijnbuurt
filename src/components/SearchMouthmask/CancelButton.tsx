@@ -12,7 +12,7 @@ type TProps = {
   needsMouthmaskAmount: number;
 };
 
-export const CancelButton = (props: TProps) => {
+const CancelButton = (props: TProps) => {
   const { t } = useTranslation();
   const { updateUser } = useUser();
   const { isLoading: isCancelling, callApi } = useApi(
@@ -59,3 +59,5 @@ export const CancelButton = (props: TProps) => {
     </Button>
   );
 };
+
+export default CancelButton;

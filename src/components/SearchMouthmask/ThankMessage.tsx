@@ -4,7 +4,7 @@ import { useApi } from "../../hooks";
 
 const { TextArea } = Input;
 
-export const ThankMessage = () => {
+const ThankMessage = () => {
   const { t } = useTranslation();
   const [form] = Form.useForm();
   const { isLoading: isStarring, callApi: star } = useApi(
@@ -35,3 +35,5 @@ export const ThankMessage = () => {
     </Form>
   );
 };
+
+export default ThankMessage;

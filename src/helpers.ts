@@ -5,6 +5,15 @@ import { formatDistance } from "date-fns";
 
 export const IS_DEV = process.env.NODE_ENV !== "production";
 
+export const grid = {
+  xs: { span: 24 },
+  sm: { span: 24 },
+  md: { offset: 2, span: 20 },
+  lg: { offset: 4, span: 16 },
+  xl: { offset: 6, span: 12 },
+  // style: { backgroundColor: "yellow" },
+};
+
 export const formatLengthDistance = (distance: number) => {
   return distance < 1000
     ? `${Math.round(distance / 10) * 10} m`

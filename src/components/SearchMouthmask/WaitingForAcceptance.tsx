@@ -1,8 +1,8 @@
 import { useUser } from "../../hooks";
-import { CancelButton } from "./CancelButton";
+import CancelButton from "./CancelButton";
 import { useTranslation } from "react-i18next";
 
-export const WaitingForAcceptance = () => {
+const WaitingForAcceptance = () => {
   const { t } = useTranslation();
   const { user } = useUser();
 
@@ -27,3 +27,5 @@ export const WaitingForAcceptance = () => {
     </div>
   );
 };
+
+export default WaitingForAcceptance;

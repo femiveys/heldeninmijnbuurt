@@ -1,14 +1,14 @@
 import { Button, Space, Result } from "antd";
 import { useTranslation } from "react-i18next";
 import { notImplemented } from "../../helpers";
-import { Appreciation } from "./Appreciation";
+import Appreciation from "./Appreciation";
 
 type TProps = {
   needsMouthmaskAmount: number;
   showStars: boolean;
 };
 
-export const Done = ({ needsMouthmaskAmount, showStars }: TProps) => {
+const Done = ({ needsMouthmaskAmount, showStars }: TProps) => {
   const { t } = useTranslation();
 
   return (
@@ -27,3 +27,5 @@ export const Done = ({ needsMouthmaskAmount, showStars }: TProps) => {
     />
   );
 };
+
+export default Done;

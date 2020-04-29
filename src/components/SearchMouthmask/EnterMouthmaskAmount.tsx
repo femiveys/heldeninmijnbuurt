@@ -13,7 +13,7 @@ type TProps = {
   fetchSuperHero: () => Promise<void>;
 };
 
-export const EnterMouthmaskAmount = ({ fetchSuperHero }: TProps) => {
+const EnterMouthmaskAmount = ({ fetchSuperHero }: TProps) => {
   const { t } = useTranslation();
   const { updateUser } = useUser();
   const [form] = Form.useForm();
@@ -74,3 +74,5 @@ export const EnterMouthmaskAmount = ({ fetchSuperHero }: TProps) => {
     </div>
   );
 };
+
+export default EnterMouthmaskAmount;

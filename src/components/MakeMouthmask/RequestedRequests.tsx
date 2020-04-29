@@ -5,12 +5,8 @@ import {
   forwardRef,
   useImperativeHandle,
 } from "react";
-import { Table, Space, Typography, Button, Spin } from "antd";
-import {
-  CloseOutlined,
-  DownloadOutlined,
-  InfoCircleOutlined,
-} from "@ant-design/icons";
+import { Table, Typography, Button, Spin } from "antd";
+import { CloseOutlined, DownloadOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { keyBy, find, mapValues, NumericDictionary } from "lodash";
 import { formatLengthDistance } from "../../helpers";

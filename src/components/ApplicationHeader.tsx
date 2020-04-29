@@ -4,7 +4,7 @@ import firebase from "firebase/app";
 import { store } from "../store";
 import { useAuth } from "../hooks";
 
-export const ApplicationHeader = () => {
+const ApplicationHeader = () => {
   const { firebaseUser, isLoggedIn } = useAuth();
 
   const onLogout = useCallback(async () => {
@@ -23,3 +23,5 @@ export const ApplicationHeader = () => {
     </Row>
   );
 };
+
+export default ApplicationHeader;
