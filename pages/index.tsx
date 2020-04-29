@@ -1,14 +1,15 @@
-import React from "react";
+import { useRouter } from "next/router";
+import { useUser } from "../src/hooks";
 
-import { StoreContext } from "storeon/react";
-import { store } from "../src/store";
-import { App } from "../src/components/App";
-import { initializeFirebaseApp } from "../src/firebase";
+export default () => {
+  const { user } = useUser();
+  const router = useRouter();
 
-initializeFirebaseApp();
+  if (user) {
+    if (user.isMaker) router.replace("/superHero");
+    else if (user.needsMouthmask) router.replace("/searching");
+    else if (!user.streetId) router.replace("/new");
+  }
 
-export default () => (
-  <StoreContext.Provider value={store}>
-    <App />
-  </StoreContext.Provider>
-);
+  return null;
+};

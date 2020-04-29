@@ -11,7 +11,7 @@ import { subscribeToAuthChanges } from "../firebase";
 
 const { Header, Footer, Content } = Layout;
 
-export const App = () => {
+export const App: React.FunctionComponent = ({ children }) => {
   useEffect(() => {
     const unsubscribe = subscribeToAuthChanges();
     return () => unsubscribe();
@@ -27,9 +27,7 @@ export const App = () => {
         <Header>
           <ApplicationHeader />
         </Header>
-        <Content>
-          <Main />
-        </Content>
+        <Content>{children}</Content>
         <Footer>Footer</Footer>
       </Layout>
     </>
