@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getFirebaseUser } from "../../../../apiHelpers/me";
-import { accept } from "../../../../apiHelpers/superHero/accept";
-import { decline } from "../../../../apiHelpers/superHero/decline";
-import { markAsHandedOver } from "../../../../apiHelpers/superHero/markAsHandedOver";
+import { accept } from "../../../../apiHelpers/superhero/accept";
+import { decline } from "../../../../apiHelpers/superhero/decline";
+import { markAsHandedOver } from "../../../../apiHelpers/superhero/markAsHandedOver";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "PUT") {

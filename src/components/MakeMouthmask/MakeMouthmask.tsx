@@ -40,7 +40,9 @@ export const MakeMouthmask = () => {
           <EnterStock />
         ) : (
           <Space direction="vertical" size="large" style={{ width: "100%" }}>
-            <HeroTitle numDelivered={user ? user.numDelivered : 0} />
+            {user?.numDelivered ? (
+              <HeroTitle numDelivered={user.numDelivered} />
+            ) : null}
             <AvailableForm />
             <RequestedRequests
               ref={requestedRequestsRef}

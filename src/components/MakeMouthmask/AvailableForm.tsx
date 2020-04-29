@@ -15,7 +15,7 @@ const AvailableForm = () => {
   const { user, updateUser } = useUser();
   const { isLoading: isSettingIsMaker, callApi: setMaskStock } = useApi(
     "PUT",
-    "superHero/setMaskStock"
+    "superhero/setMaskStock"
   );
 
   const updateStock = useCallback(async (values: TFormValues) => {
@@ -25,7 +25,9 @@ const AvailableForm = () => {
 
   return (
     <div>
-      <Title level={4}>{t("maker.available.label")}</Title>
+      <Title level={4} style={{ textAlign: "center" }}>
+        {t("maker.available.label")}
+      </Title>
       <Form
         form={form}
         onFinish={updateStock}

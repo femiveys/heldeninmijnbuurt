@@ -21,7 +21,7 @@ export default () => {
   const router = useRouter();
 
   if (user) {
-    if (user.isMaker) router.replace("/superHero");
+    if (user.isMaker) router.replace("/superhero");
     else if (user.needsMouthmask) router.replace("/searching");
     else if (!user.streetId) router.replace("/new");
     else {

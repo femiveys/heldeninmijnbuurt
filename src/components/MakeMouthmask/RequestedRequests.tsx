@@ -29,7 +29,7 @@ export const RequestedRequests = forwardRef(
     >({});
     const { isLoading, callApi, data } = useApi<TRequestedRequest[]>(
       "GET",
-      "superHero/requests/requested",
+      "superhero/requests/requested",
       []
     );
 
@@ -50,7 +50,7 @@ export const RequestedRequests = forwardRef(
     ) => async () => {
       setIsUpdatingRow({ ...isUpdatingRelation, [relationId]: true });
       try {
-        if (await apiCall("PUT", `superHero/${action}/${relationId}`)) {
+        if (await apiCall("PUT", `superhero/${action}/${relationId}`)) {
           await acceptedRequestsRef.current?.callApi();
           await callApi();
         }

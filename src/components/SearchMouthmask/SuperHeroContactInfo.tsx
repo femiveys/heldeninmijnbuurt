@@ -18,7 +18,7 @@ const iconStyle = {
 };
 
 type TProps = {
-  superHero: TRelationUser;
+  superhero: TRelationUser;
   fetchSuperHero: () => Promise<void>;
   needsMouthmaskAmount: number;
 };
@@ -30,7 +30,7 @@ const SuperHeroContactInfo = (props: TProps) => {
     "requestor/action"
   );
 
-  const { superHero, needsMouthmaskAmount, fetchSuperHero } = props;
+  const { superhero, needsMouthmaskAmount, fetchSuperHero } = props;
 
   const markAsHandedOver = useCallback(async () => {
     await callApi({ name: "markAsHandedOver" });
@@ -48,7 +48,7 @@ const SuperHeroContactInfo = (props: TProps) => {
           title={t("requestor.contact.title")}
           extra={
             <CancelButton
-              name={superHero.user.name}
+              name={superhero.user.name}
               needsMouthmaskAmount={needsMouthmaskAmount}
             />
           }
@@ -56,21 +56,21 @@ const SuperHeroContactInfo = (props: TProps) => {
           <Space size="large" direction="vertical" style={{ width: "100%" }}>
             <Space>
               <UserOutlined style={iconStyle} />
-              {superHero.user.name}
+              {superhero.user.name}
             </Space>
             <Space>
               <MailOutlined style={iconStyle} />
-              <a href={`mailto:${superHero.user.email}`} target="_blank">
-                {superHero.user.email}
+              <a href={`mailto:${superhero.user.email}`} target="_blank">
+                {superhero.user.email}
               </a>
             </Space>
-            {superHero.user.whatsapp && (
+            {superhero.user.whatsapp && (
               <Space>
                 <WhatsAppOutlined style={iconStyle} />
-                {`+32${superHero.user.whatsapp}`}
+                {`+32${superhero.user.whatsapp}`}
               </Space>
             )}
-            {superHero.relation.heroHandoverDate ? (
+            {superhero.relation.heroHandoverDate ? (
               <div>
                 <Paragraph>
                   {t("requestor.contact.heroMarkedAsHandedOver", count)}

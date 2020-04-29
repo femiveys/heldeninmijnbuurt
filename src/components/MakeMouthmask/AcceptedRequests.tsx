@@ -36,7 +36,7 @@ const AcceptedRequests = forwardRef(({ requestedRequestsRef }: any, ref) => {
   const { t } = useTranslation();
   const { isLoading, callApi, data } = useApi<TRelationUser[]>(
     "GET",
-    "superHero/requests/accepted",
+    "superhero/requests/accepted",
     []
   );
   const [isUpdatingRelation, setUpdatingRelation] = useState<
@@ -61,7 +61,7 @@ const AcceptedRequests = forwardRef(({ requestedRequestsRef }: any, ref) => {
   ) => (relationId: number) => async () => {
     setUpdatingRelation({ ...isUpdatingRelation, [relationId]: true });
     try {
-      if (await apiCall("PUT", `superHero/${action}/${relationId}`)) {
+      if (await apiCall("PUT", `superhero/${action}/${relationId}`)) {
         await callApi();
       }
     } catch (error) {

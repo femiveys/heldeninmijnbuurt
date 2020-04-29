@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getFirebaseUser } from "../../../apiHelpers/me";
-import { setMaskStock } from "../../../apiHelpers/superHero/setMaskStock";
+import { setMaskStock } from "../../../apiHelpers/superhero/setMaskStock";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "PUT") {

@@ -4,10 +4,10 @@ import { transformUserFromDb } from "../transformers";
 import { TUserFromDb } from "../types.db";
 
 /**
- * Get the superHero
+ * Get the superhero
  *
  * @param requestorId - the userId of the requestor
- * @returns The user object of the superHero, null if not found
+ * @returns The user object of the superhero, null if not found
  */
 export const getSuperHeroOf = async (requestorId: string) => {
   await checkRequestor(requestorId);
@@ -15,12 +15,12 @@ export const getSuperHeroOf = async (requestorId: string) => {
   const relation = await getMakerRelationOf(requestorId);
 
   if (relation) {
-    const superHero = await db("user")
+    const superhero = await db("user")
       .where("user_id", relation.heroId)
       .first<TUserFromDb>();
     return {
       relation: relation,
-      user: transformUserFromDb(superHero),
+      user: transformUserFromDb(superhero),
     };
   } else {
     return null;
