@@ -2,16 +2,15 @@ import React, { useEffect } from "react";
 import Head from "next/head";
 import { Layout } from "antd";
 
-import { Main } from "../components/Main";
-import { ApplicationHeader } from "../components/ApplicationHeader";
+import ApplicationHeader from "../components/ApplicationHeader";
 
-import "../styles.less";
 import "../i18n";
+import "../styles.less";
 import { subscribeToAuthChanges } from "../firebase";
 
 const { Header, Footer, Content } = Layout;
 
-export const App = () => {
+const App: React.FunctionComponent = ({ children }) => {
   useEffect(() => {
     const unsubscribe = subscribeToAuthChanges();
     return () => unsubscribe();
@@ -20,18 +19,18 @@ export const App = () => {
   return (
     <>
       <Head>
-        <title>Mijn mondmasker 😷</title>
+        <title>😷Helden in mijn buurt 😷</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
         <Header>
           <ApplicationHeader />
         </Header>
-        <Content>
-          <Main />
-        </Content>
+        <Content style={{ paddingTop: 16 }}>{children}</Content>
         <Footer>Footer</Footer>
       </Layout>
     </>
   );
 };
+
+export default App;

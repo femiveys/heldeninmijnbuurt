@@ -1,13 +1,13 @@
 import { Card } from "antd";
 import { useTranslation } from "react-i18next";
-import { Stars } from "./Stars";
-import { ThankMessage } from "./ThankMessage";
+import Stars from "./Stars";
+import ThankMessage from "./ThankMessage";
 
 type TProps = {
   showStars: boolean;
 };
 
-export const Appreciation = ({ showStars }: TProps) => {
+const Appreciation = ({ showStars }: TProps) => {
   const { t } = useTranslation();
 
   return (
@@ -17,3 +17,5 @@ export const Appreciation = ({ showStars }: TProps) => {
     </Card>
   );
 };
+
+export default Appreciation;

@@ -30,6 +30,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-i18next": "^11.3.5",
+    "react-share": "^4.1.0",
     "storeon": "^2.0.2",
     "styled-components": "^5.1.0"
   },

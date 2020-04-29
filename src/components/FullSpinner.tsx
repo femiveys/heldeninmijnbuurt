@@ -1,6 +1,6 @@
 import { Row, Col, Spin } from "antd";
 
-export const FullSpinner = () => (
+const FullSpinner = () => (
   <Row
     style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
     justify="center"
@@ -11,3 +11,5 @@ export const FullSpinner = () => (
     </Col>
   </Row>
 );
+
+export default FullSpinner;

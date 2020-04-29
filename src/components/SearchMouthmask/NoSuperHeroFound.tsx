@@ -1,4 +1,4 @@
-export const NoSuperHeroFound = () => (
+const NoSuperHeroFound = () => (
   <div>
     <p>
       We hebben jammergenoeg niemand in je buurt gevonden die maskers heeft. We
@@ -11,3 +11,5 @@ export const NoSuperHeroFound = () => (
     <p>Knoppen en zo...</p>
   </div>
 );
+
+export default NoSuperHeroFound;

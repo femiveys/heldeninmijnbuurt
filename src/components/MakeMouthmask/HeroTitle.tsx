@@ -7,7 +7,7 @@ type TProps = {
   numDelivered: number;
 };
 
-export const HeroTitle = ({ numDelivered }: TProps) => {
+const HeroTitle = ({ numDelivered }: TProps) => {
   const { t } = useTranslation();
 
   let text: string;
@@ -21,3 +21,5 @@ export const HeroTitle = ({ numDelivered }: TProps) => {
 
   return <Title level={4}>{text}</Title>;
 };
+
+export default HeroTitle;

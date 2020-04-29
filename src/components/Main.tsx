@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { Login } from "./Login";
-import { Dashboard } from "./Dashboard";
+import Login from "./Login";
+import FullSpinner from "./FullSpinner";
 import { useAuth, useUser } from "../hooks";
-import { FullSpinner } from "./FullSpinner";
 
-export const Main = () => {
+const Main: React.FunctionComponent = ({ children }) => {
   const [isInitialized, setIsInitialized] = useState(false);
   const { firebaseUser, isLoggedIn, loggingIn } = useAuth();
   const { fetchUser } = useUser();
@@ -21,11 +20,9 @@ export const Main = () => {
     }
   }, [fetchUser, setIsInitialized, loggingIn, firebaseUser]);
 
-  return !isInitialized ? (
-    <FullSpinner />
-  ) : isLoggedIn ? (
-    <Dashboard />
-  ) : (
-    <Login />
+  return (
+    <>{!isInitialized ? <FullSpinner /> : isLoggedIn ? children : <Login />}</>
   );
 };
+
+export default Main;

@@ -1,9 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
-import { Form, Button, Row, Col, Select, Input } from "antd";
+import { Form, Button, Row, Col, Select, Input, Typography } from "antd";
 import { useTranslation } from "react-i18next";
-import { store } from "../store";
-import { useApi, useUser } from "../hooks";
+import { useApi, useUser, useAuth } from "../hooks";
 import { TStreet, TUser } from "../types";
+import { grid } from "../helpers";
+
+const { Title, Paragraph } = Typography;
 
 const getStreetInUserLanguage = (street: TStreet, language = "nl") => {
   switch (language) {
@@ -16,10 +18,11 @@ const getStreetInUserLanguage = (street: TStreet, language = "nl") => {
   }
 };
 
-export const EnterStreet = () => {
+const EnterStreet = () => {
   const [form] = Form.useForm();
   const { t } = useTranslation();
   const { updateUser } = useUser();
+  const { firebaseUser } = useAuth();
   const [postalCode, setPostalCode] = useState<number>();
   const {
     data: postalCodes,
@@ -64,14 +67,21 @@ export const EnterStreet = () => {
 
   return (
     <Row>
-      <Col span={24}>
+      <Col {...grid}>
+        <Typography style={{ paddingLeft: 8, paddingRight: 8 }}>
+          <Title level={4}>In welke buurt woon je?</Title>
+          <Paragraph>
+            {firebaseUser?.displayName}, gelieve ons te laten weten in welke
+            buurt je woont. Zo kunnen we mensen die mondmaskers zoeken,
+            samenbrengen met superhelden, die mondmaskers maken.
+          </Paragraph>
+        </Typography>
         <Form
           form={form}
           size="large"
           labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
+          wrapperCol={{ span: 10 }}
           onFinish={createMe}
-          hideRequiredMark
         >
           <Form.Item
             label={t("requestor.enterStreet.postalCode.label")}
@@ -105,6 +115,7 @@ export const EnterStreet = () => {
             name="streetId"
             validateStatus="validating"
             hasFeedback={isFetchingStreets}
+            extra="Niemand zal ooit je straat zien. We gebruiken dit enkel om mensen in elkaars buurt samen te brengen."
             rules={[
               {
                 required: true,
@@ -127,7 +138,11 @@ export const EnterStreet = () => {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item label="WhatsApp" name="whatsapp">
+          <Form.Item
+            label="WhatsApp"
+            name="whatsapp"
+            extra="Je zal per mail kunnen communiceren met elkaar, maar vaak is het makkelijker via Whatsapp."
+          >
             <Input
               maxLength={9}
               addonBefore="+32"
@@ -152,3 +167,5 @@ export const EnterStreet = () => {
     </Row>
   );
 };
+
+export default EnterStreet;

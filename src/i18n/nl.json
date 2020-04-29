@@ -6,6 +6,7 @@
   "next": "Ga verder",
   "thanks": "Bedankt",
   "cancel": "annuleer",
+  "close": "Sluiten",
   "thePerson": "De persoon",
   "needsMouthmaskAmount": "Aantal",
   "update": "Pas aan",
@@ -57,7 +58,7 @@
         "placeholder": "Geef je straat in"
       },
       "whatsapp": {
-        "placeholder": "Optioneel kan je je WhatsApp nummer opgeven"
+        "placeholder": "Optioneel"
       }
     },
     "collapseTitle": "Ik zoek mondmaskers",

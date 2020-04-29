@@ -9,7 +9,7 @@ type TFormValues = {
   stars?: number;
 };
 
-export const Stars = () => {
+const Stars = () => {
   const { t } = useTranslation();
   const [form] = Form.useForm();
   const [showStars, setShowStars] = useState(true);
@@ -55,3 +55,5 @@ export const Stars = () => {
     </>
   );
 };
+
+export default Stars;

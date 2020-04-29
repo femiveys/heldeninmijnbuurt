@@ -5,11 +5,11 @@ import { useTranslation } from "react-i18next";
 
 const { Title, Paragraph } = Typography;
 
-export const Login = () => {
+const Login = () => {
   const { t } = useTranslation();
 
   return (
-    <Row justify="center">
+    <Row justify="center" style={{ padding: 32 }}>
       <Col style={{ maxWidth: "600px" }}>
         <Title>
           Mondmaskers zijn levensredders! Pakt uw naaimachine en word een
@@ -52,3 +52,5 @@ export const Login = () => {
     </Row>
   );
 };
+
+export default Login;

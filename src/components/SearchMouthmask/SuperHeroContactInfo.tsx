@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Card, Space, Typography, Row, Col, Button } from "antd";
 import {
@@ -6,10 +7,9 @@ import {
   WhatsAppOutlined,
 } from "@ant-design/icons";
 import { useApi } from "../../hooks";
-import { notImplemented } from "../../helpers";
-import { CancelButton } from "./CancelButton";
+import CancelButton from "./CancelButton";
 import { TRelationUser } from "../../types";
-import { useCallback } from "react";
+import { notImplemented } from "../../helpers";
 
 const { Paragraph } = Typography;
 
@@ -23,7 +23,7 @@ type TProps = {
   needsMouthmaskAmount: number;
 };
 
-export const SuperHeroContactInfo = (props: TProps) => {
+const SuperHeroContactInfo = (props: TProps) => {
   const { t } = useTranslation();
   const { isLoading: isMarkingAsHandedOver, callApi } = useApi(
     "PUT",
@@ -105,3 +105,5 @@ export const SuperHeroContactInfo = (props: TProps) => {
     </Row>
   );
 };
+
+export default SuperHeroContactInfo;
