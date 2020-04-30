@@ -1,8 +1,7 @@
 import { useEffect, useCallback, useState } from "react";
-import { Table, Typography, Button, Spin } from "antd";
+import { Table, Typography, Button } from "antd";
 import { CloseOutlined, DownloadOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import { keyBy, mapValues, NumericDictionary } from "lodash";
 import { formatLengthDistance } from "../../helpers";
 import { apiCall } from "../../axios";
 import { useUser } from "../../hooks";
@@ -25,16 +24,6 @@ export const RequestedRequests = ({
   const { t } = useTranslation();
   const { user, updateUser } = useUser();
   const [data, setData] = useState(requests);
-  const [isUpdatingRelation, setIsUpdatingRelation] = useState<
-    NumericDictionary<boolean>
-  >({});
-
-  // Initialize the isUpdatingRelation map
-  useEffect(() => {
-    const dataByRelationId = keyBy(data, "relationId");
-    const initialMap = mapValues(dataByRelationId, () => false);
-    setIsUpdatingRelation(initialMap);
-  }, [data]);
 
   // Update the state when the requests change
   useEffect(() => {
@@ -54,7 +43,6 @@ export const RequestedRequests = ({
       updateUser({ maskStock: user.maskStock - needsMouthmaskAmount });
     }
 
-    setIsUpdatingRelation({ ...isUpdatingRelation, [relationId]: true });
     try {
       if (await apiCall("PUT", `superhero/${action}/${relationId}`)) {
         await fetchAccepted();
@@ -63,11 +51,10 @@ export const RequestedRequests = ({
     } catch (error) {
       console.error(error);
     }
-    setIsUpdatingRelation({ ...isUpdatingRelation, [relationId]: false });
   };
 
-  const accept = useCallback(acceptOrDecline("accept"), [isUpdatingRelation]);
-  const decline = useCallback(acceptOrDecline("decline"), [isUpdatingRelation]);
+  const accept = useCallback(acceptOrDecline("accept"), []);
+  const decline = useCallback(acceptOrDecline("decline"), []);
 
   return data && data.length > 0 ? (
     <div>
@@ -118,13 +105,6 @@ export const RequestedRequests = ({
             >
               {t("no")}
             </Button>
-          )}
-        />
-        <Column
-          key="loading"
-          dataIndex="relationId"
-          render={(relationId) => (
-            <Spin spinning={isUpdatingRelation[relationId]} />
           )}
         />
       </Table>

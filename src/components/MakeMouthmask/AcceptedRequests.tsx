@@ -6,7 +6,6 @@ import {
 } from "@ant-design/icons";
 import { Table, Space, Typography, Button, Row, Col, Modal } from "antd";
 import { useTranslation } from "react-i18next";
-import { mapValues, NumericDictionary, keyBy } from "lodash";
 import { apiCall } from "../../axios";
 import { useUser } from "../../hooks";
 import { TRelationUser } from "../../types";
@@ -35,17 +34,7 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
   const { t } = useTranslation();
   const { updateUser, user } = useUser();
   const [data, setData] = useState(requests);
-  const [isUpdatingRelation, setUpdatingRelation] = useState<
-    NumericDictionary<boolean>
-  >({});
   const [expandedRowKeys, setExpandedRowKeys] = useState<number[]>([]);
-
-  // Initialize the isUpdatingRelation map
-  useEffect(() => {
-    const dataByRelationId = keyBy(data, "relation.id");
-    const initialMap = mapValues(dataByRelationId, () => false);
-    setUpdatingRelation(initialMap);
-  }, [data]);
 
   // Update the state when the requests change
   useEffect(() => {
@@ -64,7 +53,6 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
       updateUser({ numDelivered: user.numDelivered + needsMouthmaskAmount });
     }
 
-    setUpdatingRelation({ ...isUpdatingRelation, [relationId]: true });
     try {
       if (await apiCall("PUT", `superhero/${action}/${relationId}`)) {
         await fetchAccepted();
@@ -72,7 +60,6 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
     } catch (error) {
       console.error(error);
     }
-    setUpdatingRelation({ ...isUpdatingRelation, [relationId]: false });
   };
 
   const onContactClick = (record: TRecord) => () => {
@@ -81,11 +68,9 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
 
   const markAsHandedOver = useCallback(
     markAsHandedOverOrDecline("markAsHandedOver"),
-    [isUpdatingRelation]
+    []
   );
-  const decline = useCallback(markAsHandedOverOrDecline("decline"), [
-    isUpdatingRelation,
-  ]);
+  const decline = useCallback(markAsHandedOverOrDecline("decline"), []);
 
   const dataWithKeys =
     data && data.length > 0
@@ -178,7 +163,6 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
                 relationId,
                 record.user.needsMouthmaskAmount
               )}
-              loading={isUpdatingRelation[relationId]}
             ></Button>
           )}
         />
