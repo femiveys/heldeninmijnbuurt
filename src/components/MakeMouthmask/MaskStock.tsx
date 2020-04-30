@@ -7,12 +7,12 @@ const { Text } = Typography;
 import "./styles.less";
 
 type TProps = {
-  stock: string;
+  stock: number;
   fetchRequested: () => Promise<void>;
 };
 
 const MaskStock = ({ stock, fetchRequested }: TProps) => {
-  const { updateUser, user } = useUser();
+  const { updateUser } = useUser();
   const { callApi: setMaskStock } = useApi("PUT", "superhero/setMaskStock");
 
   const updateStock = useCallback(
@@ -21,11 +21,11 @@ const MaskStock = ({ stock, fetchRequested }: TProps) => {
       if (
         value.trim() !== "" &&
         Number.isSafeInteger(maskStock) &&
-        maskStock !== Number(stock)
+        maskStock !== stock
       ) {
         updateUser({ maskStock });
         await setMaskStock({ maskStock });
-        if (maskStock > Number(user?.maskStock)) {
+        if (maskStock > stock) {
           fetchRequested();
         }
       }
@@ -40,7 +40,7 @@ const MaskStock = ({ stock, fetchRequested }: TProps) => {
         style={{ fontSize: 24 }}
         editable={{ onChange: updateStock }}
       >
-        {stock}
+        {stock.toString()}
       </Text>
     </div>
   );

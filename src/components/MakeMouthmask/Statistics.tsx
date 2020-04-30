@@ -24,7 +24,7 @@ const Statistics = ({ fetchRequested }: TProps) => {
           value={user?.maskStock.toString()}
           formatter={(value) => (
             <MaskStock
-              stock={value.toString()}
+              stock={value as number}
               fetchRequested={fetchRequested}
             />
           )}
