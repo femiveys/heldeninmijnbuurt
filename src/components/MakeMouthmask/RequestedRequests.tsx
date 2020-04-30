@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useState } from "react";
-import { Table, Typography, Button } from "antd";
+import { Table, Typography, Button, Modal } from "antd";
 import { CloseOutlined, DownloadOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { formatLengthDistance } from "../../helpers";
@@ -7,7 +7,7 @@ import { apiCall } from "../../axios";
 import { useUser } from "../../hooks";
 import { TRequestedRequest } from "../../types";
 
-const { Title } = Typography;
+const { Title, Paragraph } = Typography;
 const { Column } = Table;
 
 type TProps = {
@@ -101,7 +101,27 @@ export const RequestedRequests = ({
               type="primary"
               size="small"
               icon={<CloseOutlined />}
-              onClick={decline(relationId)}
+              onClick={() => {
+                Modal.confirm({
+                  title: "Ben je zeker dat je deze maskers niet kan naaien?",
+                  content: (
+                    <Typography>
+                      <Paragraph>
+                        dat je deze maskers niet kan naaien.
+                      </Paragraph>
+                      <Paragraph>
+                        Spijtig, maar de aanvrager zal in ieder geval niet weten
+                        dat jij de maskers niet kon naaien. Wij zoeken voor hem
+                        of haar een nieuwe superheld. Zo kan jij op je beide
+                        oren slapen.
+                      </Paragraph>
+                    </Typography>
+                  ),
+                  okText: "Ja, ik ben zeker",
+                  cancelText: "Nee, ik twijfel toch",
+                  onOk: decline(relationId),
+                });
+              }}
             >
               {t("no")}
             </Button>
