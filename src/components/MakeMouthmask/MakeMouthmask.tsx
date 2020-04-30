@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { Space, Row, Col } from "antd";
 import HeroTitle from "./HeroTitle";
-import AvailableForm from "./AvailableForm";
+import MaskStock from "./MaskStock";
 import { RequestedRequests } from "./RequestedRequests";
 import AcceptedRequests from "./AcceptedRequests";
 import { useUser } from "../../hooks";
@@ -43,7 +43,7 @@ export const MakeMouthmask = () => {
             {user?.numDelivered ? (
               <HeroTitle numDelivered={user.numDelivered} />
             ) : null}
-            <AvailableForm />
+            <MaskStock />
             <RequestedRequests
               ref={requestedRequestsRef}
               acceptedRequestsRef={acceptedRequestsRef}

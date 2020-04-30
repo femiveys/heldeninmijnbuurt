@@ -1,6 +1,6 @@
 import { db } from "../../db";
 import { TUserFromDb, TRelationFromDb } from "../types.db";
-import { checkMaker } from "./common";
+import { checkMaker, getMaskStock } from "./common";
 import {
   MAX_DISTANCE,
   hasNoActiveRelation,
@@ -22,17 +22,16 @@ import { ERelationStatus } from "../../types";
 export const setMaskStock = async (makerId: string, amount: number) => {
   await checkMaker(makerId);
 
-  const result = await db<TUserFromDb>("user")
-    .where({ user_id: makerId })
-    .first("mask_stock");
-  const oldMaskStock = result ? result.mask_stock : 0;
+  const oldMaskStock = await getMaskStock(makerId);
 
   await db<TUserFromDb>("user").where({ user_id: makerId }).update({
     mask_stock: amount,
   });
 
   if (oldMaskStock < amount) {
-    await assignNearestUnassignedRequestors(makerId, amount);
+    return await assignNearestUnassignedRequestors(makerId, amount);
+  } else {
+    return 0;
   }
 };
 

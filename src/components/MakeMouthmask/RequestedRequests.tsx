@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { keyBy, find, mapValues, NumericDictionary } from "lodash";
 import { formatLengthDistance } from "../../helpers";
 import { apiCall } from "../../axios";
-import { useApi } from "../../hooks";
+import { useApi, useUser } from "../../hooks";
 import { TRequestedRequest } from "../../types";
 
 const { Title } = Typography;
@@ -24,6 +24,7 @@ type TProps = {
 export const RequestedRequests = forwardRef(
   ({ acceptedRequestsRef }: TProps, ref) => {
     const { t } = useTranslation();
+    const { user, updateUser } = useUser();
     const [isUpdatingRelation, setIsUpdatingRow] = useState<
       NumericDictionary<boolean>
     >({});
@@ -46,9 +47,17 @@ export const RequestedRequests = forwardRef(
     }, [data]);
 
     const acceptOrDecline = (action: "accept" | "decline") => (
-      relationId: number
+      relationId: number,
+      needsMouthmaskAmount?: number
     ) => async () => {
       setIsUpdatingRow({ ...isUpdatingRelation, [relationId]: true });
+
+      console.log(needsMouthmaskAmount);
+
+      if (needsMouthmaskAmount && user) {
+        updateUser({ maskStock: user.maskStock - needsMouthmaskAmount });
+      }
+
       try {
         if (await apiCall("PUT", `superhero/${action}/${relationId}`)) {
           await acceptedRequestsRef.current?.callApi();
@@ -87,18 +96,18 @@ export const RequestedRequests = forwardRef(
             align="right"
             render={(distance) => formatLengthDistance(distance)}
           />
-          <Column
+          <Column<TRequestedRequest>
             key="accept"
             title={t("maker.requested.ableToHelp")}
             dataIndex="relationId"
             colSpan={2}
             align="center"
-            render={(relationId) => (
+            render={(relationId, record) => (
               <Button
                 type="primary"
                 size="small"
                 icon={<DownloadOutlined />}
-                onClick={accept(relationId)}
+                onClick={accept(relationId, record.needsMouthmaskAmount)}
               >
                 {t("yes")}
               </Button>
