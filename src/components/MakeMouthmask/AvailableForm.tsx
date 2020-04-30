@@ -19,7 +19,7 @@ const AvailableForm = () => {
   );
 
   const updateStock = useCallback(async (values: TFormValues) => {
-    await setMaskStock(values);
+    setMaskStock(values); // In the background
     updateUser(values);
   }, []);
 
@@ -35,7 +35,7 @@ const AvailableForm = () => {
         style={{ display: "flex", justifyContent: "center" }}
       >
         <Form.Item name="maskStock" style={{ display: "inline-block" }}>
-          <Input style={{ width: 40 }} />
+          <Input style={{ width: 70 }} />
         </Form.Item>
         <Form.Item shouldUpdate>
           {() => (
