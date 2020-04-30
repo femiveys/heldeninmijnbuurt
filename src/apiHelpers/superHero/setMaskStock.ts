@@ -22,51 +22,76 @@ import { ERelationStatus } from "../../types";
 export const setMaskStock = async (makerId: string, amount: number) => {
   await checkMaker(makerId);
 
+  const result = await db<TUserFromDb>("user")
+    .where({ user_id: makerId })
+    .first("mask_stock");
+  const oldMaskStock = result ? result.mask_stock : 0;
+
   await db<TUserFromDb>("user").where({ user_id: makerId }).update({
     mask_stock: amount,
   });
-  await assignNearestUnassignedRequestors(makerId);
+
+  if (oldMaskStock < amount) {
+    await assignNearestUnassignedRequestors(makerId, amount);
+  }
 };
 
-export const assignNearestUnassignedRequestors = async (makerId: string) => {
+/**
+ * Assigns requestors nearby that don't have a maker assigned to the maker
+ * We make sure the stock doesn't get exhausted
+ * We make sure a makes cannot get assigned more than 10 relations at a time
+ * @param makerId - the userId of the maker to find new requestor for
+ * @param maskStock - the stock of the maker
+ * @returns The number of relations added
+ */
+const assignNearestUnassignedRequestors = async (
+  makerId: string,
+  maskStock: number
+) => {
+  // Get all the nearest requestorIds
+  const nearestRequestors = await getNearestRequestors(makerId);
+
+  // Of all the nearest requestors we need to filter out the ones with no
+  // relations or with all relations are declined.
+  // In other words, we need to keep all the ones with no active relations
+  const eligableRequestors = nearestRequestors.filter(
+    async (requestor) => await hasNoActiveRelation(requestor.requestorId)
+  );
+
+  // Then we filter out all requestors of the relations the maker already has
   const activeMakerRelations = await getActiveMakerRelations(makerId);
   const requestorIdsOfActiveRelations = activeMakerRelations.map(
     (activeMakerRelation) => activeMakerRelation.requestor_id
   );
-
-  // Get all the nearest requestorIds
-  const nearestDistanceRequestorIds = await getNearestDistanceRequestorIds(
-    makerId
+  const filteredRequestors = eligableRequestors.filter(
+    (requestor) =>
+      !requestorIdsOfActiveRelations.includes(requestor.requestorId)
   );
 
-  // Of all the nearest requestorIds we need to filter out the ones with no
-  // relations or with all relations are declined.
-  // In other words, we need to keep all the ones with no active relations
-  const eligableDistanceRequestors = nearestDistanceRequestorIds.filter(
-    async (item) => await hasNoActiveRelation(item.requestorId)
-  );
+  // Then we prioritize on short distance
+  const sortedRequestors = sortBy(filteredRequestors, "maxDistance");
 
-  // Then we filter out all distanceRequestors of the relations the maker already has
-  const filteredDistanceRequestors = eligableDistanceRequestors.filter(
-    (dr) => !requestorIdsOfActiveRelations.includes(dr.requestorId)
-  );
-
-  const sortedEligableRequestors = sortBy(
-    filteredDistanceRequestors,
-    "maxDistance"
-  );
-
+  // We make sure 1 maker doesn't have more that 10 active relations
   const maxNumberToAdd = MAX_ACTIVE_RELATIONS - activeMakerRelations.length;
-  const numberToAdd = Math.min(maxNumberToAdd, sortedEligableRequestors.length);
+  const numberToAdd = Math.min(maxNumberToAdd, sortedRequestors.length);
 
-  let i;
-  for (i = 0; i < numberToAdd; i++) {
+  // We loop over the sortedRequestors to make new relations
+  // and we make sure the maker doesn't end up with more than 10 active relations
+  // the stock doesn't get 0
+  let i = 0;
+  let maskStockLeft = maskStock;
+  while (i < numberToAdd && maskStockLeft >= 0) {
+    const requestor = sortedRequestors[i];
     await createMaskRelation(
-      sortedEligableRequestors[i].requestorId,
+      requestor.requestorId,
       makerId,
-      sortedEligableRequestors[i].distance
+      requestor.distance
     );
+    i++;
+    maskStockLeft -= requestor.amount;
   }
+
+  // Finally we return the number of created relations
   return i;
 };
 
@@ -78,7 +103,8 @@ export const getActiveMakerRelations = async (makerId: string) => {
   return result;
 };
 
-type TDistanceRequestorId = {
+type TRequestor = {
+  amount: number;
   distance: number;
   requestorId: string;
 };
@@ -91,14 +117,17 @@ type TDistanceRequestorId = {
  * @returns A list of the requestorIds and their distances from the makerId
  *          can be an empty array
  */
-const getNearestDistanceRequestorIds = async (
+const getNearestRequestors = async (
   makerId: string,
   maxDistance: number = MAX_DISTANCE
 ) => {
   const distance =
     "ST_Distance_Sphere(r_street.geolocation, h_street.geolocation)";
   const sql = `
-    SELECT ${distance} distance, requestor.user_id requestorId
+    SELECT
+      ${distance} distance,
+      requestor.user_id requestorId,
+      requestor.needs_mouthmask_amount amount
     FROM user requestor, street r_street, user hero, street h_street
     WHERE hero.user_id=:makerId
     AND requestor.street_id = r_street.id
@@ -111,7 +140,7 @@ const getNearestDistanceRequestorIds = async (
     AND ${distance} < :maxDistance
     `;
 
-  const results = await db.raw<TDistanceRequestorId[][]>(sql, {
+  const results = await db.raw<TRequestor[][]>(sql, {
     makerId,
     maxDistance,
   });
