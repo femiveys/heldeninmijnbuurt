@@ -1,10 +1,4 @@
-import {
-  useEffect,
-  useCallback,
-  useState,
-  useImperativeHandle,
-  forwardRef,
-} from "react";
+import { useEffect, useCallback, useState } from "react";
 import {
   MailOutlined,
   WhatsAppOutlined,
@@ -12,9 +6,9 @@ import {
 } from "@ant-design/icons";
 import { Table, Space, Typography, Button, Spin, Row, Col, Modal } from "antd";
 import { useTranslation } from "react-i18next";
-import { keyBy, find, mapValues, NumericDictionary } from "lodash";
+import { mapValues, NumericDictionary, keyBy } from "lodash";
 import { apiCall } from "../../axios";
-import { useApi, useUser } from "../../hooks";
+import { useUser } from "../../hooks";
 import { TRelationUser } from "../../types";
 
 type TRecord = TRelationUser & { key: number };
@@ -32,24 +26,19 @@ const iconStyle = {
   fontSize: 16,
 };
 
-const AcceptedRequests = forwardRef(({ requestedRequestsRef }: any, ref) => {
+type TProps = {
+  requests: TRelationUser[];
+  fetchAccepted: () => Promise<void>;
+};
+
+const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
   const { t } = useTranslation();
   const { updateUser, user } = useUser();
-  const { isLoading, callApi, data } = useApi<TRelationUser[]>(
-    "GET",
-    "superhero/requests/accepted",
-    []
-  );
+  const [data, setData] = useState(requests);
   const [isUpdatingRelation, setUpdatingRelation] = useState<
     NumericDictionary<boolean>
   >({});
   const [expandedRowKeys, setExpandedRowKeys] = useState<number[]>([]);
-
-  useImperativeHandle(ref, () => ({ callApi }));
-
-  useEffect(() => {
-    callApi();
-  }, []);
 
   useEffect(() => {
     const dataByRelationId = keyBy(data, "relation.id");
@@ -68,7 +57,7 @@ const AcceptedRequests = forwardRef(({ requestedRequestsRef }: any, ref) => {
             numDelivered: user.numDelivered + needsMouthmaskAmount,
           });
         }
-        await callApi();
+        await fetchAccepted();
       }
     } catch (error) {
       console.error(error);
@@ -88,17 +77,12 @@ const AcceptedRequests = forwardRef(({ requestedRequestsRef }: any, ref) => {
     isUpdatingRelation,
   ]);
 
-  const isInitialLoading =
-    isLoading && !find(isUpdatingRelation, (value) => value === true);
-
   const dataWithKeys =
     data && data.length > 0
       ? data.map((record) => ({ key: record.relation.id, ...record }))
       : [];
 
-  return isInitialLoading ? (
-    <Spin />
-  ) : dataWithKeys.length > 0 ? (
+  return dataWithKeys.length > 0 ? (
     <div>
       <Title level={4}>{t("maker.accepted.title")}</Title>
       <Table<TRecord>
@@ -191,6 +175,6 @@ const AcceptedRequests = forwardRef(({ requestedRequestsRef }: any, ref) => {
       </Table>
     </div>
   ) : null;
-});
+};
 
 export default AcceptedRequests;
