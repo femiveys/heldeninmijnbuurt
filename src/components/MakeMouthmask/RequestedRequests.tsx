@@ -45,12 +45,16 @@ export const RequestedRequests = ({
     relationId: number,
     needsMouthmaskAmount?: number
   ) => async () => {
-    setIsUpdatingRelation({ ...isUpdatingRelation, [relationId]: true });
+    // We do an optimistic update on the current table
+    setData(data.filter((row) => row.relationId !== relationId));
 
+    // We do an optimistic update on the user. This will only be done
+    // if it's an accept because of passing needsMouthmaskAmount
     if (needsMouthmaskAmount && user) {
       updateUser({ maskStock: user.maskStock - needsMouthmaskAmount });
     }
 
+    setIsUpdatingRelation({ ...isUpdatingRelation, [relationId]: true });
     try {
       if (await apiCall("PUT", `superhero/${action}/${relationId}`)) {
         await fetchAccepted();

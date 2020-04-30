@@ -4,7 +4,7 @@ import {
   WhatsAppOutlined,
   CheckOutlined,
 } from "@ant-design/icons";
-import { Table, Space, Typography, Button, Spin, Row, Col, Modal } from "antd";
+import { Table, Space, Typography, Button, Row, Col, Modal } from "antd";
 import { useTranslation } from "react-i18next";
 import { mapValues, NumericDictionary, keyBy } from "lodash";
 import { apiCall } from "../../axios";
@@ -55,14 +55,18 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
   const markAsHandedOverOrDecline = (
     action: "markAsHandedOver" | "decline"
   ) => (relationId: number, needsMouthmaskAmount?: number) => async () => {
+    // We do an optimistic update on the current table
+    setData(data.filter((row) => row.relation.id !== relationId));
+
+    // We do an optimistic update on the user. This will only be done
+    // if it's a markAsHandedOver because of passing needsMouthmaskAmount
+    if (needsMouthmaskAmount && user) {
+      updateUser({ numDelivered: user.numDelivered + needsMouthmaskAmount });
+    }
+
     setUpdatingRelation({ ...isUpdatingRelation, [relationId]: true });
     try {
       if (await apiCall("PUT", `superhero/${action}/${relationId}`)) {
-        if (needsMouthmaskAmount && user) {
-          updateUser({
-            numDelivered: user.numDelivered + needsMouthmaskAmount,
-          });
-        }
         await fetchAccepted();
       }
     } catch (error) {

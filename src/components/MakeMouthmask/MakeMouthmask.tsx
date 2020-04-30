@@ -29,7 +29,6 @@ export const MakeMouthmask = () => {
       setIsInitialLoading(false);
     };
     init();
-    console.log("INIT");
   }, []);
 
   const showSpinner =
