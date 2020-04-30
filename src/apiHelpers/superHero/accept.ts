@@ -2,7 +2,7 @@ import { db } from "../../db";
 import { checkRelationId } from "../common";
 import { mailByRelationId } from "../mailer";
 import { ERelationStatus } from "../../types";
-import { checkMaker } from "./common";
+import { checkMaker, getNeedsMouthmaskAmount } from "./common";
 import { TRelationFromDb, TUserFromDb } from "../types.db";
 
 /**
@@ -18,30 +18,18 @@ import { TRelationFromDb, TUserFromDb } from "../types.db";
 export const accept = async (makerId: string, relationId: number) => {
   checkRelationId(relationId);
   await checkMaker(makerId);
-
   await decreaseStock(makerId, relationId);
+  await setAccepted(makerId, relationId);
+  return await mailByRelationId("requestor", relationId, "accepted");
+};
 
-  const result = await db<TRelationFromDb>("relation")
+const setAccepted = async (makerId: string, relationId: number) =>
+  await db<TRelationFromDb>("relation")
     .where({ id: relationId, hero_id: makerId })
     .update({ status: ERelationStatus.accepted, accept_date: new Date() });
 
-  if (result) {
-    return await mailByRelationId("requestor", relationId, "accepted");
-  } else {
-    throw new Error(
-      `There was a problem setting relation ${relationId} to accepted`
-    );
-  }
-};
-
 const decreaseStock = async (makerId: string, relationId: number) => {
-  // Get the needs_mouthmask_amount of the requestor found on the relation
-  const result = await db<TUserFromDb>("user")
-    .join<TRelationFromDb>("relation", "user.user_id", "relation.requestor_id")
-    .where("relation.id", relationId)
-    .first<TUserFromDb>("user.needs_mouthmask_amount");
-
-  const amount = result.needs_mouthmask_amount;
+  const amount = await getNeedsMouthmaskAmount(relationId);
 
   return await db<TUserFromDb>("user")
     .where({ user_id: makerId })

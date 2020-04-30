@@ -19,22 +19,17 @@ import { TRelationFromDb } from "../types.db";
 export const decline = async (makerId: string, relationId: number) => {
   checkRelationId(relationId);
   await checkMaker(makerId);
+  await setDeclined(makerId, relationId);
+  const distanceUserId = await reAssign(relationId);
+  return distanceUserId
+    ? await mailByRelationId("requestor", relationId, "declinedAndReassigned")
+    : await mailByRelationId("requestor", relationId, "declined");
+};
 
-  const result = await db("relation")
+const setDeclined = async (makerId: string, relationId: number) =>
+  await db("relation")
     .where({ id: relationId, hero_id: makerId })
     .update({ status: ERelationStatus.declined, decline_date: new Date() });
-
-  if (result) {
-    const distanceUserId = await reAssign(relationId);
-    return distanceUserId
-      ? await mailByRelationId("requestor", relationId, "declinedAndReassigned")
-      : await mailByRelationId("requestor", relationId, "declined");
-  } else {
-    throw new Error(
-      `There was a problem setting relation ${relationId} to declined`
-    );
-  }
-};
 
 /**
  * Reassigns a maker to the requestor of the relation.

@@ -1,5 +1,5 @@
 import { db } from "../../db";
-import { TUserFromDb } from "../types.db";
+import { TUserFromDb, TRelationFromDb } from "../types.db";
 
 /**
  * Checks if the passed makerId is a valid maker
@@ -38,4 +38,19 @@ export const getMaskStock = async (makerId: string) => {
     .where({ user_id: makerId })
     .first("mask_stock");
   return result ? result.mask_stock : 0;
+};
+
+/**
+ * Gets number of mouthmasks reqested of a relation
+ *
+ * @param relationId - the id of the relation to look on
+ * @returns The number of mouthmasks reqested
+ */
+export const getNeedsMouthmaskAmount = async (relationId: number) => {
+  const result = await db<TUserFromDb>("user")
+    .join<TRelationFromDb>("relation", "user.user_id", "relation.requestor_id")
+    .where("relation.id", relationId)
+    .first<TUserFromDb>("user.needs_mouthmask_amount");
+
+  return result.needs_mouthmask_amount;
 };

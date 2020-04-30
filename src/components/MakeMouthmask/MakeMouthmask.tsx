@@ -39,7 +39,11 @@ export const MakeMouthmask = () => {
         {user?.maskStock === null ? (
           <EnterStock />
         ) : (
-          <Space direction="vertical" size="large" style={{ width: "100%" }}>
+          <Space
+            size="large"
+            direction="vertical"
+            style={{ width: "100%", textAlign: "center" }}
+          >
             {user?.numDelivered ? (
               <HeroTitle numDelivered={user.numDelivered} />
             ) : null}

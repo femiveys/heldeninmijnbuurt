@@ -14,7 +14,7 @@ import { Table, Space, Typography, Button, Spin, Row, Col, Modal } from "antd";
 import { useTranslation } from "react-i18next";
 import { keyBy, find, mapValues, NumericDictionary } from "lodash";
 import { apiCall } from "../../axios";
-import { useApi } from "../../hooks";
+import { useApi, useUser } from "../../hooks";
 import { TRelationUser } from "../../types";
 
 type TRecord = TRelationUser & { key: number };
@@ -34,6 +34,7 @@ const iconStyle = {
 
 const AcceptedRequests = forwardRef(({ requestedRequestsRef }: any, ref) => {
   const { t } = useTranslation();
+  const { updateUser, user } = useUser();
   const { isLoading, callApi, data } = useApi<TRelationUser[]>(
     "GET",
     "superhero/requests/accepted",
@@ -56,12 +57,17 @@ const AcceptedRequests = forwardRef(({ requestedRequestsRef }: any, ref) => {
     setUpdatingRelation(initialMap);
   }, [data]);
 
-  const markByHeroAsHandedOverOrDecline = (
+  const markAsHandedOverOrDecline = (
     action: "markAsHandedOver" | "decline"
-  ) => (relationId: number) => async () => {
+  ) => (relationId: number, needsMouthmaskAmount?: number) => async () => {
     setUpdatingRelation({ ...isUpdatingRelation, [relationId]: true });
     try {
       if (await apiCall("PUT", `superhero/${action}/${relationId}`)) {
+        if (needsMouthmaskAmount && user) {
+          updateUser({
+            numDelivered: user.numDelivered + needsMouthmaskAmount,
+          });
+        }
         await callApi();
       }
     } catch (error) {
@@ -74,11 +80,11 @@ const AcceptedRequests = forwardRef(({ requestedRequestsRef }: any, ref) => {
     setExpandedRowKeys(addRemoveKey(expandedRowKeys, record));
   };
 
-  const setDelivered = useCallback(
-    markByHeroAsHandedOverOrDecline("markAsHandedOver"),
+  const markAsHandedOver = useCallback(
+    markAsHandedOverOrDecline("markAsHandedOver"),
     [isUpdatingRelation]
   );
-  const decline = useCallback(markByHeroAsHandedOverOrDecline("decline"), [
+  const decline = useCallback(markAsHandedOverOrDecline("decline"), [
     isUpdatingRelation,
   ]);
 
@@ -167,14 +173,17 @@ const AcceptedRequests = forwardRef(({ requestedRequestsRef }: any, ref) => {
           }
         />
         <Column<TRecord>
-          key="accept"
+          key="markAsHandedOver"
           dataIndex={["relation", "id"]}
-          render={(relationId) => (
+          render={(relationId, record) => (
             <Button
               type="primary"
               size="small"
               icon={<CheckOutlined />}
-              onClick={setDelivered(relationId)}
+              onClick={markAsHandedOver(
+                relationId,
+                record.user.needsMouthmaskAmount
+              )}
               loading={isUpdatingRelation[relationId]}
             ></Button>
           )}

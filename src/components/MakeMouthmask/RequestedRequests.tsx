@@ -52,8 +52,6 @@ export const RequestedRequests = forwardRef(
     ) => async () => {
       setIsUpdatingRow({ ...isUpdatingRelation, [relationId]: true });
 
-      console.log(needsMouthmaskAmount);
-
       if (needsMouthmaskAmount && user) {
         updateUser({ maskStock: user.maskStock - needsMouthmaskAmount });
       }

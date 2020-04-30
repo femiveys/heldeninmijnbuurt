@@ -47,40 +47,57 @@ const assignNearestUnassignedRequestors = async (
   makerId: string,
   maskStock: number
 ) => {
-  // Get all the nearest requestorIds
   const nearestRequestors = await getNearestRequestors(makerId);
 
-  // Of all the nearest requestors we need to filter out the ones with no
-  // relations or with all relations are declined.
-  // In other words, we need to keep all the ones with no active relations
   const eligableRequestors = nearestRequestors.filter(
     async (requestor) => await hasNoActiveRelation(requestor.requestorId)
   );
 
-  // Then we filter out all requestors of the relations the maker already has
   const activeMakerRelations = await getActiveMakerRelations(makerId);
-  const requestorIdsOfActiveRelations = activeMakerRelations.map(
-    (activeMakerRelation) => activeMakerRelation.requestor_id
-  );
-  const filteredRequestors = eligableRequestors.filter(
-    (requestor) =>
-      !requestorIdsOfActiveRelations.includes(requestor.requestorId)
+
+  const filteredRequestors = filterOwnActiveRequestors(
+    activeMakerRelations,
+    eligableRequestors
   );
 
-  // Then we prioritize on short distance
+  // We prioritize on short distance
   const sortedRequestors = sortBy(filteredRequestors, "maxDistance");
 
-  // We make sure 1 maker doesn't have more that 10 active relations
-  const maxNumberToAdd = MAX_ACTIVE_RELATIONS - activeMakerRelations.length;
-  const numberToAdd = Math.min(maxNumberToAdd, sortedRequestors.length);
+  const numberOfRelationsAdded = createLimitedRelations(
+    makerId,
+    maskStock,
+    sortedRequestors,
+    activeMakerRelations.length
+  );
 
-  // We loop over the sortedRequestors to make new relations
-  // and we make sure the maker doesn't end up with more than 10 active relations
-  // the stock doesn't get 0
+  return numberOfRelationsAdded;
+};
+
+/**
+ * We loop over the sortedRequestors to make new relations and we make sure
+ * - that the maker doesn't end up with more than 10 active relations
+ * - that the stock doesn't get 0
+ * @param makerId - the userId of the maker to find new requestor for
+ * @param maskStock - the stock of the maker
+ * @param requestors - the list of requestors to try to add
+ * @param numberOfActiveRelations - the number of active relations the maker
+ *                                  currently has
+ * @returns The number of relations added
+ */
+const createLimitedRelations = async (
+  makerId: string,
+  maskStock: number,
+  requestors: TRequestor[],
+  numberOfActiveRelations: number
+) => {
+  // We make sure 1 maker doesn't have more that 10 active relations
+  const maxNumberToAdd = MAX_ACTIVE_RELATIONS - numberOfActiveRelations;
+  const numberToAdd = Math.min(maxNumberToAdd, requestors.length);
+
   let i = 0;
   let maskStockLeft = maskStock;
   while (i < numberToAdd && maskStockLeft >= 0) {
-    const requestor = sortedRequestors[i];
+    const requestor = requestors[i];
     await createMaskRelation(
       requestor.requestorId,
       makerId,
@@ -90,22 +107,33 @@ const assignNearestUnassignedRequestors = async (
     maskStockLeft -= requestor.amount;
   }
 
-  // Finally we return the number of created relations
   return i;
 };
 
-export const getActiveMakerRelations = async (makerId: string) => {
-  const result = await db<TRelationFromDb>("relation")
+const getActiveMakerRelations = async (makerId: string) =>
+  await db<TRelationFromDb>("relation")
     .where({ hero_id: makerId })
     .whereIn("status", [ERelationStatus.requested, ERelationStatus.accepted])
     .select();
-  return result;
-};
 
 type TRequestor = {
   amount: number;
   distance: number;
   requestorId: string;
+};
+
+// Filter out all requestors of the relations the maker already has
+const filterOwnActiveRequestors = (
+  activeMakerRelations: TRelationFromDb[],
+  eligableRequestors: TRequestor[]
+) => {
+  const requestorIdsOfActiveRelations = activeMakerRelations.map(
+    (activeMakerRelation) => activeMakerRelation.requestor_id
+  );
+  return eligableRequestors.filter(
+    (requestor) =>
+      !requestorIdsOfActiveRelations.includes(requestor.requestorId)
+  );
 };
 
 /**
