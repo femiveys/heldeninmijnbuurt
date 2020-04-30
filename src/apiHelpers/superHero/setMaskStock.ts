@@ -12,7 +12,6 @@ import { ERelationStatus } from "../../types";
 
 /**
  * Sets mask_stock to amount
- * TODO: try to assign more
  * TODO: check input
  *
  * @param makerId - the userId of the maker to check if he is allowed to do this

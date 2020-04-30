@@ -1,18 +1,18 @@
 import { Typography } from "antd";
-import { useTranslation } from "react-i18next";
 import { useUser, useApi } from "../../hooks";
 import { useCallback } from "react";
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 import "./styles.less";
 
-const MaskStock = () => {
-  const { t } = useTranslation();
-  const { user, updateUser } = useUser();
-  const { callApi: setMaskStock } = useApi("PUT", "superhero/setMaskStock");
+type TProps = {
+  stock: string;
+};
 
-  const stock = Number(user?.maskStock);
+const MaskStock = ({ stock }: TProps) => {
+  const { updateUser } = useUser();
+  const { callApi: setMaskStock } = useApi("PUT", "superhero/setMaskStock");
 
   const updateStock = useCallback(
     (value: string) => {
@@ -20,7 +20,7 @@ const MaskStock = () => {
       if (
         value.trim() !== "" &&
         Number.isSafeInteger(maskStock) &&
-        maskStock !== stock
+        maskStock !== Number(stock)
       ) {
         setMaskStock({ maskStock }); // In the background
         updateUser({ maskStock });
@@ -31,13 +31,12 @@ const MaskStock = () => {
 
   return (
     <div className="mask-stock">
-      <Title level={4}>{t("maker.available.label")}</Title>
       <Text
         className="edit-mask-stock"
-        style={{ fontSize: 32 }}
+        style={{ fontSize: 24 }}
         editable={{ onChange: updateStock }}
       >
-        {stock.toString()}
+        {stock}
       </Text>
     </div>
   );
