@@ -18,9 +18,12 @@ export const useUser = () => {
     }
   }, []);
 
-  const updateUser = useCallback((fields: Partial<TUser>) => {
-    store.dispatch("user/setUser", { ...user, ...fields } as TUser);
-  }, []);
+  const updateUser = useCallback(
+    (fields: Partial<TUser>) => {
+      store.dispatch("user/setUser", { ...user, ...fields } as TUser);
+    },
+    [user]
+  );
 
   // return useMemo(() => {
   return { fetchUser, isFetchingUser, user, updateUser };
