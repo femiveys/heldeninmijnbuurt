@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Space, Row, Col, Spin } from "antd";
 import Statistics from "./Statistics";
 import { RequestedRequests } from "./RequestedRequests";
@@ -10,6 +10,7 @@ import { TRequestedRequest, TRelationUser } from "../../types";
 
 export const MakeMouthmask = () => {
   const { user } = useUser();
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
   const {
     isLoading: isLoadingRequested,
     callApi: fetchRequested,
@@ -22,9 +23,17 @@ export const MakeMouthmask = () => {
   } = useApi<TRelationUser[]>("GET", "superhero/requests/accepted", []);
 
   useEffect(() => {
-    fetchRequested();
-    fetchAccepted();
+    const init = async () => {
+      await fetchRequested();
+      await fetchAccepted();
+      setIsInitialLoading(false);
+    };
+    init();
+    console.log("INIT");
   }, []);
+
+  const showSpinner =
+    isInitialLoading && (isLoadingRequested || isLoadingAccepted);
 
   return (
     <Row>
@@ -37,9 +46,13 @@ export const MakeMouthmask = () => {
             direction="vertical"
             style={{ width: "100%", textAlign: "center" }}
           >
-            <Statistics />
-            {isLoadingRequested || isLoadingAccepted ? (
-              <Spin />
+            <Statistics fetchRequested={fetchRequested} />
+            {showSpinner ? (
+              <Spin
+                size="large"
+                tip="Je aanvragen aan het ophalen..."
+                style={{ marginTop: 100 }}
+              />
             ) : (
               <>
                 <RequestedRequests

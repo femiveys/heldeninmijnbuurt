@@ -1,20 +1,15 @@
 import { useTranslation } from "react-i18next";
-import { Space, Statistic, Row, Col } from "antd";
+import { Statistic, Row, Col } from "antd";
 import MaskStock from "./MaskStock";
 import { useUser } from "../../hooks";
 
-const Statistics = () => {
+type TProps = {
+  fetchRequested: () => Promise<void>;
+};
+
+const Statistics = ({ fetchRequested }: TProps) => {
   const { t } = useTranslation();
   const { user } = useUser();
-
-  // let text: string;
-  // if (numDelivered === 0) {
-  //   text = t("maker.heroTitle.zero");
-  // } else if (numDelivered < 20) {
-  //   text = t("maker.heroTitle.few");
-  // } else {
-  //   text = t("maker.heroTitle.many");
-  // }
 
   return (
     <Row justify="space-around">
@@ -27,7 +22,12 @@ const Statistics = () => {
         <Statistic
           title={t("maker.available.label")}
           value={user?.maskStock.toString()}
-          formatter={(value) => <MaskStock stock={value.toString()} />}
+          formatter={(value) => (
+            <MaskStock
+              stock={value.toString()}
+              fetchRequested={fetchRequested}
+            />
+          )}
         />
       </Col>
     </Row>

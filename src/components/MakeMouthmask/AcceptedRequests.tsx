@@ -40,11 +40,17 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
   >({});
   const [expandedRowKeys, setExpandedRowKeys] = useState<number[]>([]);
 
+  // Initialize the isUpdatingRelation map
   useEffect(() => {
     const dataByRelationId = keyBy(data, "relation.id");
     const initialMap = mapValues(dataByRelationId, () => false);
     setUpdatingRelation(initialMap);
   }, [data]);
+
+  // Update the state when the requests change
+  useEffect(() => {
+    setData(requests);
+  }, [requests]);
 
   const markAsHandedOverOrDecline = (
     action: "markAsHandedOver" | "decline"

@@ -25,21 +25,27 @@ export const RequestedRequests = ({
   const { t } = useTranslation();
   const { user, updateUser } = useUser();
   const [data, setData] = useState(requests);
-  const [isUpdatingRelation, setIsUpdatingRow] = useState<
+  const [isUpdatingRelation, setIsUpdatingRelation] = useState<
     NumericDictionary<boolean>
   >({});
 
+  // Initialize the isUpdatingRelation map
   useEffect(() => {
     const dataByRelationId = keyBy(data, "relationId");
     const initialMap = mapValues(dataByRelationId, () => false);
-    setIsUpdatingRow(initialMap);
+    setIsUpdatingRelation(initialMap);
   }, [data]);
+
+  // Update the state when the requests change
+  useEffect(() => {
+    setData(requests);
+  }, [requests]);
 
   const acceptOrDecline = (action: "accept" | "decline") => (
     relationId: number,
     needsMouthmaskAmount?: number
   ) => async () => {
-    setIsUpdatingRow({ ...isUpdatingRelation, [relationId]: true });
+    setIsUpdatingRelation({ ...isUpdatingRelation, [relationId]: true });
 
     if (needsMouthmaskAmount && user) {
       updateUser({ maskStock: user.maskStock - needsMouthmaskAmount });
@@ -53,7 +59,7 @@ export const RequestedRequests = ({
     } catch (error) {
       console.error(error);
     }
-    setIsUpdatingRow({ ...isUpdatingRelation, [relationId]: false });
+    setIsUpdatingRelation({ ...isUpdatingRelation, [relationId]: false });
   };
 
   const accept = useCallback(acceptOrDecline("accept"), [isUpdatingRelation]);

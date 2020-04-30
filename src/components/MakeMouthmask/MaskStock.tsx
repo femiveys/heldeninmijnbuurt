@@ -8,22 +8,26 @@ import "./styles.less";
 
 type TProps = {
   stock: string;
+  fetchRequested: () => Promise<void>;
 };
 
-const MaskStock = ({ stock }: TProps) => {
-  const { updateUser } = useUser();
+const MaskStock = ({ stock, fetchRequested }: TProps) => {
+  const { updateUser, user } = useUser();
   const { callApi: setMaskStock } = useApi("PUT", "superhero/setMaskStock");
 
   const updateStock = useCallback(
-    (value: string) => {
+    async (value: string) => {
       const maskStock = Number(value);
       if (
         value.trim() !== "" &&
         Number.isSafeInteger(maskStock) &&
         maskStock !== Number(stock)
       ) {
-        setMaskStock({ maskStock }); // In the background
         updateUser({ maskStock });
+        await setMaskStock({ maskStock });
+        if (maskStock > Number(user?.maskStock)) {
+          fetchRequested();
+        }
       }
     },
     [stock]
