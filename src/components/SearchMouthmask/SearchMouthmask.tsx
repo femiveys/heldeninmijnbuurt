@@ -3,10 +3,10 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import EnterMouthmaskAmount from "./EnterMouthmaskAmount";
 import WaitingForAcceptance from "./WaitingForAcceptance";
-import NoSuperheroFound from "./NoSuperHeroFound";
 import { useUser, useApi } from "../../hooks";
 import { ERelationStatus } from "../../types";
-import WithSuperHero from "./WithSuperhero";
+import WithSuperhero from "./WithSuperhero";
+import NoSuperheroFound from "./NoSuperheroFound";
 
 export const SearchMouthmask = () => {
   const { t } = useTranslation();
@@ -40,7 +40,7 @@ export const SearchMouthmask = () => {
       ) : relationStatus === ERelationStatus.requested ? (
         <WaitingForAcceptance />
       ) : (
-        <WithSuperHero needsMouthmaskAmount={needsMouthmaskAmount} />
+        <WithSuperhero needsMouthmaskAmount={needsMouthmaskAmount} />
       )}
     </>
   );
