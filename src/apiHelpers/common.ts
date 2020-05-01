@@ -1,5 +1,6 @@
 import { ERelationType, ERelationStatus } from "../types";
 import { db } from "../db";
+import { mailByRelationId } from "./mailer";
 
 export const MAX_DISTANCE = 50000;
 export const MAX_ACTIVE_RELATIONS = 10;
@@ -64,7 +65,7 @@ export const createMaskRelation = async (
   makerId: string,
   distance: number
 ) => {
-  return await db("relation")
+  const returningArray = await db("relation")
     .returning("id")
     .insert({
       type: ERelationType.maskRequest,
@@ -73,4 +74,12 @@ export const createMaskRelation = async (
       hero_id: makerId,
       distance: Math.round(distance),
     });
+
+  const relationId = returningArray[0];
+  if (relationId) {
+    mailByRelationId("hero", relationId, "assignedToHero");
+    mailByRelationId("requestor", relationId, "assignedToRequestor");
+  }
+
+  return returningArray;
 };

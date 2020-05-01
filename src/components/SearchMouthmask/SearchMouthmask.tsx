@@ -33,7 +33,7 @@ export const SearchMouthmask = () => {
       ) : isFetchingRelationStatus ? (
         <Spin
           tip="Aan het kijk of we een superheld gevonden hebben voor jou"
-          style={{ width: "100%", padding: 16 }}
+          style={{ width: "100%", marginTop: 200 }}
         />
       ) : !relationStatus ? (
         <NoSuperHeroFound />

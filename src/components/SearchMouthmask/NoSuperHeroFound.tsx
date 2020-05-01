@@ -1,8 +1,6 @@
 import { Row, Col, Typography, Result } from "antd";
 import { grid } from "../../helpers";
 import ShareButton from "../ShareButton";
-import CancelButton from "./CancelButton";
-import { useUser } from "../../hooks";
 import NotNeededAnymoreButton from "./NotNeededAnymoreButton";
 
 const { Paragraph } = Typography;
