@@ -5,7 +5,7 @@ import NotNeededAnymoreButton from "./NotNeededAnymoreButton";
 
 const { Paragraph } = Typography;
 
-const NoSuperHeroFound = () => {
+const NoSuperheroFound = () => {
   return (
     <Row>
       <Col {...grid}>
@@ -36,4 +36,4 @@ const NoSuperHeroFound = () => {
   );
 };
 
-export default NoSuperHeroFound;
+export default NoSuperheroFound;

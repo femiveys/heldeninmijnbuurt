@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import EnterMouthmaskAmount from "./EnterMouthmaskAmount";
 import WaitingForAcceptance from "./WaitingForAcceptance";
-import NoSuperHeroFound from "./NoSuperHeroFound";
+import NoSuperheroFound from "./NoSuperHeroFound";
 import { useUser, useApi } from "../../hooks";
 import { ERelationStatus } from "../../types";
 import WithSuperHero from "./WithSuperhero";
@@ -36,7 +36,7 @@ export const SearchMouthmask = () => {
           style={{ width: "100%", marginTop: 200 }}
         />
       ) : !relationStatus ? (
-        <NoSuperHeroFound />
+        <NoSuperheroFound />
       ) : relationStatus === ERelationStatus.requested ? (
         <WaitingForAcceptance />
       ) : (

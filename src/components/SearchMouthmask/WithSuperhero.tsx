@@ -1,9 +1,9 @@
 import { useApi } from "../../hooks";
 import { TRelationUser } from "../../types";
 import Done from "./Done";
-import SuperHeroContactInfo from "./SuperHeroContactInfo";
+import SuperheroContactInfo from "./SuperheroContactInfo";
 import { Spin } from "antd";
-import NoSuperHeroFound from "./NoSuperHeroFound";
+import NoSuperheroFound from "./NoSuperheroFound";
 import { useEffect } from "react";
 
 type TProps = {
@@ -27,14 +27,14 @@ const WithSuperhero = ({ needsMouthmaskAmount }: TProps) => {
       style={{ width: "100%", padding: 16 }}
     />
   ) : !superhero ? (
-    <NoSuperHeroFound />
+    <NoSuperheroFound />
   ) : superhero.relation.requestorHandoverDate ? (
     <Done
       needsMouthmaskAmount={needsMouthmaskAmount}
       showStars={!superhero.relation.heroStars}
     ></Done>
   ) : (
-    <SuperHeroContactInfo
+    <SuperheroContactInfo
       superhero={superhero}
       fetchSuperHero={fetchSuperHero}
       needsMouthmaskAmount={needsMouthmaskAmount}

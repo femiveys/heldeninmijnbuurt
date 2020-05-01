@@ -9,7 +9,7 @@ import {
 import { useApi } from "../../hooks";
 import CancelButton from "./CancelButton";
 import { TRelationUser } from "../../types";
-import { notImplemented } from "../../helpers";
+import { notImplemented, grid } from "../../helpers";
 
 const { Paragraph } = Typography;
 
@@ -23,7 +23,7 @@ type TProps = {
   needsMouthmaskAmount: number;
 };
 
-const SuperHeroContactInfo = (props: TProps) => {
+const SuperheroContactInfo = (props: TProps) => {
   const { t } = useTranslation();
   const { isLoading: isMarkingAsHandedOver, callApi } = useApi(
     "PUT",
@@ -42,68 +42,78 @@ const SuperHeroContactInfo = (props: TProps) => {
   };
 
   return (
-    <Row>
-      <Col flex="1 1">
-        <Card
-          title={t("requestor.contact.title")}
-          extra={
-            <CancelButton
-              name={superhero.user.name}
-              needsMouthmaskAmount={needsMouthmaskAmount}
-            />
-          }
-        >
-          <Space size="large" direction="vertical" style={{ width: "100%" }}>
-            <Space>
-              <UserOutlined style={iconStyle} />
-              {superhero.user.name}
-            </Space>
-            <Space>
-              <MailOutlined style={iconStyle} />
-              <a href={`mailto:${superhero.user.email}`} target="_blank">
-                {superhero.user.email}
-              </a>
-            </Space>
-            {superhero.user.whatsapp && (
-              <Space>
-                <WhatsAppOutlined style={iconStyle} />
-                {`+32${superhero.user.whatsapp}`}
-              </Space>
-            )}
-            {superhero.relation.heroHandoverDate ? (
-              <div>
-                <Paragraph>
-                  {t("requestor.contact.heroMarkedAsHandedOver", count)}
-                </Paragraph>
+    <Row {...grid}>
+      <Col>
+        <Row>
+          <Col flex="1 1">
+            <Card
+              title={t("requestor.contact.title")}
+              extra={
+                <CancelButton
+                  name={superhero.user.name}
+                  needsMouthmaskAmount={needsMouthmaskAmount}
+                />
+              }
+            >
+              <Space
+                size="large"
+                direction="vertical"
+                style={{ width: "100%" }}
+              >
                 <Space>
+                  <UserOutlined style={iconStyle} />
+                  {superhero.user.name}
+                </Space>
+                <Space>
+                  <MailOutlined style={iconStyle} />
+                  <a href={`mailto:${superhero.user.email}`} target="_blank">
+                    {superhero.user.email}
+                  </a>
+                </Space>
+                {superhero.user.whatsapp && (
+                  <Space>
+                    <WhatsAppOutlined style={iconStyle} />
+                    {`+32${superhero.user.whatsapp}`}
+                  </Space>
+                )}
+                {superhero.relation.heroHandoverDate ? (
+                  <div>
+                    <Paragraph>
+                      {t("requestor.contact.heroMarkedAsHandedOver", count)}
+                    </Paragraph>
+                    <Space>
+                      <Button
+                        type="primary"
+                        onClick={markAsHandedOver}
+                        loading={isMarkingAsHandedOver}
+                      >
+                        {t("yes")}
+                      </Button>
+                      <Button onClick={() => notImplemented()}>
+                        {t("no")}
+                      </Button>
+                    </Space>
+                  </div>
+                ) : (
                   <Button
+                    block
                     type="primary"
                     onClick={markAsHandedOver}
                     loading={isMarkingAsHandedOver}
                   >
-                    {t("yes")}
+                    {t("requestor.contact.received", count)}
                   </Button>
-                  <Button onClick={() => notImplemented()}>{t("no")}</Button>
-                </Space>
-              </div>
-            ) : (
-              <Button
-                block
-                type="primary"
-                onClick={markAsHandedOver}
-                loading={isMarkingAsHandedOver}
-              >
-                {t("requestor.contact.received", count)}
-              </Button>
-            )}
-          </Space>
-        </Card>
-      </Col>
-      <Col flex="1 1" style={{ padding: 16 }}>
-        <Paragraph>Some info on how to get in contact ...</Paragraph>
+                )}
+              </Space>
+            </Card>
+          </Col>
+          <Col flex="1 1" style={{ padding: 16 }}>
+            <Paragraph>Some info on how to get in contact ...</Paragraph>
+          </Col>
+        </Row>
       </Col>
     </Row>
   );
 };
 
-export default SuperHeroContactInfo;
+export default SuperheroContactInfo;

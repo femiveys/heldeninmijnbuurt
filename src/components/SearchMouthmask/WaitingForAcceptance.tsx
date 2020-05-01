@@ -15,6 +15,7 @@ const WaitingForAcceptance = () => {
     <Row>
       <Col {...grid}>
         <Result
+          status="success"
           title="We hebben jouw superheld in de buurt gevonden"
           subTitle={
             <Typography
@@ -22,7 +23,7 @@ const WaitingForAcceptance = () => {
             >
               <Paragraph>
                 We hebben iemand gevonden die maskers heeft. We hebben een mail
-                gestuurd en nu wachten we tot die je aanvraag aanvaardt.
+                gestuurd en nu wachten we tot hij of zij je aanvraag aanvaardt.
               </Paragraph>
               <Paragraph>
                 Enkel het aantal maskers en de afstand is doorgegeven, dus geen
