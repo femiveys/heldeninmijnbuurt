@@ -30,7 +30,7 @@ export type TUser = {
   hasMaterial: boolean;
   materials?: string;
   cancelDate: Date;
-};
+} & Omit<TStreet, "id">;
 
 export type TRelation = {
   id: number;
@@ -49,6 +49,7 @@ export type TRelation = {
   problem: string;
   requestorStars: number;
   heroStars: number;
+  thanksDate: Date;
 };
 
 export type TStreet = {

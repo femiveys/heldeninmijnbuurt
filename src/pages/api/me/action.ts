@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getFirebaseUser } from "../../../apiHelpers/me";
 import { setIsMaker } from "../../../apiHelpers/me/setIsMaker";
-import { unsetIsMaker } from "../../../apiHelpers/me/unsetIsMaker";
 import { setNeedsMouthmask } from "../../../apiHelpers/me/setNeedsMouthmask";
+import { stopMaking } from "../../../apiHelpers/me/unsetIsMaker";
 import { unsetNeedsMouthmask } from "../../../apiHelpers/me/unsetNeedsMouthmask";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -19,7 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           break;
 
         case "unsetIsMaker":
-          result = await unsetIsMaker(firebaseUser.uid);
+          result = await stopMaking(firebaseUser.uid);
           break;
 
         case "setNeedsMouthmask":

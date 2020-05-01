@@ -1,6 +1,5 @@
 import { db } from "../db";
 import { ERelationType, ERelationStatus } from "../types";
-import { mailByRelationId } from "./mailer";
 import { checkRequestor } from "./requestor/common";
 import {
   MAX_DISTANCE,
@@ -31,17 +30,7 @@ export const assignMakerTo = async (requestorId: string) => {
   );
 
   const { distance, userId } = distanceAndMakerId;
-  const returningArray = await createMaskRelation(
-    requestorId,
-    userId,
-    distance
-  );
-
-  const relationId = returningArray[0];
-  if (relationId) {
-    mailByRelationId("hero", relationId, "assignedToHero");
-    mailByRelationId("requestor", relationId, "assignedToRequestor");
-  }
+  await createMaskRelation(requestorId, userId, distance);
 
   return { distance, userId };
 };

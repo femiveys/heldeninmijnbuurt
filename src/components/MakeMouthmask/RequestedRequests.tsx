@@ -57,7 +57,7 @@ export const RequestedRequests = ({
   const decline = useCallback(acceptOrDecline("decline"), []);
 
   return data && data.length > 0 ? (
-    <div>
+    <div style={{ marginBottom: 32 }}>
       <Title level={4}>{t("maker.requested.title")}</Title>
       <Table size="small" dataSource={data} pagination={false}>
         <Column

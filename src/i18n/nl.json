@@ -66,17 +66,21 @@
       "title": "Hoeveel mondmaskers heb je nodig?"
     },
     "contact": {
-      "title": "Jouw superheld",
+      "title": "Jouw superheld op {{distance, distance}}",
       "loading": "Jouw superheld aan het zoeken",
       "heroMarkedAsHandedOver": "Blijkbaar heb je je masker al ontvangen. Klopt dit?",
       "heroMarkedAsHandedOver_plural": "Blijkbaar heb je je maskers al ontvangen. Klopt dit?",
-      "received": "Ik heb mijn mondmasker ontvangen",
-      "received_plural": "Ik heb mijn mondmaskers ontvangen",
+      "received": "Ik heb {{count}} mondmasker ontvangen",
+      "received_plural": "Ik heb {{count}} mondmaskers ontvangen",
+      "alert": {
+        "message": "Respecteer de veiligheidsmaatregelen",
+        "description": "Neem het materiaal uit het zakje. Was het 30 min op 60° en was je handen met water en zeep."
+      },
       "cancel": {
         "title": "Ben je zeker dat je je aanvraag wilt annuleren?",
         "consequences1": "Als je je aanvraag annuleert, zal je geen nieuwe aanvragen meer kunnen doen. Je kan wel zelf nog anderen meehelpen",
-        "consequences2": "{{name}} zal verwittigd worden dat je geen mondmasker meer nodig hebt.",
-        "consequences2_plural": "{{name}} zal verwittigd worden dat je geen mondmaskers meer nodig hebt."
+        "consequences2": "Wij verwittigen {{name}} alvast dat je geen mondmaskers meer nodig hebt. Jij hoeft niks te doen.",
+        "consequences2_plural": "Wij verwittigen {{name}} alvast dat je geen mondmaskers meer nodig hebt. Jij hoeft niks te doen."
       }
     },
     "done": {

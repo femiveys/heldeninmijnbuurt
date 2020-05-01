@@ -1,19 +1,25 @@
-import { Form, Button, Input } from "antd";
+import { Form, Button, Input, Alert } from "antd";
 import { useTranslation } from "react-i18next";
 import { useApi } from "../../hooks";
+import { useCallback, useState } from "react";
 
 const { TextArea } = Input;
 
 const ThankMessage = () => {
   const { t } = useTranslation();
   const [form] = Form.useForm();
-  const { isLoading: isStarring, callApi: star } = useApi(
-    "PUT",
-    "requestor/star"
-  );
+  const [messageStent, setMessageSent] = useState(false);
+  const { isLoading, callApi } = useApi("PUT", "requestor/action");
 
-  return (
-    <Form form={form} size="small" onFinish={star}>
+  const thank = useCallback(async (values: { message?: string }) => {
+    await callApi({ name: "thank", num: values.message });
+    setMessageSent(true);
+  }, []);
+
+  return messageStent ? (
+    <Alert type="success" message="Bedankt" />
+  ) : (
+    <Form form={form} size="small" onFinish={thank}>
       <Form.Item name="message">
         <TextArea
           placeholder={t("requestor.done.message.placeholder")}
@@ -25,7 +31,7 @@ const ThankMessage = () => {
           <Button
             type="primary"
             htmlType="submit"
-            loading={isStarring}
+            loading={isLoading}
             disabled={!form.getFieldValue("message")}
           >
             {t("requestor.done.message.send")}

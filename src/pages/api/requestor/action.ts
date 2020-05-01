@@ -4,6 +4,7 @@ import { cancel } from "../../../apiHelpers/requestor/cancel";
 import { markAsHandedOver } from "../../../apiHelpers/requestor/markAsHandedOver";
 import { setNeedsMouthmaskAmount } from "../../../apiHelpers/requestor/setNeedsMouthmaskAmount";
 import { starMaker } from "../../../apiHelpers/requestor/star";
+import { thank } from "../../../apiHelpers/requestor/thank";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "PUT") {
@@ -28,6 +29,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         case "starMaker":
           result = await starMaker(firebaseUser.uid, num);
+          break;
+
+        case "thank":
+          const message = num;
+          result = await thank(firebaseUser.uid, message);
           break;
 
         default:

@@ -23,10 +23,7 @@ const Statistics = ({ fetchRequested }: TProps) => {
           title={t("maker.available.label")}
           value={user?.maskStock.toString()}
           formatter={(value) => (
-            <MaskStock
-              stock={value as number}
-              fetchRequested={fetchRequested}
-            />
+            <MaskStock stock={Number(value)} fetchRequested={fetchRequested} />
           )}
         />
       </Col>

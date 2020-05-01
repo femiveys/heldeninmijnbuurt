@@ -1,11 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { setMaskStock } from "../../apiHelpers/superhero/setMaskStock";
+import { createMaskRelation } from "../../apiHelpers/common";
 
 // TO BE USED TO TEST THE DB FUNCTIONS
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     try {
-      const result = await setMaskStock("y4GulT5OOidcBu2mFAXQOkTPELG2", 30);
+      const result = await createMaskRelation("aa", "bb", 44);
       console.log(result);
       res.send(result);
     } catch (error) {

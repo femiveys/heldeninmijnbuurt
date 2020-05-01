@@ -2,19 +2,27 @@ import { getMakerRelationOf, checkRequestor } from "./common";
 import { db } from "../../db";
 import { transformUserFromDb } from "../transformers";
 import { TUserFromDb } from "../types.db";
+import { ERelationStatus } from "../../types";
 
 /**
- * Get the superhero
+ * Gets the superhero
+ * A requestor can only access the superhero data when the status of the
+ * relation is: accepted
  *
  * @param requestorId - the userId of the requestor
- * @returns The user object of the superhero, null if not found
+ * @returns The user object of the superhero
+ *          null if not found or not allowed to access
  */
 export const getSuperHeroOf = async (requestorId: string) => {
   await checkRequestor(requestorId);
 
   const relation = await getMakerRelationOf(requestorId);
 
-  if (relation) {
+  if (
+    relation &&
+    (relation.status === ERelationStatus.accepted ||
+      relation.status === ERelationStatus.handedOver)
+  ) {
     const superhero = await db("user")
       .where("user_id", relation.heroId)
       .first<TUserFromDb>();
@@ -25,4 +33,16 @@ export const getSuperHeroOf = async (requestorId: string) => {
   } else {
     return null;
   }
+};
+
+/**
+ * Gets the status of the relation the requestor has with the maker
+ *
+ * @param requestorId - the userId of the requestor
+ * @returns The status of the relation or null if no relation was found
+ */
+export const getStatusMakerRelationOf = async (requestorId: string) => {
+  await checkRequestor(requestorId);
+  const relation = await getMakerRelationOf(requestorId);
+  return relation ? relation.status : null;
 };

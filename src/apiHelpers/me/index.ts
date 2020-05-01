@@ -3,7 +3,8 @@ import { NextApiRequest } from "next";
 import { db } from "../../db";
 import { transformUserFromDb } from "../transformers";
 import serviceAccount from "../../../mijn-mondmasker-firebase-adminsdk-tjfdw-13a74f43d0.json";
-import { TUserFromDb } from "../types.db";
+import { TUserFromDb, TStreetFromDb } from "../types.db";
+import { TStreet } from "../../types";
 
 export const initFirebaseAdmin = () => {
   try {
@@ -25,9 +26,16 @@ export async function getFirebaseUser(req: NextApiRequest) {
 
 export async function getMe(req: NextApiRequest) {
   const firebaseUser = await getFirebaseUser(req);
-  const me = await db("user")
+  const me = await db<TUserFromDb>("user")
+    .join<TStreetFromDb>("street", "user.street_id", "street.id")
     .where("user_id", firebaseUser.uid)
-    .first<TUserFromDb>();
+    .first<TUserFromDb>(
+      "user.*",
+      "street.postal_code",
+      "street.street_desc_de",
+      "street.street_desc_fr",
+      "street.street_desc_nl"
+    );
   return transformUserFromDb(me);
 }
 

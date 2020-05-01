@@ -1,6 +1,6 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import { formatAgo } from "../helpers";
+import { formatAgo, formatLengthDistance } from "../helpers";
 import nl from "./nl.json";
 import fr from "./fr.json";
 import en from "./en.json";
@@ -21,6 +21,7 @@ i18n
     interpolation: {
       format: (value, format, lng) => {
         if (format === "ago") return formatAgo(value);
+        if (format === "distance") return formatLengthDistance(value);
         return value;
       },
       escapeValue: false,

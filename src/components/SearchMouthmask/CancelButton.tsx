@@ -1,5 +1,6 @@
-import { useCallback } from "react";
+import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
+import { useCallback } from "react";
 import { Typography, Button, Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useApi, useUser } from "../../hooks";
@@ -14,6 +15,7 @@ type TProps = {
 
 const CancelButton = (props: TProps) => {
   const { t } = useTranslation();
+  const router = useRouter();
   const { updateUser } = useUser();
   const { isLoading: isCancelling, callApi } = useApi(
     "PUT",
@@ -26,21 +28,28 @@ const CancelButton = (props: TProps) => {
       icon: <ExclamationCircleOutlined />,
       content: (
         <Typography>
-          <Paragraph>{t("requestor.contact.cancel.consequences1")}</Paragraph>
           <Paragraph>
+            Dit kan perfect. Misschien heb je via een andere weg mondmaskers
+            gevonden of is het gewoon niet meer nodig.
+          </Paragraph>
+          <Paragraph type="secondary">
+            {t("requestor.contact.cancel.consequences1")}
+          </Paragraph>
+          <Paragraph type="secondary">
             {t("requestor.contact.cancel.consequences2", {
               name,
               count: needsMouthmaskAmount,
             })}
           </Paragraph>
+          <Paragraph>Bedankt om ons dit te laten weten.</Paragraph>
         </Typography>
       ),
       okText: t("yes"),
-      okType: "danger",
       cancelText: t("no"),
       onOk: async () => {
         await callApi({ name: "cancel" });
-        updateUser({ cancelDate: new Date() });
+        updateUser({ needsMouthmask: false, cancelDate: new Date() });
+        await router.replace("/");
       },
     });
   }, []);
@@ -55,7 +64,7 @@ const CancelButton = (props: TProps) => {
       onClick={onCancel}
       loading={isCancelling}
     >
-      {t("cancel")}
+      ik heb geen mondmaskers meer nodig
     </Button>
   );
 };
