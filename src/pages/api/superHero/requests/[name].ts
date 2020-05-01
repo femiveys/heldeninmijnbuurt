@@ -3,7 +3,7 @@ import { getFirebaseUser } from "../../../../apiHelpers/me";
 import {
   getAcceptedRequests,
   getRequestedRequests,
-} from "../../../../apiHelpers/superHero/requests";
+} from "../../../../apiHelpers/superhero/requests";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {

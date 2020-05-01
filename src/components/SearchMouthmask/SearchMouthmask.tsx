@@ -14,9 +14,9 @@ export const SearchMouthmask = () => {
   const { user } = useUser();
   const {
     isLoading: isFetchingSuperHero,
-    data: superHero,
+    data: superhero,
     callApi: fetchSuperHero,
-  } = useApi<TRelationUser>("GET", "requestor/superHero");
+  } = useApi<TRelationUser>("GET", "requestor/superhero");
   // const { isLoading, callApi } = useApi("PUT", "me/action");
 
   useEffect(() => {
@@ -54,18 +54,18 @@ export const SearchMouthmask = () => {
           tip={t("requestor.contact.loading")}
           style={{ width: "100%", padding: 16 }}
         />
-      ) : !superHero ? (
+      ) : !superhero ? (
         <NoSuperHeroFound />
-      ) : superHero.relation.status === ERelationStatus.requested ? (
+      ) : superhero.relation.status === ERelationStatus.requested ? (
         <WaitingForAcceptance />
-      ) : superHero.relation.requestorHandoverDate ? (
+      ) : superhero.relation.requestorHandoverDate ? (
         <Done
           needsMouthmaskAmount={needsMouthmaskAmount}
-          showStars={!superHero.relation.heroStars}
+          showStars={!superhero.relation.heroStars}
         ></Done>
       ) : (
         <SuperHeroContactInfo
-          superHero={superHero}
+          superhero={superhero}
           fetchSuperHero={fetchSuperHero}
           needsMouthmaskAmount={needsMouthmaskAmount}
         />

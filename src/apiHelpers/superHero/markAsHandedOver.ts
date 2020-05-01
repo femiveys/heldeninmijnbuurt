@@ -1,8 +1,9 @@
 import { db } from "../../db";
-import { checkMaker } from "./common";
+import { checkMaker, getNeedsMouthmaskAmount } from "./common";
 import { ERelationStatus } from "../../types";
 import { mailByRelationId } from "../mailer";
 import { checkRelationId } from "../common";
+import { TUserFromDb } from "../types.db";
 
 /**
  * Sets de status of a relation to handedOver.
@@ -16,23 +17,27 @@ import { checkRelationId } from "../common";
 export const markAsHandedOver = async (makerId: string, relationId: number) => {
   checkRelationId(relationId);
   await checkMaker(makerId);
+  await setHandedOver(makerId, relationId);
+  await increaseNumDelivered(makerId, relationId);
+  return await mailByRelationId(
+    "requestor",
+    relationId,
+    "heroMarkedAsHandedOver"
+  );
+};
 
-  const result = await db("relation")
-    .where({ id: relationId, hero_id: makerId })
+const setHandedOver = async (makerId: string, relationId: number) =>
+  await db("relation").where({ id: relationId, hero_id: makerId }).update({
+    status: ERelationStatus.handedOver,
+    hero_handover_date: new Date(),
+  });
+
+const increaseNumDelivered = async (makerId: string, relationId: number) => {
+  const amount = await getNeedsMouthmaskAmount(relationId);
+
+  return await db<TUserFromDb>("user")
+    .where({ user_id: makerId })
     .update({
-      status: ERelationStatus.handedOver,
-      hero_handover_date: new Date(),
+      num_delivered: db.raw(`num_delivered + ${amount}`),
     });
-
-  if (result) {
-    return await mailByRelationId(
-      "requestor",
-      relationId,
-      "heroMarkedAsHandedOver"
-    );
-  } else {
-    throw new Error(
-      `There was a problem setting relation ${relationId} to heroMarkedAsHandedOver`
-    );
-  }
 };

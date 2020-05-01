@@ -23,7 +23,7 @@
       "many": "Je bent een super held. jebt al <0>{{count}}</0> maskers gemaakt."
     },
     "available": {
-      "label": "Aantal mondmaskers beschikbaar"
+      "label": "Maskers beschikbaar"
     },
     "requested": {
       "title": "Aanvragen",

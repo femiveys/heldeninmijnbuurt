@@ -1,7 +1,12 @@
-import { db } from "../../db";
-import { ERelationType, ERelationStatus } from "../../types";
-import { checkRequestor } from "./common";
-import { mailByRelationId } from "../mailer";
+import { db } from "../db";
+import { ERelationType, ERelationStatus } from "../types";
+import { mailByRelationId } from "./mailer";
+import { checkRequestor } from "./requestor/common";
+import {
+  MAX_DISTANCE,
+  hasNoActiveRelation,
+  createMaskRelation,
+} from "./common";
 
 /**
  * Tries to assign a requestor to a maker that has not declined yet
@@ -14,7 +19,7 @@ import { mailByRelationId } from "../mailer";
 export const assignMakerTo = async (requestorId: string) => {
   await checkRequestor(requestorId);
 
-  if (!(await shouldCreateRelation(requestorId))) {
+  if (!(await hasNoActiveRelation(requestorId))) {
     throw new Error("There is an active relation");
   }
 
@@ -52,7 +57,7 @@ export const assignMakerTo = async (requestorId: string) => {
 const findNearestMakerId = async (
   requestorId: string,
   excludedMakerIds: string[] = [],
-  maxDistance: number = 50000
+  maxDistance: number = MAX_DISTANCE
 ) => {
   const distance =
     "ST_Distance_Sphere(r_street.geolocation, h_street.geolocation)";
@@ -61,10 +66,11 @@ const findNearestMakerId = async (
     FROM user requestor, street r_street, user hero, street h_street
     WHERE requestor.user_id=:requestorId
     AND requestor.street_id = r_street.id
+    AND requestor.needs_mouthmask = 1
     AND hero.street_id = h_street.id
-    AND hero.is_maker = 1
-    AND hero.user_id <> requestor.user_id
     AND hero.mask_stock >= requestor.needs_mouthmask_amount
+    AND hero.user_id <> requestor.user_id
+    AND hero.is_maker = 1
     ${
       excludedMakerIds.length > 0
         ? "AND hero.user_id NOT IN (:excludedMakerIds)"
@@ -92,30 +98,6 @@ const findNearestMakerId = async (
 };
 
 /**
- * Creates a relation between a requestor and a maker.
- *
- * @param requestorId - the userId of the requestor
- * @param makerId - the userId of the maker
- * @param distance - the distance between the requestor and the maker
- * @returns The id of the inserted relation wrapped in an array
- */
-const createMaskRelation = async (
-  requestorId: string,
-  makerId: string,
-  distance: number
-) => {
-  return await db("relation")
-    .returning("id")
-    .insert({
-      type: ERelationType.maskRequest,
-      status: ERelationStatus.requested,
-      requestor_id: requestorId,
-      hero_id: makerId,
-      distance: Math.round(distance),
-    });
-};
-
-/**
  * Gets a list of userIds of makers that have already declined for this requestor.
  *
  * @param requestorId - the userId of the requestor
@@ -131,37 +113,4 @@ const getDeclinedMakerIds = async (requestorId: string) => {
     .select();
 
   return rows.map((row) => row.hero_id);
-};
-
-/**
- * Tests if a relations should be created.
- * A relation should be created
- * - if the requestor doesn't have any maskRequest relation
- * - if all maskRequest relation are declined
- *
- * @param requestorId - the userId of the requestor
- * @returns true if it should be created, false otherwise
- */
-const shouldCreateRelation = async (requestorId: string) => {
-  const results = await db("relation")
-    .where({
-      type: ERelationType.maskRequest,
-      requestor_id: requestorId,
-    })
-    .select("status");
-
-  // If there are no existing relations, we should create a new one
-  if (!results) {
-    return true;
-  }
-
-  let allDeclined = true;
-  results.forEach((relation) => {
-    if (allDeclined && relation.status !== ERelationStatus.declined) {
-      allDeclined = false;
-    }
-  });
-
-  // If all existing relations are declined, we should create a new one
-  return allDeclined;
 };

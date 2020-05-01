@@ -1,6 +1,5 @@
 import { db } from "../../db";
-import { checkMaker } from "./common";
-import { assignMakerTo } from "../requestor/assign";
+import { checkMaker, reAssign } from "./common";
 import { checkRelationId } from "../common";
 import { mailByRelationId } from "../mailer";
 import { ERelationStatus } from "../../types";
@@ -19,36 +18,14 @@ import { TRelationFromDb } from "../types.db";
 export const decline = async (makerId: string, relationId: number) => {
   checkRelationId(relationId);
   await checkMaker(makerId);
+  await setDeclined(makerId, relationId);
+  const distanceUserId = await reAssign(relationId);
+  return distanceUserId
+    ? await mailByRelationId("requestor", relationId, "declinedAndReassigned")
+    : await mailByRelationId("requestor", relationId, "declined");
+};
 
-  const result = await db("relation")
+const setDeclined = async (makerId: string, relationId: number) =>
+  await db<TRelationFromDb>("relation")
     .where({ id: relationId, hero_id: makerId })
     .update({ status: ERelationStatus.declined, decline_date: new Date() });
-
-  if (result) {
-    const distanceUserId = await reAssign(relationId);
-    return distanceUserId
-      ? await mailByRelationId("requestor", relationId, "declinedAndReassigned")
-      : await mailByRelationId("requestor", relationId, "declined");
-  } else {
-    throw new Error(
-      `There was a problem setting relation ${relationId} to declined`
-    );
-  }
-};
-
-/**
- * Reassigns a maker to the requestor of the relation.
- * It is assumed the relation has been set to declined before.
- *
- * @param relationId - the id of the relation to find the requestor on
- * @returns The distance and userId of the maker if found
- */
-const reAssign = async (relationId: number) => {
-  const result = await db("relation")
-    .where({ id: relationId })
-    .first<TRelationFromDb>();
-
-  checkRelationId(relationId);
-
-  return await assignMakerTo(result.requestor_id);
-};

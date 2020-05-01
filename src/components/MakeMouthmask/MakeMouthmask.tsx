@@ -1,37 +1,38 @@
-import { useRef } from "react";
-import { Space, Row, Col } from "antd";
-import HeroTitle from "./HeroTitle";
-import AvailableForm from "./AvailableForm";
+import { useEffect, useState } from "react";
+import { Space, Row, Col, Spin } from "antd";
+import Statistics from "./Statistics";
 import { RequestedRequests } from "./RequestedRequests";
 import AcceptedRequests from "./AcceptedRequests";
-import { useUser } from "../../hooks";
+import { useUser, useApi } from "../../hooks";
 import { grid } from "../../helpers";
 import EnterStock from "./EnterStock";
+import { TRequestedRequest, TRelationUser } from "../../types";
 
 export const MakeMouthmask = () => {
   const { user } = useUser();
-  const acceptedRequestsRef = useRef<typeof AcceptedRequests>(null);
-  const requestedRequestsRef = useRef<typeof RequestedRequests>(null);
-  // const { isLoading, callApi } = useApi("PUT", "me/action");
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const {
+    isLoading: isLoadingRequested,
+    callApi: fetchRequested,
+    data: requested,
+  } = useApi<TRequestedRequest[]>("GET", "superhero/requests/requested", []);
+  const {
+    isLoading: isLoadingAccepted,
+    callApi: fetchAccepted,
+    data: accepted,
+  } = useApi<TRelationUser[]>("GET", "superhero/requests/accepted", []);
 
-  // const onToggle = useCallback(() => {
-  //   const toggleOn = async () => {
-  //     await callApi({ name: "setIsMaker" });
-  //     updateUser({ isMaker: true });
-  //   };
-  //   const toggleOff = async () => {
-  //     await callApi({ name: "unsetIsMaker" });
-  //     updateUser({ isMaker: false });
-  //   };
-  //
-  //   if (user?.isMaker) {
-  //     toggleOff();
-  //   } else {
-  //     toggleOn();
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    const init = async () => {
+      await fetchRequested();
+      await fetchAccepted();
+      setIsInitialLoading(false);
+    };
+    init();
+  }, []);
 
-  console.log(user);
+  const showSpinner =
+    isInitialLoading && (isLoadingRequested || isLoadingAccepted);
 
   return (
     <Row>
@@ -39,17 +40,31 @@ export const MakeMouthmask = () => {
         {user?.maskStock === null ? (
           <EnterStock />
         ) : (
-          <Space direction="vertical" size="large" style={{ width: "100%" }}>
-            <HeroTitle numDelivered={user ? user.numDelivered : 0} />
-            <AvailableForm />
-            <RequestedRequests
-              ref={requestedRequestsRef}
-              acceptedRequestsRef={acceptedRequestsRef}
-            />
-            <AcceptedRequests
-              ref={acceptedRequestsRef}
-              requestedRequestsRef={requestedRequestsRef}
-            />
+          <Space
+            size="large"
+            direction="vertical"
+            style={{ width: "100%", textAlign: "center" }}
+          >
+            <Statistics fetchRequested={fetchRequested} />
+            {showSpinner ? (
+              <Spin
+                size="large"
+                tip="Je aanvragen aan het ophalen..."
+                style={{ marginTop: 100 }}
+              />
+            ) : (
+              <>
+                <RequestedRequests
+                  requests={requested || []}
+                  fetchAccepted={fetchAccepted}
+                  fetchRequested={fetchRequested}
+                />
+                <AcceptedRequests
+                  requests={accepted || []}
+                  fetchAccepted={fetchAccepted}
+                />
+              </>
+            )}
           </Space>
         )}
       </Col>

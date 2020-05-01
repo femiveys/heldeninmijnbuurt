@@ -1,135 +1,133 @@
-import {
-  useEffect,
-  useCallback,
-  useState,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
-import { Table, Typography, Button, Spin } from "antd";
+import { useEffect, useCallback, useState } from "react";
+import { Table, Typography, Button, Modal } from "antd";
 import { CloseOutlined, DownloadOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import { keyBy, find, mapValues, NumericDictionary } from "lodash";
 import { formatLengthDistance } from "../../helpers";
 import { apiCall } from "../../axios";
-import { useApi } from "../../hooks";
+import { useUser } from "../../hooks";
 import { TRequestedRequest } from "../../types";
 
-const { Title } = Typography;
+const { Title, Paragraph } = Typography;
 const { Column } = Table;
 
 type TProps = {
-  acceptedRequestsRef: any;
+  requests: TRequestedRequest[];
+  fetchAccepted: () => Promise<void>;
+  fetchRequested: () => Promise<void>;
 };
 
-export const RequestedRequests = forwardRef(
-  ({ acceptedRequestsRef }: TProps, ref) => {
-    const { t } = useTranslation();
-    const [isUpdatingRelation, setIsUpdatingRow] = useState<
-      NumericDictionary<boolean>
-    >({});
-    const { isLoading, callApi, data } = useApi<TRequestedRequest[]>(
-      "GET",
-      "superHero/requests/requested",
-      []
-    );
+export const RequestedRequests = ({
+  requests,
+  fetchAccepted,
+  fetchRequested,
+}: TProps) => {
+  const { t } = useTranslation();
+  const { user, updateUser } = useUser();
+  const [data, setData] = useState(requests);
 
-    useImperativeHandle(ref, () => ({ callApi }));
+  // Update the state when the requests change
+  useEffect(() => {
+    setData(requests);
+  }, [requests]);
 
-    useEffect(() => {
-      callApi();
-    }, []);
+  const acceptOrDecline = (action: "accept" | "decline") => (
+    relationId: number,
+    needsMouthmaskAmount?: number
+  ) => async () => {
+    // We do an optimistic update on the current table
+    setData(data.filter((row) => row.relationId !== relationId));
 
-    useEffect(() => {
-      const dataByRelationId = keyBy(data, "relationId");
-      const initialMap = mapValues(dataByRelationId, () => false);
-      setIsUpdatingRow(initialMap);
-    }, [data]);
+    // We do an optimistic update on the user. This will only be done
+    // if it's an accept because of passing needsMouthmaskAmount
+    if (needsMouthmaskAmount && user) {
+      updateUser({ maskStock: user.maskStock - needsMouthmaskAmount });
+    }
 
-    const acceptOrDecline = (action: "accept" | "decline") => (
-      relationId: number
-    ) => async () => {
-      setIsUpdatingRow({ ...isUpdatingRelation, [relationId]: true });
-      try {
-        if (await apiCall("PUT", `superHero/${action}/${relationId}`)) {
-          await acceptedRequestsRef.current?.callApi();
-          await callApi();
-        }
-      } catch (error) {
-        console.error(error);
+    try {
+      if (await apiCall("PUT", `superhero/${action}/${relationId}`)) {
+        await fetchAccepted();
+        await fetchRequested();
       }
-      setIsUpdatingRow({ ...isUpdatingRelation, [relationId]: false });
-    };
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    const accept = useCallback(acceptOrDecline("accept"), [isUpdatingRelation]);
-    const decline = useCallback(acceptOrDecline("decline"), [
-      isUpdatingRelation,
-    ]);
+  const accept = useCallback(acceptOrDecline("accept"), []);
+  const decline = useCallback(acceptOrDecline("decline"), []);
 
-    const isInitialLoading =
-      isLoading && !find(isUpdatingRelation, (value) => value === true);
-
-    return isInitialLoading ? (
-      <Spin />
-    ) : data && data.length > 0 ? (
-      <div>
-        <Title level={4}>{t("maker.requested.title")}</Title>
-        <Table size="small" dataSource={data} pagination={false}>
-          <Column
-            key="needsMouthmaskAmount"
-            title={t("needsMouthmaskAmount")}
-            dataIndex="needsMouthmaskAmount"
-            align="center"
-          />
-          <Column
-            key="distance"
-            title={t("maker.requested.distance")}
-            dataIndex="distance"
-            align="right"
-            render={(distance) => formatLengthDistance(distance)}
-          />
-          <Column
-            key="accept"
-            title={t("maker.requested.ableToHelp")}
-            dataIndex="relationId"
-            colSpan={2}
-            align="center"
-            render={(relationId) => (
-              <Button
-                type="primary"
-                size="small"
-                icon={<DownloadOutlined />}
-                onClick={accept(relationId)}
-              >
-                {t("yes")}
-              </Button>
-            )}
-          />
-          <Column
-            key="decline"
-            dataIndex="relationId"
-            colSpan={0}
-            align="center"
-            render={(relationId) => (
-              <Button
-                danger
-                type="primary"
-                size="small"
-                icon={<CloseOutlined />}
-                onClick={decline(relationId)}
-              >
-                {t("no")}
-              </Button>
-            )}
-          />
-          <Column
-            key="loading"
-            dataIndex="relationId"
-            render={(relationId) => (
-              <Spin spinning={isUpdatingRelation[relationId]} />
-            )}
-          />
-        </Table>
-      </div>
-    ) : null;
-  }
-);
+  return data && data.length > 0 ? (
+    <div>
+      <Title level={4}>{t("maker.requested.title")}</Title>
+      <Table size="small" dataSource={data} pagination={false}>
+        <Column
+          key="needsMouthmaskAmount"
+          title={t("needsMouthmaskAmount")}
+          dataIndex="needsMouthmaskAmount"
+          align="center"
+        />
+        <Column
+          key="distance"
+          title={t("maker.requested.distance")}
+          dataIndex="distance"
+          align="right"
+          render={(distance) => formatLengthDistance(distance)}
+        />
+        <Column<TRequestedRequest>
+          key="accept"
+          title={t("maker.requested.ableToHelp")}
+          dataIndex="relationId"
+          colSpan={2}
+          align="center"
+          render={(relationId, record) => (
+            <Button
+              type="primary"
+              size="small"
+              icon={<DownloadOutlined />}
+              onClick={accept(relationId, record.needsMouthmaskAmount)}
+            >
+              {t("yes")}
+            </Button>
+          )}
+        />
+        <Column
+          key="decline"
+          dataIndex="relationId"
+          colSpan={0}
+          align="center"
+          render={(relationId) => (
+            <Button
+              danger
+              type="primary"
+              size="small"
+              icon={<CloseOutlined />}
+              onClick={() => {
+                Modal.confirm({
+                  title: "Ben je zeker dat je deze maskers niet kan naaien?",
+                  content: (
+                    <Typography>
+                      <Paragraph>
+                        dat je deze maskers niet kan naaien.
+                      </Paragraph>
+                      <Paragraph>
+                        Spijtig, maar de aanvrager zal in ieder geval niet weten
+                        dat jij de maskers niet kon naaien. Wij zoeken voor hem
+                        of haar een nieuwe superheld. Zo kan jij op je beide
+                        oren slapen.
+                      </Paragraph>
+                    </Typography>
+                  ),
+                  okText: "Ja, ik ben zeker",
+                  cancelText: "Nee, ik twijfel toch",
+                  onOk: decline(relationId),
+                });
+              }}
+            >
+              {t("no")}
+            </Button>
+          )}
+        />
+      </Table>
+    </div>
+  ) : null;
+};

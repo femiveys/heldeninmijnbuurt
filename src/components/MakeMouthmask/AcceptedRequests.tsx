@@ -1,27 +1,20 @@
-import {
-  useEffect,
-  useCallback,
-  useState,
-  useImperativeHandle,
-  forwardRef,
-} from "react";
+import { useEffect, useCallback, useState } from "react";
 import {
   MailOutlined,
   WhatsAppOutlined,
   CheckOutlined,
 } from "@ant-design/icons";
-import { Table, Space, Typography, Button, Spin, Row, Col, Modal } from "antd";
+import { Table, Space, Typography, Button, Row, Col, Modal } from "antd";
 import { useTranslation } from "react-i18next";
-import { keyBy, find, mapValues, NumericDictionary } from "lodash";
 import { apiCall } from "../../axios";
-import { useApi } from "../../hooks";
+import { useUser } from "../../hooks";
 import { TRelationUser } from "../../types";
+import Problem from "./Problem";
 
 type TRecord = TRelationUser & { key: number };
 
 const { Title } = Typography;
 const { Column } = Table;
-const { confirm } = Modal;
 
 const addRemoveKey = (list: number[], record: TRecord) =>
   list.includes(record.key)
@@ -32,67 +25,83 @@ const iconStyle = {
   fontSize: 16,
 };
 
-const AcceptedRequests = forwardRef(({ requestedRequestsRef }: any, ref) => {
+type TProps = {
+  requests: TRelationUser[];
+  fetchAccepted: () => Promise<void>;
+};
+
+const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
   const { t } = useTranslation();
-  const { isLoading, callApi, data } = useApi<TRelationUser[]>(
-    "GET",
-    "superHero/requests/accepted",
-    []
-  );
-  const [isUpdatingRelation, setUpdatingRelation] = useState<
-    NumericDictionary<boolean>
-  >({});
+  const { updateUser, user } = useUser();
+  const [data, setData] = useState(requests);
   const [expandedRowKeys, setExpandedRowKeys] = useState<number[]>([]);
 
-  useImperativeHandle(ref, () => ({ callApi }));
-
+  // Update the state when the requests change
   useEffect(() => {
-    callApi();
-  }, []);
-
-  useEffect(() => {
-    const dataByRelationId = keyBy(data, "relation.id");
-    const initialMap = mapValues(dataByRelationId, () => false);
-    setUpdatingRelation(initialMap);
-  }, [data]);
-
-  const markByHeroAsHandedOverOrDecline = (
-    action: "markAsHandedOver" | "decline"
-  ) => (relationId: number) => async () => {
-    setUpdatingRelation({ ...isUpdatingRelation, [relationId]: true });
-    try {
-      if (await apiCall("PUT", `superHero/${action}/${relationId}`)) {
-        await callApi();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-    setUpdatingRelation({ ...isUpdatingRelation, [relationId]: false });
-  };
+    setData(requests);
+  }, [requests]);
 
   const onContactClick = (record: TRecord) => () => {
     setExpandedRowKeys(addRemoveKey(expandedRowKeys, record));
   };
 
-  const setDelivered = useCallback(
-    markByHeroAsHandedOverOrDecline("markAsHandedOver"),
-    [isUpdatingRelation]
-  );
-  const decline = useCallback(markByHeroAsHandedOverOrDecline("decline"), [
-    isUpdatingRelation,
-  ]);
+  const removeRow = (relationId: number) =>
+    setData(data.filter((row) => row.relation.id !== relationId));
 
-  const isInitialLoading =
-    isLoading && !find(isUpdatingRelation, (value) => value === true);
+  const markAsHandedOver = useCallback(
+    (relationId: number, needsMouthmaskAmount: number) => async () => {
+      // We do an optimistic update on the current table
+      removeRow(relationId);
+
+      // We do an optimistic update on the user.
+      updateUser({
+        numDelivered: Number(user?.numDelivered) + needsMouthmaskAmount,
+      });
+
+      try {
+        if (await apiCall("PUT", `superhero/markAsHandedOver/${relationId}`)) {
+          await fetchAccepted();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    []
+  );
+
+  const expandedRowRender = (record: TRecord) => (
+    <Row justify="space-between" align="bottom">
+      <Col>
+        <Space direction="vertical">
+          <Space>
+            <MailOutlined style={iconStyle} />
+            <a href={`mailto:${record.user.email}`} target="_blank">
+              {record.user.email}
+            </a>
+          </Space>
+          {record.user.whatsapp && (
+            <Space>
+              <WhatsAppOutlined style={iconStyle} />
+              {`+32${record.user.whatsapp}`}
+            </Space>
+          )}
+        </Space>
+      </Col>
+      <Col>
+        <Problem
+          relationId={record.relation.id}
+          afterClose={() => removeRow(record.relation.id)}
+        />
+      </Col>
+    </Row>
+  );
 
   const dataWithKeys =
     data && data.length > 0
       ? data.map((record) => ({ key: record.relation.id, ...record }))
       : [];
 
-  return isInitialLoading ? (
-    <Spin />
-  ) : dataWithKeys.length > 0 ? (
+  return dataWithKeys.length > 0 ? (
     <div>
       <Title level={4}>{t("maker.accepted.title")}</Title>
       <Table<TRecord>
@@ -101,41 +110,8 @@ const AcceptedRequests = forwardRef(({ requestedRequestsRef }: any, ref) => {
         pagination={false}
         expandable={{
           expandedRowKeys,
+          expandedRowRender,
           onExpand: (_, record) => onContactClick(record)(),
-          expandedRowRender: (record) => (
-            <Row justify="space-between" align="bottom">
-              <Col>
-                <Space direction="vertical">
-                  <Space>
-                    <MailOutlined style={iconStyle} />
-                    <a href={`mailto:${record.user.email}`} target="_blank">
-                      {record.user.email}
-                    </a>
-                  </Space>
-                  {record.user.whatsapp && (
-                    <Space>
-                      <WhatsAppOutlined style={iconStyle} />
-                      {`+32${record.user.whatsapp}`}
-                    </Space>
-                  )}
-                </Space>
-              </Col>
-              <Col>
-                <Button
-                  size="small"
-                  danger
-                  type="link"
-                  onClick={() => {
-                    confirm({
-                      title: "TODO",
-                    });
-                  }}
-                >
-                  {t("maker.accepted.problem")}
-                </Button>
-              </Col>
-            </Row>
-          ),
         }}
       >
         <Column<TRecord>
@@ -167,21 +143,23 @@ const AcceptedRequests = forwardRef(({ requestedRequestsRef }: any, ref) => {
           }
         />
         <Column<TRecord>
-          key="accept"
+          key="markAsHandedOver"
           dataIndex={["relation", "id"]}
-          render={(relationId) => (
+          render={(relationId, record) => (
             <Button
               type="primary"
               size="small"
               icon={<CheckOutlined />}
-              onClick={setDelivered(relationId)}
-              loading={isUpdatingRelation[relationId]}
+              onClick={markAsHandedOver(
+                relationId,
+                Number(record.user.needsMouthmaskAmount)
+              )}
             ></Button>
           )}
         />
       </Table>
     </div>
   ) : null;
-});
+};
 
 export default AcceptedRequests;
