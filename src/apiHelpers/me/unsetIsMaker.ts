@@ -1,17 +1,32 @@
 import { db } from "../../db";
 import { TUserFromDb } from "../types.db";
+import {
+  getRequestedRequests,
+  getAcceptedRequests,
+} from "../superhero/requests";
+import { decline } from "../superhero/decline";
 
 /**
- * Sets is_maker to 0 on the user identified by userId.
- * TODO: Cleanup of requests
+ * Stop as a maker.
+ * Decline all active requests
+ * Set isMaker on 0
  *
- * @param userId - the userId of the user who wants to stom being a maker
- * @returns 1 if updated, 0 otherwise
+ * @param makerId - the userId of the maker who wants to stop
+ * @returns 1 if update on user succeeded, 0 otherwise
  */
-export const unsetIsMaker = async (userId: string) => {
-  const result = await db<TUserFromDb>("user")
-    .where({ user_id: userId })
-    .update({ is_maker: 0 });
-
-  return result;
+export const stopMaking = async (makerId: string) => {
+  const requested = await getRequestedRequests(makerId);
+  const accepted = await getAcceptedRequests(makerId);
+  requested.forEach(
+    async (request) => await decline(makerId, request.relationId)
+  );
+  accepted.forEach(
+    async (request) => await decline(makerId, request.relation.id)
+  );
+  return await unsetIsMaker(makerId);
 };
+
+const unsetIsMaker = async (makerId: string) =>
+  await db<TUserFromDb>("user")
+    .where({ user_id: makerId })
+    .update({ is_maker: 0, mask_stock: 0 });

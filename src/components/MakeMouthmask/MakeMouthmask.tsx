@@ -7,6 +7,7 @@ import { useUser, useApi } from "../../hooks";
 import { grid } from "../../helpers";
 import EnterStock from "./EnterStock";
 import { TRequestedRequest, TRelationUser } from "../../types";
+import Stop from "./Stop";
 
 export const MakeMouthmask = () => {
   const { user } = useUser();
@@ -41,16 +42,20 @@ export const MakeMouthmask = () => {
           <EnterStock />
         ) : (
           <Space
-            size="large"
             direction="vertical"
             style={{ width: "100%", textAlign: "center" }}
           >
             <Statistics fetchRequested={fetchRequested} />
+            <Stop
+              hasPending={
+                (requested || []).length > 0 || (accepted || []).length > 0
+              }
+            />
             {showSpinner ? (
               <Spin
                 size="large"
                 tip="Je aanvragen aan het ophalen..."
-                style={{ marginTop: 100 }}
+                style={{ marginTop: 40 }}
               />
             ) : (
               <>

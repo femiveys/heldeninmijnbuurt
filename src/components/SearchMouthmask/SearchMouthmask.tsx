@@ -23,23 +23,6 @@ export const SearchMouthmask = () => {
     if (user!.needsMouthmaskAmount) fetchSuperHero();
   }, []);
 
-  // const onToggle = useCallback(() => {
-  //   const toggleOn = async () => {
-  //     await callApi({ name: "setNeedsMouthmask" });
-  //     updateUser({ needsMouthmask: true });
-  //   };
-  //   const toggleOff = async () => {
-  //     await callApi({ name: "unsetNeedsMouthmask" });
-  //     updateUser({ needsMouthmask: false });
-  //   };
-  //
-  //   if (user?.needsMouthmask) {
-  //     toggleOff();
-  //   } else {
-  //     toggleOn();
-  //   }
-  // }, [user]);
-
   const needsMouthmaskAmount = Number(user?.needsMouthmaskAmount);
 
   // A user that has cancelled cannot see the widget

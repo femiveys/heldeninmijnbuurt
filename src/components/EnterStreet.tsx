@@ -3,20 +3,9 @@ import { Form, Button, Row, Col, Select, Input, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import { useApi, useUser, useAuth } from "../hooks";
 import { TStreet, TUser } from "../types";
-import { grid } from "../helpers";
+import { grid, getStreetInUserLanguage } from "../helpers";
 
 const { Title, Paragraph } = Typography;
-
-const getStreetInUserLanguage = (street: TStreet, language = "nl") => {
-  switch (language) {
-    case "fr":
-      return street.streetDescFr || street.streetDescNl || street.streetDescDe;
-    case "de":
-      return street.streetDescDe || street.streetDescFr || street.streetDescNl;
-    default:
-      return street.streetDescNl || street.streetDescFr || street.streetDescDe;
-  }
-};
 
 const EnterStreet = () => {
   const [form] = Form.useForm();

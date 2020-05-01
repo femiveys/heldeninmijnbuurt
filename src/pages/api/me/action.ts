@@ -1,9 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getFirebaseUser } from "../../../apiHelpers/me";
 import { setIsMaker } from "../../../apiHelpers/me/setIsMaker";
-import { unsetIsMaker } from "../../../apiHelpers/me/unsetIsMaker";
 import { setNeedsMouthmask } from "../../../apiHelpers/me/setNeedsMouthmask";
-import { unsetNeedsMouthmask } from "../../../apiHelpers/me/unsetNeedsMouthmask";
+import { stopMaking } from "../../../apiHelpers/me/unsetIsMaker";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "PUT") {
@@ -19,15 +18,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           break;
 
         case "unsetIsMaker":
-          result = await unsetIsMaker(firebaseUser.uid);
+          result = await stopMaking(firebaseUser.uid);
           break;
 
         case "setNeedsMouthmask":
           result = await setNeedsMouthmask(firebaseUser.uid);
-          break;
-
-        case "unsetNeedsMouthmask":
-          result = await unsetNeedsMouthmask(firebaseUser.uid);
           break;
 
         default:
