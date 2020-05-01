@@ -7,6 +7,7 @@ export enum ERelationStatus {
   requested = "requested",
   accepted = "accepted",
   declined = "declined",
+  problem = "problem",
   cancelled = "cancelled",
   handedOver = "handedOver",
 }
@@ -42,8 +43,10 @@ export type TRelation = {
   acceptDate: Date;
   cancelDate: Date;
   declineDate: Date;
+  problemDate: Date;
   requestorHandoverDate: Date;
   heroHandoverDate: Date;
+  problem: string;
   requestorStars: number;
   heroStars: number;
 };

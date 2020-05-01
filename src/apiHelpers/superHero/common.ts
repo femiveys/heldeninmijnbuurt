@@ -1,5 +1,7 @@
 import { db } from "../../db";
 import { TUserFromDb, TRelationFromDb } from "../types.db";
+import { checkRelationId } from "../common";
+import { assignMakerTo } from "../assign";
 
 /**
  * Checks if the passed makerId is a valid maker
@@ -53,4 +55,21 @@ export const getNeedsMouthmaskAmount = async (relationId: number) => {
     .first<TUserFromDb>("user.needs_mouthmask_amount");
 
   return result.needs_mouthmask_amount;
+};
+
+/**
+ * Reassigns a maker to the requestor of the relation.
+ * It is assumed the relation has been set to declined before.
+ *
+ * @param relationId - the id of the relation to find the requestor on
+ * @returns The distance and userId of the maker if found
+ */
+export const reAssign = async (relationId: number) => {
+  const result = await db("relation")
+    .where({ id: relationId })
+    .first<TRelationFromDb>();
+
+  checkRelationId(relationId);
+
+  return await assignMakerTo(result.requestor_id);
 };

@@ -9,16 +9,16 @@ export const checkRelationId = (relationId: number) => {
 };
 
 /**
- * Tests if a relations should be created.
+ * Tests if a relation should be created.
  * In other words: if there is no active relation
  * A relation should be created
  * - if the requestor doesn't have any maskRequest relation
- * - if all maskRequest relation are declined
+ * - if all maskRequest relation are declined or ended with a problem
  *
  * @param requestorId - the userId of the requestor
  * @returns true if it should be created, false otherwise
  */
-export const hasNoRelationOrAllRelationsAreDeclined = async (
+export const hasNoRelationOrAllRelationsAreDeclinedOrInProblem = async (
   requestorId: string
 ) => {
   const results = await db("relation")
@@ -35,7 +35,11 @@ export const hasNoRelationOrAllRelationsAreDeclined = async (
 
   let allDeclined = true;
   results.forEach((relation) => {
-    if (allDeclined && relation.status !== ERelationStatus.declined) {
+    if (
+      allDeclined &&
+      relation.status !== ERelationStatus.declined &&
+      relation.status !== ERelationStatus.problem
+    ) {
       allDeclined = false;
     }
   });
@@ -44,7 +48,7 @@ export const hasNoRelationOrAllRelationsAreDeclined = async (
   return allDeclined;
 };
 
-export const hasNoActiveRelation = hasNoRelationOrAllRelationsAreDeclined;
+export const hasNoActiveRelation = hasNoRelationOrAllRelationsAreDeclinedOrInProblem;
 
 /**
  * Creates a relation between a requestor and a maker.

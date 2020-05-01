@@ -1,6 +1,5 @@
 import { db } from "../../db";
-import { checkMaker } from "./common";
-import { assignMakerTo } from "../requestor/assign";
+import { checkMaker, reAssign } from "./common";
 import { checkRelationId } from "../common";
 import { mailByRelationId } from "../mailer";
 import { ERelationStatus } from "../../types";
@@ -27,23 +26,6 @@ export const decline = async (makerId: string, relationId: number) => {
 };
 
 const setDeclined = async (makerId: string, relationId: number) =>
-  await db("relation")
+  await db<TRelationFromDb>("relation")
     .where({ id: relationId, hero_id: makerId })
     .update({ status: ERelationStatus.declined, decline_date: new Date() });
-
-/**
- * Reassigns a maker to the requestor of the relation.
- * It is assumed the relation has been set to declined before.
- *
- * @param relationId - the id of the relation to find the requestor on
- * @returns The distance and userId of the maker if found
- */
-const reAssign = async (relationId: number) => {
-  const result = await db("relation")
-    .where({ id: relationId })
-    .first<TRelationFromDb>();
-
-  checkRelationId(relationId);
-
-  return await assignMakerTo(result.requestor_id);
-};

@@ -1,8 +1,12 @@
-import { db } from "../../db";
-import { ERelationType, ERelationStatus } from "../../types";
-import { mailByRelationId } from "../mailer";
-import { checkRequestor } from "./common";
-import { MAX_DISTANCE, hasNoActiveRelation, createMaskRelation } from "../common";
+import { db } from "../db";
+import { ERelationType, ERelationStatus } from "../types";
+import { mailByRelationId } from "./mailer";
+import { checkRequestor } from "./requestor/common";
+import {
+  MAX_DISTANCE,
+  hasNoActiveRelation,
+  createMaskRelation,
+} from "./common";
 
 /**
  * Tries to assign a requestor to a maker that has not declined yet

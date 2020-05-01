@@ -28,10 +28,12 @@ export type TRelationFromDb = {
   status: ERelationStatus;
   request_date: Date;
   accept_date: Date;
+  problem_date: Date;
   cancel_date: Date;
   decline_date: Date;
   requestor_handover_date: Date;
   hero_handover_date: Date;
+  problem: string;
   requestor_stars: number;
   hero_stars: number;
 };

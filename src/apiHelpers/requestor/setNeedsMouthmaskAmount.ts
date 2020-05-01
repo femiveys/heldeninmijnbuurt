@@ -1,6 +1,6 @@
 import { db } from "../../db";
 import { TUserFromDb } from "../types.db";
-import { assignMakerTo } from "./assign";
+import { assignMakerTo } from "../assign";
 
 /**
  * Sets needs_mouthmask_amount to amount

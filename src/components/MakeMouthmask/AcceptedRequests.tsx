@@ -9,12 +9,12 @@ import { useTranslation } from "react-i18next";
 import { apiCall } from "../../axios";
 import { useUser } from "../../hooks";
 import { TRelationUser } from "../../types";
+import Problem from "./Problem";
 
 type TRecord = TRelationUser & { key: number };
 
 const { Title } = Typography;
 const { Column } = Table;
-const { confirm } = Modal;
 
 const addRemoveKey = (list: number[], record: TRecord) =>
   list.includes(record.key)
@@ -41,36 +41,60 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
     setData(requests);
   }, [requests]);
 
-  const markAsHandedOverOrDecline = (
-    action: "markAsHandedOver" | "decline"
-  ) => (relationId: number, needsMouthmaskAmount?: number) => async () => {
-    // We do an optimistic update on the current table
-    setData(data.filter((row) => row.relation.id !== relationId));
-
-    // We do an optimistic update on the user. This will only be done
-    // if it's a markAsHandedOver because of passing needsMouthmaskAmount
-    if (needsMouthmaskAmount && user) {
-      updateUser({ numDelivered: user.numDelivered + needsMouthmaskAmount });
-    }
-
-    try {
-      if (await apiCall("PUT", `superhero/${action}/${relationId}`)) {
-        await fetchAccepted();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const onContactClick = (record: TRecord) => () => {
     setExpandedRowKeys(addRemoveKey(expandedRowKeys, record));
   };
 
+  const removeRow = (relationId: number) =>
+    setData(data.filter((row) => row.relation.id !== relationId));
+
   const markAsHandedOver = useCallback(
-    markAsHandedOverOrDecline("markAsHandedOver"),
+    (relationId: number, needsMouthmaskAmount: number) => async () => {
+      // We do an optimistic update on the current table
+      removeRow(relationId);
+
+      // We do an optimistic update on the user.
+      updateUser({
+        numDelivered: Number(user?.numDelivered) + needsMouthmaskAmount,
+      });
+
+      try {
+        if (await apiCall("PUT", `superhero/markAsHandedOver/${relationId}`)) {
+          await fetchAccepted();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
     []
   );
-  const decline = useCallback(markAsHandedOverOrDecline("decline"), []);
+
+  const expandedRowRender = (record: TRecord) => (
+    <Row justify="space-between" align="bottom">
+      <Col>
+        <Space direction="vertical">
+          <Space>
+            <MailOutlined style={iconStyle} />
+            <a href={`mailto:${record.user.email}`} target="_blank">
+              {record.user.email}
+            </a>
+          </Space>
+          {record.user.whatsapp && (
+            <Space>
+              <WhatsAppOutlined style={iconStyle} />
+              {`+32${record.user.whatsapp}`}
+            </Space>
+          )}
+        </Space>
+      </Col>
+      <Col>
+        <Problem
+          relationId={record.relation.id}
+          afterClose={() => removeRow(record.relation.id)}
+        />
+      </Col>
+    </Row>
+  );
 
   const dataWithKeys =
     data && data.length > 0
@@ -86,41 +110,8 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
         pagination={false}
         expandable={{
           expandedRowKeys,
+          expandedRowRender,
           onExpand: (_, record) => onContactClick(record)(),
-          expandedRowRender: (record) => (
-            <Row justify="space-between" align="bottom">
-              <Col>
-                <Space direction="vertical">
-                  <Space>
-                    <MailOutlined style={iconStyle} />
-                    <a href={`mailto:${record.user.email}`} target="_blank">
-                      {record.user.email}
-                    </a>
-                  </Space>
-                  {record.user.whatsapp && (
-                    <Space>
-                      <WhatsAppOutlined style={iconStyle} />
-                      {`+32${record.user.whatsapp}`}
-                    </Space>
-                  )}
-                </Space>
-              </Col>
-              <Col>
-                <Button
-                  size="small"
-                  danger
-                  type="link"
-                  onClick={() => {
-                    confirm({
-                      title: "TODO",
-                    });
-                  }}
-                >
-                  {t("maker.accepted.problem")}
-                </Button>
-              </Col>
-            </Row>
-          ),
         }}
       >
         <Column<TRecord>
@@ -161,7 +152,7 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
               icon={<CheckOutlined />}
               onClick={markAsHandedOver(
                 relationId,
-                record.user.needsMouthmaskAmount
+                Number(record.user.needsMouthmaskAmount)
               )}
             ></Button>
           )}
