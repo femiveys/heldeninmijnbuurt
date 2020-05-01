@@ -1,6 +1,5 @@
 import { Form, Input, Button, Radio, Modal } from "antd";
 import { useTranslation } from "react-i18next";
-import { useApi } from "../../hooks";
 import { useCallback, useState } from "react";
 import { apiCall } from "../../axios";
 
@@ -11,10 +10,10 @@ const style = {
 
 type TProps = {
   relationId: number;
-  afterClose: () => void;
+  afterSuccess: () => void;
 };
 
-const Problem = ({ relationId, afterClose }: TProps) => {
+const Problem = ({ relationId, afterSuccess }: TProps) => {
   const [form] = Form.useForm();
   const [isOther, setIsOther] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -30,6 +29,7 @@ const Problem = ({ relationId, afterClose }: TProps) => {
     });
     setIsLoading(false);
     setVisible(false);
+    afterSuccess();
   }, []);
 
   return (
@@ -53,7 +53,6 @@ const Problem = ({ relationId, afterClose }: TProps) => {
           setVisible(false);
         }}
         cancelText={t("cancel")}
-        afterClose={afterClose}
       >
         <Form
           form={form}

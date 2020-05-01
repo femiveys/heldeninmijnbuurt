@@ -90,7 +90,7 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
       <Col>
         <Problem
           relationId={record.relation.id}
-          afterClose={() => removeRow(record.relation.id)}
+          afterSuccess={() => removeRow(record.relation.id)}
         />
       </Col>
     </Row>
