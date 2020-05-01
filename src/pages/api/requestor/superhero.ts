@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getFirebaseUser } from "../../../apiHelpers/me";
-import { getSuperHeroOf } from "../../../apiHelpers/requestor/superHero";
+import { getSuperHeroOf } from "../../../apiHelpers/requestor/superhero";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
