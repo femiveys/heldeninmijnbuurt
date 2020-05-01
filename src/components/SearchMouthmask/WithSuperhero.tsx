@@ -31,7 +31,7 @@ const WithSuperhero = ({ needsMouthmaskAmount }: TProps) => {
   ) : superhero.relation.requestorHandoverDate ? (
     <Done
       needsMouthmaskAmount={needsMouthmaskAmount}
-      showStars={!superhero.relation.heroStars}
+      showAppreciation={!superhero.relation.thanksDate}
     ></Done>
   ) : (
     <SuperheroContactInfo

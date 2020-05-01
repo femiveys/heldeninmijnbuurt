@@ -12,7 +12,7 @@ const Appreciation = ({ showStars }: TProps) => {
 
   return (
     <Card title={t("requestor.done.rate")}>
-      {false && showStars && <Stars />}
+      {showStars && <Stars />}
       <ThankMessage />
     </Card>
   );
