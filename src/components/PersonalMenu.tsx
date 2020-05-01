@@ -27,7 +27,6 @@ const PersonalMenu = () => {
               {user.postalCode} {getStreetInUserLanguage(user)}
             </div>
           </div>
-          <Divider />
         </>
       )}
       <Menu.Item style={{ textAlign: "center" }}>

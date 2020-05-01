@@ -49,6 +49,7 @@ export type TRelation = {
   problem: string;
   requestorStars: number;
   heroStars: number;
+  thanksDate: Date;
 };
 
 export type TStreet = {

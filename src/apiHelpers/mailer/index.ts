@@ -15,14 +15,24 @@ const transporter = nodemailer.createTransport({
 
 const from = '"Femi Veys 👻" <femi@itsimplyworks.be>';
 
-export const sendMail = async (to: string, mailId: string) => {
-  if (!templates[mailId]) console.log(`No template defined for: ${mailId}`);
+export const sendMail = async (
+  to: string,
+  mailId: string,
+  message?: string
+) => {
+  if (mailId !== "message" && !templates[mailId])
+    console.log(`No template defined for: ${mailId}`);
+
+  const fields =
+    mailId === "message" && message
+      ? { subject: "Dank je wel, superheld", text: message }
+      : templates[mailId];
 
   if (process.env.NODE_ENV === "production") {
     const info: SentMessageInfo = await transporter.sendMail({
       from,
       to,
-      ...templates[mailId],
+      ...fields,
     });
     console.log("Message sent", info);
     return info.messageId;
@@ -48,8 +58,9 @@ export const sendMail = async (to: string, mailId: string) => {
 export const mailByRelationId = async (
   toRole: "hero" | "requestor",
   relationId: number,
-  mailId: string
+  mailId: string,
+  message?: string
 ) => {
   const email = await getEmailByRelationId(toRole, relationId);
-  return await sendMail(email, mailId);
+  return await sendMail(email, mailId, message);
 };

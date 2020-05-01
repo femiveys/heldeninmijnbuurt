@@ -32,7 +32,7 @@ export const SearchMouthmask = () => {
         <EnterMouthmaskAmount fetchRelationStatus={fetchRelationStatus} />
       ) : isFetchingRelationStatus ? (
         <Spin
-          tip="Aan het kijk of we een superheld gevonden hebben voor jou"
+          tip="Aan het kijken of we een superheld gevonden hebben voor jou"
           style={{ width: "100%", marginTop: 200 }}
         />
       ) : !relationStatus ? (

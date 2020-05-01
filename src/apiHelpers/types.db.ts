@@ -36,6 +36,7 @@ export type TRelationFromDb = {
   problem: string;
   requestor_stars: number;
   hero_stars: number;
+  thanks_date: Date;
 };
 
 export type TStreetFromDb = {

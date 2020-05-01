@@ -18,7 +18,11 @@ export const getSuperHeroOf = async (requestorId: string) => {
 
   const relation = await getMakerRelationOf(requestorId);
 
-  if (relation && relation.status === ERelationStatus.accepted) {
+  if (
+    relation &&
+    (relation.status === ERelationStatus.accepted ||
+      relation.status === ERelationStatus.handedOver)
+  ) {
     const superhero = await db("user")
       .where("user_id", relation.heroId)
       .first<TUserFromDb>();
