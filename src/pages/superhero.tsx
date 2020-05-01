@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useUser } from "../hooks";
 import FullSpinner from "../components/FullSpinner";
-import { MakeMouthmask } from "../components/MakeMouthmask";
+import { MakeMouthmask } from "../components/MakeMouthmask/MakeMouthmask";
 
 export default () => {
   const { user } = useUser();
