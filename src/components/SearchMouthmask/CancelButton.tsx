@@ -36,7 +36,6 @@ const CancelButton = (props: TProps) => {
         </Typography>
       ),
       okText: t("yes"),
-      okType: "danger",
       cancelText: t("no"),
       onOk: async () => {
         await callApi({ name: "cancel" });

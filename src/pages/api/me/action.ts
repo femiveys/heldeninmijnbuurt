@@ -3,6 +3,7 @@ import { getFirebaseUser } from "../../../apiHelpers/me";
 import { setIsMaker } from "../../../apiHelpers/me/setIsMaker";
 import { setNeedsMouthmask } from "../../../apiHelpers/me/setNeedsMouthmask";
 import { stopMaking } from "../../../apiHelpers/me/unsetIsMaker";
+import { unsetNeedsMouthmask } from "../../../apiHelpers/me/unsetNeedsMouthmask";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "PUT") {
@@ -23,6 +24,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         case "setNeedsMouthmask":
           result = await setNeedsMouthmask(firebaseUser.uid);
+          break;
+
+        case "unsetNeedsMouthmask":
+          result = await unsetNeedsMouthmask(firebaseUser.uid);
           break;
 
         default:
