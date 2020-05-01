@@ -1,13 +1,12 @@
 import { useRouter } from "next/router";
-import { useTranslation } from "react-i18next";
-import { SmileOutlined, ShareAltOutlined } from "@ant-design/icons";
-import { Result, Button, Spin, Typography, Col, Row, Modal } from "antd";
+import { SmileOutlined } from "@ant-design/icons";
+import { Result, Button, Spin, Typography, Col, Row, Alert } from "antd";
 import EnterStreet from "../components/EnterStreet";
-import Share from "../components/Share";
 import { useUser, useApi } from "../hooks";
 import { grid } from "../helpers";
 import { useEffect } from "react";
 import FullSpinner from "../components/FullSpinner";
+import ShareButton from "../components/ShareButton";
 
 const { Paragraph } = Typography;
 
@@ -17,7 +16,6 @@ const style = {
 };
 
 export default () => {
-  const { t } = useTranslation();
   const { user, updateUser } = useUser();
   const { isLoading, callApi } = useApi("PUT", "me/action");
   const router = useRouter();
@@ -29,6 +27,8 @@ export default () => {
       else if (!user.streetId) router.replace("/new");
     }
   }, [user]);
+
+  const userHasCancelled = !!user && !!user.cancelDate;
 
   // We show a full spinner while redirecting (see above)
   return user ? (
@@ -73,25 +73,10 @@ export default () => {
                 >
                   Ik maak mondmaskers
                 </Button>
+                <ShareButton style={style} />
                 <Button
                   style={style}
-                  type="primary"
-                  size="large"
-                  onClick={() => {
-                    Modal.info({
-                      title: "Spread the word...",
-                      icon: <ShareAltOutlined />,
-                      content: <Share />,
-                      centered: true,
-                      maskClosable: true,
-                      okText: t("close"),
-                    });
-                  }}
-                >
-                  Ik laat anderen weten over dit platform
-                </Button>
-                <Button
-                  style={style}
+                  disabled={userHasCancelled}
                   onClick={async () => {
                     await callApi({ name: "setNeedsMouthmask" });
                     updateUser({ needsMouthmask: true });
@@ -99,6 +84,12 @@ export default () => {
                 >
                   Ik zoek een mondmasker
                 </Button>
+                {userHasCancelled && (
+                  <Alert
+                    message="Je hebt je aanvraag geannuleerd en dus kan je geen nieuwe aanvraag doen."
+                    type="warning"
+                  />
+                )}
                 <Spin spinning={isLoading} style={style} />
               </div>
             }

@@ -2,25 +2,23 @@ import { Spin } from "antd";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import EnterMouthmaskAmount from "./EnterMouthmaskAmount";
-import SuperHeroContactInfo from "./SuperHeroContactInfo";
 import WaitingForAcceptance from "./WaitingForAcceptance";
 import NoSuperHeroFound from "./NoSuperHeroFound";
 import { useUser, useApi } from "../../hooks";
-import Done from "./Done";
-import { TRelationUser, ERelationStatus } from "../../types";
+import { ERelationStatus } from "../../types";
+import WithSuperHero from "./WithSuperhero";
 
 export const SearchMouthmask = () => {
   const { t } = useTranslation();
   const { user } = useUser();
   const {
-    isLoading: isFetchingSuperHero,
-    data: superhero,
-    callApi: fetchSuperHero,
-  } = useApi<TRelationUser>("GET", "requestor/superhero");
-  // const { isLoading, callApi } = useApi("PUT", "me/action");
+    isLoading: isFetchingRelationStatus,
+    data: relationStatus,
+    callApi: fetchRelationStatus,
+  } = useApi<ERelationStatus>("GET", "requestor/superhero/status");
 
   useEffect(() => {
-    if (user!.needsMouthmaskAmount) fetchSuperHero();
+    if (user!.needsMouthmaskAmount) fetchRelationStatus();
   }, []);
 
   const needsMouthmaskAmount = Number(user?.needsMouthmaskAmount);
@@ -31,27 +29,18 @@ export const SearchMouthmask = () => {
   return (
     <>
       {needsMouthmaskAmount === 0 ? (
-        <EnterMouthmaskAmount fetchSuperHero={fetchSuperHero} />
-      ) : true && isFetchingSuperHero ? (
+        <EnterMouthmaskAmount fetchRelationStatus={fetchRelationStatus} />
+      ) : isFetchingRelationStatus ? (
         <Spin
-          tip={t("requestor.contact.loading")}
+          tip="Aan het kijk of we een superheld gevonden hebben voor jou"
           style={{ width: "100%", padding: 16 }}
         />
-      ) : !superhero ? (
+      ) : !relationStatus ? (
         <NoSuperHeroFound />
-      ) : superhero.relation.status === ERelationStatus.requested ? (
+      ) : relationStatus === ERelationStatus.requested ? (
         <WaitingForAcceptance />
-      ) : superhero.relation.requestorHandoverDate ? (
-        <Done
-          needsMouthmaskAmount={needsMouthmaskAmount}
-          showStars={!superhero.relation.heroStars}
-        ></Done>
       ) : (
-        <SuperHeroContactInfo
-          superhero={superhero}
-          fetchSuperHero={fetchSuperHero}
-          needsMouthmaskAmount={needsMouthmaskAmount}
-        />
+        <WithSuperHero needsMouthmaskAmount={needsMouthmaskAmount} />
       )}
     </>
   );

@@ -9,7 +9,7 @@ export default () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!user) router.replace("/");
+    if (!(user && user.needsMouthmask)) router.replace("/");
   }, [user]);
 
   return user && user.needsMouthmask ? <SearchMouthmask /> : <FullSpinner />;

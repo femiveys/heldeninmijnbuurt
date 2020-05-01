@@ -56,7 +56,7 @@ const Stop = ({ hasPending }: TProps) => {
             onOk: async () => {
               await callApi({ name: "unsetIsMaker" });
               updateUser({ isMaker: false });
-              router.replace("/");
+              await router.replace("/");
             },
             cancelText: "Nee, ik help verder",
           });

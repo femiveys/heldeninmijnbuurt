@@ -75,8 +75,8 @@
       "cancel": {
         "title": "Ben je zeker dat je je aanvraag wilt annuleren?",
         "consequences1": "Als je je aanvraag annuleert, zal je geen nieuwe aanvragen meer kunnen doen. Je kan wel zelf nog anderen meehelpen",
-        "consequences2": "{{name}} zal verwittigd worden dat je geen mondmasker meer nodig hebt.",
-        "consequences2_plural": "{{name}} zal verwittigd worden dat je geen mondmaskers meer nodig hebt."
+        "consequences2": "Wij verwittigen {{name}} alvast dat je geen mondmaskers meer nodig hebt. Jij hoeft niks te doen.",
+        "consequences2_plural": "Wij verwittigen {{name}} alvast dat je geen mondmaskers meer nodig hebt. Jij hoeft niks te doen."
       }
     },
     "done": {

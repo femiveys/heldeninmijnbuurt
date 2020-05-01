@@ -9,7 +9,7 @@ export default () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!user) router.replace("/");
+    if (!(user && user.isMaker)) router.replace("/");
   }, [user]);
 
   return user && user.isMaker ? <MakeMouthmask /> : <FullSpinner />;

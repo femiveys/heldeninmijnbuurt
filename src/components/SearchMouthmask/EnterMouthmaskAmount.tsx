@@ -1,9 +1,9 @@
 import { Select, Form, Button, Typography, Col, Row } from "antd";
 import { useTranslation } from "react-i18next";
-import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { grid } from "../../helpers";
 import { useApi, useUser } from "../../hooks";
+import NotNeededAnymoreButton from "./NotNeededAnymoreButton";
 
 const { Title, Paragraph } = Typography;
 
@@ -12,22 +12,17 @@ type TFormValues = {
 };
 
 type TProps = {
-  fetchSuperHero: () => Promise<void>;
+  fetchRelationStatus: () => Promise<void>;
 };
 
-const EnterMouthmaskAmount = ({ fetchSuperHero }: TProps) => {
+const EnterMouthmaskAmount = ({ fetchRelationStatus }: TProps) => {
   const { t } = useTranslation();
   const { updateUser } = useUser();
-  const router = useRouter();
   const [form] = Form.useForm();
   const {
     isLoading: isSettingNeedsMouthmaskAmount,
     callApi: setNeedsMouthmaskAmount,
   } = useApi("PUT", "requestor/action");
-  const {
-    isLoading: isUnsettingNeedsMouthmask,
-    callApi: unsetNeedsMouthmask,
-  } = useApi("PUT", "me/action");
 
   const numberList = [1, 2, 3, 4, 5];
 
@@ -38,7 +33,7 @@ const EnterMouthmaskAmount = ({ fetchSuperHero }: TProps) => {
         num: values.needsMouthmaskAmount,
       });
       updateUser({ needsMouthmaskAmount: values.needsMouthmaskAmount });
-      await fetchSuperHero();
+      await fetchRelationStatus();
     };
     asyncActions();
   }, []);
@@ -98,18 +93,7 @@ const EnterMouthmaskAmount = ({ fetchSuperHero }: TProps) => {
           </Paragraph>
         </Typography>
         <div style={{ textAlign: "right" }}>
-          <Button
-            danger
-            type="link"
-            loading={isUnsettingNeedsMouthmask}
-            onClick={async () => {
-              await unsetNeedsMouthmask({ name: "unsetNeedsMouthmask" });
-              updateUser({ needsMouthmask: false });
-              router.replace("/");
-            }}
-          >
-            Ik heb toch geen mondmaskers meer nodig
-          </Button>
+          <NotNeededAnymoreButton />
         </div>
       </Col>
     </Row>

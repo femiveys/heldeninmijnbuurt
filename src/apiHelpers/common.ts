@@ -13,6 +13,7 @@ export const checkRelationId = (relationId: number) => {
  * In other words: if there is no active relation
  * A relation should be created
  * - if the requestor doesn't have any maskRequest relation
+ * or
  * - if all maskRequest relation are declined or ended with a problem
  *
  * @param requestorId - the userId of the requestor
