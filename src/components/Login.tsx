@@ -34,17 +34,20 @@ const Login = () => {
               >
                 {t("login.google")}
               </Button>
-              <Button
-                size="large"
-                icon={<FacebookOutlined />}
-                style={{ backgroundColor: "#3b5998", color: "white" }}
-                onClick={() => {
-                  const provider = new firebase.auth.FacebookAuthProvider();
-                  firebase.auth().signInWithPopup(provider);
-                }}
-              >
-                {t("login.facebook")}
-              </Button>
+              {/*
+
+  <Button
+  size="large"
+  icon={<FacebookOutlined />}
+  style={{ backgroundColor: "#3b5998", color: "white" }}
+  onClick={() => {
+    const provider = new firebase.auth.FacebookAuthProvider();
+    firebase.auth().signInWithPopup(provider);
+  }}
+  >
+  {t("login.facebook")}
+  </Button>
+*/}
             </Space>
           </Col>
         </Row>

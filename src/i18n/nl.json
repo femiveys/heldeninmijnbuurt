@@ -33,7 +33,9 @@
       "ableToHelp": "Kan je helpen?",
       "distance": "Afstand",
       "accept": "Accepteer",
-      "decline": "Weiger"
+      "decline": "Weiger",
+      "stock": "Je hebt opgegeven dat je nog {{count}} mondmasker hebt.",
+      "stock_plural": "Je hebt opgegeven dat je nog {{count}} mondmaskers hebt."
     },
     "accepted": {
       "title": "Op te halen / Af te leveren",

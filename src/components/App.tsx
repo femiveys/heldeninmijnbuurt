@@ -23,10 +23,12 @@ const App: React.FunctionComponent = ({ children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <Header>
+        <Header
+          style={{ position: "fixed", zIndex: 1, width: "100%", padding: 0 }}
+        >
           <ApplicationHeader />
         </Header>
-        <Content style={{ paddingTop: 16 }}>{children}</Content>
+        <Content style={{ marginTop: 64, paddingTop: 16 }}>{children}</Content>
         <Footer>Footer</Footer>
       </Layout>
     </>

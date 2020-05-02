@@ -4,7 +4,7 @@ import {
   WhatsAppOutlined,
   CheckOutlined,
 } from "@ant-design/icons";
-import { Table, Space, Typography, Button, Row, Col, Modal } from "antd";
+import { Table, Space, Button, Row, Col, Divider } from "antd";
 import { useTranslation } from "react-i18next";
 import { apiCall } from "../../axios";
 import { useUser } from "../../hooks";
@@ -13,7 +13,6 @@ import Problem from "./Problem";
 
 type TRecord = TRelationUser & { key: number };
 
-const { Title } = Typography;
 const { Column } = Table;
 
 const addRemoveKey = (list: number[], record: TRecord) =>
@@ -66,7 +65,7 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
         console.error(error);
       }
     },
-    []
+    [user]
   );
 
   const expandedRowRender = (record: TRecord) => (
@@ -103,7 +102,7 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
 
   return dataWithKeys.length > 0 ? (
     <div>
-      <Title level={4}>{t("maker.accepted.title")}</Title>
+      <Divider orientation="left">{t("maker.accepted.title")}</Divider>
       <Table<TRecord>
         size="small"
         dataSource={dataWithKeys}
@@ -152,7 +151,7 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
               icon={<CheckOutlined />}
               onClick={markAsHandedOver(
                 relationId,
-                Number(record.user.needsMouthmaskAmount)
+                record.user.needsMouthmaskAmount
               )}
             ></Button>
           )}

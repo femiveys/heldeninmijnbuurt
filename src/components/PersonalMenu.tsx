@@ -1,11 +1,9 @@
-import { Menu, Dropdown, Button, Avatar, Typography, Divider } from "antd";
+import { Menu, Dropdown, Button, Avatar } from "antd";
 import firebase from "firebase/app";
 import { useCallback } from "react";
 import { useAuth, useUser } from "../hooks";
 import { store } from "../store";
 import { getStreetInUserLanguage } from "../helpers";
-
-const style = {};
 
 const PersonalMenu = () => {
   const { user } = useUser();
@@ -39,7 +37,7 @@ const PersonalMenu = () => {
     <Dropdown overlay={menu} placement="bottomRight" trigger={["click"]}>
       <Button
         type="link"
-        style={{ width: 54, height: 54, border: 0 }}
+        style={{ width: 54, height: 54, border: 0, marginRight: 5 }}
         icon={
           <Avatar
             size={54}

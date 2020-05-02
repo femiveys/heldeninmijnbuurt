@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useState } from "react";
-import { Table, Typography, Button, Modal } from "antd";
+import { Table, Typography, Button, Modal, Divider } from "antd";
 import { CloseOutlined, DownloadOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { formatLengthDistance } from "../../helpers";
@@ -7,8 +7,10 @@ import { apiCall } from "../../axios";
 import { useUser } from "../../hooks";
 import { TRequestedRequest } from "../../types";
 
-const { Title, Paragraph } = Typography;
+const { Paragraph } = Typography;
 const { Column } = Table;
+
+type TRecord = TRequestedRequest & { key: number };
 
 type TProps = {
   requests: TRequestedRequest[];
@@ -53,13 +55,18 @@ export const RequestedRequests = ({
     }
   };
 
-  const accept = useCallback(acceptOrDecline("accept"), []);
-  const decline = useCallback(acceptOrDecline("decline"), []);
+  const accept = useCallback(acceptOrDecline("accept"), [data, user]);
+  const decline = useCallback(acceptOrDecline("decline"), [data, user]);
 
-  return data && data.length > 0 ? (
+  const dataWithKeys =
+    data && data.length > 0
+      ? data.map((record) => ({ key: record.relationId, ...record }))
+      : [];
+
+  return dataWithKeys.length > 0 ? (
     <div style={{ marginBottom: 32 }}>
-      <Title level={4}>{t("maker.requested.title")}</Title>
-      <Table size="small" dataSource={data} pagination={false}>
+      <Divider orientation="left">{t("maker.requested.title")}</Divider>
+      <Table size="small" dataSource={dataWithKeys} pagination={false}>
         <Column
           key="needsMouthmaskAmount"
           title={t("needsMouthmaskAmount")}
@@ -73,7 +80,7 @@ export const RequestedRequests = ({
           align="right"
           render={(distance) => formatLengthDistance(distance)}
         />
-        <Column<TRequestedRequest>
+        <Column<TRecord>
           key="accept"
           title={t("maker.requested.ableToHelp")}
           dataIndex="relationId"
@@ -84,7 +91,29 @@ export const RequestedRequests = ({
               type="primary"
               size="small"
               icon={<DownloadOutlined />}
-              onClick={accept(relationId, record.needsMouthmaskAmount)}
+              onClick={() => {
+                if (Number(user?.maskStock) < record.needsMouthmaskAmount) {
+                  Modal.warning({
+                    title: "Je hebt onvoldoende mondmaskers",
+                    content: (
+                      <Typography>
+                        <Paragraph>
+                          {t("maker.requested.stock", {
+                            count: user?.maskStock,
+                          })}{" "}
+                          Dit is minder dan in deze aanvraag.
+                        </Paragraph>
+                        <Paragraph>
+                          Gelieve je stock aan te passen voor je deze aanvraag
+                          kan aanvaarden.
+                        </Paragraph>
+                      </Typography>
+                    ),
+                  });
+                } else {
+                  accept(relationId, record.needsMouthmaskAmount)();
+                }
+              }}
             >
               {t("yes")}
             </Button>
@@ -106,9 +135,6 @@ export const RequestedRequests = ({
                   title: "Ben je zeker dat je deze maskers niet kan naaien?",
                   content: (
                     <Typography>
-                      <Paragraph>
-                        dat je deze maskers niet kan naaien.
-                      </Paragraph>
                       <Paragraph>
                         Spijtig, maar de aanvrager zal in ieder geval niet weten
                         dat jij de maskers niet kon naaien. Wij zoeken voor hem

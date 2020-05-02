@@ -35,11 +35,14 @@ export const MakeMouthmask = () => {
   const showSpinner =
     isInitialLoading && (isLoadingRequested || isLoadingAccepted);
 
+  const requestedRequests = requested || [];
+  const acceptedRequests = accepted || [];
+
   return (
     <Row>
       <Col {...grid}>
         {user?.maskStock === null ? (
-          <EnterStock />
+          <EnterStock fetchRequested={fetchRequested} />
         ) : (
           <Space
             direction="vertical"
@@ -48,7 +51,7 @@ export const MakeMouthmask = () => {
             <Statistics fetchRequested={fetchRequested} />
             <Stop
               hasPending={
-                (requested || []).length > 0 || (accepted || []).length > 0
+                requestedRequests.length > 0 || acceptedRequests.length > 0
               }
             />
             {showSpinner ? (
@@ -59,15 +62,23 @@ export const MakeMouthmask = () => {
               />
             ) : (
               <>
-                <RequestedRequests
-                  requests={requested || []}
-                  fetchAccepted={fetchAccepted}
-                  fetchRequested={fetchRequested}
-                />
-                <AcceptedRequests
-                  requests={accepted || []}
-                  fetchAccepted={fetchAccepted}
-                />
+                {isLoadingRequested && requestedRequests.length === 0 ? (
+                  <Spin size="small" />
+                ) : (
+                  <RequestedRequests
+                    requests={requestedRequests}
+                    fetchAccepted={fetchAccepted}
+                    fetchRequested={fetchRequested}
+                  />
+                )}
+                {isLoadingAccepted && acceptedRequests.length === 0 ? (
+                  <Spin size="small" />
+                ) : (
+                  <AcceptedRequests
+                    requests={acceptedRequests}
+                    fetchAccepted={fetchAccepted}
+                  />
+                )}
               </>
             )}
           </Space>

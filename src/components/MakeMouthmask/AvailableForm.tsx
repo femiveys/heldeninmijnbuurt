@@ -5,11 +5,15 @@ import { useCallback } from "react";
 
 const { Title } = Typography;
 
+type TProps = {
+  fetchRequested: () => Promise<void>;
+};
+
 type TFormValues = {
   maskStock?: number;
 };
 
-const AvailableForm = () => {
+const AvailableForm = ({ fetchRequested }: TProps) => {
   const [form] = Form.useForm();
   const { t } = useTranslation();
   const { user, updateUser } = useUser();
@@ -19,8 +23,9 @@ const AvailableForm = () => {
   );
 
   const updateStock = useCallback(async (values: TFormValues) => {
-    setMaskStock(values); // In the background
+    await setMaskStock(values); // In the background
     updateUser(values);
+    await fetchRequested();
   }, []);
 
   return (
