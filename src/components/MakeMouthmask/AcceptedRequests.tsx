@@ -3,6 +3,7 @@ import {
   MailOutlined,
   WhatsAppOutlined,
   CheckOutlined,
+  HomeOutlined,
 } from "@ant-design/icons";
 import { Table, Space, Button, Row, Col, Divider, Typography } from "antd";
 import { useTranslation } from "react-i18next";
@@ -11,6 +12,7 @@ import { useUser } from "../../hooks";
 import { TRelationUser } from "../../types";
 import Problem from "./Problem";
 import Whatsapp from "../Whatsapp";
+import { formatLengthDistance, ellipsis } from "../../helpers";
 
 type TRecord = TRelationUser & { key: number };
 
@@ -24,6 +26,7 @@ const addRemoveKey = (list: number[], record: TRecord) =>
 
 const iconStyle = {
   fontSize: 20,
+  marginRight: 16,
 };
 
 type TProps = {
@@ -71,33 +74,38 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
   );
 
   const expandedRowRender = (record: TRecord) => (
-    <Row justify="space-between" align="bottom" style={{ padding: "4px 8px" }}>
-      <Col>
-        <Space direction="vertical">
-          <Space>
-            <MailOutlined style={iconStyle} />
-            <a href={`mailto:${record.user.email}`} target="_blank">
-              {record.user.email}
-            </a>
-          </Space>
-          {record.user.whatsapp && (
-            <Space>
-              <WhatsAppOutlined style={iconStyle} />
-              <Whatsapp
-                message="Ik ben jouw superheld"
-                number={record.user.whatsapp}
-              />
-            </Space>
-          )}
-        </Space>
-      </Col>
-      <Col>
-        <Problem
-          relationId={record.relation.id}
-          afterSuccess={() => removeRow(record.relation.id)}
-        />
-      </Col>
-    </Row>
+    <div style={{ paddingLeft: 16 }}>
+      {record.user.whatsapp && (
+        <div>
+          <WhatsAppOutlined style={iconStyle} />
+          <Whatsapp
+            message={t("maker.accepted.whatsapp", {
+              requestor: record.user.name,
+              superhero: user?.name,
+            })}
+            number={record.user.whatsapp}
+          />
+        </div>
+      )}
+      <div style={{ marginTop: 4, marginBottom: 4 }}>
+        <MailOutlined style={iconStyle} />
+        <a href={`mailto:${record.user.email}`} target="_blank">
+          {ellipsis(record.user.email, 35)}
+        </a>
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div>
+          <HomeOutlined style={iconStyle} />
+          Woont op {formatLengthDistance(record.relation.distance)}
+        </div>
+        <div>
+          <Problem
+            relationId={record.relation.id}
+            afterSuccess={() => removeRow(record.relation.id)}
+          />
+        </div>
+      </div>
+    </div>
   );
 
   const dataWithKeys =

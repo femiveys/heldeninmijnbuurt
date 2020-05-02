@@ -44,6 +44,7 @@
       "empty": "Alle maskers zijn overhandigd",
       "contact": "Contacteer",
       "received": "Reeds ontvangen",
+      "whatsapp": "Hey {{requestor}}, dit is {{superhero}}, jouw superheld",
       "setDelivered": "Markeer as overhandigd",
       "problem": "probleem melden"
     }
