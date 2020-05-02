@@ -10,6 +10,7 @@ import { useApi } from "../../hooks";
 import CancelButton from "./CancelButton";
 import { TRelationUser } from "../../types";
 import { notImplemented, grid } from "../../helpers";
+import Whatsapp from "../Whatsapp";
 
 const { Paragraph, Text } = Typography;
 
