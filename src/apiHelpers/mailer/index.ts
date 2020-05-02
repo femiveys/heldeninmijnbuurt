@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const from = '"Femi Veys 👻" <femi@itsimplyworks.be>';
+const from = '"Femi Veys" <femi@itsimplyworks.be>';
 
 export const sendMail = async (
   to: string,
