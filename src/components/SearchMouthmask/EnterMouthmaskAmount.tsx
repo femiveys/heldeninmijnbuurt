@@ -40,7 +40,7 @@ const EnterMouthmaskAmount = ({ fetchRelationStatus }: TProps) => {
 
   return (
     <Row>
-      <Col {...grid}>
+      <Col {...grid} style={{ padding: 16 }}>
         <Typography
           style={{
             maxWidth: 450,

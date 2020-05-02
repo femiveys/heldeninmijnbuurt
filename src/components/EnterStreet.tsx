@@ -52,7 +52,7 @@ const EnterStreet = () => {
 
   return (
     <Row>
-      <Col {...grid} style={{ paddingLeft: 8, paddingRight: 8 }}>
+      <Col {...grid} style={{ padding: 16 }}>
         <Typography>
           <Title level={4}>In welke buurt woon je?</Title>
           <Paragraph>
