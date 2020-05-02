@@ -162,7 +162,7 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
           )}
         />
       </Table>
-      <Typography style={{ marginTop: 16, textAlign: "left" }}>
+      <Typography style={{ margin: 16, textAlign: "left" }}>
         <Paragraph>
           Nu hebben jullie mekaars contactgegevens. Kom in contact met elkaar en
           spreek af hoe je de overhandiging kan laten gebeuren.
