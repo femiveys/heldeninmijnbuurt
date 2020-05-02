@@ -19,7 +19,7 @@ const App: React.FunctionComponent = ({ children }) => {
   return (
     <>
       <Head>
-        <title>😷Helden in mijn buurt 😷</title>
+        <title>Helden in mijn buurt</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>

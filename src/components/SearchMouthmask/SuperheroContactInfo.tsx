@@ -49,12 +49,6 @@ const SuperheroContactInfo = (props: TProps) => {
     xl: { span: 12 },
   };
 
-  const whatsapp = superhero.user.whatsapp && `32${superhero.user.whatsapp}`;
-  const whatsappText = encodeURI("Dag superheld");
-  const whatsappUrl = `https://wa.me/${whatsapp}?text=${whatsappText}`;
-
-  console.log(whatsappUrl);
-
   return (
     <Row>
       <Col {...grid}>
@@ -81,12 +75,13 @@ const SuperheroContactInfo = (props: TProps) => {
                     {superhero.user.email}
                   </a>
                 </Space>
-                {whatsapp && (
+                {superhero.user.whatsapp && (
                   <Space>
                     <WhatsAppOutlined style={iconStyle} />
-                    <a href={whatsappUrl} target="_blank">
-                      +{whatsapp}
-                    </a>
+                    <Whatsapp
+                      message="Dag superheld"
+                      number={superhero.user.whatsapp}
+                    />
                   </Space>
                 )}
                 {superhero.relation.heroHandoverDate ? (
@@ -123,7 +118,7 @@ const SuperheroContactInfo = (props: TProps) => {
           <Col {...layout}>
             <Alert
               type="warning"
-              message={t("requestor.contact.alert.message")}
+              message={t("safetyTitle")}
               description={
                 <Typography>
                   <Paragraph>

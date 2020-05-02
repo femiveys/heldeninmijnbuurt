@@ -20,6 +20,7 @@ const NotNeededAnymoreButton = () => {
         updateUser({ needsMouthmask: false });
         await router.replace("/");
       }}
+      style={{ fontSize: 10 }}
     >
       Ik heb toch geen mondmaskers meer nodig
     </Button>

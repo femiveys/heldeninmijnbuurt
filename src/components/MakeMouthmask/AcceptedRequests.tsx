@@ -4,15 +4,17 @@ import {
   WhatsAppOutlined,
   CheckOutlined,
 } from "@ant-design/icons";
-import { Table, Space, Button, Row, Col, Divider } from "antd";
+import { Table, Space, Button, Row, Col, Divider, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import { apiCall } from "../../axios";
 import { useUser } from "../../hooks";
 import { TRelationUser } from "../../types";
 import Problem from "./Problem";
+import Whatsapp from "../Whatsapp";
 
 type TRecord = TRelationUser & { key: number };
 
+const { Paragraph } = Typography;
 const { Column } = Table;
 
 const addRemoveKey = (list: number[], record: TRecord) =>
@@ -21,7 +23,7 @@ const addRemoveKey = (list: number[], record: TRecord) =>
     : [...list, record.key];
 
 const iconStyle = {
-  fontSize: 16,
+  fontSize: 20,
 };
 
 type TProps = {
@@ -69,7 +71,7 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
   );
 
   const expandedRowRender = (record: TRecord) => (
-    <Row justify="space-between" align="bottom">
+    <Row justify="space-between" align="bottom" style={{ padding: "4px 8px" }}>
       <Col>
         <Space direction="vertical">
           <Space>
@@ -81,7 +83,10 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
           {record.user.whatsapp && (
             <Space>
               <WhatsAppOutlined style={iconStyle} />
-              {`+32${record.user.whatsapp}`}
+              <Whatsapp
+                message="Ik ben jouw superheld"
+                number={record.user.whatsapp}
+              />
             </Space>
           )}
         </Space>
@@ -157,6 +162,21 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
           )}
         />
       </Table>
+      <Typography style={{ marginTop: 16, textAlign: "left" }}>
+        <Paragraph>
+          Nu hebben jullie mekaars contactgegevens. Kom in contact met elkaar en
+          spreek af hoe je de overhandiging kan laten gebeuren.
+        </Paragraph>
+        <Paragraph>
+          Indien de maskers opgehaald worden, zorg ervoor dat alles veilig en
+          met de nodige afstand gebeurt.
+        </Paragraph>
+        <Paragraph>
+          Indien jij de maskers gaat afleveren, probeer indien mogelijk met de
+          fiets te gaan. Hou afstand en was je handen voor en na de
+          overhandiging.
+        </Paragraph>
+      </Typography>
     </div>
   ) : null;
 };

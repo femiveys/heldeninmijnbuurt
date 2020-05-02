@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Space, Row, Col, Spin } from "antd";
+import { Row, Col, Spin } from "antd";
 import Statistics from "./Statistics";
 import { RequestedRequests } from "./RequestedRequests";
 import AcceptedRequests from "./AcceptedRequests";
@@ -8,6 +8,7 @@ import { grid } from "../../helpers";
 import EnterStock from "./EnterStock";
 import { TRequestedRequest, TRelationUser } from "../../types";
 import Stop from "./Stop";
+import Message from "./Message";
 
 export const MakeMouthmask = () => {
   const { user } = useUser();
@@ -44,11 +45,9 @@ export const MakeMouthmask = () => {
         {user?.maskStock === null ? (
           <EnterStock fetchRequested={fetchRequested} />
         ) : (
-          <Space
-            direction="vertical"
-            style={{ width: "100%", textAlign: "center" }}
-          >
+          <div style={{ textAlign: "center" }}>
             <Statistics fetchRequested={fetchRequested} />
+            <Message closable={Number(user?.numDelivered) > 10} />
             <Stop
               hasPending={
                 requestedRequests.length > 0 || acceptedRequests.length > 0
@@ -57,8 +56,8 @@ export const MakeMouthmask = () => {
             {showSpinner ? (
               <Spin
                 size="large"
+                style={{ paddingTop: 40 }}
                 tip="Je aanvragen aan het ophalen..."
-                style={{ marginTop: 40 }}
               />
             ) : (
               <>
@@ -81,7 +80,7 @@ export const MakeMouthmask = () => {
                 )}
               </>
             )}
-          </Space>
+          </div>
         )}
       </Col>
     </Row>
