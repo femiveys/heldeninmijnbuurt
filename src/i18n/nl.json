@@ -88,7 +88,7 @@
     "done": {
       "title": "Je hebt je mondmasker ontvangen",
       "title_plural": "Je hebt je mondmaskers ontvangen",
-      "rate": "Toon je waardering voor je superheld(in)",
+      "rate": "Toon je waardering",
       "message": {
         "placeholder": "Als je wil, kan je je superheld ook een persoonlijk dankwoordje schrijven.",
         "send": "Stuur een dankwoordje"

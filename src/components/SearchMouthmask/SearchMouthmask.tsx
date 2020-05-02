@@ -7,6 +7,7 @@ import { useUser, useApi } from "../../hooks";
 import { ERelationStatus } from "../../types";
 import WithSuperhero from "./WithSuperhero";
 import NoSuperheroFound from "./NoSuperheroFound";
+import Spinner from "../Spinner";
 
 export const SearchMouthmask = () => {
   const { t } = useTranslation();
@@ -31,10 +32,7 @@ export const SearchMouthmask = () => {
       {needsMouthmaskAmount === 0 ? (
         <EnterMouthmaskAmount fetchRelationStatus={fetchRelationStatus} />
       ) : isFetchingRelationStatus ? (
-        <Spin
-          tip="Aan het kijken of we een superheld gevonden hebben voor jou"
-          style={{ width: "100%", marginTop: 200 }}
-        />
+        <Spinner tip="Aan het kijken of we een superheld gevonden hebben voor jou" />
       ) : !relationStatus ? (
         <NoSuperheroFound />
       ) : relationStatus === ERelationStatus.requested ? (

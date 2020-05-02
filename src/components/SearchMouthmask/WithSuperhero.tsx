@@ -5,6 +5,7 @@ import SuperheroContactInfo from "./SuperheroContactInfo";
 import { Spin } from "antd";
 import NoSuperheroFound from "./NoSuperheroFound";
 import { useEffect } from "react";
+import Spinner from "../Spinner";
 
 type TProps = {
   needsMouthmaskAmount: number;
@@ -21,11 +22,8 @@ const WithSuperhero = ({ needsMouthmaskAmount }: TProps) => {
     fetchSuperHero();
   }, []);
 
-  return isFetchingSuperHero ? (
-    <Spin
-      tip="We zijn de gegevens van je superheld aan het ophalen"
-      style={{ width: "100%", padding: 16 }}
-    />
+  return true && isFetchingSuperHero ? (
+    <Spinner tip="We zijn de gegevens van je superheld aan het ophalen" />
   ) : !superhero ? (
     <NoSuperheroFound />
   ) : superhero.relation.requestorHandoverDate ? (
