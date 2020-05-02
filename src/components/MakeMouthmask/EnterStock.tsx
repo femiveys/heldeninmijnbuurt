@@ -3,9 +3,13 @@ import AvailableForm from "./AvailableForm";
 
 const { Title, Paragraph } = Typography;
 
-const EnterStock = () => {
+type TProps = {
+  fetchRequested: () => Promise<void>;
+};
+
+const EnterStock = ({ fetchRequested }: TProps) => {
   return (
-    <div style={{ padding: 8 }}>
+    <div style={{ padding: 16 }}>
       <Typography>
         <Title level={4}>Jij wordt een superheld!</Title>
         <Paragraph>
@@ -38,7 +42,7 @@ const EnterStock = () => {
           aanpassen.
         </Paragraph>
       </Typography>
-      <AvailableForm />
+      <AvailableForm fetchRequested={fetchRequested} />
     </div>
   );
 };

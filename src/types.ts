@@ -23,7 +23,7 @@ export type TUser = {
   maskStock: number;
   numDelivered: number;
   needsMouthmask: boolean;
-  needsMouthmaskAmount?: number;
+  needsMouthmaskAmount: number;
   stars: number;
   numEvaluations: number;
   whatsapp?: string;

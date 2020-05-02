@@ -14,9 +14,7 @@ const Statistics = ({ fetchRequested }: TProps) => {
   return (
     <Row justify="space-around">
       <Col>
-        {user?.numDelivered && (
-          <Statistic title="Maskers overhandigd" value={user.numDelivered} />
-        )}
+        <Statistic title="Maskers overhandigd" value={user?.numDelivered} />
       </Col>
       <Col>
         <Statistic

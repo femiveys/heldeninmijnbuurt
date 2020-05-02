@@ -77,8 +77,8 @@ export const createMaskRelation = async (
 
   const relationId = returningArray[0];
   if (relationId) {
-    mailByRelationId("hero", relationId, "assignedToHero");
-    mailByRelationId("requestor", relationId, "assignedToRequestor");
+    await mailByRelationId("hero", relationId, "assignedToHero");
+    await mailByRelationId("requestor", relationId, "assignedToRequestor");
   }
 
   return returningArray;

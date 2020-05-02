@@ -34,7 +34,13 @@ const Problem = ({ relationId, afterSuccess }: TProps) => {
 
   return (
     <div>
-      <Button size="small" danger type="link" onClick={() => setVisible(true)}>
+      <Button
+        danger
+        type="link"
+        size="small"
+        style={{ fontSize: 10 }}
+        onClick={() => setVisible(true)}
+      >
         {t("maker.accepted.problem")}
       </Button>
 

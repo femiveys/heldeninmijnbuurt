@@ -15,6 +15,7 @@
     "google": "Login met google",
     "facebook": "Login met Facebook"
   },
+  "safetyTitle": "Respecteer de veiligheidsmaatregelen",
   "maker": {
     "collapseTitle": "Ik heb een naaimachine",
     "heroTitle": {
@@ -33,7 +34,9 @@
       "ableToHelp": "Kan je helpen?",
       "distance": "Afstand",
       "accept": "Accepteer",
-      "decline": "Weiger"
+      "decline": "Weiger",
+      "stock": "Je hebt opgegeven dat je nog {{count}} mondmasker hebt.",
+      "stock_plural": "Je hebt opgegeven dat je nog {{count}} mondmaskers hebt."
     },
     "accepted": {
       "title": "Op te halen / Af te leveren",
@@ -73,7 +76,6 @@
       "received": "Ik heb {{count}} mondmasker ontvangen",
       "received_plural": "Ik heb {{count}} mondmaskers ontvangen",
       "alert": {
-        "message": "Respecteer de veiligheidsmaatregelen",
         "description": "Neem het materiaal uit het zakje. Was het 30 min op 60° en was je handen met water en zeep."
       },
       "cancel": {

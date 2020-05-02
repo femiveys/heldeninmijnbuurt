@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Space, Row, Col, Spin } from "antd";
+import { Row, Col, Spin } from "antd";
 import Statistics from "./Statistics";
 import { RequestedRequests } from "./RequestedRequests";
 import AcceptedRequests from "./AcceptedRequests";
@@ -8,6 +8,7 @@ import { grid } from "../../helpers";
 import EnterStock from "./EnterStock";
 import { TRequestedRequest, TRelationUser } from "../../types";
 import Stop from "./Stop";
+import Message from "./Message";
 
 export const MakeMouthmask = () => {
   const { user } = useUser();
@@ -35,42 +36,51 @@ export const MakeMouthmask = () => {
   const showSpinner =
     isInitialLoading && (isLoadingRequested || isLoadingAccepted);
 
+  const requestedRequests = requested || [];
+  const acceptedRequests = accepted || [];
+
   return (
     <Row>
       <Col {...grid}>
         {user?.maskStock === null ? (
-          <EnterStock />
+          <EnterStock fetchRequested={fetchRequested} />
         ) : (
-          <Space
-            direction="vertical"
-            style={{ width: "100%", textAlign: "center" }}
-          >
+          <div style={{ textAlign: "center" }}>
             <Statistics fetchRequested={fetchRequested} />
+            <Message closable={Number(user?.numDelivered) > 10} />
             <Stop
               hasPending={
-                (requested || []).length > 0 || (accepted || []).length > 0
+                requestedRequests.length > 0 || acceptedRequests.length > 0
               }
             />
             {showSpinner ? (
               <Spin
                 size="large"
+                style={{ paddingTop: 40 }}
                 tip="Je aanvragen aan het ophalen..."
-                style={{ marginTop: 40 }}
               />
             ) : (
               <>
-                <RequestedRequests
-                  requests={requested || []}
-                  fetchAccepted={fetchAccepted}
-                  fetchRequested={fetchRequested}
-                />
-                <AcceptedRequests
-                  requests={accepted || []}
-                  fetchAccepted={fetchAccepted}
-                />
+                {isLoadingRequested && requestedRequests.length === 0 ? (
+                  <Spin size="small" />
+                ) : (
+                  <RequestedRequests
+                    requests={requestedRequests}
+                    fetchAccepted={fetchAccepted}
+                    fetchRequested={fetchRequested}
+                  />
+                )}
+                {isLoadingAccepted && acceptedRequests.length === 0 ? (
+                  <Spin size="small" />
+                ) : (
+                  <AcceptedRequests
+                    requests={acceptedRequests}
+                    fetchAccepted={fetchAccepted}
+                  />
+                )}
               </>
             )}
-          </Space>
+          </div>
         )}
       </Col>
     </Row>
