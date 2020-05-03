@@ -35,19 +35,21 @@ export const hasNoRelationOrAllRelationsAreDeclinedOrInProblem = async (
     return true;
   }
 
-  let allDeclined = true;
+  let allDeclinedOrInProblem = true;
   results.forEach((relation) => {
     if (
-      allDeclined &&
-      relation.status !== ERelationStatus.declined &&
-      relation.status !== ERelationStatus.problem
+      allDeclinedOrInProblem &&
+      (relation.status === ERelationStatus.declined ||
+        relation.status === ERelationStatus.problem)
     ) {
-      allDeclined = false;
+      allDeclinedOrInProblem = true;
+    } else {
+      allDeclinedOrInProblem = false;
     }
   });
 
   // If all existing relations are declined, we should create a new one
-  return allDeclined;
+  return allDeclinedOrInProblem;
 };
 
 export const hasNoActiveRelation = hasNoRelationOrAllRelationsAreDeclinedOrInProblem;
