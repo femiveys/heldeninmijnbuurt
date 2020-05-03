@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getFirebaseUser } from "../../../../apiHelpers/me";
+import { getUid } from "../../../../apiHelpers/me";
 import {
   getSuperHeroOf,
   getStatusMakerRelationOf,
@@ -10,16 +10,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { type } = req.query;
 
-      const firebaseUser = await getFirebaseUser(req);
+      const uid = await getUid(req);
 
       let result;
       switch (type) {
         case "full":
-          result = await getSuperHeroOf(firebaseUser.uid);
+          result = await getSuperHeroOf(uid);
           break;
 
         case "status":
-          result = await getStatusMakerRelationOf(firebaseUser.uid);
+          result = await getStatusMakerRelationOf(uid);
           break;
 
         default:

@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { setMaskStock } from "../../apiHelpers/superhero/setMaskStock";
 import { createMaskRelation } from "../../apiHelpers/common";
 
 // TO BE USED TO TEST THE DB FUNCTIONS

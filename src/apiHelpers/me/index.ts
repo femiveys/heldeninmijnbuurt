@@ -4,7 +4,6 @@ import { db } from "../../db";
 import { transformUserFromDb } from "../transformers";
 import serviceAccount from "../../../mijn-mondmasker-firebase-adminsdk-tjfdw-13a74f43d0.json";
 import { TUserFromDb, TStreetFromDb } from "../types.db";
-import { TStreet } from "../../types";
 
 export const initFirebaseAdmin = () => {
   try {
@@ -25,10 +24,10 @@ export async function getFirebaseUser(req: NextApiRequest) {
 }
 
 export async function getMe(req: NextApiRequest) {
-  const firebaseUser = await getFirebaseUser(req);
+  const uid = await getUid(req);
   const me = await db<TUserFromDb>("user")
     .join<TStreetFromDb>("street", "user.street_id", "street.id")
-    .where("user_id", firebaseUser.uid)
+    .where("user_id", uid)
     .first<TUserFromDb>(
       "user.*",
       "street.postal_code",
@@ -44,3 +43,14 @@ export async function getMeOrFail(req: NextApiRequest) {
   if (!me) throw new Error("Me not found");
   return me;
 }
+
+// Gets the firebase uid or the mocked uid if the user has the mocked_user_id	filled
+export const getUid = async (req: NextApiRequest) => {
+  const firebaseUser = await getFirebaseUser(req);
+  const mockedUser = await db<TUserFromDb>("user")
+    .where({ user_id: firebaseUser.uid })
+    .first("mocked_user_id");
+  return mockedUser && mockedUser.mocked_user_id
+    ? mockedUser.mocked_user_id
+    : firebaseUser.uid;
+};

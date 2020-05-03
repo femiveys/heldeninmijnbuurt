@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getFirebaseUser } from "../../../apiHelpers/me";
+import { getUid } from "../../../apiHelpers/me";
 import { cancel } from "../../../apiHelpers/requestor/cancel";
 import { markAsHandedOver } from "../../../apiHelpers/requestor/markAsHandedOver";
 import { setNeedsMouthmaskAmount } from "../../../apiHelpers/requestor/setNeedsMouthmaskAmount";
@@ -11,24 +11,24 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { name, num } = req.body;
 
-      const firebaseUser = await getFirebaseUser(req);
+      const uid = await getUid(req);
 
       let result;
       switch (name) {
         case "cancel":
-          result = await cancel(firebaseUser.uid);
+          result = await cancel(uid);
           break;
 
         case "markAsHandedOver":
-          result = await markAsHandedOver(firebaseUser.uid);
+          result = await markAsHandedOver(uid);
           break;
 
         case "setNeedsMouthmaskAmount":
-          result = await setNeedsMouthmaskAmount(firebaseUser.uid, num);
+          result = await setNeedsMouthmaskAmount(uid, num);
           break;
 
         case "starMaker":
-          result = await starMaker(firebaseUser.uid, num);
+          result = await starMaker(uid, num);
           break;
 
         case "thank":
