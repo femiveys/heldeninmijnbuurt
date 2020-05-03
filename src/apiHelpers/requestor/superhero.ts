@@ -1,4 +1,4 @@
-import { getMakerRelationOf, checkRequestor } from "./common";
+import { getMakerRelationOf, checkRequestorEvenAfterDone } from "./common";
 import { db } from "../../db";
 import { transformUserFromDb } from "../transformers";
 import { TUserFromDb } from "../types.db";
@@ -15,7 +15,7 @@ import { pick } from "lodash";
  *          null if not found or not allowed to access
  */
 export const getSuperHeroOf = async (requestorId: string) => {
-  await checkRequestor(requestorId);
+  await checkRequestorEvenAfterDone(requestorId);
 
   const relation = await getMakerRelationOf(requestorId);
 
@@ -45,7 +45,7 @@ export const getSuperHeroOf = async (requestorId: string) => {
 export const getDistanceAndStatusMakerRelationOf = async (
   requestorId: string
 ) => {
-  await checkRequestor(requestorId);
+  await checkRequestorEvenAfterDone(requestorId);
   const relation = await getMakerRelationOf(requestorId);
   return relation
     ? (pick(relation, "status", "distance") as TDistanceAndStatus)

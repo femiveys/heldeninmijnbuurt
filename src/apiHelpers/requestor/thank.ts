@@ -1,4 +1,4 @@
-import { getMakerRelationOf, checkRequestor } from "./common";
+import { getMakerRelationOf, checkRequestorEvenAfterDone } from "./common";
 import { db } from "../../db";
 import { mailByRelationId } from "../mailer";
 import { TRelationFromDb } from "../types.db";
@@ -12,7 +12,7 @@ import { TRelationFromDb } from "../types.db";
  * @returns The messageId of the mail sent
  */
 export const thank = async (requestorId: string, message: string) => {
-  await checkRequestor(requestorId);
+  await checkRequestorEvenAfterDone(requestorId);
 
   const relation = await getMakerRelationOf(requestorId);
 

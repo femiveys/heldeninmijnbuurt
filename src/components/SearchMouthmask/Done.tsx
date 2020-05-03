@@ -1,7 +1,8 @@
-import { Space, Result } from "antd";
+import { Space, Result, Button } from "antd";
 import { useTranslation } from "react-i18next";
 import Appreciation from "./Appreciation";
 import ShareButton from "../ShareButton";
+import { useRouter } from "next/router";
 
 type TProps = {
   needsMouthmaskAmount: number;
@@ -10,6 +11,7 @@ type TProps = {
 
 const Done = ({ needsMouthmaskAmount, showAppreciation }: TProps) => {
   const { t } = useTranslation();
+  const router = useRouter();
 
   return (
     <Result
@@ -25,6 +27,9 @@ const Done = ({ needsMouthmaskAmount, showAppreciation }: TProps) => {
         >
           <ShareButton text="Deel op sociale media" />
           {showAppreciation && <Appreciation showStars={false} />}
+          <Button onClick={() => router.replace("/")}>
+            Word zelf een superheld
+          </Button>
         </Space>,
       ]}
     />

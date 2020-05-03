@@ -22,7 +22,7 @@ export const SearchMouthmask = () => {
   const needsMouthmaskAmount = Number(user?.needsMouthmaskAmount);
 
   // A user that is not active, so who has cancelled or is done cannot see the widget
-  if (user?.status !== EUserStatus.active) return null;
+  if (user?.status === EUserStatus.cancelled) return null;
 
   return (
     <>

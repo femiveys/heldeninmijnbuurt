@@ -49,9 +49,25 @@ const needsMouthmask = async (requestorId: string) => {
  * @param requestorId - the userId of the requestor
  * @returns true if the passed requestorId is active, false otherwise
  */
-const hasActiveUser = async (requestorId: string) => {
+const isActiveUser = async (requestorId: string) => {
   const result = await db<TUserFromDb>("user")
     .where({ user_id: requestorId, status: EUserStatus.active })
+    .first("user_id");
+
+  return !!result;
+};
+
+/**
+ * Checks if the passed requestorId is active or done, so this excludes users
+ * who have cancelled.
+ *
+ * @param requestorId - the userId of the requestor
+ * @returns true if the passed requestorId is active or done, false otherwise
+ */
+const isActiveOrDoneUser = async (requestorId: string) => {
+  const result = await db<TUserFromDb>("user")
+    .where({ user_id: requestorId })
+    .whereIn("status", [EUserStatus.active, EUserStatus.done])
     .first("user_id");
 
   return !!result;
@@ -63,7 +79,22 @@ const hasActiveUser = async (requestorId: string) => {
  * @param requestorId - the userId of the requestor
  */
 export const checkRequestor = async (requestorId: string) => {
-  if (!(await hasActiveUser(requestorId))) {
+  if (!(await isActiveUser(requestorId))) {
+    throw new Error("User is not active or done");
+  }
+  if (!(await needsMouthmask(requestorId))) {
+    throw new Error("User doesn't need mouthmasks");
+  }
+};
+
+/**
+ * Throws error if the passed requestorId is not of a valid requestor
+ * To be called once the user is done
+ *
+ * @param requestorId - the userId of the requestor
+ */
+export const checkRequestorEvenAfterDone = async (requestorId: string) => {
+  if (!(await isActiveOrDoneUser(requestorId))) {
     throw new Error("User is not active");
   }
   if (!(await needsMouthmask(requestorId))) {

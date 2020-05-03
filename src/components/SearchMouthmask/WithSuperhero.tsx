@@ -22,7 +22,7 @@ const WithSuperhero = ({ needsMouthmaskAmount }: TProps) => {
     fetchSuperHero();
   }, []);
 
-  return true && isFetchingSuperHero ? (
+  return isFetchingSuperHero ? (
     <Spinner tip="We zijn de gegevens van je superheld aan het ophalen" />
   ) : !superhero ? (
     <NoSuperheroFound />
