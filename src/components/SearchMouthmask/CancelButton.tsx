@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { Typography, Button, Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useApi, useUser } from "../../hooks";
+import { EUserStatus } from "../../types";
 
 const { confirm } = Modal;
 const { Paragraph } = Typography;
@@ -48,7 +49,7 @@ const CancelButton = (props: TProps) => {
       cancelText: t("no"),
       onOk: async () => {
         await callApi({ name: "cancel" });
-        updateUser({ needsMouthmask: false, cancelDate: new Date() });
+        updateUser({ needsMouthmask: false, status: EUserStatus.cancelled });
         await router.replace("/");
       },
     });

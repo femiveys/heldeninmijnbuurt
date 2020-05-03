@@ -1,7 +1,8 @@
 import { db } from "../../db";
 import { mailByRelationId } from "../mailer";
 import { getMakerRelationOf, checkRequestor } from "./common";
-import { ERelationStatus } from "../../types";
+import { ERelationStatus, EUserStatus } from "../../types";
+import { TRelationFromDb, TUserFromDb } from "../types.db";
 
 /**
  * Sets the status of the maker relation to handedOver.
@@ -17,25 +18,29 @@ export const markAsHandedOver = async (requestorId: string) => {
   const relation = await getMakerRelationOf(requestorId);
 
   if (relation) {
-    const result = await db("relation").where({ id: relation.id }).update({
-      status: ERelationStatus.handedOver,
-      requestor_handover_date: new Date(),
-    });
+    await setRequestorHandedOverOnRelation(relation.id);
 
-    if (result) {
-      return await mailByRelationId(
-        "hero",
-        relation.id,
-        "requestorMarkedAsHandedOver"
-      );
-    } else {
-      throw new Error(
-        `There was a problem setting relation ${relation.id} to requestorMarkedAsHandedOver`
-      );
-    }
+    await setUserDone(requestorId);
+
+    return await mailByRelationId(
+      "hero",
+      relation.id,
+      "requestorMarkedAsHandedOver"
+    );
   } else {
     throw new Error(
       `markAsHandedOver: user (${requestorId}) doesn't have an accepted maker relation, so nothing has been updated`
     );
   }
 };
+
+const setRequestorHandedOverOnRelation = async (relationId: number) =>
+  await db<TRelationFromDb>("relation").where({ id: relationId }).update({
+    status: ERelationStatus.handedOver,
+    requestor_handover_date: new Date(),
+  });
+
+const setUserDone = async (requestorId: string) =>
+  await db<TUserFromDb>("user").where({ user_id: requestorId }).update({
+    status: EUserStatus.done,
+  });

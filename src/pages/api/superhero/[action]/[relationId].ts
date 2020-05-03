@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getFirebaseUser } from "../../../../apiHelpers/me";
+import { getUid } from "../../../../apiHelpers/me";
 import { accept } from "../../../../apiHelpers/superhero/accept";
 import { decline } from "../../../../apiHelpers/superhero/decline";
 import { markAsHandedOver } from "../../../../apiHelpers/superhero/markAsHandedOver";
@@ -10,30 +10,27 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { action, relationId } = req.query;
       const { problem } = req.body;
-      const firebaseUser = await getFirebaseUser(req);
+
+      const uid = await getUid(req);
 
       const relId = Number(relationId);
 
       let result;
       switch (action) {
         case "accept":
-          result = await accept(firebaseUser.uid, relId);
+          result = await accept(uid, relId);
           break;
 
         case "decline":
-          result = await decline(firebaseUser.uid, relId);
+          result = await decline(uid, relId);
           break;
 
         case "problem":
-          result = await logProblem(
-            firebaseUser.uid,
-            relId,
-            problem.toString()
-          );
+          result = await logProblem(uid, relId, problem.toString());
           break;
 
         case "markAsHandedOver":
-          result = await markAsHandedOver(firebaseUser.uid, relId);
+          result = await markAsHandedOver(uid, relId);
           break;
 
         default:

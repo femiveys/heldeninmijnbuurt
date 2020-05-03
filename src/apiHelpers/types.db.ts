@@ -1,4 +1,4 @@
-import { ERelationType, ERelationStatus } from "../types";
+import { ERelationType, ERelationStatus, EUserStatus } from "../types";
 
 export type TUserFromDb = {
   name: string;
@@ -16,7 +16,8 @@ export type TUserFromDb = {
   whatsapp?: string;
   has_material: number;
   materials?: string;
-  cancel_date: Date;
+  status: EUserStatus;
+  mocked_user_id?: string;
 };
 
 export type TRelationFromDb = {

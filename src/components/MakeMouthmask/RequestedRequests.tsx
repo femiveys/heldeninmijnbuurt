@@ -165,6 +165,7 @@ export const RequestedRequests = ({
                     </Typography>
                   ),
                   okText: "Ja, ik ben zeker",
+                  okButtonProps: { danger: true },
                   cancelText: "Nee",
                   onOk: decline(relationId),
                 });

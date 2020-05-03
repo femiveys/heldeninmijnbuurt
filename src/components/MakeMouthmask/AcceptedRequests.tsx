@@ -5,7 +5,7 @@ import {
   CheckOutlined,
   HomeOutlined,
 } from "@ant-design/icons";
-import { Table, Space, Button, Row, Col, Divider, Typography } from "antd";
+import { Table, Button, Divider, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import { apiCall } from "../../axios";
 import { useUser } from "../../hooks";
@@ -24,9 +24,17 @@ const addRemoveKey = (list: number[], record: TRecord) =>
     ? list.filter((rowKey) => rowKey !== record.key)
     : [...list, record.key];
 
+const padding = 16;
+
 const iconStyle = {
-  fontSize: 20,
-  marginRight: 16,
+  fontSize: 24,
+  paddingRight: padding,
+  verticalAlign: "middle",
+};
+
+const vPadding = {
+  paddingTop: padding / 2,
+  paddingBottom: padding / 2,
 };
 
 type TProps = {
@@ -74,9 +82,9 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
   );
 
   const expandedRowRender = (record: TRecord) => (
-    <div style={{ paddingLeft: 16 }}>
+    <div style={{ paddingLeft: padding }}>
       {record.user.whatsapp && (
-        <div>
+        <div style={vPadding}>
           <WhatsAppOutlined style={iconStyle} />
           <Whatsapp
             message={t("maker.accepted.whatsapp", {
@@ -87,13 +95,19 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
           />
         </div>
       )}
-      <div style={{ marginTop: 4, marginBottom: 4 }}>
+      <div style={vPadding}>
         <MailOutlined style={iconStyle} />
         <a href={`mailto:${record.user.email}`} target="_blank">
           {ellipsis(record.user.email, 35)}
         </a>
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div
+        style={{
+          ...vPadding,
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
         <div>
           <HomeOutlined style={iconStyle} />
           Woont op {formatLengthDistance(record.relation.distance)}

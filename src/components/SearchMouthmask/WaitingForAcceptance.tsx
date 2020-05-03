@@ -2,12 +2,16 @@ import { useUser } from "../../hooks";
 import CancelButton from "./CancelButton";
 import { useTranslation } from "react-i18next";
 import { Row, Col, Typography, Result } from "antd";
-import { grid } from "../../helpers";
+import { grid, formatLengthDistance } from "../../helpers";
 import ShareButton from "../ShareButton";
 
 const { Paragraph } = Typography;
 
-const WaitingForAcceptance = () => {
+type TProps = {
+  distance: number;
+};
+
+const WaitingForAcceptance = ({ distance }: TProps) => {
   const { t } = useTranslation();
   const { user } = useUser();
 
@@ -16,14 +20,15 @@ const WaitingForAcceptance = () => {
       <Col {...grid}>
         <Result
           status="success"
-          title="We hebben jouw superheld in de buurt gevonden"
+          title="We hebben een superheld in jouw buurt gevonden"
           subTitle={
             <Typography
               style={{ maxWidth: 450, margin: "auto", textAlign: "left" }}
             >
               <Paragraph>
-                We hebben iemand gevonden die maskers heeft. We hebben een mail
-                gestuurd en nu wachten we tot hij of zij je aanvraag aanvaardt.
+                We hebben op <strong>{formatLengthDistance(distance)}</strong>{" "}
+                iemand gevonden die maskers heeft. We hebben een mail gestuurd
+                en nu wachten we tot hij of zij je aanvraag aanvaardt.
               </Paragraph>
               <Paragraph>
                 Enkel het aantal maskers en de afstand is doorgegeven, dus geen
@@ -41,8 +46,9 @@ const WaitingForAcceptance = () => {
             </Typography>
           }
           extra={[
-            <ShareButton style={{ marginBottom: 32 }} />,
+            <ShareButton key="share" style={{ marginBottom: 32 }} />,
             <CancelButton
+              key="cancel"
               name={t("thePerson")}
               needsMouthmaskAmount={Number(user?.needsMouthmaskAmount)}
             />,

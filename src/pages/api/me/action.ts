@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getFirebaseUser } from "../../../apiHelpers/me";
+import { getUid } from "../../../apiHelpers/me";
 import { setIsMaker } from "../../../apiHelpers/me/setIsMaker";
 import { setNeedsMouthmask } from "../../../apiHelpers/me/setNeedsMouthmask";
 import { stopMaking } from "../../../apiHelpers/me/unsetIsMaker";
@@ -10,24 +10,24 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { name } = req.body;
 
-      const firebaseUser = await getFirebaseUser(req);
+      const uid = await getUid(req);
 
       let result;
       switch (name) {
         case "setIsMaker":
-          result = await setIsMaker(firebaseUser.uid);
+          result = await setIsMaker(uid);
           break;
 
         case "unsetIsMaker":
-          result = await stopMaking(firebaseUser.uid);
+          result = await stopMaking(uid);
           break;
 
         case "setNeedsMouthmask":
-          result = await setNeedsMouthmask(firebaseUser.uid);
+          result = await setNeedsMouthmask(uid);
           break;
 
         case "unsetNeedsMouthmask":
-          result = await unsetNeedsMouthmask(firebaseUser.uid);
+          result = await unsetNeedsMouthmask(uid);
           break;
 
         default:

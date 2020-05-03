@@ -39,11 +39,10 @@ const AvailableForm = ({ fetchRequested }: TProps) => {
       >
         <Form.Item name="maskStock">
           <Input
-            autoFocus
             allowClear
             type="number"
             maxLength={4}
-            style={{ width: 70, textAlign: "center", fontSize: 24 }}
+            style={{ width: 90, textAlign: "center", fontSize: 24 }}
           />
         </Form.Item>
         <Form.Item>

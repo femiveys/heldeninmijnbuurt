@@ -3,6 +3,7 @@ import { Result, Button, Spin, Typography, Col, Row, Alert } from "antd";
 import { useUser, useApi } from "../hooks";
 import { grid } from "../helpers";
 import ShareButton from "../components/ShareButton";
+import { EUserStatus } from "../types";
 
 const { Paragraph } = Typography;
 
@@ -15,7 +16,8 @@ const Choice = () => {
   const { user, updateUser } = useUser();
   const { isLoading, callApi } = useApi("PUT", "me/action");
 
-  const userHasCancelled = !!user && !!user.cancelDate;
+  const userHasCancelled = !!user && user.status === EUserStatus.cancelled;
+  const userIsDone = !!user && user.status === EUserStatus.done;
 
   return (
     <Row>
@@ -64,7 +66,7 @@ const Choice = () => {
               <ShareButton style={style} />
               <Button
                 style={style}
-                disabled={userHasCancelled}
+                disabled={userHasCancelled || userIsDone}
                 onClick={async () => {
                   await callApi({ name: "setNeedsMouthmask" });
                   updateUser({ needsMouthmask: true });
@@ -75,6 +77,12 @@ const Choice = () => {
               {userHasCancelled && (
                 <Alert
                   message="Je hebt je aanvraag geannuleerd en dus kan je geen nieuwe aanvraag doen."
+                  type="warning"
+                />
+              )}
+              {userIsDone && (
+                <Alert
+                  message="Je hebt je mondmaskers al ontvangen, dus kan je geen nieuwe aanvraag doen."
                   type="warning"
                 />
               )}

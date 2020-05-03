@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getFirebaseUser } from "../../../../apiHelpers/me";
+import { getUid } from "../../../../apiHelpers/me";
 import {
   getAcceptedRequests,
   getRequestedRequests,
@@ -10,16 +10,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { name } = req.query;
 
-      const firebaseUser = await getFirebaseUser(req);
+      const uid = await getUid(req);
 
       let result;
       switch (name) {
         case "requested":
-          result = await getRequestedRequests(firebaseUser.uid);
+          result = await getRequestedRequests(uid);
           break;
 
         case "accepted":
-          result = await getAcceptedRequests(firebaseUser.uid);
+          result = await getAcceptedRequests(uid);
           break;
 
         default:

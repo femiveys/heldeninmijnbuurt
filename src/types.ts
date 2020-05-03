@@ -12,6 +12,12 @@ export enum ERelationStatus {
   handedOver = "handedOver",
 }
 
+export enum EUserStatus {
+  active = "active",
+  cancelled = "cancelled",
+  done = "done",
+}
+
 // Types
 export type TUser = {
   userId: string;
@@ -29,7 +35,7 @@ export type TUser = {
   whatsapp?: string;
   hasMaterial: boolean;
   materials?: string;
-  cancelDate: Date;
+  status: EUserStatus;
 } & Omit<TStreet, "id">;
 
 export type TRelation = {
@@ -85,3 +91,5 @@ export type SentMessageInfo = {
 };
 
 export type TRelationRoles = "hero" | "requestor";
+
+export type TDistanceAndStatus = Pick<TRelation, "status" | "distance">;
