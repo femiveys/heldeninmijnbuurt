@@ -15,6 +15,12 @@ const transporter = nodemailer.createTransport({
 
 const from = '"Femi Veys" <femi@itsimplyworks.be>';
 
+const suffix = `<br />
+               Ga naar
+               <a href="https://heldeninmijnbuurt.now.sh" target="_blank">
+                 Helden in mijn buurt
+               </a>`;
+
 export const sendMail = async (
   to: string,
   mailId: string,
@@ -28,23 +34,24 @@ export const sendMail = async (
       ? { subject: "Dank je wel, superheld", text: message }
       : templates[mailId];
 
-  if (process.env.NODE_ENV === "production") {
-    const info: SentMessageInfo = await transporter.sendMail({
-      from,
-      to,
-      ...fields,
-    });
-    console.log("Message sent", info);
-    return info.messageId;
-  } else {
-    const fakeMessageId = `DEV: Message "${mailId}" would have been sent to "${to}". In production we would have seen the messageId here.`;
-    console.log("--- MAIL SENT ---");
-    console.log("templateId:", mailId);
-    console.log("to:", to);
-    console.log("");
-    // console.log(fakeMessageId);
-    return fakeMessageId;
-  }
+  // if (process.env.NODE_ENV === "production") {
+  const info: SentMessageInfo = await transporter.sendMail({
+    from,
+    to,
+    html: fields.text + suffix,
+    ...fields,
+  });
+  console.log("Message sent", info);
+  return info.messageId;
+  // } else {
+  //   const fakeMessageId = `DEV: Message "${mailId}" would have been sent to "${to}". In production we would have seen the messageId here.`;
+  //   console.log("--- MAIL SENT ---");
+  //   console.log("templateId:", mailId);
+  //   console.log("to:", to);
+  //   console.log("");
+  //   // console.log(fakeMessageId);
+  //   return fakeMessageId;
+  // }
 };
 
 /**
