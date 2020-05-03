@@ -30,12 +30,14 @@ const EnterStreet = () => {
 
   // TODO postalCodes could be taken from a static JSON or localstorage
   useEffect(() => {
+    fixAutocomplete();
     fetchPostalCodes();
   }, []);
 
   useEffect(() => {
     if (postalCode) {
       fetchStreets();
+      fixAutocomplete();
     }
   }, [postalCode]);
 
@@ -152,6 +154,15 @@ const EnterStreet = () => {
       </Col>
     </Row>
   );
+};
+
+// Dirty hack
+// https://github.com/ant-design/ant-design/issues/7659#issuecomment-580688874
+const fixAutocomplete = () => {
+  document.querySelectorAll(".ant-select-selector input").forEach((e) => {
+    e.setAttribute("autocomplete", "stopDamnAutocomplete");
+    //you can put any value but NOT "off" or "false" because they DO NOT works
+  });
 };
 
 export default EnterStreet;
