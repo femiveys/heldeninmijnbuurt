@@ -130,6 +130,7 @@ const EnterStreet = () => {
           >
             <Input
               maxLength={9}
+              type="number"
               addonBefore="+32"
               placeholder={t("requestor.enterStreet.whatsapp.placeholder")}
             />

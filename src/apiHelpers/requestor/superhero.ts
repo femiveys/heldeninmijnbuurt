@@ -2,7 +2,8 @@ import { getMakerRelationOf, checkRequestor } from "./common";
 import { db } from "../../db";
 import { transformUserFromDb } from "../transformers";
 import { TUserFromDb } from "../types.db";
-import { ERelationStatus } from "../../types";
+import { ERelationStatus, TDistanceAndStatus } from "../../types";
+import { pick } from "lodash";
 
 /**
  * Gets the superhero
@@ -41,8 +42,12 @@ export const getSuperHeroOf = async (requestorId: string) => {
  * @param requestorId - the userId of the requestor
  * @returns The status of the relation or null if no relation was found
  */
-export const getStatusMakerRelationOf = async (requestorId: string) => {
+export const getDistanceAndStatusMakerRelationOf = async (
+  requestorId: string
+) => {
   await checkRequestor(requestorId);
   const relation = await getMakerRelationOf(requestorId);
-  return relation ? relation.status : null;
+  return relation
+    ? (pick(relation, "status", "distance") as TDistanceAndStatus)
+    : null;
 };

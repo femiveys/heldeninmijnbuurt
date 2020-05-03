@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getUid } from "../../../../apiHelpers/me";
 import {
   getSuperHeroOf,
-  getStatusMakerRelationOf,
+  getDistanceAndStatusMakerRelationOf,
 } from "../../../../apiHelpers/requestor/superhero";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -19,7 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           break;
 
         case "status":
-          result = await getStatusMakerRelationOf(uid);
+          result = await getDistanceAndStatusMakerRelationOf(uid);
           break;
 
         default:

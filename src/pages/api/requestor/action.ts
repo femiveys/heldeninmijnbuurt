@@ -33,7 +33,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         case "thank":
           const message = num;
-          result = await thank(firebaseUser.uid, message);
+          result = await thank(uid, message);
           break;
 
         default:
