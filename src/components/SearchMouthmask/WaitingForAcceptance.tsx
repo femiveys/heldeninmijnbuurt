@@ -26,9 +26,9 @@ const WaitingForAcceptance = ({ distance }: TProps) => {
               style={{ maxWidth: 450, margin: "auto", textAlign: "left" }}
             >
               <Paragraph>
-                We hebben op {formatLengthDistance(distance)} iemand gevonden
-                die maskers heeft. We hebben een mail gestuurd en nu wachten we
-                tot hij of zij je aanvraag aanvaardt.
+                We hebben op <strong>{formatLengthDistance(distance)}</strong>{" "}
+                iemand gevonden die maskers heeft. We hebben een mail gestuurd
+                en nu wachten we tot hij of zij je aanvraag aanvaardt.
               </Paragraph>
               <Paragraph>
                 Enkel het aantal maskers en de afstand is doorgegeven, dus geen
