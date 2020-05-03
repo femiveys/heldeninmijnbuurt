@@ -1,6 +1,6 @@
 import { db } from "../../db";
-import { ERelationType, ERelationStatus } from "../../types";
-import { TRelationFromDb } from "../types.db";
+import { ERelationType, ERelationStatus, EUserStatus } from "../../types";
+import { TRelationFromDb, TUserFromDb } from "../types.db";
 import { transformRelationFromDb } from "../transformers";
 
 /**
@@ -43,16 +43,15 @@ const needsMouthmask = async (requestorId: string) => {
 };
 
 /**
- * Checks if the passed requestorId has cancelled. This will disallow him from
- * doing any call as requestor
+ * Checks if the passed requestorId is active, so this excludes users
+ * who have cancelled or who are done.
  *
  * @param requestorId - the userId of the requestor
- * @returns true if the passed requestorId has cancelled, false otherwise
+ * @returns true if the passed requestorId is active, false otherwise
  */
-const hasCancelled = async (requestorId: string) => {
-  const result = await db("user")
-    .where({ user_id: requestorId })
-    .whereNotNull("cancel_date")
+const hasActiveUser = async (requestorId: string) => {
+  const result = await db<TUserFromDb>("user")
+    .where({ user_id: requestorId, status: EUserStatus.active })
     .first("user_id");
 
   return !!result;
@@ -64,8 +63,8 @@ const hasCancelled = async (requestorId: string) => {
  * @param requestorId - the userId of the requestor
  */
 export const checkRequestor = async (requestorId: string) => {
-  if (await hasCancelled(requestorId)) {
-    throw new Error("User has cancelled his request");
+  if (!(await hasActiveUser(requestorId))) {
+    throw new Error("User is not active");
   }
   if (!(await needsMouthmask(requestorId))) {
     throw new Error("User doesn't need mouthmasks");

@@ -1,16 +1,13 @@
-import { Spin } from "antd";
 import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import EnterMouthmaskAmount from "./EnterMouthmaskAmount";
 import WaitingForAcceptance from "./WaitingForAcceptance";
 import { useUser, useApi } from "../../hooks";
-import { ERelationStatus } from "../../types";
+import { ERelationStatus, EUserStatus } from "../../types";
 import WithSuperhero from "./WithSuperhero";
 import NoSuperheroFound from "./NoSuperheroFound";
 import Spinner from "../Spinner";
 
 export const SearchMouthmask = () => {
-  const { t } = useTranslation();
   const { user } = useUser();
   const {
     isLoading: isFetchingRelationStatus,
@@ -24,8 +21,8 @@ export const SearchMouthmask = () => {
 
   const needsMouthmaskAmount = Number(user?.needsMouthmaskAmount);
 
-  // A user that has cancelled cannot see the widget
-  if (user?.cancelDate) return null;
+  // A user that is not active, so who has cancelled or is done cannot see the widget
+  if (user?.status !== EUserStatus.active) return null;
 
   return (
     <>
