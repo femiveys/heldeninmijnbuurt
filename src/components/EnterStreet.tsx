@@ -50,14 +50,10 @@ const EnterStreet = () => {
     form.resetFields(["streetId"]);
   }, []);
 
-  const tailLayout = {
-    wrapperCol: { offset: 8, span: 16 },
-  };
-
   return (
     <Row>
-      <Col {...grid}>
-        <Typography style={{ paddingLeft: 8, paddingRight: 8 }}>
+      <Col {...grid} style={{ padding: 16 }}>
+        <Typography>
           <Title level={4}>In welke buurt woon je?</Title>
           <Paragraph>
             {firebaseUser?.displayName}, gelieve ons te laten weten in welke
@@ -139,7 +135,7 @@ const EnterStreet = () => {
             />
           </Form.Item>
 
-          <Form.Item {...tailLayout} shouldUpdate>
+          <Form.Item shouldUpdate style={{ textAlign: "center" }}>
             {() => (
               <Button
                 type="primary"

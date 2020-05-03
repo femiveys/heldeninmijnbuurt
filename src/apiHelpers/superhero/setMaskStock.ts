@@ -48,8 +48,8 @@ const assignNearestUnassignedRequestors = async (
 ) => {
   const nearestRequestors = await getNearestRequestors(makerId);
 
-  const eligableRequestors = nearestRequestors.filter(
-    async (requestor) => await hasNoActiveRelation(requestor.requestorId)
+  const eligableRequestors = await filterRequestorsWithoutActiveRelation(
+    nearestRequestors
   );
 
   const activeMakerRelations = await getActiveMakerRelations(makerId);
@@ -70,6 +70,16 @@ const assignNearestUnassignedRequestors = async (
   );
 
   return numberOfRelationsAdded;
+};
+
+const filterRequestorsWithoutActiveRelation = async (
+  requestors: TRequestor[]
+) => {
+  const hasNoActiveRelationMap = await Promise.all(
+    requestors.map((requestor) => hasNoActiveRelation(requestor.requestorId))
+  );
+
+  return requestors.filter((_, index) => hasNoActiveRelationMap[index]);
 };
 
 /**

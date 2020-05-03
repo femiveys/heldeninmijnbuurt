@@ -1,4 +1,4 @@
-import { Form, Input, Button, Typography } from "antd";
+import { Form, Button, Typography, Input } from "antd";
 import { useTranslation } from "react-i18next";
 import { useUser, useApi } from "../../hooks";
 import { useCallback } from "react";
@@ -29,25 +29,27 @@ const AvailableForm = ({ fetchRequested }: TProps) => {
   }, []);
 
   return (
-    <div>
-      <Title level={4} style={{ textAlign: "center" }}>
-        {t("maker.available.label")}
-      </Title>
+    <div style={{ textAlign: "center" }}>
+      <Title level={4}>{t("maker.available.label")}</Title>
       <Form
         form={form}
+        size="large"
         onFinish={updateStock}
         initialValues={{ maskStock: Number(user?.maskStock) }}
-        style={{ display: "flex", justifyContent: "center" }}
       >
-        <Form.Item name="maskStock" style={{ display: "inline-block" }}>
-          <Input style={{ width: 70 }} />
+        <Form.Item name="maskStock">
+          <Input
+            autoFocus
+            allowClear
+            type="number"
+            maxLength={4}
+            style={{ width: 70, textAlign: "center", fontSize: 24 }}
+          />
         </Form.Item>
-        <Form.Item shouldUpdate>
-          {() => (
-            <Button type="primary" htmlType="submit" loading={isSettingIsMaker}>
-              {t("update")}
-            </Button>
-          )}
+        <Form.Item>
+          <Button type="primary" htmlType="submit" loading={isSettingIsMaker}>
+            {t("update")}
+          </Button>
         </Form.Item>
       </Form>
     </div>

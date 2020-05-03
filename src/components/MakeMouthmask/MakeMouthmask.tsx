@@ -45,7 +45,7 @@ export const MakeMouthmask = () => {
         {user?.maskStock === null ? (
           <EnterStock fetchRequested={fetchRequested} />
         ) : (
-          <div style={{ textAlign: "center" }}>
+          <div style={{ textAlign: "center", paddingTop: 16 }}>
             <Statistics fetchRequested={fetchRequested} />
             <Message closable={Number(user?.numDelivered) > 10} />
             <Stop

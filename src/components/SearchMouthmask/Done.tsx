@@ -17,8 +17,13 @@ const Done = ({ needsMouthmaskAmount, showAppreciation }: TProps) => {
       title={t("requestor.done.title", { count: needsMouthmaskAmount })}
       subTitle="Nog wat uitleg over waarom delen op FB belangrijk is..."
       extra={[
-        <Space key="extra" direction="vertical" size="large">
-          <ShareButton />
+        <Space
+          key="extra"
+          direction="vertical"
+          size="large"
+          style={{ width: "100%" }}
+        >
+          <ShareButton text="Deel op sociale media" />
           {showAppreciation && <Appreciation showStars={false} />}
         </Space>,
       ]}

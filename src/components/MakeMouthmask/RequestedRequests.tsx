@@ -1,10 +1,11 @@
 import { useEffect, useCallback, useState } from "react";
-import { Table, Typography, Button, Modal, Divider } from "antd";
+import { Table, Typography, Button, Modal, Divider, Spin } from "antd";
 import { CloseOutlined, DownloadOutlined } from "@ant-design/icons";
+import { NumericDictionary, mapValues, keyBy } from "lodash";
 import { useTranslation } from "react-i18next";
-import { formatLengthDistance } from "../../helpers";
 import { apiCall } from "../../axios";
 import { useUser } from "../../hooks";
+import { formatLengthDistance } from "../../helpers";
 import { TRequestedRequest } from "../../types";
 
 const { Paragraph } = Typography;
@@ -26,6 +27,16 @@ export const RequestedRequests = ({
   const { t } = useTranslation();
   const { user, updateUser } = useUser();
   const [data, setData] = useState(requests);
+  const [isUpdatingRelation, setIsUpdatingRelation] = useState<
+    NumericDictionary<boolean>
+  >({});
+
+  // Initialize the isUpdatingRelation map
+  useEffect(() => {
+    const dataByRelationId = keyBy(data, "relationId");
+    const initialMap = mapValues(dataByRelationId, () => false);
+    setIsUpdatingRelation(initialMap);
+  }, [data]);
 
   // Update the state when the requests change
   useEffect(() => {
@@ -36,15 +47,7 @@ export const RequestedRequests = ({
     relationId: number,
     needsMouthmaskAmount?: number
   ) => async () => {
-    // We do an optimistic update on the current table
-    setData(data.filter((row) => row.relationId !== relationId));
-
-    // We do an optimistic update on the user. This will only be done
-    // if it's an accept because of passing needsMouthmaskAmount
-    if (needsMouthmaskAmount && user) {
-      updateUser({ maskStock: user.maskStock - needsMouthmaskAmount });
-    }
-
+    setIsUpdatingRelation({ ...isUpdatingRelation, [relationId]: true });
     try {
       if (await apiCall("PUT", `superhero/${action}/${relationId}`)) {
         await fetchAccepted();
@@ -53,10 +56,28 @@ export const RequestedRequests = ({
     } catch (error) {
       console.error(error);
     }
+
+    // We do an optimistic update on the current table
+    setData(data.filter((row) => row.relationId !== relationId));
+
+    // This will only be done if it's an accept because of passing needsMouthmaskAmount
+    if (needsMouthmaskAmount && user) {
+      updateUser({ maskStock: user.maskStock - needsMouthmaskAmount });
+    }
+
+    setIsUpdatingRelation({ ...isUpdatingRelation, [relationId]: false });
   };
 
-  const accept = useCallback(acceptOrDecline("accept"), [data, user]);
-  const decline = useCallback(acceptOrDecline("decline"), [data, user]);
+  const accept = useCallback(acceptOrDecline("accept"), [
+    data,
+    user,
+    isUpdatingRelation,
+  ]);
+  const decline = useCallback(acceptOrDecline("decline"), [
+    data,
+    user,
+    isUpdatingRelation,
+  ]);
 
   const dataWithKeys =
     data && data.length > 0
@@ -144,13 +165,20 @@ export const RequestedRequests = ({
                     </Typography>
                   ),
                   okText: "Ja, ik ben zeker",
-                  cancelText: "Nee, ik twijfel toch",
+                  cancelText: "Nee",
                   onOk: decline(relationId),
                 });
               }}
             >
               {t("no")}
             </Button>
+          )}
+        />
+        <Column
+          key="loading"
+          dataIndex="relationId"
+          render={(relationId) => (
+            <Spin spinning={isUpdatingRelation[relationId]} />
           )}
         />
       </Table>

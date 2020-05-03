@@ -7,7 +7,7 @@ const FullSpinner = () => (
     align="middle"
   >
     <Col>
-      <Spin size="large" />
+      <Spin size="large" delay={300} />
     </Col>
   </Row>
 );

@@ -28,7 +28,7 @@ const App: React.FunctionComponent = ({ children }) => {
         >
           <ApplicationHeader />
         </Header>
-        <Content style={{ marginTop: 64, paddingTop: 16 }}>{children}</Content>
+        <Content style={{ marginTop: 64 }}>{children}</Content>
         <Footer>Footer</Footer>
       </Layout>
     </>

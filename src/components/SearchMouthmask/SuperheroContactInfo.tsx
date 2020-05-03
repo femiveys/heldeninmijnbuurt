@@ -53,7 +53,7 @@ const SuperheroContactInfo = (props: TProps) => {
   return (
     <Row>
       <Col {...grid}>
-        <Row gutter={16}>
+        <Row>
           <Col {...layout}>
             <Card
               title={t("requestor.contact.title", {
@@ -134,7 +134,7 @@ const SuperheroContactInfo = (props: TProps) => {
                 </Typography>
               }
             />
-            <Typography style={{ marginTop: 16 }}>
+            <Typography style={{ padding: 16 }}>
               <Paragraph>
                 Nu hebben jullie mekaars contactgegevens. Contacteer je
                 superheld en spreek af hoe je de overhandiging kan laten

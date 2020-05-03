@@ -51,14 +51,14 @@ const Stop = ({ hasPending }: TProps) => {
               </Typography>
             ),
             centered: true,
-            okText: "Ja, ik stop ermee",
-            okButtonProps: { danger: true, loading: isLoading },
+            okText: "Ja, ik stop",
+            okButtonProps: { danger: true },
             onOk: async () => {
               await callApi({ name: "unsetIsMaker" });
               updateUser({ isMaker: false });
               await router.replace("/");
             },
-            cancelText: "Nee, ik help verder",
+            cancelText: "Ik help verder",
           });
         }}
       >

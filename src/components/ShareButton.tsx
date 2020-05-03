@@ -6,9 +6,10 @@ import Share from "./Share";
 
 type TProps = {
   style?: CSSProperties;
+  text?: string;
 };
 
-const ShareButton = ({ style }: TProps) => {
+const ShareButton = ({ style, text }: TProps) => {
   const { t } = useTranslation();
 
   return (
@@ -27,7 +28,7 @@ const ShareButton = ({ style }: TProps) => {
         });
       }}
     >
-      Ik laat anderen weten over dit platform
+      {text || "Ik laat anderen weten over dit platform"}
     </Button>
   );
 };
