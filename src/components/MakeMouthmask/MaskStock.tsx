@@ -1,11 +1,22 @@
 import { Typography, Input, Button } from "antd";
 import { useUser, useApi } from "../../hooks";
-import { useCallback, useState } from "react";
+import {
+  useCallback,
+  useState,
+  FocusEventHandler,
+  KeyboardEventHandler,
+} from "react";
 import { EditOutlined, EnterOutlined } from "@ant-design/icons";
 
 const { Text } = Typography;
 
 import "./styles.less";
+import { forceMaxLength } from "../../helpers";
+
+const fontSize = 24;
+const width = 80;
+
+const MAX_LENGTH = 3;
 
 type TProps = {
   stock: number;
@@ -35,17 +46,18 @@ const MaskStock = ({ stock, fetchRequested }: TProps) => {
     [stock]
   );
 
-  const onEdit = (e: any) => {
+  const onInput = (value: string) => {
     setIsEditable(false);
-    updateStock(e.target.value as any);
+    updateStock(value);
   };
 
-  const onClick = () => {
-    setIsEditable(true);
-  };
+  const onEdit: FocusEventHandler<HTMLInputElement> = (e) =>
+    onInput(e.currentTarget.value);
 
-  const fontSize = 24;
-  const width = 80;
+  const onPressEnter: KeyboardEventHandler<HTMLInputElement> = (e) =>
+    onInput(e.currentTarget.value);
+
+  const onClick = () => setIsEditable(true);
 
   return (
     <div>
@@ -62,9 +74,12 @@ const MaskStock = ({ stock, fetchRequested }: TProps) => {
               paddingRight: 32,
               textAlign: "center",
             }}
-            onBlur={onEdit}
-            onPressEnter={onEdit}
+            maxLength={MAX_LENGTH}
             defaultValue={stock}
+            onBlur={onEdit}
+            onPressEnter={onPressEnter}
+            onPaste={(event) => event.preventDefault()}
+            onKeyDown={forceMaxLength(MAX_LENGTH)}
           />
           <EnterOutlined style={{ position: "absolute", right: 6, top: 2 }} />
         </span>
@@ -72,9 +87,9 @@ const MaskStock = ({ stock, fetchRequested }: TProps) => {
         <span style={{ width }}>
           <Text style={{ fontSize }}>{stock.toString()}</Text>
           <Button
-            icon={<EditOutlined style={{ fontSize }} />}
             type="link"
             onClick={onClick}
+            icon={<EditOutlined style={{ fontSize }} />}
           />
         </span>
       )}

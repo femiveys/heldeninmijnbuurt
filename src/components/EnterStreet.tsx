@@ -3,9 +3,11 @@ import { Form, Button, Row, Col, Select, Input, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import { useApi, useUser, useAuth } from "../hooks";
 import { TStreet, TUser } from "../types";
-import { grid, getStreetInUserLanguage } from "../helpers";
+import { grid, getStreetInUserLanguage, forceMaxLength } from "../helpers";
 
 const { Title, Paragraph } = Typography;
+
+const MAX_LENGTH = 9;
 
 const EnterStreet = () => {
   const [form] = Form.useForm();
@@ -129,12 +131,23 @@ const EnterStreet = () => {
             label="WhatsApp"
             name="whatsapp"
             extra="Je zal per mail kunnen communiceren met elkaar, maar vaak is het makkelijker via Whatsapp."
+            validateTrigger="onBlur"
+            rules={[
+              {
+                len: MAX_LENGTH,
+                message: "Een geldig WhatsApp nummer heeft exact 9 cijfers",
+              },
+            ]}
           >
             <Input
-              maxLength={9}
+              min={0}
+              minLength={8}
+              maxLength={MAX_LENGTH}
               type="number"
               addonBefore="+32"
               placeholder={t("requestor.enterStreet.whatsapp.placeholder")}
+              onPaste={(event) => event.preventDefault()}
+              onKeyDown={forceMaxLength(MAX_LENGTH)}
             />
           </Form.Item>
 

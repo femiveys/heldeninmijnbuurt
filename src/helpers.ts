@@ -3,6 +3,7 @@ import { language } from "./i18n";
 import { nl, fr, enUS } from "date-fns/locale";
 import { formatDistance } from "date-fns";
 import { TStreet, TUser } from "./types";
+import { KeyboardEventHandler } from "react";
 
 export const IS_DEV = process.env.NODE_ENV !== "production";
 
@@ -62,3 +63,15 @@ export const ellipsis = (text: string, maxChars: number) => {
     );
   }
 };
+
+export const forceMaxLength = (max: number) =>
+  ((event) => {
+    const selection = (window.getSelection() || "").toString();
+    if (
+      !selection &&
+      event.currentTarget.value.length === max &&
+      "0123456789".includes(event.key)
+    ) {
+      event.preventDefault();
+    }
+  }) as KeyboardEventHandler<HTMLInputElement>;

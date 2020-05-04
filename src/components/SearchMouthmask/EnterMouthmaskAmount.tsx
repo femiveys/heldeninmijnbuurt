@@ -67,11 +67,15 @@ const EnterMouthmaskAmount = ({ fetchRelationStatus }: TProps) => {
               <Form.Item name="needsMouthmaskAmount">
                 <Select
                   showArrow={false}
-                  style={{ width: 70, textAlign: "center" }}
+                  style={{ width: 70, textAlign: "center", fontSize: 24 }}
                   dropdownStyle={{ textAlign: "center" }}
                 >
                   {numberList.map((num) => (
-                    <Select.Option key={num} value={num}>
+                    <Select.Option
+                      key={num}
+                      value={num}
+                      style={{ fontSize: 24 }}
+                    >
                       {num}
                     </Select.Option>
                   ))}
