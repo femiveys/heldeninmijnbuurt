@@ -18,6 +18,7 @@ export type TUserFromDb = {
   materials?: string;
   status: EUserStatus;
   mocked_user_id?: string;
+  is_tester?: string;
 };
 
 export type TRelationFromDb = {

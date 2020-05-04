@@ -1,16 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getUid } from "../../../apiHelpers/me";
+import { getUid, getFirebaseUser } from "../../../apiHelpers/me";
 import { cancel } from "../../../apiHelpers/requestor/cancel";
 import { markAsHandedOver } from "../../../apiHelpers/requestor/markAsHandedOver";
 import { setNeedsMouthmaskAmount } from "../../../apiHelpers/requestor/setNeedsMouthmaskAmount";
 import { starMaker } from "../../../apiHelpers/requestor/star";
 import { thank } from "../../../apiHelpers/requestor/thank";
+import { disguise } from "../../../apiHelpers/requestor/disguise";
+import { undisguise } from "../../../apiHelpers/requestor/undisguise";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "PUT") {
     try {
       const { name, num } = req.body;
 
+      const firebaseUser = await getFirebaseUser(req);
       const uid = await getUid(req);
 
       let result;
@@ -29,6 +32,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         case "starMaker":
           result = await starMaker(uid, num);
+          break;
+
+        case "disguise":
+          result = await disguise(firebaseUser.uid);
+          break;
+
+        case "undisguise":
+          result = await undisguise(firebaseUser.uid);
           break;
 
         case "thank":

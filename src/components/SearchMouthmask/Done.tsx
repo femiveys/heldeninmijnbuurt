@@ -5,6 +5,7 @@ import ShareButton from "../ShareButton";
 import { useRouter } from "next/router";
 import { grid } from "../../helpers";
 import SearchSteps from "./SearchSteps";
+import Disguise from "./Disguise";
 
 type TProps = {
   needsMouthmaskAmount: number;
@@ -19,6 +20,7 @@ const Done = ({ needsMouthmaskAmount, showAppreciation }: TProps) => {
     <Row>
       <Col {...grid}>
         <SearchSteps current={4} />
+        <Disguise />
         <Result
           status="success"
           title={t("requestor.done.title", { count: needsMouthmaskAmount })}

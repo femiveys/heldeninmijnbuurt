@@ -6,12 +6,13 @@ import {
   UserOutlined,
   WhatsAppOutlined,
 } from "@ant-design/icons";
-import { useApi } from "../../hooks";
+import { useApi, useUser } from "../../hooks";
 import CancelButton from "./CancelButton";
 import { TRelationUser } from "../../types";
 import { notImplemented, grid } from "../../helpers";
 import Whatsapp from "../Whatsapp";
 import SearchSteps from "./SearchSteps";
+import Disguise from "./Disguise";
 
 const { Paragraph, Text } = Typography;
 
@@ -27,6 +28,7 @@ type TProps = {
 
 const SuperheroContactInfo = (props: TProps) => {
   const { t } = useTranslation();
+  const { updateUser } = useUser();
   const { isLoading: isMarkingAsHandedOver, callApi } = useApi(
     "PUT",
     "requestor/action"
@@ -37,6 +39,7 @@ const SuperheroContactInfo = (props: TProps) => {
   const markAsHandedOver = useCallback(async () => {
     await callApi({ name: "markAsHandedOver" });
     await fetchSuperHero();
+    updateUser({ status: "done" });
   }, []);
 
   const count = {
@@ -54,6 +57,7 @@ const SuperheroContactInfo = (props: TProps) => {
         <div style={{ paddingBottom: 16 }}>
           <SearchSteps current={3} />
         </div>
+        <Disguise />
         <Row gutter={{ xs: 0, sm: 8 }}>
           <Col {...layout}>
             <Card

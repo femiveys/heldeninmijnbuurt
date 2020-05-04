@@ -5,6 +5,7 @@ import { Row, Col, Typography, Result } from "antd";
 import { grid, formatLengthDistance } from "../../helpers";
 import ShareButton from "../ShareButton";
 import SearchSteps from "./SearchSteps";
+import Disguise from "./Disguise";
 
 const { Paragraph } = Typography;
 
@@ -20,6 +21,7 @@ const WaitingForAcceptance = ({ distance }: TProps) => {
     <Row>
       <Col {...grid}>
         <SearchSteps current={2} />
+        <Disguise />
         <Result
           status="success"
           title="We hebben een superheld in jouw buurt gevonden"

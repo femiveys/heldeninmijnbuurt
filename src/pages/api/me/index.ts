@@ -23,6 +23,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         email: firebaseUser.email,
         picture: firebaseUser.picture,
         street_id: streetId,
+        is_tester: 1, // TODO, needs to be removed once we go live
         whatsapp,
       });
       const me = await getMe(req);
