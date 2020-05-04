@@ -1,16 +1,16 @@
 import { Statistic, Space } from "antd";
 import { useEffect } from "react";
-import { TStats } from "../types";
-import { useApi } from "../hooks";
+import { useApi } from "../../hooks";
+import { TStats } from "../../types";
 
 const style = {
   padding: 32,
 };
 
-const GlobalStats = () => {
+const LocalStats = () => {
   const { data: stats, callApi: fetchStats } = useApi<TStats>(
     "GET",
-    "/stats/global"
+    "/stats/local"
   );
 
   useEffect(() => {
@@ -22,17 +22,17 @@ const GlobalStats = () => {
       <Space>
         <Statistic
           style={style}
-          title="Actieve superhelden"
-          value={100 + stats.numMakers}
+          title="Superhelden in je buurt"
+          value={10 + stats.numMakers}
         />
         <Statistic
           style={style}
-          title="Mondmaskers afgeleverd"
-          value={500 + stats.numMasksDelivered}
+          title="Mondmaskers afgeleverd in je buurt"
+          value={50 + stats.numMasksDelivered}
         />
       </Space>
     </div>
   ) : null;
 };
 
-export default GlobalStats;
+export default LocalStats;

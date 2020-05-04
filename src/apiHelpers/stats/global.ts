@@ -1,5 +1,6 @@
-import { db } from "../db";
-import { TUserFromDb, TRelationFromDb } from "./types.db";
+import { db } from "../../db";
+import { TUserFromDb } from "../types.db";
+import { EUserStatus } from "../../types";
 
 export const getGlobalStats = async () => {
   const numMakers = await getNumMakers();
@@ -20,10 +21,8 @@ const getNumMakers = async () => {
 };
 
 const getNumMasksDelivered = async () => {
-  const result = await db<TRelationFromDb>("relation")
-    .join("user", "relation.requestor_id", "user.user_id")
-    .whereNotNull("hero_handover_date")
-    .orWhereNotNull("requestor_handover_date")
+  const result = await db<TUserFromDb>("user")
+    .where("status", EUserStatus.done)
     .sum("needs_mouthmask_amount", { as: "sum" });
 
   return result[0].sum;

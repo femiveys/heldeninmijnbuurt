@@ -95,7 +95,7 @@ export type TRelationRoles = "hero" | "requestor";
 
 export type TDistanceAndStatus = Pick<TRelation, "status" | "distance">;
 
-export type TGlobalStats = {
+export type TStats = {
   numMakers: number;
   numMasksDelivered: number;
 };
