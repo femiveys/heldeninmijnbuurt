@@ -94,3 +94,8 @@ export type SentMessageInfo = {
 export type TRelationRoles = "hero" | "requestor";
 
 export type TDistanceAndStatus = Pick<TRelation, "status" | "distance">;
+
+export type TGlobalStats = {
+  numMakers: number;
+  numMasksDelivered: number;
+};

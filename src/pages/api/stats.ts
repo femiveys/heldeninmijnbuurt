@@ -1,13 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getPostalCodes } from "../../apiHelpers/enterStreet";
-import { getUid } from "../../apiHelpers/me";
+import { getGlobalStats } from "../../apiHelpers/stats";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     try {
-      await getUid(req);
-      const postalCodes = await getPostalCodes();
-      res.send(postalCodes);
+      const stats = await getGlobalStats();
+      res.send(stats);
     } catch (error) {
       res.status(500).send({ error: error.message });
     }

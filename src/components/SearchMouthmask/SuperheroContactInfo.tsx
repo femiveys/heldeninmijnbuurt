@@ -56,8 +56,8 @@ const SuperheroContactInfo = (props: TProps) => {
       <Col {...grid}>
         <div style={{ paddingBottom: 16 }}>
           <SearchSteps current={3} />
+          <Disguise />
         </div>
-        <Disguise />
         <Row gutter={{ xs: 0, sm: 8 }}>
           <Col {...layout}>
             <Card

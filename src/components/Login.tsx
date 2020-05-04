@@ -2,6 +2,7 @@ import { Row, Col, Typography, Button, Space } from "antd";
 import { FacebookOutlined, GoogleOutlined } from "@ant-design/icons";
 import firebase from "firebase/app";
 import { useTranslation } from "react-i18next";
+import GlobalStats from "./GlobalStats";
 
 const { Title, Paragraph } = Typography;
 
@@ -20,6 +21,7 @@ const Login = () => {
           kan mondmaskers maken voor de mensen rond zich. Zo is er geen
           verzending nodig en kunnen we efficiënt te werk gaan.
         </Paragraph>
+        <GlobalStats />
         <Row justify="center">
           <Col>
             <Space size="large">
