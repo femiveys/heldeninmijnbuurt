@@ -1,9 +1,10 @@
 import { useEffect, useState, useCallback } from "react";
-import { Form, Button, Row, Col, Select, Input, Typography } from "antd";
+import { Form, Button, Row, Col, Select, Input, Typography, Steps } from "antd";
 import { useTranslation } from "react-i18next";
 import { useApi, useUser, useAuth } from "../hooks";
 import { TStreet, TUser } from "../types";
 import { grid, getStreetInUserLanguage, forceMaxLength } from "../helpers";
+import CommonSteps from "./CommonSteps";
 
 const { Title, Paragraph } = Typography;
 
@@ -57,7 +58,8 @@ const EnterStreet = () => {
   return (
     <Row>
       <Col {...grid} style={{ padding: 16 }}>
-        <Typography>
+        <CommonSteps current={1} />
+        <Typography style={{ paddingTop: 16 }}>
           <Title level={4}>In welke buurt woon je?</Title>
           <Paragraph>
             {firebaseUser?.displayName}, gelieve ons te laten weten in welke
@@ -93,7 +95,11 @@ const EnterStreet = () => {
               }
             >
               {postalCodes?.map((postalCode) => (
-                <Select.Option key={postalCode} value={postalCode}>
+                <Select.Option
+                  key={postalCode}
+                  value={postalCode}
+                  style={{ padding: 8 }}
+                >
                   {postalCode}
                 </Select.Option>
               ))}
@@ -121,7 +127,11 @@ const EnterStreet = () => {
               }
             >
               {streets?.map((street) => (
-                <Select.Option key={street.id} value={street.id}>
+                <Select.Option
+                  key={street.id}
+                  value={street.id}
+                  style={{ padding: 8 }}
+                >
                   {getStreetInUserLanguage(street)}
                 </Select.Option>
               ))}
@@ -151,7 +161,10 @@ const EnterStreet = () => {
             />
           </Form.Item>
 
-          <Form.Item shouldUpdate style={{ textAlign: "center" }}>
+          <Form.Item
+            shouldUpdate
+            wrapperCol={{ xs: { offset: 0 }, sm: { offset: 8 } }}
+          >
             {() => (
               <Button
                 type="primary"

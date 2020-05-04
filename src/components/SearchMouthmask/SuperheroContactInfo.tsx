@@ -11,6 +11,7 @@ import CancelButton from "./CancelButton";
 import { TRelationUser } from "../../types";
 import { notImplemented, grid } from "../../helpers";
 import Whatsapp from "../Whatsapp";
+import SearchSteps from "./SearchSteps";
 
 const { Paragraph, Text } = Typography;
 
@@ -45,15 +46,15 @@ const SuperheroContactInfo = (props: TProps) => {
   const layout = {
     xs: { span: 24 },
     sm: { span: 12 },
-    md: { span: 12 },
-    lg: { span: 12 },
-    xl: { span: 12 },
   };
 
   return (
     <Row>
       <Col {...grid}>
-        <Row>
+        <div style={{ paddingBottom: 16 }}>
+          <SearchSteps current={3} />
+        </div>
+        <Row gutter={{ xs: 0, sm: 8 }}>
           <Col {...layout}>
             <Card
               title={t("requestor.contact.title", {

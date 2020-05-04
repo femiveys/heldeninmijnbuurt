@@ -4,8 +4,13 @@ import { useCallback } from "react";
 import { grid } from "../../helpers";
 import { useApi, useUser } from "../../hooks";
 import NotNeededAnymoreButton from "./NotNeededAnymoreButton";
+import SearchSteps from "./SearchSteps";
 
 const { Title, Paragraph } = Typography;
+
+const fontSize = {
+  fontSize: 16,
+};
 
 type TFormValues = {
   needsMouthmaskAmount?: number;
@@ -40,62 +45,62 @@ const EnterMouthmaskAmount = ({ fetchRelationStatus }: TProps) => {
 
   return (
     <Row>
-      <Col {...grid} style={{ padding: 16 }}>
-        <Typography
-          style={{
-            maxWidth: 450,
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
-        >
-          <Title level={4} style={{ textAlign: "center" }}>
-            {t("requestor.numNeeded.title")}
-          </Title>
-          <Paragraph>
-            We vragen je op te geven hoeveel mondmaskers je nodig hebt. Om het
-            voor iedereen wat eerlijk te houden kan je maximaal 5 maskers
-            opgeven.
-          </Paragraph>
-          <Paragraph>Je kan ook maar 1 keer een aanvraag doen.</Paragraph>
-          <Paragraph>
-            <Form
-              form={form}
-              size="large"
-              onFinish={onFinish}
-              style={{ display: "flex", justifyContent: "center" }}
-            >
-              <Form.Item name="needsMouthmaskAmount">
-                <Select
-                  showArrow={false}
-                  style={{ width: 70, textAlign: "center", fontSize: 24 }}
-                  dropdownStyle={{ textAlign: "center" }}
-                >
-                  {numberList.map((num) => (
-                    <Select.Option
-                      key={num}
-                      value={num}
-                      style={{ fontSize: 24 }}
-                    >
-                      {num}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-              <Form.Item shouldUpdate>
-                {() => (
-                  <Button
-                    type="primary"
-                    loading={isSettingNeedsMouthmaskAmount}
-                    htmlType="submit"
-                    disabled={!form.getFieldValue("needsMouthmaskAmount")}
+      <Col {...grid}>
+        <SearchSteps current={0} />
+        <div style={{ padding: 16 }}>
+          <Typography
+            style={{
+              maxWidth: 450,
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            <Title level={4} style={{ textAlign: "center" }}>
+              {t("requestor.numNeeded.title")}
+            </Title>
+            <Paragraph>
+              We vragen je op te geven hoeveel mondmaskers je nodig hebt. Om het
+              voor iedereen wat eerlijk te houden kan je maximaal 5 maskers
+              opgeven.
+            </Paragraph>
+            <Paragraph>Je kan ook maar 1 keer een aanvraag doen.</Paragraph>
+            <Paragraph>
+              <Form
+                form={form}
+                size="large"
+                onFinish={onFinish}
+                style={{ display: "flex", justifyContent: "center" }}
+                initialValues={{ needsMouthmaskAmount: 1 }}
+              >
+                <Form.Item name="needsMouthmaskAmount">
+                  <Select
+                    showArrow={false}
+                    style={{ width: 70, textAlign: "center", ...fontSize }}
+                    dropdownStyle={{ textAlign: "center" }}
                   >
-                    Ga verder
-                  </Button>
-                )}
-              </Form.Item>
-            </Form>
-          </Paragraph>
-        </Typography>
+                    {numberList.map((num) => (
+                      <Select.Option key={num} value={num} style={fontSize}>
+                        {num}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+                <Form.Item shouldUpdate>
+                  {() => (
+                    <Button
+                      type="primary"
+                      loading={isSettingNeedsMouthmaskAmount}
+                      htmlType="submit"
+                      disabled={!form.getFieldValue("needsMouthmaskAmount")}
+                    >
+                      Ga verder
+                    </Button>
+                  )}
+                </Form.Item>
+              </Form>
+            </Paragraph>
+          </Typography>
+        </div>
         <div style={{ textAlign: "right" }}>
           <NotNeededAnymoreButton />
         </div>

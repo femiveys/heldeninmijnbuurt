@@ -2,6 +2,7 @@ import { Row, Col, Typography, Result } from "antd";
 import { grid } from "../../helpers";
 import ShareButton from "../ShareButton";
 import NotNeededAnymoreButton from "./NotNeededAnymoreButton";
+import SearchSteps from "./SearchSteps";
 
 const { Paragraph } = Typography;
 
@@ -9,6 +10,7 @@ const NoSuperheroFound = () => {
   return (
     <Row>
       <Col {...grid}>
+        <SearchSteps current={1} />
         <Result
           title="Geen superheld in je buurt"
           subTitle={

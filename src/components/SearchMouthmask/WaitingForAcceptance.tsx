@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Row, Col, Typography, Result } from "antd";
 import { grid, formatLengthDistance } from "../../helpers";
 import ShareButton from "../ShareButton";
+import SearchSteps from "./SearchSteps";
 
 const { Paragraph } = Typography;
 
@@ -18,6 +19,7 @@ const WaitingForAcceptance = ({ distance }: TProps) => {
   return (
     <Row>
       <Col {...grid}>
+        <SearchSteps current={2} />
         <Result
           status="success"
           title="We hebben een superheld in jouw buurt gevonden"
