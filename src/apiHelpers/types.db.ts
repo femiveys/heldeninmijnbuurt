@@ -18,6 +18,7 @@ export type TUserFromDb = {
   materials?: string;
   status: EUserStatus;
   mocked_user_id?: string;
+  is_tester?: string;
 };
 
 export type TRelationFromDb = {
@@ -52,5 +53,3 @@ export type TShortStreetFromDb = Pick<
   TStreetFromDb,
   "id" | "street_desc_nl" | "street_desc_fr" | "street_desc_de"
 >;
-
-export type TPostalCodeFromDb = Pick<TStreetFromDb, "postal_code">;

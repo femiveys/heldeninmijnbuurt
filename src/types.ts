@@ -36,6 +36,7 @@ export type TUser = {
   hasMaterial: boolean;
   materials?: string;
   status: EUserStatus;
+  isTester: boolean;
 } & Omit<TStreet, "id">;
 
 export type TRelation = {
@@ -93,3 +94,8 @@ export type SentMessageInfo = {
 export type TRelationRoles = "hero" | "requestor";
 
 export type TDistanceAndStatus = Pick<TRelation, "status" | "distance">;
+
+export type TStats = {
+  numMakers: number;
+  numMasksDelivered: number;
+};

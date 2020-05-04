@@ -4,6 +4,7 @@ import { useUser, useApi } from "../hooks";
 import { grid } from "../helpers";
 import ShareButton from "../components/ShareButton";
 import { EUserStatus } from "../types";
+import CommonSteps from "./CommonSteps";
 
 const { Paragraph } = Typography;
 
@@ -21,7 +22,8 @@ const Choice = () => {
 
   return (
     <Row>
-      <Col {...grid}>
+      <Col {...grid} style={{ padding: 16 }}>
+        <CommonSteps current={2} />
         <Result
           icon={
             isLoading ? (

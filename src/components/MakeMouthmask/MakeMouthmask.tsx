@@ -9,6 +9,7 @@ import EnterStock from "./EnterStock";
 import { TRequestedRequest, TRelationUser } from "../../types";
 import Stop from "./Stop";
 import Message from "./Message";
+import Undisguise from "./Undisguise";
 
 export const MakeMouthmask = () => {
   const { user } = useUser();
@@ -53,6 +54,7 @@ export const MakeMouthmask = () => {
                 requestedRequests.length > 0 || acceptedRequests.length > 0
               }
             />
+            <Undisguise />
             {showSpinner ? (
               <Spin
                 size="large"

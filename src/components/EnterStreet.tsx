@@ -3,9 +3,13 @@ import { Form, Button, Row, Col, Select, Input, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import { useApi, useUser, useAuth } from "../hooks";
 import { TStreet, TUser } from "../types";
-import { grid, getStreetInUserLanguage } from "../helpers";
+import { grid, getStreetInUserLanguage, forceMaxLength } from "../helpers";
+import CommonSteps from "./CommonSteps";
+import postalCodes from "./postalCodes";
 
 const { Title, Paragraph } = Typography;
+
+const MAX_LENGTH = 9;
 
 const EnterStreet = () => {
   const [form] = Form.useForm();
@@ -13,11 +17,6 @@ const EnterStreet = () => {
   const { updateUser } = useUser();
   const { firebaseUser } = useAuth();
   const [postalCode, setPostalCode] = useState<number>();
-  const {
-    data: postalCodes,
-    isLoading: isFetchingPostalCodes,
-    callApi: fetchPostalCodes,
-  } = useApi<number[]>("GET", "postalCodes", []);
   const {
     data: streets,
     isLoading: isFetchingStreets,
@@ -27,12 +26,6 @@ const EnterStreet = () => {
     "POST",
     "me"
   );
-
-  // TODO postalCodes could be taken from a static JSON or localstorage
-  useEffect(() => {
-    fixAutocomplete();
-    fetchPostalCodes();
-  }, []);
 
   useEffect(() => {
     if (postalCode) {
@@ -55,7 +48,8 @@ const EnterStreet = () => {
   return (
     <Row>
       <Col {...grid} style={{ padding: 16 }}>
-        <Typography>
+        <CommonSteps current={1} />
+        <Typography style={{ paddingTop: 16 }}>
           <Title level={4}>In welke buurt woon je?</Title>
           <Paragraph>
             {firebaseUser?.displayName}, gelieve ons te laten weten in welke
@@ -73,7 +67,6 @@ const EnterStreet = () => {
           <Form.Item
             label={t("requestor.enterStreet.postalCode.label")}
             name="postalCode"
-            hasFeedback={isFetchingPostalCodes}
             validateStatus="validating"
             rules={[
               {
@@ -90,8 +83,12 @@ const EnterStreet = () => {
                 option?.value.toString().startsWith(input)
               }
             >
-              {postalCodes?.map((postalCode) => (
-                <Select.Option key={postalCode} value={postalCode}>
+              {postalCodes.map((postalCode) => (
+                <Select.Option
+                  key={postalCode}
+                  value={postalCode}
+                  style={{ padding: 8 }}
+                >
                   {postalCode}
                 </Select.Option>
               ))}
@@ -119,7 +116,11 @@ const EnterStreet = () => {
               }
             >
               {streets?.map((street) => (
-                <Select.Option key={street.id} value={street.id}>
+                <Select.Option
+                  key={street.id}
+                  value={street.id}
+                  style={{ padding: 8 }}
+                >
                   {getStreetInUserLanguage(street)}
                 </Select.Option>
               ))}
@@ -129,16 +130,30 @@ const EnterStreet = () => {
             label="WhatsApp"
             name="whatsapp"
             extra="Je zal per mail kunnen communiceren met elkaar, maar vaak is het makkelijker via Whatsapp."
+            validateTrigger="onBlur"
+            rules={[
+              {
+                len: MAX_LENGTH,
+                message: "Een geldig WhatsApp nummer heeft exact 9 cijfers",
+              },
+            ]}
           >
             <Input
-              maxLength={9}
+              min={0}
+              minLength={8}
+              maxLength={MAX_LENGTH}
               type="number"
               addonBefore="+32"
               placeholder={t("requestor.enterStreet.whatsapp.placeholder")}
+              onPaste={(event) => event.preventDefault()}
+              onKeyDown={forceMaxLength(MAX_LENGTH)}
             />
           </Form.Item>
 
-          <Form.Item shouldUpdate style={{ textAlign: "center" }}>
+          <Form.Item
+            shouldUpdate
+            wrapperCol={{ xs: { offset: 0 }, sm: { offset: 8 } }}
+          >
             {() => (
               <Button
                 type="primary"

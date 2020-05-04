@@ -2,7 +2,6 @@ import { useApi } from "../../hooks";
 import { TRelationUser } from "../../types";
 import Done from "./Done";
 import SuperheroContactInfo from "./SuperheroContactInfo";
-import { Spin } from "antd";
 import NoSuperheroFound from "./NoSuperheroFound";
 import { useEffect } from "react";
 import Spinner from "../Spinner";

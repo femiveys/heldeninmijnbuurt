@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { createMaskRelation } from "../../apiHelpers/common";
+import { getNumMasksDelivered } from "../../apiHelpers/stats/local";
 
 // TO BE USED TO TEST THE DB FUNCTIONS
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     try {
-      const result = await createMaskRelation("aa", "bb", 44);
+      const result = await getNumMasksDelivered("x9RCqQ4wFlVa8yH70OW3VT8W68v2");
       console.log(result);
       res.send(result);
     } catch (error) {
