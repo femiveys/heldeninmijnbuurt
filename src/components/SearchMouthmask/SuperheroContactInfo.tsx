@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { useApi, useUser } from "../../hooks";
 import CancelButton from "./CancelButton";
-import { TRelationUser } from "../../types";
+import { TRelationUser, EUserStatus } from "../../types";
 import { notImplemented, grid } from "../../helpers";
 import Whatsapp from "../Whatsapp";
 import SearchSteps from "./SearchSteps";
@@ -39,7 +39,7 @@ const SuperheroContactInfo = (props: TProps) => {
   const markAsHandedOver = useCallback(async () => {
     await callApi({ name: "markAsHandedOver" });
     await fetchSuperHero();
-    updateUser({ status: "done" });
+    updateUser({ status: EUserStatus.done });
   }, []);
 
   const count = {
