@@ -1,10 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
-import { Form, Button, Row, Col, Select, Input, Typography, Steps } from "antd";
+import { Form, Button, Row, Col, Select, Input, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import { useApi, useUser, useAuth } from "../hooks";
 import { TStreet, TUser } from "../types";
 import { grid, getStreetInUserLanguage, forceMaxLength } from "../helpers";
 import CommonSteps from "./CommonSteps";
+import postalCodes from "./postalCodes";
 
 const { Title, Paragraph } = Typography;
 
@@ -17,11 +18,6 @@ const EnterStreet = () => {
   const { firebaseUser } = useAuth();
   const [postalCode, setPostalCode] = useState<number>();
   const {
-    data: postalCodes,
-    isLoading: isFetchingPostalCodes,
-    callApi: fetchPostalCodes,
-  } = useApi<number[]>("GET", "postalCodes", []);
-  const {
     data: streets,
     isLoading: isFetchingStreets,
     callApi: fetchStreets,
@@ -30,12 +26,6 @@ const EnterStreet = () => {
     "POST",
     "me"
   );
-
-  // TODO postalCodes could be taken from a static JSON or localstorage
-  useEffect(() => {
-    fixAutocomplete();
-    fetchPostalCodes();
-  }, []);
 
   useEffect(() => {
     if (postalCode) {
@@ -77,7 +67,6 @@ const EnterStreet = () => {
           <Form.Item
             label={t("requestor.enterStreet.postalCode.label")}
             name="postalCode"
-            hasFeedback={isFetchingPostalCodes}
             validateStatus="validating"
             rules={[
               {
@@ -94,7 +83,7 @@ const EnterStreet = () => {
                 option?.value.toString().startsWith(input)
               }
             >
-              {postalCodes?.map((postalCode) => (
+              {postalCodes.map((postalCode) => (
                 <Select.Option
                   key={postalCode}
                   value={postalCode}
