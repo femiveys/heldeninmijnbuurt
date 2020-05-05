@@ -103,9 +103,12 @@ const SuperheroContactInfo = (props: TProps) => {
                       >
                         {t("yes")}
                       </Button>
-                      <Button onClick={() => notImplemented()}>
-                        {t("no")}
-                      </Button>
+                      {/*
+                        <Button onClick={() => notImplemented()}>
+                          {t("no")}
+                        </Button>
+
+                         */}
                     </Space>
                   </div>
                 ) : (
