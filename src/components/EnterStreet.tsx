@@ -3,7 +3,12 @@ import { Form, Button, Row, Col, Select, Input, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import { useApi, useUser, useAuth } from "../hooks";
 import { TStreet, TUser } from "../types";
-import { grid, getStreetInUserLanguage, forceMaxLength } from "../helpers";
+import {
+  grid,
+  getStreetInUserLanguage,
+  forceMaxLength,
+  removeParentheses,
+} from "../helpers";
 import CommonSteps from "./CommonSteps";
 import postalCodes from "./postalCodes";
 
@@ -121,7 +126,7 @@ const EnterStreet = () => {
                   value={street.id}
                   style={{ padding: 8 }}
                 >
-                  {getStreetInUserLanguage(street)}
+                  {removeParentheses(getStreetInUserLanguage(street))}
                 </Select.Option>
               ))}
             </Select>

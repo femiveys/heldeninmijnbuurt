@@ -5,6 +5,7 @@ import { grid } from "../helpers";
 import ShareButton from "../components/ShareButton";
 import { EUserStatus } from "../types";
 import CommonSteps from "./CommonSteps";
+import Reset from "./Reset";
 
 const { Paragraph } = Typography;
 
@@ -24,6 +25,7 @@ const Choice = () => {
     <Row>
       <Col {...grid} style={{ padding: 16 }}>
         <CommonSteps current={2} />
+        <Reset />
         <Result
           icon={
             isLoading ? (

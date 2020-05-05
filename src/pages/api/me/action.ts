@@ -4,6 +4,7 @@ import { setIsMaker } from "../../../apiHelpers/me/setIsMaker";
 import { setNeedsMouthmask } from "../../../apiHelpers/me/setNeedsMouthmask";
 import { stopMaking } from "../../../apiHelpers/me/unsetIsMaker";
 import { unsetNeedsMouthmask } from "../../../apiHelpers/me/unsetNeedsMouthmask";
+import { reset } from "../../../apiHelpers/me/reset";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "PUT") {
@@ -28,6 +29,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         case "unsetNeedsMouthmask":
           result = await unsetNeedsMouthmask(uid);
+          break;
+
+        case "reset":
+          result = await reset(uid);
           break;
 
         default:
