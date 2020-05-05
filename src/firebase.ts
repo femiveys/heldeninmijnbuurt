@@ -21,7 +21,7 @@ export const initializeFirebaseApp = () => {
   }
 
   // firebase.analytics();
-  firebase.auth().languageCode = "be_NL";
+  firebase.auth().languageCode = "nl";
 };
 
 export const subscribeToAuthChanges = () =>
