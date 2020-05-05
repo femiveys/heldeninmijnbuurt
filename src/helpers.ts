@@ -7,6 +7,8 @@ import { KeyboardEventHandler } from "react";
 
 export const IS_DEV = process.env.NODE_ENV !== "production";
 
+export const appName = "Helden in mijn buurt";
+
 export const grid = {
   xs: { span: 24 },
   sm: { span: 24 },
