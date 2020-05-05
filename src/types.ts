@@ -62,9 +62,9 @@ export type TRelation = {
 export type TStreet = {
   id: number;
   postalCode: number;
-  streetDescNl?: string;
-  streetDescFr?: string;
-  streetDescDe?: string;
+  streetDescNl: string;
+  streetDescFr: string;
+  streetDescDe: string;
 };
 
 export type TRelationUser = {

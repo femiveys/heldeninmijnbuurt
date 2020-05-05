@@ -1,8 +1,11 @@
 import { db } from "../../db";
 import { MAX_DISTANCE } from "../common";
 import { EUserStatus } from "../../types";
+import { checkRequestor } from "../requestor/common";
 
 export const getLocalStats = async (requestorId: string) => {
+  await checkRequestor(requestorId);
+
   const numMakers = await getNumMakers(requestorId);
   const numMasksDelivered = await getNumMasksDelivered(requestorId);
 

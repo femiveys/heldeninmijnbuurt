@@ -75,3 +75,6 @@ export const forceMaxLength = (max: number) =>
       event.preventDefault();
     }
   }) as KeyboardEventHandler<HTMLInputElement>;
+
+export const removeParentheses = (street: string) =>
+  street.replace(/ *\([^)]*\) */g, "");
