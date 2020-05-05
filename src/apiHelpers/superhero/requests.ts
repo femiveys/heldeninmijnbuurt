@@ -44,7 +44,8 @@ export const getAcceptedRequests = async (makerId: string) => {
   return assignedRequests.filter(
     (assignedRequest) =>
       assignedRequest.relation.status === ERelationStatus.accepted ||
-      assignedRequest.relation.requestorHandoverDate
+      (assignedRequest.relation.requestorHandoverDate &&
+        !assignedRequest.relation.heroHandoverDate)
   );
 };
 
