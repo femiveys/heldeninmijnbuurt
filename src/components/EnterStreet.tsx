@@ -1,8 +1,18 @@
-import { useEffect, useState, useCallback } from "react";
-import { Form, Button, Row, Col, Select, Input, Typography } from "antd";
+import { useEffect, useState, useCallback, ReactElement } from "react";
+import { Rule, FormItemProps } from "antd/lib/form";
+import {
+  Form,
+  Button,
+  Row,
+  Col,
+  Select,
+  Input,
+  Typography,
+  Checkbox,
+  Modal,
+} from "antd";
 import { useTranslation } from "react-i18next";
 import { useApi, useUser, useAuth } from "../hooks";
-import { TStreet, TUser } from "../types";
 import {
   grid,
   getStreetInUserLanguage,
@@ -11,10 +21,27 @@ import {
 } from "../helpers";
 import CommonSteps from "./CommonSteps";
 import postalCodes from "./postalCodes";
+import PrivacyPolicy from "./PrivacyPolicy";
+import GeneralConditions from "./GeneralConditions";
+import { TStreet, TUser } from "../types";
 
 const { Title, Paragraph } = Typography;
 
 const MAX_LENGTH = 9;
+
+const getCheckboxProps = (message: string | ReactElement) =>
+  ({
+    valuePropName: "checked",
+    wrapperCol: { xs: { offset: 0 }, sm: { offset: 8 } },
+    rules: [
+      {
+        required: true,
+        transform: (value) => value || undefined,
+        type: "boolean",
+        message,
+      },
+    ],
+  } as FormItemProps);
 
 const EnterStreet = () => {
   const [form] = Form.useForm();
@@ -154,6 +181,62 @@ const EnterStreet = () => {
               onKeyDown={forceMaxLength(MAX_LENGTH)}
             />
           </Form.Item>
+          <Form.Item
+            name="general"
+            {...getCheckboxProps(
+              <span>
+                Om verder te kunnen, moet je de algemene voorwaarden aanvaarden
+              </span>
+            )}
+          >
+            <Checkbox>
+              Ik aanvaard de{" "}
+              <a
+                onClick={(event) => {
+                  event.preventDefault();
+                  Modal.confirm({
+                    title: "Algemene voorwaarden",
+                    content: <GeneralConditions />,
+                    okText: "Akkoord",
+                    cancelText: "Niet akkoord",
+                    onOk: () => {
+                      form.setFieldsValue({ general: true });
+                    },
+                  });
+                }}
+              >
+                algemene voorwaarden
+              </a>
+            </Checkbox>
+          </Form.Item>
+          <Form.Item
+            name="privacy"
+            {...getCheckboxProps(
+              <span>
+                Om verder te kunnen, moet je de privacy policy aanvaarden
+              </span>
+            )}
+          >
+            <Checkbox>
+              Ik aanvaard de{" "}
+              <a
+                onClick={(event) => {
+                  event.preventDefault();
+                  Modal.confirm({
+                    title: "Privacy policy",
+                    content: <PrivacyPolicy />,
+                    okText: "Akkoord",
+                    cancelText: "Niet akkoord",
+                    onOk: () => {
+                      form.setFieldsValue({ privacy: true });
+                    },
+                  });
+                }}
+              >
+                privacy policy
+              </a>
+            </Checkbox>
+          </Form.Item>
 
           <Form.Item
             shouldUpdate
@@ -163,7 +246,11 @@ const EnterStreet = () => {
               <Button
                 type="primary"
                 htmlType="submit"
-                disabled={!form.getFieldValue("streetId")}
+                disabled={
+                  !form.getFieldValue("streetId") ||
+                  !form.getFieldValue("general") ||
+                  !form.getFieldValue("privacy")
+                }
                 loading={isPostingMe}
               >
                 {t("next")}

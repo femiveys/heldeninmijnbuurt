@@ -16,7 +16,7 @@ import { formatLengthDistance, ellipsis } from "../../helpers";
 
 type TRecord = TRelationUser & { key: number };
 
-const { Paragraph } = Typography;
+const { Paragraph, Text } = Typography;
 const { Column } = Table;
 
 const addRemoveKey = (list: number[], record: TRecord) =>
@@ -132,6 +132,8 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
       <Divider orientation="left">{t("maker.accepted.title")}</Divider>
       <Table<TRecord>
         size="small"
+        showHeader={false}
+        className="accepted-requests"
         dataSource={dataWithKeys}
         pagination={false}
         expandable={{
@@ -143,13 +145,26 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
         <Column<TRecord>
           key="name"
           title={t("name")}
-          dataIndex={["user", "name"]}
-        />
-        <Column<TRecord>
-          key="needsMouthmaskAmount"
-          title={t("needsMouthmaskAmount")}
-          dataIndex={["user", "needsMouthmaskAmount"]}
-          align="center"
+          render={(_, record) => (
+            <div>
+              <div
+                style={{
+                  maxWidth: screen.width - 171,
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                }}
+              >
+                {record.user.name}
+              </div>
+              <Text type="secondary">
+                {record.user.needsMouthmaskAmount} masker{" "}
+                {record.relation.requestorHandoverDate
+                  ? "ontvangen"
+                  : "gevraagd"}
+              </Text>
+            </div>
+          )}
         />
         <Column<TRecord>
           key="contact"
