@@ -2,10 +2,10 @@ import { Space, Result, Button, Col, Row } from "antd";
 import { useTranslation } from "react-i18next";
 import Appreciation from "./Appreciation";
 import ShareButton from "../ShareButton";
-import { useRouter } from "next/router";
 import { grid } from "../../helpers";
 import SearchSteps from "./SearchSteps";
 import Disguise from "./Disguise";
+import { useGoto } from "../../hooks";
 
 type TProps = {
   needsMouthmaskAmount: number;
@@ -14,7 +14,7 @@ type TProps = {
 
 const Done = ({ needsMouthmaskAmount, showAppreciation }: TProps) => {
   const { t } = useTranslation();
-  const router = useRouter();
+  const goto = useGoto();
 
   return (
     <Row>
@@ -34,9 +34,7 @@ const Done = ({ needsMouthmaskAmount, showAppreciation }: TProps) => {
             >
               <ShareButton text="Deel op sociale media" />
               {showAppreciation && <Appreciation showStars={false} />}
-              <Button onClick={() => router.replace("/")}>
-                Word zelf een superheld
-              </Button>
+              <Button onClick={() => goto()}>Word zelf een superheld</Button>
             </Space>,
           ]}
         />

@@ -1,6 +1,5 @@
 import { Button, Typography, Modal } from "antd";
-import { useRouter } from "next/router";
-import { useApi, useUser } from "../../hooks";
+import { useApi, useUser, useGoto } from "../../hooks";
 
 const { Paragraph } = Typography;
 
@@ -9,7 +8,7 @@ type TProps = {
 };
 
 const Stop = ({ hasPending }: TProps) => {
-  const router = useRouter();
+  const goto = useGoto();
   const { updateUser } = useUser();
   const { isLoading, callApi } = useApi("PUT", "me/action");
 
@@ -56,7 +55,7 @@ const Stop = ({ hasPending }: TProps) => {
             onOk: async () => {
               await callApi({ name: "unsetIsMaker" });
               updateUser({ isMaker: false });
-              await router.replace("/");
+              await goto();
             },
             cancelText: "Ik help verder",
           });

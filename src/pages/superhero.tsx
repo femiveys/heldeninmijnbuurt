@@ -1,15 +1,14 @@
 import { useEffect } from "react";
-import { useRouter } from "next/router";
-import { useUser } from "../hooks";
+import { useUser, useGoto } from "../hooks";
 import FullSpinner from "../components/FullSpinner";
 import { MakeMouthmask } from "../components/MakeMouthmask/MakeMouthmask";
 
 export default () => {
   const { user } = useUser();
-  const router = useRouter();
+  const goto = useGoto();
 
   useEffect(() => {
-    if (!(user && user.isMaker)) router.replace("/");
+    if (!(user && user.isMaker)) goto();
   }, [user]);
 
   return user && user.isMaker ? <MakeMouthmask /> : <FullSpinner />;

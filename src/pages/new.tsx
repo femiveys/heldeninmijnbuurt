@@ -1,15 +1,14 @@
 import { useEffect } from "react";
-import { useRouter } from "next/router";
-import { useAuth } from "../hooks";
+import { useAuth, useGoto } from "../hooks";
 import EnterStreet from "../components/EnterStreet";
 import FullSpinner from "../components/FullSpinner";
 
 export default () => {
   const { firebaseUser } = useAuth();
-  const router = useRouter();
+  const goto = useGoto();
 
   useEffect(() => {
-    if (!firebaseUser) router.replace("/");
+    if (!firebaseUser) goto();
   }, [firebaseUser]);
 
   return firebaseUser ? <EnterStreet /> : <FullSpinner />;
