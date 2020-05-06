@@ -34,3 +34,26 @@ input[type="number"] {
     padding: 0;
   }
 }
+
+.legal-document {
+  ol {
+    counter-reset: item;
+    padding-left: 20px;
+    li {
+      display: block;
+      margin-bottom: 10px;
+      padding: 0;
+    }
+    > li:before {
+      content: counters(item, ".") ". ";
+      counter-increment: item;
+    }
+    > li::first-line {
+      margin-left: -18px;
+    }
+
+    > li > ol > li::first-line {
+      margin-left: -29px;
+    }
+  }
+}
