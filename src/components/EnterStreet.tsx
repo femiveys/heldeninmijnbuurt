@@ -171,7 +171,7 @@ const EnterStreet = () => {
                 onClick={(event) => {
                   event.preventDefault();
                   Modal.confirm({
-                    title: "Algemene voorwaarden",
+                    centered: true,
                     content: <GeneralConditions />,
                     okText: "Akkoord",
                     cancelText: "Niet akkoord",
@@ -199,7 +199,7 @@ const EnterStreet = () => {
                 onClick={(event) => {
                   event.preventDefault();
                   Modal.confirm({
-                    title: "Privacy policy",
+                    centered: true,
                     content: <PrivacyPolicy />,
                     okText: "Akkoord",
                     cancelText: "Niet akkoord",

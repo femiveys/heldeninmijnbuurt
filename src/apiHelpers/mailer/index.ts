@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const from = '"Femi Veys" <femi@itsimplyworks.be>';
+const from = '"Helden in mijn buurt" <noreply@heldeninmijnbuurt.be>';
 
 const suffix = `<br />
                Ga naar
