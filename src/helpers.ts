@@ -9,6 +9,8 @@ export const IS_DEV = process.env.NODE_ENV !== "production";
 
 export const appName = "Helden in mijn buurt";
 
+export const contactEmail = "contact@heldeninmijnbuurt.be";
+
 export const grid = {
   xs: { span: 24 },
   sm: { span: 24 },

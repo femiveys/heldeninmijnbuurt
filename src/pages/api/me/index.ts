@@ -5,6 +5,8 @@ import {
   getMe,
   getMeOrFail,
   initFirebaseAdmin,
+  getUid,
+  updateMe,
 } from "../../../apiHelpers/me";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -21,7 +23,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         user_id: firebaseUser.uid,
         name: firebaseUser.name,
         email: firebaseUser.email,
-        picture: firebaseUser.picture,
+        // picture: firebaseUser.picture,
         street_id: streetId,
         is_tester: 1, // TODO, needs to be removed once we go live
         whatsapp,
@@ -38,6 +40,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const me = await getMeOrFail(req);
       res.send(me);
+    } catch (error) {
+      res.status(500).send({ error: error.message });
+    }
+  }
+
+  // Get myself
+  if (req.method === "PUT") {
+    const { fields } = req.body;
+    const uid = await getUid(req);
+    try {
+      const result = await updateMe(uid, fields);
+      res.send(result);
     } catch (error) {
       res.status(500).send({ error: error.message });
     }

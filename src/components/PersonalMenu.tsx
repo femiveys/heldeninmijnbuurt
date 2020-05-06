@@ -1,9 +1,19 @@
 import { Menu, Dropdown, Button, Avatar } from "antd";
+import { EditOutlined } from "@ant-design/icons";
+import { useCallback, CSSProperties } from "react";
 import firebase from "firebase/app";
-import { useCallback } from "react";
+import Link from "next/link";
 import { useAuth, useUser } from "../hooks";
 import { store } from "../store";
 import { getStreetInUserLanguage } from "../helpers";
+
+const style: CSSProperties = { padding: "5px 12px", textAlign: "right" };
+
+const link = (
+  <Link href="/profile" replace shallow>
+    <EditOutlined style={{ fontSize: 16 }} />
+  </Link>
+);
 
 const PersonalMenu = () => {
   const { user } = useUser();
@@ -18,9 +28,14 @@ const PersonalMenu = () => {
     <Menu theme="dark" className="inverted">
       {user && (
         <>
-          <div style={{ padding: "5px 12px", textAlign: "right" }}>
-            <div>{user.name}</div>
-            <div>{user.email}</div>
+          <div style={style}>
+            <div>
+              {user.name}
+              {link}
+            </div>
+            <div>
+              {user.email} {link}
+            </div>
             <div>
               {user.postalCode} {getStreetInUserLanguage(user)}
             </div>

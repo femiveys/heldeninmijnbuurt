@@ -1,33 +1,26 @@
 import { useEffect, useState, useCallback, ReactElement } from "react";
-import { Rule, FormItemProps } from "antd/lib/form";
+import { FormItemProps } from "antd/lib/form";
 import {
   Form,
   Button,
   Row,
   Col,
   Select,
-  Input,
   Typography,
   Checkbox,
   Modal,
 } from "antd";
 import { useTranslation } from "react-i18next";
 import { useApi, useUser, useAuth } from "../hooks";
-import {
-  grid,
-  getStreetInUserLanguage,
-  forceMaxLength,
-  removeParentheses,
-} from "../helpers";
+import { grid, getStreetInUserLanguage, removeParentheses } from "../helpers";
 import CommonSteps from "./CommonSteps";
 import postalCodes from "./postalCodes";
 import PrivacyPolicy from "./PrivacyPolicy";
 import GeneralConditions from "./GeneralConditions";
 import { TStreet, TUser } from "../types";
+import WhatsappField from "./WhatsappField";
 
 const { Title, Paragraph } = Typography;
-
-const MAX_LENGTH = 9;
 
 const getCheckboxProps = (message: string | ReactElement) =>
   ({
@@ -158,29 +151,7 @@ const EnterStreet = () => {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item
-            label="WhatsApp"
-            name="whatsapp"
-            extra="Je zal per mail kunnen communiceren met elkaar, maar vaak is het makkelijker via Whatsapp."
-            validateTrigger="onBlur"
-            rules={[
-              {
-                len: MAX_LENGTH,
-                message: "Een geldig WhatsApp nummer heeft exact 9 cijfers",
-              },
-            ]}
-          >
-            <Input
-              min={0}
-              minLength={8}
-              maxLength={MAX_LENGTH}
-              type="number"
-              addonBefore="+32"
-              placeholder={t("requestor.enterStreet.whatsapp.placeholder")}
-              onPaste={(event) => event.preventDefault()}
-              onKeyDown={forceMaxLength(MAX_LENGTH)}
-            />
-          </Form.Item>
+          <WhatsappField />
           <Form.Item
             name="general"
             {...getCheckboxProps(
