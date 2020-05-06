@@ -9,9 +9,10 @@ const Reset = () => {
 
   return user?.isTester ? (
     <Alert
-      type="warning"
       closable
+      type="warning"
       message="Jij bent geregistreerd als een test gebruiker"
+      style={{ marginTop: 16 }}
       description={
         <div>
           <div>
