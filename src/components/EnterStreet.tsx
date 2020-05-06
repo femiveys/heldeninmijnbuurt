@@ -12,7 +12,12 @@ import {
 } from "antd";
 import { useTranslation } from "react-i18next";
 import { useApi, useUser, useAuth } from "../hooks";
-import { grid, getStreetInUserLanguage, removeParentheses } from "../helpers";
+import {
+  grid,
+  getStreetInUserLanguage,
+  removeParentheses,
+  getFlemishPostalcodes,
+} from "../helpers";
 import CommonSteps from "./CommonSteps";
 import postalCodes from "./postalCodes";
 import PrivacyPolicy from "./PrivacyPolicy";
@@ -108,7 +113,7 @@ const EnterStreet = () => {
                 option?.value.toString().startsWith(input)
               }
             >
-              {postalCodes.map((postalCode) => (
+              {getFlemishPostalcodes(postalCodes).map((postalCode) => (
                 <Select.Option
                   key={postalCode}
                   value={postalCode}
@@ -218,6 +223,7 @@ const EnterStreet = () => {
                 type="primary"
                 htmlType="submit"
                 disabled={
+                  isPostingMe ||
                   !form.getFieldValue("streetId") ||
                   !form.getFieldValue("general") ||
                   !form.getFieldValue("privacy")

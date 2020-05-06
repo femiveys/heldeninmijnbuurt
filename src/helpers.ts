@@ -82,3 +82,8 @@ export const forceMaxLength = (max: number) =>
 
 export const removeParentheses = (street: string) =>
   street.replace(/ *\([^)]*\) */g, "");
+
+export const getFlemishPostalcodes = (postalCodes: number[]) =>
+  postalCodes.filter(
+    (pc) => (pc >= 1500 && pc < 4000) || (pc >= 8000 && pc < 10000)
+  );

@@ -4,6 +4,7 @@ import { grid, contactEmail } from "../helpers";
 import WhatsappField from "./WhatsappField";
 import { useApi, useUser, useGoto } from "../hooks";
 import { useCallback } from "react";
+import { pick } from "lodash";
 
 const { Paragraph, Title } = Typography;
 
@@ -16,13 +17,16 @@ const ProfileForm = () => {
   const [form] = Form.useForm();
   const goto = useGoto();
   const { t } = useTranslation();
-  const { user } = useUser();
+  const { user, updateUser } = useUser();
   const { isLoading, callApi } = useApi("PUT", "me");
 
   const updateMe = useCallback(async (fields: TFormValues) => {
     await callApi(fields);
+    updateUser(fields);
     goto("/searching");
   }, []);
+
+  if (!user) return null;
 
   return (
     <Row>
@@ -45,7 +49,7 @@ const ProfileForm = () => {
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 10 }}
           onFinish={updateMe}
-          initialValues={{ name: user?.name, email: user?.email }}
+          initialValues={pick(user, "name", "email", "whatsapp")}
         >
           <Form.Item
             name="name"
@@ -79,7 +83,9 @@ const ProfileForm = () => {
                 type="primary"
                 htmlType="submit"
                 disabled={
-                  !form.getFieldValue("name") || !form.getFieldValue("email")
+                  isLoading ||
+                  !form.getFieldValue("name") ||
+                  !form.getFieldValue("email")
                 }
                 loading={isLoading}
               >

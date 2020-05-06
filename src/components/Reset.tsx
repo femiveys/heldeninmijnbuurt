@@ -1,5 +1,6 @@
 import { Button, Alert } from "antd";
 import { useApi, useUser, useGoto } from "../hooks";
+import { store } from "../store";
 
 const Reset = () => {
   const goto = useGoto();
@@ -26,6 +27,7 @@ const Reset = () => {
               size="small"
               onClick={async () => {
                 await reset({ name: "reset" });
+                store.dispatch("user/setUser", null);
                 goto();
               }}
             >
