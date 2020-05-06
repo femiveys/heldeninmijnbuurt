@@ -1,9 +1,8 @@
 import { Button } from "antd";
-import { useRouter } from "next/router";
-import { useApi, useUser } from "../../hooks";
+import { useApi, useUser, useGoto } from "../../hooks";
 
 const NotNeededAnymoreButton = () => {
-  const router = useRouter();
+  const goto = useGoto();
   const { updateUser } = useUser();
   const {
     isLoading: isUnsettingNeedsMouthmask,
@@ -18,7 +17,7 @@ const NotNeededAnymoreButton = () => {
       onClick={async () => {
         await unsetNeedsMouthmask({ name: "unsetNeedsMouthmask" });
         updateUser({ needsMouthmask: false });
-        await router.replace("/");
+        await goto();
       }}
       style={{ fontSize: 10 }}
     >

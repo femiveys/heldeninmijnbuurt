@@ -1,12 +1,11 @@
 import { useEffect, useState, useCallback, ReactElement } from "react";
-import { Rule, FormItemProps } from "antd/lib/form";
+import { FormItemProps } from "antd/lib/form";
 import {
   Form,
   Button,
   Row,
   Col,
   Select,
-  Input,
   Typography,
   Checkbox,
   Modal,
@@ -16,18 +15,17 @@ import { useApi, useUser, useAuth } from "../hooks";
 import {
   grid,
   getStreetInUserLanguage,
-  forceMaxLength,
   removeParentheses,
+  getFlemishPostalcodes,
 } from "../helpers";
 import CommonSteps from "./CommonSteps";
 import postalCodes from "./postalCodes";
 import PrivacyPolicy from "./PrivacyPolicy";
 import GeneralConditions from "./GeneralConditions";
 import { TStreet, TUser } from "../types";
+import WhatsappField from "./WhatsappField";
 
 const { Title, Paragraph } = Typography;
-
-const MAX_LENGTH = 9;
 
 const getCheckboxProps = (message: string | ReactElement) =>
   ({
@@ -115,7 +113,7 @@ const EnterStreet = () => {
                 option?.value.toString().startsWith(input)
               }
             >
-              {postalCodes.map((postalCode) => (
+              {getFlemishPostalcodes(postalCodes).map((postalCode) => (
                 <Select.Option
                   key={postalCode}
                   value={postalCode}
@@ -158,29 +156,7 @@ const EnterStreet = () => {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item
-            label="WhatsApp"
-            name="whatsapp"
-            extra="Je zal per mail kunnen communiceren met elkaar, maar vaak is het makkelijker via Whatsapp."
-            validateTrigger="onBlur"
-            rules={[
-              {
-                len: MAX_LENGTH,
-                message: "Een geldig WhatsApp nummer heeft exact 9 cijfers",
-              },
-            ]}
-          >
-            <Input
-              min={0}
-              minLength={8}
-              maxLength={MAX_LENGTH}
-              type="number"
-              addonBefore="+32"
-              placeholder={t("requestor.enterStreet.whatsapp.placeholder")}
-              onPaste={(event) => event.preventDefault()}
-              onKeyDown={forceMaxLength(MAX_LENGTH)}
-            />
-          </Form.Item>
+          <WhatsappField />
           <Form.Item
             name="general"
             {...getCheckboxProps(
@@ -247,6 +223,7 @@ const EnterStreet = () => {
                 type="primary"
                 htmlType="submit"
                 disabled={
+                  isPostingMe ||
                   !form.getFieldValue("streetId") ||
                   !form.getFieldValue("general") ||
                   !form.getFieldValue("privacy")

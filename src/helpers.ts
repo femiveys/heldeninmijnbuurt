@@ -9,6 +9,8 @@ export const IS_DEV = process.env.NODE_ENV !== "production";
 
 export const appName = "Helden in mijn buurt";
 
+export const contactEmail = "contact@heldeninmijnbuurt.be";
+
 export const grid = {
   xs: { span: 24 },
   sm: { span: 24 },
@@ -80,3 +82,8 @@ export const forceMaxLength = (max: number) =>
 
 export const removeParentheses = (street: string) =>
   street.replace(/ *\([^)]*\) */g, "");
+
+export const getFlemishPostalcodes = (postalCodes: number[]) =>
+  postalCodes.filter(
+    (pc) => (pc >= 1500 && pc < 4000) || (pc >= 8000 && pc < 10000)
+  );

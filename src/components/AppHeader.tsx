@@ -9,7 +9,10 @@ const AppHeader = () => (
       <Row justify="space-between">
         <Col>
           <Link href="/">
-            <a style={{ color: "white", padding: "8px 16px", fontSize: 16 }}>
+            <a
+              className="inverted"
+              style={{ padding: "8px 16px", fontSize: 20 }}
+            >
               {appName}
             </a>
           </Link>

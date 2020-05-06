@@ -1,9 +1,9 @@
 import { Button, Alert } from "antd";
-import { useRouter } from "next/router";
-import { useApi, useUser } from "../hooks";
+import { useApi, useUser, useGoto } from "../hooks";
+import { store } from "../store";
 
 const Reset = () => {
-  const router = useRouter();
+  const goto = useGoto();
   const { user } = useUser();
   const { isLoading: isResetting, callApi: reset } = useApi("PUT", "me/action");
 
@@ -27,7 +27,8 @@ const Reset = () => {
               size="small"
               onClick={async () => {
                 await reset({ name: "reset" });
-                router.reload();
+                store.dispatch("user/setUser", null);
+                goto();
               }}
             >
               Reset je gebruiker

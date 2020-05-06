@@ -1,21 +1,20 @@
 import { useEffect } from "react";
-import { useRouter } from "next/router";
 import EnterStreet from "../components/EnterStreet";
-import { useUser } from "../hooks";
+import { useUser, useGoto } from "../hooks";
 import FullSpinner from "../components/FullSpinner";
 import Choice from "../components/Choice";
 import { EUserStatus } from "../types";
 
 export default () => {
   const { user } = useUser();
-  const router = useRouter();
+  const goto = useGoto();
 
   useEffect(() => {
     if (user) {
-      if (user.isMaker) router.replace("/superhero");
+      if (user.isMaker) goto("/superhero");
       else if (user.status === EUserStatus.active && user.needsMouthmask)
-        router.replace("/searching");
-      else if (!user.streetId) router.replace("/new");
+        goto("/searching");
+      else if (!user.streetId) goto("/new");
     }
   }, [user]);
 

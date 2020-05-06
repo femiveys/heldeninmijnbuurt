@@ -1,9 +1,8 @@
-import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { useCallback } from "react";
 import { Typography, Button, Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { useApi, useUser } from "../../hooks";
+import { useApi, useUser, useGoto } from "../../hooks";
 import { EUserStatus } from "../../types";
 
 const { confirm } = Modal;
@@ -16,7 +15,7 @@ type TProps = {
 
 const CancelButton = (props: TProps) => {
   const { t } = useTranslation();
-  const router = useRouter();
+  const goto = useGoto();
   const { updateUser } = useUser();
   const { isLoading: isCancelling, callApi } = useApi(
     "PUT",
@@ -50,7 +49,7 @@ const CancelButton = (props: TProps) => {
       onOk: async () => {
         await callApi({ name: "cancel" });
         updateUser({ needsMouthmask: false, status: EUserStatus.cancelled });
-        await router.replace("/");
+        await goto();
       },
     });
   }, []);

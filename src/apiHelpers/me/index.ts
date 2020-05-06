@@ -4,6 +4,8 @@ import { db } from "../../db";
 import { transformUserFromDb } from "../transformers";
 import serviceAccount from "../../../mijn-mondmasker-firebase-adminsdk-tjfdw-13a74f43d0.json";
 import { TUserFromDb, TStreetFromDb } from "../types.db";
+import { TUser } from "../../types";
+import { pick } from "lodash";
 
 export const initFirebaseAdmin = () => {
   try {
@@ -53,4 +55,18 @@ export const getUid = async (req: NextApiRequest) => {
   return mockedUser && mockedUser.mocked_user_id
     ? mockedUser.mocked_user_id
     : firebaseUser.uid;
+};
+
+/**
+ * Updates a limited amount of fields of the current user.
+ *
+ * @param userId
+ * @returns 1 if updated, 0 otherwise
+ */
+export const updateMe = async (userId: string, fields: Partial<TUser>) => {
+  const result = await db<TUserFromDb>("user")
+    .where({ user_id: userId })
+    .update(pick(fields, "name", "email", "whatsapp"));
+
+  return result;
 };
