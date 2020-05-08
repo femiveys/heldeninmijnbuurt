@@ -19,7 +19,8 @@ const from = '"Helden in mijn buurt" <femi@itsimplyworks.be>';
 export const sendMail = async (
   to: string,
   mailId: string,
-  params: TMailParams
+  params: TMailParams,
+  message?: string
 ) => {
   if (mailId !== "message" && !templates[mailId])
     console.log(`No template defined for: ${mailId}`);
@@ -30,8 +31,8 @@ export const sendMail = async (
     from,
     to,
     subject,
-    text,
-    html: html ? html(params) : text,
+    text: mailId === "message" ? message : text,
+    html: html ? html(params) : mailId === "message" ? message : text,
   });
   console.log("Message sent", info);
   return info.messageId;
@@ -57,7 +58,8 @@ export const sendMail = async (
 export const mailByRelationId = async (
   toRole: "hero" | "requestor",
   relationId: number,
-  mailId: string
+  mailId: string,
+  message?: string
 ) => {
   const hero = await getHeroByRelationId(relationId);
   if (!hero) throw new Error("Hero could not be found");
@@ -67,5 +69,5 @@ export const mailByRelationId = async (
 
   const to = toRole === "hero" ? hero.email : requestor.email;
 
-  return await sendMail(to, mailId, { hero, requestor });
+  return await sendMail(to, mailId, { hero, requestor }, message);
 };
