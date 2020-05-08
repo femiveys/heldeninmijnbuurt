@@ -12,8 +12,9 @@ import {
 
 const { Paragraph } = Typography;
 
-const url = "https://heldeninmijnbuurt.now.sh";
-const title = "Title: TODO";
+const url = "https://heldeninmijnbuurt.be";
+const title =
+  "Dit platform brengt mensen die maskers naaien in contact met mensen in de buurt die maskers zoeken";
 const hashtag = "#NationaleNaaiActie";
 const size = 32;
 
@@ -24,7 +25,11 @@ const size = 32;
 
 //
 
-const Share = () => {
+type TProps = {
+  message?: string;
+};
+
+const Share = ({ message = title }: TProps) => {
   return (
     <div>
       <Typography>

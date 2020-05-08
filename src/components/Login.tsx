@@ -18,9 +18,9 @@ const Login = () => {
         </Title>
         <Paragraph>
           Helden in mijn buurt is een gratis platform dat mensen met een
-          naaimachine in <b>contact</b> brengt met mensen zonder naaimachine{" "}
-          <b>in de buurt</b>. Zo zou iedereen een zelfgemaakt stoffen mondmasker
-          moeten kunnen hebben.
+          naaimachine in <b>contact</b> brengt met mensen <b>in de buurt</b>{" "}
+          zonder naaimachine . Zo zou iedereen een zelfgemaakt stoffen
+          mondmasker moeten kunnen hebben.
         </Paragraph>
         <Paragraph>
           Ook al kan je maar een aantal mondmaskers naaien, je buurt zal je
