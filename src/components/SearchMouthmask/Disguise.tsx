@@ -1,8 +1,9 @@
 import { Button, Alert } from "antd";
-import { useApi, useUser, useGoto } from "../../hooks";
+import { useApi, useUser } from "../../hooks";
+import { useRouter } from "next/router";
 
 const Disguise = () => {
-  const goto = useGoto();
+  const router = useRouter();
   const { user } = useUser();
   const { isLoading: isDisguising, callApi: disguise } = useApi(
     "PUT",
@@ -27,7 +28,7 @@ const Disguise = () => {
               size="small"
               onClick={async () => {
                 await disguise({ name: "disguise" });
-                goto();
+                router.reload();
               }}
             >
               Vermom je

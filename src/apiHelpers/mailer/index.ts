@@ -1,7 +1,8 @@
 import nodemailer from "nodemailer";
-import { templates } from "./templates";
+import { templates, TMailParams } from "./templates";
 import { SentMessageInfo } from "../../types";
-import { getEmailByRelationId } from "./helpers";
+import { getRequestorByRelationId } from "../superhero/common";
+import { getHeroByRelationId } from "../requestor/common";
 
 const transporter = nodemailer.createTransport({
   host: "178.208.49.162",
@@ -15,31 +16,22 @@ const transporter = nodemailer.createTransport({
 
 const from = '"Helden in mijn buurt" <femi@itsimplyworks.be>';
 
-const suffix = `<br />
-               Ga naar
-               <a href="https://heldeninmijnbuurt.now.sh" target="_blank">
-                 Helden in mijn buurt
-               </a>`;
-
 export const sendMail = async (
   to: string,
   mailId: string,
-  message?: string
+  params: TMailParams
 ) => {
   if (mailId !== "message" && !templates[mailId])
     console.log(`No template defined for: ${mailId}`);
 
-  const fields =
-    mailId === "message" && message
-      ? { subject: "Dank je wel, superheld", text: message }
-      : templates[mailId];
+  const { subject, text, html } = templates[mailId];
 
-  // if (process.env.NODE_ENV === "production") {
   const info: SentMessageInfo = await transporter.sendMail({
     from,
     to,
-    html: fields.text + suffix,
-    ...fields,
+    subject,
+    text,
+    html: html ? html(params) : text,
   });
   console.log("Message sent", info);
   return info.messageId;
@@ -65,9 +57,15 @@ export const sendMail = async (
 export const mailByRelationId = async (
   toRole: "hero" | "requestor",
   relationId: number,
-  mailId: string,
-  message?: string
+  mailId: string
 ) => {
-  const email = await getEmailByRelationId(toRole, relationId);
-  return await sendMail(email, mailId, message);
+  const hero = await getHeroByRelationId(relationId);
+  if (!hero) throw new Error("Hero could not be found");
+
+  const requestor = await getRequestorByRelationId(relationId);
+  if (!requestor) throw new Error("Requestor could not be found");
+
+  const to = toRole === "hero" ? hero.email : requestor.email;
+
+  return await sendMail(to, mailId, { hero, requestor });
 };

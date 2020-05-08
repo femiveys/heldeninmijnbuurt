@@ -8,6 +8,8 @@ import { KeyboardEventHandler } from "react";
 export const IS_DEV = process.env.NODE_ENV !== "production";
 
 export const appName = "Helden in mijn buurt";
+export const appUrl = process.env.APP_URL;
+export const fullAppUrl = `https://${appUrl}`;
 
 export const contactEmail = "contact@heldeninmijnbuurt.be";
 

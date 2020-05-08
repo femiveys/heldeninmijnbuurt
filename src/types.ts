@@ -99,3 +99,5 @@ export type TStats = {
   numMakers: number;
   numMasksDelivered: number;
 };
+
+export type TUserAndDistance = TUser & { distance: number };

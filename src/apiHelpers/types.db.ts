@@ -53,3 +53,5 @@ export type TShortStreetFromDb = Pick<
   TStreetFromDb,
   "id" | "street_desc_nl" | "street_desc_fr" | "street_desc_de"
 >;
+
+export type TUserAndDistanceFromDb = TUserFromDb & { distance: number };
