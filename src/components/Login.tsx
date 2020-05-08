@@ -12,9 +12,9 @@ const Login = () => {
   return (
     <Row justify="center" style={{ padding: 32 }}>
       <Col style={{ maxWidth: "600px" }}>
-        <Title>
-          Mondmaskers zijn levensredders! Neem je naaimachine en word een
-          superheld in jouw buurt.
+        <Title level={3}>Mondmaskers zijn levensredders</Title>
+        <Title level={4}>
+          Neem je naaimachine en word een superheld in je buurt.
         </Title>
         <Paragraph>
           Helden in mijn buurt is een gratis platform dat mensen met een
@@ -25,7 +25,7 @@ const Login = () => {
         <Paragraph>
           Ook al kan je maar een aantal mondmaskers naaien, je buurt zal je
           dankbaar zijn. Het ophalen of afleveren kan bvb met de fiets zo is er
-          geen distributie nodig.
+          <b>geen distributie</b> nodig.
         </Paragraph>
         <Paragraph>
           Wij zorgen voor het contact, jullie doen de rest..
