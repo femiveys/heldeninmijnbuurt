@@ -82,6 +82,10 @@ export const templates: Dictionary<TMailOptions> = {
       "We hebben de aanvraag al van je lijst gehaald. Je kan de mondmaskers nu voor iemand anders voorzien",
     html: cancelled,
   },
+  message: {
+    subject: "Bedankt, superheld",
+    text: "",
+  },
   example: {
     subject: "En het werk ook met images ✔",
     text: "Korte body tekst",
