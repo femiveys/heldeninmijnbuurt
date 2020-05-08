@@ -40,6 +40,16 @@ const App: React.FunctionComponent = ({ children }) => {
           sizes="16x16"
           href="/assets/favicon-16x16.png"
         />
+        <meta property="og:title" content={appName} />
+        <meta
+          property="og:description"
+          content="Helden in mijn buurt is een gratis platform dat mensen met een naaimachine in contact brengt met mensen in de buurt zonder naaimachine. Zo zou iedereen een zelfgemaakt stoffen mondmasker moeten kunnen hebben."
+        />
+        <meta property="og:url" content="https://heldeninmijnbuurt.be" />
+        <meta
+          property="og:image"
+          content="https://heldeninmijnbuurt.be/assets/helden.png"
+        />
       </Head>
       <Layout>
         <Header

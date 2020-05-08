@@ -23,7 +23,10 @@ const GeneralConditions = () => {
               wat er gebeurt tijdens de contacten die aanbieders en gebruikers
               hebben
             </li>
-            <li>de kwaliteit van de maskers </li>
+            <li>
+              de kwaliteit, grootte, vorm of om het even welk ander kenmerk van
+              de maskers
+            </li>
             <li>de duur van het maken of afleveren van de maskers.</li>
             <li>
               eventuele ongelukken die gebeuren voor na of tijdens het maken,

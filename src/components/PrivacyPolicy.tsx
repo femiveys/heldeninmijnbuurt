@@ -63,6 +63,31 @@ const PrivacyPolicy = () => {
         aanvraag kunnen doen. Om dit mogelijk te maken onthoudt het systeem de
         gegevens zo lang als de corona crisis blijft duren.
       </Paragraph>
+      <Title level={4}>Cookies</Title>
+      <Paragraph>
+        Cookies zijn kleine tekstbestanden die lokaal worden opgeslagen op uw
+        computer. Deze cookies dienen voor tal van doeleinden: het onthouden van
+        instellingen (login, taalkeuzes), het vergaren van informatie en het
+        bijhouden van het bezoekgedrag van de gebruikers. De cookies die wij
+        gebruiken zijn veilig: zij hebben geen toegang tot persoonlijke
+        informatie op uw computer en kunnen deze niet beschadigen of besmetten
+        met virussen. De cookies geven op geen enkele manier persoonlijke
+        informatie aan ons door. De informatie die we via cookies verzamelen
+        helpt ons om eventuele fouten te identificeren of om u van specifieke
+        diensten te laten genieten.
+      </Paragraph>
+      <Paragraph>
+        Wij analyseren de gebruikersstatistieken van onze applicatie via Google
+        Analytics. Hiervoor worden een aantal cookies geladen wanneer u de
+        applicatie bezoekt.
+      </Paragraph>
+      <Paragraph>
+        Wij gebruiken cookies om statistieken bij te houden en om uw bezoek op
+        onze applicatie te verbeteren of te vergemakkelijken. Wij raden u daarom
+        aan om cookies ingeschakeld te houden in uw browser. Indien u dit liever
+        niet wenst, kunt u de cookies permanent of tijdelijk uitschakelen via
+        het optiebeheer van uw internetbrowser.
+      </Paragraph>
     </Typography>
   );
 };
