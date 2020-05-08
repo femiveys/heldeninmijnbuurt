@@ -17,7 +17,7 @@ const assignedToHero = ({ requestor }: TMailParams) =>
           zoekt.
           <br />
           <br />
-          Laat hem of haar weten of je de maskers hebt of kan maken.
+          Laat hem of haar weten of je maskers hebt of kan maken.
           <br />
           <br />
           Zodra je aanvaard hebt, zullen jullie elkaars contactinformatie zien.
@@ -30,6 +30,7 @@ const assignedToHero = ({ requestor }: TMailParams) =>
           </b>
         </Span>
       </Item>
+      <br />
       <br />
       <Item>
         <Span fontSize={16} align="center">

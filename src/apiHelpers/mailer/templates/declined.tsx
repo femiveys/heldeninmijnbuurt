@@ -19,6 +19,7 @@ const declined = () =>
         </Span>
       </Item>
       <br />
+      <br />
       <Item>
         <Span fontSize={16} align="center">
           <MailLink href={fullAppUrl}>
