@@ -5,7 +5,7 @@ const { Title, Paragraph } = Typography;
 const PrivacyPolicy = () => {
   return (
     <Typography>
-      <Title>Privacy Statement</Title>
+      <Title>Privacy Policy</Title>
       <Paragraph>
         Wij proberen zoveel mogelijk je privacy te garanderen, zo vragen we je
         nooit naar je exacte huisnummer.

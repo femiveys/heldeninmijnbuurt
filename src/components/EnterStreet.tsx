@@ -172,6 +172,7 @@ const EnterStreet = () => {
                   event.preventDefault();
                   Modal.confirm({
                     centered: true,
+                    className: "legal-modal",
                     content: <GeneralConditions />,
                     okText: "Akkoord",
                     cancelText: "Niet akkoord",
@@ -200,6 +201,7 @@ const EnterStreet = () => {
                   event.preventDefault();
                   Modal.confirm({
                     centered: true,
+                    className: "legal-modal",
                     content: <PrivacyPolicy />,
                     okText: "Akkoord",
                     cancelText: "Niet akkoord",
