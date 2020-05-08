@@ -3,7 +3,12 @@ import { TMailParams } from ".";
 import { appName, fullAppUrl } from "../../../helpers";
 import { body, MailLink } from "./theme";
 
-const heroMarkedAsHandedOver = ({ hero }: TMailParams) =>
+const heroMarkedAsHandedOver = ({ hero, requestor }: TMailParams) => {
+  const masks =
+    requestor.needsMouthmaskAmount === 1
+      ? "het mondmasker"
+      : `de ${requestor.needsMouthmaskAmount} mondmaskers`;
+
   renderEmail(
     <Email title={`Mail van ${appName}`} {...body}>
       <Item style={{ fontSize: 16 }}>
@@ -11,7 +16,7 @@ const heroMarkedAsHandedOver = ({ hero }: TMailParams) =>
           Hallo,
           <br />
           <br />
-          Je superheld ({hero.name}) heeft net aangegeven dat je de maskers
+          Je superheld ({hero.name}) heeft net aangegeven dat je {masks}{" "}
           ontvangen hebt.
           <br />
           Klopt dit?
@@ -21,12 +26,13 @@ const heroMarkedAsHandedOver = ({ hero }: TMailParams) =>
       <Item>
         <Span fontSize={16} align="center">
           <MailLink href={fullAppUrl}>
-            Ga naar <b>{appName}</b> om ook van jouw kan aan te geven dat je de
-            maskers ontvangen hebt.
+            Ga naar <b>{appName}</b> om ook van jouw kan aan te geven dat je{" "}
+            {masks} ontvangen hebt.
           </MailLink>
         </Span>
       </Item>
     </Email>
   ) as string;
+};
 
 export default heroMarkedAsHandedOver;
