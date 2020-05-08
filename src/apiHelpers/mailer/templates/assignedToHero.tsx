@@ -11,9 +11,10 @@ const assignedToHero = ({ requestor }: TMailParams) =>
           Dag superheld,
           <br />
           <br />
-          Er is iemand op{" "}
-          <b>{formatLengthDistance(Number(requestor.distance))}</b> die
-          <b> {requestor.needsMouthmaskAmount}</b> mondmaskers zoekt.
+          Er is iemand op <b>{formatLengthDistance(requestor.distance)}</b> die
+          <b> {requestor.needsMouthmaskAmount}</b> mondmasker
+          {requestor.needsMouthmaskAmount > 1 ? "s " : " "}
+          zoekt.
           <br />
           <br />
           Laat hem of haar weten of je de maskers hebt of kan maken.

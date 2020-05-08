@@ -3,20 +3,25 @@ import { appName, fullAppUrl } from "../../../helpers";
 import { body, MailLink } from "./theme";
 import { TMailParams } from ".";
 
-const cancelled = ({ requestor }: TMailParams) =>
-  renderEmail(
+const cancelled = ({ requestor }: TMailParams) => {
+  const masks =
+    requestor.needsMouthmaskAmount === 1
+      ? "een mondmasker"
+      : `${requestor.needsMouthmaskAmount} mondmaskers`;
+
+  return renderEmail(
     <Email title={`Mail van ${appName}`} {...body}>
       <Item style={{ fontSize: 16 }}>
         <Span>
           Hallo,
           <br />
           <br />
-          {requestor.name}, een van de personen voor wie je mondmaskers zou
+          {requestor.name}, een van de personen voor wie je {masks} zou
           voorzien, heeft zijn of haar aanvraag geannuleerd.
           <br />
           <br />
-          Dit wil zeggen dat je de mondmaskers nu voor iemand anders kan
-          voorzien. We hebben alvast je "stock" aangepast.
+          Dit wil zeggen dat je nu voor iemand anders {masks} kan voorzien. We
+          hebben alvast je "stock" aangepast.
           <br />
           <br />
           Zodra een nieuwe aanvraag binnenkomt, laten we het je weten.
@@ -32,5 +37,6 @@ const cancelled = ({ requestor }: TMailParams) =>
       </Item>
     </Email>
   ) as string;
+};
 
 export default cancelled;
