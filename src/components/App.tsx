@@ -8,7 +8,7 @@ import "../i18n";
 import "../styles.less";
 import { subscribeToAuthChanges } from "../firebase";
 import AppFooter from "./AppFooter";
-import { appName } from "../helpers";
+import { appName, appDescription } from "../helpers";
 
 const { Header, Footer, Content } = Layout;
 
@@ -41,10 +41,7 @@ const App: React.FunctionComponent = ({ children }) => {
           href="/assets/favicon-16x16.png"
         />
         <meta property="og:title" content={appName} />
-        <meta
-          property="og:description"
-          content="Helden in mijn buurt is een gratis platform dat mensen met een naaimachine in contact brengt met mensen in de buurt zonder naaimachine. Zo zou iedereen een zelfgemaakt stoffen mondmasker moeten kunnen hebben."
-        />
+        <meta property="og:description" content={appDescription} />
         <meta property="og:url" content="https://heldeninmijnbuurt.be" />
         <meta
           property="og:image"

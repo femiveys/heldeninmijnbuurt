@@ -2,65 +2,59 @@ import { Typography, Space } from "antd";
 import {
   FacebookShareButton,
   TwitterShareButton,
-  TumblrShareButton,
-  EmailShareButton,
   FacebookIcon,
   TwitterIcon,
-  TumblrIcon,
-  EmailIcon,
 } from "react-share";
+import { fullAppUrl } from "../helpers";
 
 const { Paragraph } = Typography;
 
 const url = "https://heldeninmijnbuurt.be";
 const title =
-  "Dit platform brengt mensen die maskers naaien in contact met mensen in de buurt die maskers zoeken";
-const hashtag = "#NationaleNaaiActie";
+  "Het platform voor wie mondmaskers naait en wie mondmaskers zoekt";
+const hashtag = "NationaleNaaiActie";
 const size = 32;
 
-// TODO:
-// - Twitter
-//   - via vragen.
-//   - related vragen.
-
-//
-
 type TProps = {
+  body: string;
   message?: string;
 };
 
-const Share = ({ message = title }: TProps) => {
+const Share = ({ body, message = title }: TProps) => {
   return (
     <div>
       <Typography>
-        <Paragraph>
-          Ook jij kan een held worden door het bestaan van dit platform op
-          sociale media te delen.
-        </Paragraph>
+        <Paragraph>{body}</Paragraph>
       </Typography>
       <Space size="large">
-        <FacebookShareButton url={url} quote={title} hashtag={hashtag}>
+        <FacebookShareButton url={url} quote={message} hashtag={hashtag}>
           <FacebookIcon size={size} />
         </FacebookShareButton>
         <TwitterShareButton
           url={url}
-          title={title}
+          title={message}
           hashtags={[hashtag]}
-          via="@coronadenktank"
+          via="coronadenktank"
         >
           <TwitterIcon size={size} />
         </TwitterShareButton>
-        <TumblrShareButton
+        {/*
+          <TumblrShareButton
+            url={url}
+            title={message}
+            tags={["TODO"]}
+            caption="TODO"
+          >
+            <TumblrIcon size={size} />
+          </TumblrShareButton>
+        <EmailShareButton
           url={url}
-          title={title}
-          tags={["TODO"]}
-          caption="TODO"
+          subject="Word een superheld"
+          body={message + "\n\n" + appDescription}
         >
-          <TumblrIcon size={size} />
-        </TumblrShareButton>
-        <EmailShareButton url={url} subject="Word een superheld" body="TODO">
           <EmailIcon size={size} />
         </EmailShareButton>
+        */}
       </Space>
     </div>
   );

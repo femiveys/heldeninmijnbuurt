@@ -1,13 +1,18 @@
-import { message } from "antd";
-import { language } from "./i18n";
+import { ShareAltOutlined } from "@ant-design/icons";
 import { nl, fr, enUS } from "date-fns/locale";
+import { KeyboardEventHandler } from "react";
 import { formatDistance } from "date-fns";
 import { TStreet, TUser } from "./types";
-import { KeyboardEventHandler } from "react";
+import { message, Modal } from "antd";
+import { language } from "./i18n";
+import Share from "./components/Share";
+import { TFunction } from "i18next";
 
 export const IS_DEV = process.env.NODE_ENV !== "production";
 
 export const appName = "Helden in mijn buurt";
+export const appDescription =
+  "Dit gratis platform brengt mensen die maskers naaien in contact met mensen in de buurt die maskers zoeken. Zo zou iedereen een zelfgenaaid  mondmasker moeten kunnen bekomen.";
 export const appUrl = process.env.APP_URL;
 export const fullAppUrl = `https://${appUrl}`;
 
@@ -89,3 +94,13 @@ export const getFlemishPostalcodes = (postalCodes: number[]) =>
   postalCodes.filter(
     (pc) => (pc >= 1500 && pc < 4000) || (pc >= 8000 && pc < 10000)
   );
+
+export const share = (t: TFunction, body: string, message?: string) =>
+  Modal.info({
+    title: "Spread the word...",
+    icon: <ShareAltOutlined />,
+    content: <Share body={body} message={message} />,
+    centered: true,
+    maskClosable: true,
+    okText: t("close"),
+  });

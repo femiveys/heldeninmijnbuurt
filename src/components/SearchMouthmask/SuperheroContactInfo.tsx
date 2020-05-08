@@ -9,7 +9,7 @@ import {
 import { useApi, useUser } from "../../hooks";
 import CancelButton from "./CancelButton";
 import { TRelationUser, EUserStatus } from "../../types";
-import { notImplemented, grid } from "../../helpers";
+import { grid, share, appName } from "../../helpers";
 import Whatsapp from "../Whatsapp";
 import SearchSteps from "./SearchSteps";
 import Disguise from "./Disguise";
@@ -37,6 +37,16 @@ const SuperheroContactInfo = (props: TProps) => {
   const { superhero, needsMouthmaskAmount, fetchSuperHero } = props;
 
   const markAsHandedOver = useCallback(async () => {
+    const masks =
+      `${needsMouthmaskAmount} mondmasker` +
+      (needsMouthmaskAmount === 1 ? "" : "s");
+
+    share(
+      t,
+      `Laat de wereld weten dat je net ${masks} ontvangen hebt.`,
+      `Ik heb via ${appName} net ${masks} ontvangen`
+    );
+
     await callApi({ name: "markAsHandedOver" });
     await fetchSuperHero();
     updateUser({ status: EUserStatus.done });

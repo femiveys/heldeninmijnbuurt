@@ -24,7 +24,6 @@ const Done = ({ needsMouthmaskAmount, showAppreciation }: TProps) => {
         <Result
           status="success"
           title={t("requestor.done.title", { count: needsMouthmaskAmount })}
-          subTitle="Nog wat uitleg over waarom delen op FB belangrijk is..."
           extra={[
             <Space
               key="extra"
@@ -32,9 +31,10 @@ const Done = ({ needsMouthmaskAmount, showAppreciation }: TProps) => {
               size="large"
               style={{ width: "100%" }}
             >
-              <ShareButton text="Deel op sociale media" />
               {showAppreciation && <Appreciation showStars={false} />}
-              <Button onClick={() => goto()}>Word zelf een superheld</Button>
+              <Button type="primary" onClick={() => goto()}>
+                Word zelf een superheld
+              </Button>
             </Space>,
           ]}
         />
