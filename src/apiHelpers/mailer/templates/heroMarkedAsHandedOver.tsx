@@ -9,7 +9,7 @@ const heroMarkedAsHandedOver = ({ hero, requestor }: TMailParams) => {
       ? "het mondmasker"
       : `de ${requestor.needsMouthmaskAmount} mondmaskers`;
 
-  renderEmail(
+  return renderEmail(
     <Email title={`Mail van ${appName}`} {...body}>
       <Item style={{ fontSize: 16 }}>
         <Span>
