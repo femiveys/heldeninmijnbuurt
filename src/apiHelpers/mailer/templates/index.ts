@@ -1,69 +1,91 @@
 import { Dictionary } from "lodash";
 import { SendMailOptions } from "nodemailer";
+import accepted from "./accepted";
+import assignedToHero from "./assignedToHero";
+import assignedToRequestor from "./assignedToRequestor";
+import declinedAndReassigned from "./declinedAndReassigned";
+import declined from "./declined";
+import heroMarkedAsHandedOver from "./heroMarkedAsHandedOver";
+import requestorMarkedAsHandedOver from "./requestorMarkedAsHandedOver";
+import problemAndReassigned from "./problemAndReassigned";
+import { TUserAndDistance } from "../../../types";
+import problem from "./problem";
+import cancelled from "./cancelled";
+
+export type TMailParams = {
+  hero: TUserAndDistance;
+  requestor: TUserAndDistance;
+};
 
 type TMailOptions = {
   subject: string;
   text: string;
-  html?: string;
+  html?: (params: TMailParams) => string;
   attachments?: SendMailOptions["attachments"];
 };
 
 export const templates: Dictionary<TMailOptions> = {
   accepted: {
     subject: "Jouw superheld kan jou helpen",
-    text:
-      "Mail verstuurd naar aanvrager om te melden dan de superheld de aanvraag aanvaard heeft",
+    text: `Vanaf nu kunnen jullie elkaar contacteren.
+      Hieronder vind je de contactinformatie van je superheld.`,
+    html: accepted,
   },
   assignedToHero: {
     subject: "Er is een nieuwe aanvraag binnengekomen",
-    text:
-      "Mail verstuurd naar superheld om te melden dat er een nieuwe aanvraag is binnen gekomen",
+    text: "Laat snel weten of je de gevraagde maskers hebt of kan maken.",
+    html: assignedToHero,
   },
   assignedToRequestor: {
     subject: "We hebben een superheld voor je gevonden",
     text:
-      "Mail verstuurd naar aanvrager om te melden dat er iemand gevonden is die maskers heeft",
+      "Zodra hij of zij je aanvraag aanvaardt, kunnen jullie onderling regelen hoe je de overhandiging zal laten gebeuren.",
+    html: assignedToRequestor,
   },
   declinedAndReassigned: {
     subject: "We hebben een nieuwe superheld voor je gevonden",
     text:
-      "Mail verstuurd naar aanvrager om te melden dat de vorige superheld de aanvraag afgewezen heeft, maar dat we al een nieuwe superheld gevonden hebben",
+      "De superheld die we voor je gevonden hadden, kon je jammergenoeg niet helpen. Maar geen nood, we hebben al een nieuwe superheld voor je gevonden.",
+    html: declinedAndReassigned,
   },
   declined: {
     subject: "Je superheld kan je jammergenoeg niet helpen",
     text:
-      "Mail verstuurd naar aanvrager om te melden dat de vorige superheld de aanvraag afgewezen heeft, en dat we voorlopig geen nieuwe gevonden hebben",
+      "Voorlopig hebben we ook geen nieuwe superheld gevonden. Zodra we iemand in je buurt vinden die je kan helpen, laten we het je weten",
+    html: declined,
   },
   heroMarkedAsHandedOver: {
     subject: "Je superheld heeft gemeld dat de maskers overhandigd zijn",
-    text:
-      "Mail verstuurd naar aanvrager om te melden dat de maskers overhandigd zijn",
+    text: "Klopt dit? Geef ook aan dat je de maskers ontvangen hebt.",
+    html: heroMarkedAsHandedOver,
   },
   requestorMarkedAsHandedOver: {
     subject: "Aanvrager heeft gemeld dat hij of zij de maskers ontvangen heeft",
-    text:
-      "Mail verstuurd naar superheld om te melden dat de aanvrager heeft gemeld dat hij of zij de maskers ontvangen heeft",
+    text: "Laat ons ook weten dat de maskers overhandigd geweest zijn.",
+    html: requestorMarkedAsHandedOver,
   },
   problemAndReassigned: {
     subject:
-      "Wegens een probleem hebben we een nieuwe superheld gevonden voor je",
-    text:
-      "Mail verstuurd naar aanvrager om te melden dat de superheld een probleem gemeld heeft en dat we een nieuwe superheld gevonden hebben",
+      "Wegens een probleem hebben we een nieuwe superheld voor je gevonden ",
+    text: "Nu nog even geduld hebben tot hij of zij je aanvraag aanvaardt.",
+    html: problemAndReassigned,
   },
   problem: {
     subject: "Je superheld heeft een probleem gemeld",
     text:
-      "Mail verstuurd naar aanvrager om te melden dat de superheld een probleem gemeld heeft en dat we voorlopig geen nieuwe superheld gevonden hebben",
+      "Voorlopig hebben we ook geen nieuwe superheld gevonden. Zodra we iemand in je buurt vinden die je kan helpen, laten we het je weten",
+    html: problem,
   },
   cancelled: {
     subject: "Je aanvrager heeft zijn of haar aanvraag geannuleerd",
     text:
-      "Mail verstuurd naar superheld om te melden dat de aanvrager zijn of haar aanvraag geannuleerd heeft",
+      "We hebben de aanvraag al van je lijst gehaald. Je kan de mondmaskers nu voor iemand anders voorzien",
+    html: cancelled,
   },
   example: {
     subject: "En het werk ook met images ✔",
     text: "Korte body tekst",
-    html: `
+    html: () => `
       <html>
         <body>
           <h1>Example image</h1>

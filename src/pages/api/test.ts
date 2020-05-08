@@ -1,11 +1,16 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getNumMasksDelivered } from "../../apiHelpers/stats/local";
+import { sendMail } from "../../apiHelpers/mailer";
 
 // TO BE USED TO TEST THE DB FUNCTIONS
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     try {
-      const result = await getNumMasksDelivered("x9RCqQ4wFlVa8yH70OW3VT8W68v2");
+      const result = await sendMail("femiveys@gmail.com", "accepted", {
+        name: "Bob",
+        email: "email",
+        whatsapp: "488014092",
+      });
       console.log(result);
       res.send(result);
     } catch (error) {

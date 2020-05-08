@@ -29,6 +29,7 @@
     "nodemailer": "^6.4.6",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-html-email": "^3.0.0",
     "react-i18next": "^11.3.5",
     "react-share": "^4.1.0",
     "storeon": "^2.0.2",
