@@ -95,11 +95,11 @@ export const getFlemishPostalcodes = (postalCodes: number[]) =>
     (pc) => (pc >= 1500 && pc < 4000) || (pc >= 8000 && pc < 10000)
   );
 
-export const share = (t: TFunction, title: string, message?: string) =>
+export const share = (t: TFunction, body: string, message?: string) =>
   Modal.info({
-    title,
+    title: "Spread the word...",
     icon: <ShareAltOutlined />,
-    content: <Share message={message} />,
+    content: <Share body={body} message={message} />,
     centered: true,
     maskClosable: true,
     okText: t("close"),
