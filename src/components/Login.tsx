@@ -13,13 +13,22 @@ const Login = () => {
     <Row justify="center" style={{ padding: 32 }}>
       <Col style={{ maxWidth: "600px" }}>
         <Title>
-          Mondmaskers zijn levensredders! Pakt uw naaimachine en word een
+          Mondmaskers zijn levensredders! Neem je naaimachine en word een
           superheld in jouw buurt.
         </Title>
         <Paragraph>
-          We hebben jullie allemaal heel hard nodig. Elke held met naaimachine
-          kan mondmaskers maken voor de mensen rond zich. Zo is er geen
-          verzending nodig en kunnen we efficiënt te werk gaan.
+          Helden in mijn buurt is een gratis platform dat mensen met een
+          naaimachine in <b>contact</b> brengt met mensen zonder naaimachine{" "}
+          <b>in de buurt</b>. Zo zou iedereen een zelfgemaakt stoffen mondmasker
+          moeten kunnen hebben.
+        </Paragraph>
+        <Paragraph>
+          Ook al kan je maar een aantal mondmaskers naaien, je buurt zal je
+          dankbaar zijn. Het ophalen of afleveren kan bvb met de fiets zo is er
+          geen distributie nodig.
+        </Paragraph>
+        <Paragraph>
+          Wij zorgen voor het contact, jullie doen de rest..
         </Paragraph>
         <GlobalStats />
         <Row justify="center">

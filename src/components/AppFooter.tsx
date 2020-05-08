@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { grid, contactEmail } from "../helpers";
 import { Row, Col, Space } from "antd";
 import { useUser } from "../hooks";
+import { grid, contactEmail } from "../helpers";
 
 const AppFooter = () => {
   const { user } = useUser();
@@ -17,7 +17,11 @@ const AppFooter = () => {
             <a className="inverted">Algemene voorwaarden</a>
           </Link>
           {user && (
-            <a className="inverted" href={`mailto:${contactEmail}`}>
+            <a
+              target="_blank"
+              className="inverted"
+              href={`mailto:${contactEmail}`}
+            >
               Contact
             </a>
           )}
