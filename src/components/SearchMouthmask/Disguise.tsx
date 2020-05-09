@@ -1,6 +1,7 @@
 import { Button, Alert } from "antd";
 import { useApi, useUser } from "../../hooks";
 import { useRouter } from "next/router";
+import { EUserStatus } from "../../types";
 
 const Disguise = () => {
   const router = useRouter();
@@ -10,7 +11,7 @@ const Disguise = () => {
     "requestor/action"
   );
 
-  return user?.isTester ? (
+  return user?.isTester && user.status !== EUserStatus.done ? (
     <Alert
       type="warning"
       closable
