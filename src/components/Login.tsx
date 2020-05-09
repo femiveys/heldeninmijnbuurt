@@ -24,7 +24,7 @@ const Login = () => {
         </Paragraph>
         <Paragraph>
           Ook al kan je maar een aantal mondmaskers naaien, je buurt zal je
-          dankbaar zijn. Het ophalen of afleveren kan bvb met de fiets zo is er
+          dankbaar zijn. Het ophalen of afleveren kan bvb met de fiets zo is er{" "}
           <b>geen distributie</b> nodig.
         </Paragraph>
         <Paragraph>
