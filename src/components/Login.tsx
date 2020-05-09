@@ -24,7 +24,7 @@ const Login = () => {
         </Paragraph>
         <Paragraph>
           Ook al kan je maar een aantal mondmaskers naaien, je buurt zal je
-          dankbaar zijn. Het ophalen of afleveren kan bvb met de fiets zo is er
+          dankbaar zijn. Het ophalen of afleveren kan bvb met de fiets zo is er{" "}
           <b>geen distributie</b> nodig.
         </Paragraph>
         <Paragraph>
@@ -45,18 +45,20 @@ const Login = () => {
               >
                 {t("login.google")}
               </Button>
+              {/*
 
-              <Button
-                size="large"
-                icon={<FacebookOutlined />}
-                style={{ backgroundColor: "#3b5998", color: "white" }}
-                onClick={() => {
-                  const provider = new firebase.auth.FacebookAuthProvider();
-                  firebase.auth().signInWithPopup(provider);
-                }}
-              >
-                {t("login.facebook")}
-              </Button>
+  <Button
+  size="large"
+  icon={<FacebookOutlined />}
+  style={{ backgroundColor: "#3b5998", color: "white" }}
+  onClick={() => {
+    const provider = new firebase.auth.FacebookAuthProvider();
+    firebase.auth().signInWithPopup(provider);
+  }}
+  >
+  {t("login.facebook")}
+  </Button>
+*/}
             </Space>
           </Col>
         </Row>
