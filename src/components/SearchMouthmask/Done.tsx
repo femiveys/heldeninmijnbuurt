@@ -1,7 +1,6 @@
 import { Space, Result, Button, Col, Row } from "antd";
 import { useTranslation } from "react-i18next";
 import Appreciation from "./Appreciation";
-import ShareButton from "../ShareButton";
 import { grid } from "../../helpers";
 import SearchSteps from "./SearchSteps";
 import Disguise from "./Disguise";
