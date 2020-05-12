@@ -12,9 +12,41 @@ const transporter = nodemailer.createTransport({
     user: "ID179346_fenekobe",
     pass: "SV9mXBZskD*P",
   },
+  dkim: {
+    domainName: "heldeninmijnbuurt.be",
+    keySelector: "key1",
+    privateKey: `-----BEGIN RSA PRIVATE KEY-----
+MIIEpQIBAAKCAQEAvd1V/VBLsqrViXI8rXv6wAbWZVldj5ltSvW9iSU5aC4S8qVj
+0dm3zZdLPq7gJIvCQA4xn7/BowTn+MQyj5Jz2KR1mB8okk0NyDXWm4V4L3OtXIrM
+eKcqfKZPX3hX+ympHcYv2n2WE55usZU4hDUuQF4pYCjFRXfFEl6kGoRY3uNEfZtT
+OKTP54WHMJU97ZPT9GsOF6GNQ8PIN332yc6XhMJyTmmAOK7hBqNUrub3BVyO+Hge
+A67t1Ve6NnUFU+6HGyyw00e7bCTanEjnyY5tEqJ8xCtELfYP/Yt6aEE+jO2Gpv56
++d/g8/uFru1Pckp5swjb6lnTFfrH4hqOCfxdfQIDAQABAoIBAQCOgOL6htraFhjB
+2ckrGOPiXv9qAEIV9r0uRvVkS1kkFXjJQFOEfRnUqFqkiJLZO0Cn3T9nvIA0wAjw
+ESo10mE62G0eqTxFWqoefDJAdlP3oaYb0F2ZrTZZamYmrOe0Ltes7kSahCoxPXet
+t+c8a8H0M/hwIQm3kyaKHBilgnJFjxmbVs7humuogIxNHYxbGunp0Sb+nnnh3pUc
+ggQ6+vHzuTHNE7FvZB+pLxx0RMfuqITmpGJa9bfHmC7xm1ZKExvyn5WZdxUzt661
+GAx+9JkL+Wjrbb89YuI7kdZ0d7+4TZhqwdL3Wvfy3kAPCuALnkWvzLbkTPj8VOT1
+1uyhcUItAoGBANcUTm3ErM9UveZ2ApIOtj48/4e/dULoGSpIXd4LwcxQ0Ar0TqQB
+qjEfD7ZJhQQ8I4dDYH8steLoQYdkkyd3H4Y9qcnPR8rhXaePZhzlAPGZiEEtJF7T
+hkwB6nDHS9Fi693+u14dB6TBK6Ouu4ZOqizEswSilQv4uKelq9Hzp1izAoGBAOH8
+6pAbs0aitvLfMSYJHmqIGeOpKWOVAvJFa0vu2yeGmPKO6rDQmlhUCwUzuzP8EqEH
+VLm7/3oIl50pqz3cbTZY5RUhtqMcoemrU0BvOqIaOpLVGLZcpddnSDK3TNlmaZkA
+JIXLDRWbzLgKjosllNVmm3ZGcTbV/Vpu59Qf4KkPAoGAPdr5M1h82qPkeYM2+gqB
+HyUr2D6X2sYldqOZW2LGOZyEOKJKe6B+8eGdAy/hsXYaQax+9BRHuxpQvj+OkqsP
+xeu2CPQ0EYT/ClGTbHvv6YveQ+BXtW3gEbv7ULQAeheY/h9kg4yVxixIAKsgA2Bc
+UMPBOHQJqYe+k3hyEc+hMUECgYEAt3NJsrxZ1yBlpVkbm8XRRCfB5HbBG46uep9x
+z41RqI9x/42W5PwiH0vyOkHZWQTq1n+N/synQphRA4r88NXMbk7RgEsC6PxoT7j9
+dxQUI91o6SNF0Vv6YJb+G/WC1AR3+nUMMPQ5Ze44zLn9JuXWIToPP39Fjn8+ELhx
+R1itVm8CgYEAoL6ZIMYc+aU/6pPCkJKxoX4875zSU7+ZZGcTmCJVGlCio+izrwou
+EcDz5zBsi0nj84zCfL3VZJ3w1ts4yWvMJDavtQCSX5ORPOqHtSsqqfIBnNOeovgU
+eBEx3VKUJ1GCrxssn/NFmZx2BNv//r2PLFVRLU0vhJUNUXcJQ/5LFd0=
+-----END RSA PRIVATE KEY-----
+`,
+  },
 });
 
-const from = '"Helden in mijn buurt" <noreply@heldeninmijnbuurt.be>';
+const from = '"Helden in mijn buurt" <contact@heldeninmijnbuurt.be>';
 
 export const sendMail = async (
   to: string,
