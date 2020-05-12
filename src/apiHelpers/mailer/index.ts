@@ -46,7 +46,7 @@ eBEx3VKUJ1GCrxssn/NFmZx2BNv//r2PLFVRLU0vhJUNUXcJQ/5LFd0=
   },
 });
 
-const from = '"Helden in mijn buurt" <noreply@heldeninmijnbuurt.be>';
+const from = '"Helden in mijn buurt" <contact@heldeninmijnbuurt.be>';
 
 export const sendMail = async (
   to: string,
