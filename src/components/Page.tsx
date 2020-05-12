@@ -1,7 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import Cookies from "js-cookie";
 import Login from "./Login";
-import Cookie from "./Cookie";
 import FullSpinner from "./FullSpinner";
 import { useAuth, useUser } from "../hooks";
 import { subscribeToAuthChanges } from "../firebase";
@@ -44,17 +43,10 @@ const Page: React.FunctionComponent = ({ children }) => {
     <>
       {consent && !isInitialized ? (
         <FullSpinner />
+      ) : isLoggedIn ? (
+        children
       ) : (
-        <>
-          {isLoggedIn ? (
-            <>
-              {children}
-              {!consent && <Cookie acceptCookies={acceptCookies} />}
-            </>
-          ) : (
-            <Login consent={consent} acceptCookies={acceptCookies} />
-          )}
-        </>
+        <Login consent={consent} acceptCookies={acceptCookies} />
       )}
     </>
   );
