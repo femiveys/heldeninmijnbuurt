@@ -4,6 +4,7 @@ import { useUser, useGoto } from "../hooks";
 import FullSpinner from "../components/FullSpinner";
 import Choice from "../components/Choice";
 import { EUserStatus } from "../types";
+import Page from "../components/Page";
 
 export default () => {
   const { user } = useUser();
@@ -25,9 +26,13 @@ export default () => {
     !user.streetId ? (
       <FullSpinner />
     ) : (
-      <Choice />
+      <Page>
+        <Choice />
+      </Page>
     )
   ) : (
-    <EnterStreet />
+    <Page>
+      <EnterStreet />
+    </Page>
   );
 };

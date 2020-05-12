@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useAuth, useGoto } from "../hooks";
 import EnterStreet from "../components/EnterStreet";
 import FullSpinner from "../components/FullSpinner";
+import Page from "../components/Page";
 
 export default () => {
   const { firebaseUser } = useAuth();
@@ -11,5 +12,11 @@ export default () => {
     if (!firebaseUser) goto();
   }, [firebaseUser]);
 
-  return firebaseUser ? <EnterStreet /> : <FullSpinner />;
+  return firebaseUser ? (
+    <Page>
+      <EnterStreet />
+    </Page>
+  ) : (
+    <FullSpinner />
+  );
 };
