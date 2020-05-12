@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Head from "next/head";
 import { Layout } from "antd";
 
@@ -6,18 +6,12 @@ import AppHeader from "../components/AppHeader";
 
 import "../i18n";
 import "../styles.less";
-import { subscribeToAuthChanges } from "../firebase";
 import AppFooter from "./AppFooter";
 import { appName, appDescription } from "../helpers";
 
 const { Header, Footer, Content } = Layout;
 
 const App: React.FunctionComponent = ({ children }) => {
-  useEffect(() => {
-    const unsubscribe = subscribeToAuthChanges();
-    return () => unsubscribe();
-  }, []);
-
   return (
     <>
       <Head>
