@@ -7,27 +7,6 @@ import Link from "next/link";
 
 const { Title, Paragraph } = Typography;
 
-export const loginText = (
-  <Typography>
-    <Title level={3}>Mondmaskers zijn levensredders</Title>
-    <Title level={4}>
-      Neem je naaimachine en word een superheld in je buurt.
-    </Title>
-    <Paragraph>
-      Helden in mijn buurt is een gratis platform dat mensen met een naaimachine
-      in <b>contact</b> brengt met mensen <b>in de buurt</b> zonder naaimachine
-      . Zo zou iedereen een zelfgemaakt stoffen mondmasker moeten kunnen hebben.
-    </Paragraph>
-    <Paragraph>
-      Ook al kan je maar een aantal mondmaskers naaien, je buurt zal je dankbaar
-      zijn. Het ophalen of afleveren kan bvb met de fiets zo is er{" "}
-      <b>geen distributie</b> nodig.
-    </Paragraph>
-    <Paragraph>Wij zorgen voor het contact, jullie doen de rest..</Paragraph>
-    <GlobalStats />
-  </Typography>
-);
-
 type TProps = {
   consent: boolean;
   acceptCookies: () => void;
@@ -39,7 +18,27 @@ const Login = ({ acceptCookies, consent }: TProps) => {
   return (
     <Row justify="center" style={{ padding: 32 }}>
       <Col style={{ maxWidth: "600px" }}>
-        {loginText}
+        <Typography>
+          <Title level={3}>Mondmaskers zijn levensredders</Title>
+          <Title level={4}>
+            Neem je naaimachine en word een superheld in je buurt.
+          </Title>
+          <Paragraph>
+            Helden in mijn buurt is een gratis platform dat mensen met een
+            naaimachine in <b>contact</b> brengt met mensen <b>in de buurt</b>{" "}
+            zonder naaimachine . Zo zou iedereen een zelfgemaakt stoffen
+            mondmasker moeten kunnen hebben.
+          </Paragraph>
+          <Paragraph>
+            Ook al kan je maar een aantal mondmaskers naaien, je buurt zal je
+            dankbaar zijn. Het ophalen of afleveren kan bvb met de fiets zo is
+            er <b>geen distributie</b> nodig.
+          </Paragraph>
+          <Paragraph>
+            Wij zorgen voor het contact, jullie doen de rest..
+          </Paragraph>
+          <GlobalStats />
+        </Typography>
         <div style={{ display: "flex", justifyContent: "center" }}>
           {consent ? (
             <Button

@@ -13,7 +13,7 @@ const { Header, Footer, Content } = Layout;
 
 const App: React.FunctionComponent = ({ children }) => {
   return (
-    <>
+    <Layout>
       <Head>
         <title>{appName}</title>
         <link rel="icon" href="/favicon.ico" />
@@ -42,18 +42,16 @@ const App: React.FunctionComponent = ({ children }) => {
           content="https://heldeninmijnbuurt.be/assets/helden.png"
         />
       </Head>
-      <Layout>
-        <Header
-          style={{ position: "fixed", zIndex: 1, width: "100%", padding: 0 }}
-        >
-          <AppHeader />
-        </Header>
-        <Content style={{ marginTop: 64 }}>{children}</Content>
-        <Footer style={{ padding: 0 }}>
-          <AppFooter />
-        </Footer>
-      </Layout>
-    </>
+      <Header
+        style={{ position: "fixed", zIndex: 1, width: "100%", padding: 0 }}
+      >
+        <AppHeader />
+      </Header>
+      <Content style={{ marginTop: 64 }}>{children}</Content>
+      <Footer style={{ padding: 0 }}>
+        <AppFooter />
+      </Footer>
+    </Layout>
   );
 };
 
