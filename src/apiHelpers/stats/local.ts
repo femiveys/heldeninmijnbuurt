@@ -1,5 +1,4 @@
 import { db } from "../../db";
-import { MAX_DISTANCE } from "../common";
 import { EUserStatus } from "../../types";
 import { checkRequestor } from "../requestor/common";
 
@@ -17,7 +16,7 @@ export const getLocalStats = async (requestorId: string) => {
 
 const getNumMakers = async (
   requestorId: string,
-  maxDistance: number = MAX_DISTANCE
+  maxDistance: number = Number(process.env.MAX_DISTANCE)
 ) => {
   const distance =
     "ST_Distance_Sphere(r_street.geolocation, h_street.geolocation)";
@@ -42,7 +41,7 @@ const getNumMakers = async (
 
 export const getNumMasksDelivered = async (
   requestorId: string,
-  maxDistance: number = MAX_DISTANCE
+  maxDistance: number = Number(process.env.MAX_DISTANCE)
 ) => {
   const distance =
     "ST_Distance_Sphere(r_street.geolocation, d_street.geolocation)";

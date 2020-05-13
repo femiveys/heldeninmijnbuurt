@@ -5,7 +5,6 @@ import { storeonDevtools } from "storeon/devtools";
 import { TAuthEvents, TAuthState, authStore } from "./auth";
 import { TUserState, TUserEvents, userStore } from "./user";
 import { TAppState, TAppEvents } from "./app";
-import { IS_DEV } from "../helpers";
 
 export type TStoreState = TAuthState & TUserState & TAppState;
 export type TStoreEvents = TAuthEvents & TUserEvents & TAppEvents;
@@ -13,8 +12,8 @@ export type TStoreEvents = TAuthEvents & TUserEvents & TAppEvents;
 export const store = createStoreon<TStoreState, TStoreEvents>([
   authStore,
   userStore,
-  // IS_DEV && storeonLogger,
-  IS_DEV && storeonDevtools,
+  // process.env.NODE_ENV !== "production" && storeonLogger,
+  process.env.NODE_ENV !== "production" && storeonDevtools,
 ]);
 
 export const useTypedStoreon = (...keys: (keyof TStoreState)[]) =>

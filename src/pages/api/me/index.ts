@@ -26,7 +26,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         email: firebaseUser.email,
         // picture: firebaseUser.picture,
         street_id: streetId,
-        is_tester: CREATE_TEST_USERS ? 1 : 0,
+        is_tester: process.env.CREATE_TEST_USERS === "1" ? 1 : 0,
         whatsapp,
       });
       const me = await getMe(req);

@@ -1,12 +1,7 @@
 import { db } from "../../db";
 import { TUserFromDb, TRelationFromDb } from "../types.db";
 import { checkMaker, getMaskStock } from "./common";
-import {
-  MAX_DISTANCE,
-  hasNoActiveRelation,
-  createMaskRelation,
-  MAX_ACTIVE_RELATIONS,
-} from "../common";
+import { hasNoActiveRelation, createMaskRelation } from "../common";
 import { sortBy } from "lodash";
 import { ERelationStatus } from "../../types";
 
@@ -100,7 +95,8 @@ const createLimitedRelations = async (
   numberOfActiveRelations: number
 ) => {
   // We make sure 1 maker doesn't have more that 10 active relations
-  const maxNumberToAdd = MAX_ACTIVE_RELATIONS - numberOfActiveRelations;
+  const maxNumberToAdd =
+    Number(process.env.MAX_ACTIVE_RELATIONS) - numberOfActiveRelations;
   const numberToAdd = Math.min(maxNumberToAdd, requestors.length);
 
   let i = 0;
@@ -155,7 +151,7 @@ const filterOwnActiveRequestors = (
  */
 const getNearestRequestors = async (
   makerId: string,
-  maxDistance: number = MAX_DISTANCE
+  maxDistance: number = Number(process.env.MAX_DISTANCE)
 ) => {
   const distance =
     "ST_Distance_Sphere(r_street.geolocation, h_street.geolocation)";

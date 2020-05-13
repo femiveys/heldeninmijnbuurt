@@ -3,6 +3,7 @@ import { templates, TMailParams } from "./templates";
 import { SentMessageInfo } from "../../types";
 import { getRequestorByRelationId } from "../superhero/common";
 import { getHeroByRelationId } from "../requestor/common";
+import { contactEmail } from "../../helpers";
 
 const transporter = nodemailer.createTransport({
   host: "178.208.49.162",
@@ -46,7 +47,7 @@ eBEx3VKUJ1GCrxssn/NFmZx2BNv//r2PLFVRLU0vhJUNUXcJQ/5LFd0=
   },
 });
 
-const from = '"Helden in mijn buurt" <contact@heldeninmijnbuurt.be>';
+const from = `"Helden in mijn buurt" <${contactEmail}>`;
 
 export const sendMail = async (
   to: string,
