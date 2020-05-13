@@ -23,9 +23,10 @@ const PrivacyPolicy = () => {
       </Paragraph>
       <Title level={4}>Hoe wordt de data opgeslagen?</Title>
       <Paragraph>
-        Alle gegevens van de applicatie worden opgeslagen in een databank die
-        met een sterk paswoord beveiligd is. Er worden geen paswoorden
-        opgeslagen. Het inloggen gebeurt via derden (OAuth providers).
+        Alle gegevens van de applicatie worden opgeslagen in een databank in
+        Europa die met een sterk paswoord beveiligd is. Er worden geen
+        paswoorden opgeslagen. Het inloggen gebeurt via derden (OAuth
+        providers).
       </Paragraph>
       <Title level={4}>Wie kan je gegevens zien?</Title>
       <Paragraph>
@@ -77,16 +78,27 @@ const PrivacyPolicy = () => {
         diensten te laten genieten.
       </Paragraph>
       <Paragraph>
-        Wij analyseren de gebruikersstatistieken van onze applicatie via Google
-        Analytics. Hiervoor worden een aantal cookies geladen wanneer u de
-        applicatie bezoekt.
+        Via uw browser kunt u te allen tijde instellen of u cookies
+        geïnstalleerd wilt hebben. Deze procedures kunnen door de ontwikkelaars
+        van de browsers herzien of gewijzigd worden; bijgevolg kunnen wij niet
+        garanderen dat ze steeds volledig conform de meest recente versie zijn.
       </Paragraph>
+      <Title level={4}>Contact</Title>
       <Paragraph>
-        Wij gebruiken cookies om statistieken bij te houden en om uw bezoek op
-        onze applicatie te verbeteren of te vergemakkelijken. Wij raden u daarom
-        aan om cookies ingeschakeld te houden in uw browser. Indien u dit liever
-        niet wenst, kunt u de cookies permanent of tijdelijk uitschakelen via
-        het optiebeheer van uw internetbrowser.
+        Indien u vragen of suggesties hebt over gegevensbescherming of de
+        verwerking van persoonsgegevens, gelieve dan contact met ons op te
+        nemen. Wij behandelen graag alle vragen om informatie of andere
+        eventuele verzoeken en klachten:
+        <br />
+        IT Simply Works
+        <br />
+        Femi Veys
+        <br />
+        Limnanderstraat 20
+        <br />
+        1070 Anderlecht
+        <br />
+        contact@heldeninmijnbuurt.be
       </Paragraph>
     </Typography>
   );
