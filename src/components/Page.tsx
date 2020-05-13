@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import Login from "./Login";
 import FullSpinner from "./FullSpinner";
 import { useAuth, useUser } from "../hooks";
-import { subscribeToAuthChanges } from "../firebase";
+import { subscribeToAuthChanges, initializeFirebaseApp } from "../firebase";
 
 const CONSENT_COOKIE_NAME = "CookieConsent";
 
@@ -14,6 +14,10 @@ const Page: React.FunctionComponent = ({ children }) => {
   const [isInitialized, setIsInitialized] = useState(false);
   const { firebaseUser, isLoggedIn, loggingIn } = useAuth();
   const { fetchUser } = useUser();
+
+  useEffect(() => {
+    initializeFirebaseApp();
+  }, []);
 
   useEffect(() => {
     if (consent) {
