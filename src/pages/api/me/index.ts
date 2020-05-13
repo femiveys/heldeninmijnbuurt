@@ -8,6 +8,7 @@ import {
   getUid,
   updateMe,
 } from "../../../apiHelpers/me";
+import { CREATE_TEST_USERS } from "../../../helpers";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   // Create myself
@@ -25,7 +26,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         email: firebaseUser.email,
         // picture: firebaseUser.picture,
         street_id: streetId,
-        is_tester: 1, // TODO, needs to be removed once we go live
+        is_tester: CREATE_TEST_USERS ? 1 : 0,
         whatsapp,
       });
       const me = await getMe(req);

@@ -9,6 +9,7 @@ import Share from "./components/Share";
 import { TFunction } from "i18next";
 
 export const IS_DEV = process.env.NODE_ENV !== "production";
+export const CREATE_TEST_USERS = process.env.CREATE_TEST_USERS === "1";
 
 export const appName = "Helden in mijn buurt";
 export const appDescription =
