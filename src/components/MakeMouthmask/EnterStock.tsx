@@ -9,7 +9,7 @@ type TProps = {
 
 const EnterStock = ({ fetchRequested }: TProps) => {
   return (
-    <div style={{ padding: 16 }}>
+    <div style={{ padding: 32 }}>
       <Typography>
         <Title level={4}>Jij wordt een superheld!</Title>
         <Paragraph>
