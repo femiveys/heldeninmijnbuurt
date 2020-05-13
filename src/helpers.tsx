@@ -8,9 +8,6 @@ import { language } from "./i18n";
 import Share from "./components/Share";
 import { TFunction } from "i18next";
 
-export const IS_DEV = process.env.NODE_ENV !== "production";
-export const CREATE_TEST_USERS = process.env.CREATE_TEST_USERS === "1";
-
 export const appName = "Helden in mijn buurt";
 export const appDescription =
   "Dit gratis platform brengt mensen die maskers naaien in contact met mensen in de buurt die maskers zoeken. Zo zou iedereen een zelfgenaaid  mondmasker moeten kunnen bekomen.";
@@ -25,7 +22,6 @@ export const grid = {
   md: { offset: 2, span: 20 },
   lg: { offset: 4, span: 16 },
   xl: { offset: 6, span: 12 },
-  // style: { backgroundColor: "yellow" },
 };
 
 export const getStreetInUserLanguage = (

@@ -1,11 +1,7 @@
 import { db } from "../db";
 import { ERelationType, ERelationStatus } from "../types";
 import { checkRequestor } from "./requestor/common";
-import {
-  MAX_DISTANCE,
-  hasNoActiveRelation,
-  createMaskRelation,
-} from "./common";
+import { hasNoActiveRelation, createMaskRelation } from "./common";
 
 /**
  * Tries to assign a requestor to a maker that has not declined yet
@@ -46,7 +42,7 @@ export const assignMakerTo = async (requestorId: string) => {
 const findNearestMakerId = async (
   requestorId: string,
   excludedMakerIds: string[] = [],
-  maxDistance: number = MAX_DISTANCE
+  maxDistance: number = Number(process.env.MAX_DISTANCE)
 ) => {
   const distance =
     "ST_Distance_Sphere(r_street.geolocation, h_street.geolocation)";
