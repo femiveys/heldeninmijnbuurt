@@ -8,7 +8,6 @@ import {
   getUid,
   updateMe,
 } from "../../../apiHelpers/me";
-import { CREATE_TEST_USERS } from "../../../helpers";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   // Create myself
