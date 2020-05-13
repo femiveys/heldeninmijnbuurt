@@ -30,8 +30,8 @@ const ProfileForm = () => {
 
   return (
     <Row>
-      <Col {...grid} style={{ padding: 16 }}>
-        <Typography style={{ paddingTop: 16 }}>
+      <Col {...grid} style={{ padding: 32 }}>
+        <Typography>
           <Title level={4}>Pas je profielgevens aan</Title>
           <Paragraph type="secondary">
             Aangezien mensen niet snel verhuizen en we maskershoppen willen
