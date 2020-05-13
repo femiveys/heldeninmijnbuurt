@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Row, Col, Spin } from "antd";
+import { Row, Col, Spin, Typography } from "antd";
 import Statistics from "./Statistics";
 import { RequestedRequests } from "./RequestedRequests";
 import AcceptedRequests from "./AcceptedRequests";
@@ -10,6 +10,9 @@ import { TRequestedRequest, TRelationUser } from "../../types";
 import Stop from "./Stop";
 import Message from "./Message";
 import Undisguise from "./Undisguise";
+import ShareButton from "../ShareButton";
+
+const { Paragraph } = Typography;
 
 export const MakeMouthmask = () => {
   const { user } = useUser();
@@ -80,6 +83,24 @@ export const MakeMouthmask = () => {
                     fetchAccepted={fetchAccepted}
                   />
                 )}
+                {!isLoadingAccepted &&
+                  !isLoadingRequested &&
+                  requestedRequests.length === 0 &&
+                  acceptedRequests.length === 0 && (
+                    <Typography style={{ textAlign: "left", padding: 16 }}>
+                      <Paragraph>
+                        Momenteel is er niemand in je buurt die een mondmasker
+                        zoekt, maar geen nood, die komen heus wel.
+                      </Paragraph>
+                      <Paragraph>
+                        Zodra iemand in je buurt maskers zoekt, sturen we je een
+                        mail. Intussen kan je de wereld over deze applicatie
+                        vertellen zodat we meer mensen met elkaar in contact
+                        kunnen brengen.
+                      </Paragraph>
+                      <ShareButton />
+                    </Typography>
+                  )}
               </>
             )}
           </div>
