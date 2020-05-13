@@ -27,7 +27,7 @@ const Share = ({ body, message = title }: TProps) => {
         <Paragraph>{body}</Paragraph>
       </Typography>
       <Space size="large">
-        <FacebookShareButton url={url} quote={message} hashtag={hashtag}>
+        <FacebookShareButton url={url} quote={message} hashtag={`#${hashtag}`}>
           <FacebookIcon size={size} />
         </FacebookShareButton>
         <TwitterShareButton
