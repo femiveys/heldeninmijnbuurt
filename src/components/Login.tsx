@@ -40,7 +40,7 @@ const Login = ({ acceptCookies, consent }: TProps) => {
           <GlobalStats />
         </Typography>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          {consent ? (
+          {true || consent ? (
             <Button
               size="large"
               icon={<GoogleOutlined />}
