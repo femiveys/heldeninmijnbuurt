@@ -20,11 +20,11 @@ const Page: React.FunctionComponent = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (consent) {
+    if (true || consent) {
       const unsubscribe = subscribeToAuthChanges();
       return unsubscribe;
     }
-  }, [consent]);
+  }, []);
 
   useEffect(() => {
     const initializeUser = async () => {
@@ -32,11 +32,11 @@ const Page: React.FunctionComponent = ({ children }) => {
       setIsInitialized(true);
     };
 
-    if (consent && !loggingIn) {
+    if ((true || consent) && !loggingIn) {
       if (firebaseUser) initializeUser();
       else setIsInitialized(true);
     }
-  }, [consent, fetchUser, setIsInitialized, loggingIn, firebaseUser]);
+  }, [fetchUser, setIsInitialized, loggingIn, firebaseUser]);
 
   const acceptCookies = useCallback(() => {
     Cookies.set(CONSENT_COOKIE_NAME, "true");
@@ -45,7 +45,7 @@ const Page: React.FunctionComponent = ({ children }) => {
 
   return (
     <>
-      {consent && !isInitialized ? (
+      {(true || consent) && !isInitialized ? (
         <FullSpinner />
       ) : isLoggedIn ? (
         children
