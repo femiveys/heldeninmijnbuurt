@@ -11,7 +11,7 @@ const { Paragraph } = Typography;
 
 const url = "https://heldeninmijnbuurt.be";
 const title =
-  "Het platform voor wie mondmaskers naait en wie mondmaskers zoekt. Vind elkaar via POSTCODE.";
+  "Het platform voor wie mondmaskers naait en wie mondmaskers zoekt. Vind elkaar via POSTCODE";
 const hashtag = "NationaleNaaiActie";
 const size = 32;
 
