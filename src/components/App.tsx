@@ -34,6 +34,8 @@ const App: React.FunctionComponent = ({ children }) => {
           href="/assets/favicon-16x16.png"
         />
         <meta property="og:title" content={appName} />
+        <meta property="og:type" content="website" />
+        <meta property="fb:app_id" content="697274617763115" />
         <meta property="og:description" content={appDescription} />
         <meta property="og:url" content="https://heldeninmijnbuurt.be" />
         <meta
