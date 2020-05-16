@@ -5,14 +5,14 @@ import {
   CheckOutlined,
   HomeOutlined,
 } from "@ant-design/icons";
-import { Table, Button, Divider, Typography } from "antd";
+import { Table, Button, Divider, Typography, Modal } from "antd";
 import { useTranslation } from "react-i18next";
 import { apiCall } from "../../axios";
 import { useUser } from "../../hooks";
 import { TRelationUser } from "../../types";
 import Problem from "./Problem";
 import Whatsapp from "../Whatsapp";
-import { formatLengthDistance, ellipsis } from "../../helpers";
+import { formatLengthDistance, ellipsis, share, appName } from "../../helpers";
 
 type TRecord = TRelationUser & { key: number };
 
@@ -65,10 +65,19 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
       // We do an optimistic update on the current table
       removeRow(relationId);
 
+      const numDelivered = Number(user?.numDelivered) + needsMouthmaskAmount;
+
       // We do an optimistic update on the user.
-      updateUser({
-        numDelivered: Number(user?.numDelivered) + needsMouthmaskAmount,
-      });
+      updateUser({ numDelivered });
+
+      const masks =
+        `${numDelivered} mondmasker` + (numDelivered === 1 ? "" : "s");
+
+      share(
+        t,
+        `Deel met de wereld dat je al ${masks} hebt gemaakt`,
+        `Ik heb via ${appName} al ${masks} gemaakt.`
+      );
 
       try {
         if (await apiCall("PUT", `superhero/markAsHandedOver/${relationId}`)) {

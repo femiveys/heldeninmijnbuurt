@@ -11,7 +11,7 @@ const AppHeader = () => (
           <Link href="/">
             <a
               className="inverted"
-              style={{ padding: "8px 16px", fontSize: 20 }}
+              style={{ padding: "8px 0px 8px 32px", fontSize: 20 }}
             >
               {appName}
             </a>

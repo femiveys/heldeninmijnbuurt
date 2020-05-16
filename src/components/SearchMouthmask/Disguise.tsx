@@ -1,15 +1,17 @@
 import { Button, Alert } from "antd";
-import { useApi, useUser, useGoto } from "../../hooks";
+import { useApi, useUser } from "../../hooks";
+import { useRouter } from "next/router";
+import { EUserStatus } from "../../types";
 
 const Disguise = () => {
-  const goto = useGoto();
+  const router = useRouter();
   const { user } = useUser();
   const { isLoading: isDisguising, callApi: disguise } = useApi(
     "PUT",
     "requestor/action"
   );
 
-  return user?.isTester ? (
+  return user?.isTester && user.status !== EUserStatus.done ? (
     <Alert
       type="warning"
       closable
@@ -27,7 +29,7 @@ const Disguise = () => {
               size="small"
               onClick={async () => {
                 await disguise({ name: "disguise" });
-                goto();
+                router.reload();
               }}
             >
               Vermom je

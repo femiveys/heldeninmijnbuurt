@@ -21,8 +21,11 @@ const NoSuperheroFound = () => {
             >
               <Paragraph>
                 We hebben jammergenoeg geen superheld in je buurt gevonden die
-                maskers heeft. We blijven zoeken en zullen je een e-mail sturen
-                zodra we iemand vinden.
+                maskers heeft. We blijven zoeken en zullen je een <b>e-mail</b>{" "}
+                sturen zodra we iemand vinden.
+              </Paragraph>
+              <Paragraph>
+                Hou dus zeker je <b>mailbox</b> in de gaten.
               </Paragraph>
               <Paragraph>
                 Je kan helpen door dit platform op sociale media te delen.

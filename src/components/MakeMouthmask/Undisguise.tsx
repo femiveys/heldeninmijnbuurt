@@ -1,8 +1,9 @@
 import { Button, Alert } from "antd";
-import { useApi, useUser, useAuth, useGoto } from "../../hooks";
+import { useApi, useUser, useAuth } from "../../hooks";
+import { useRouter } from "next/router";
 
 const Undisguise = () => {
-  const goto = useGoto();
+  const router = useRouter();
   const { user } = useUser();
   const { firebaseUser } = useAuth();
   const { isLoading: isUndisguising, callApi: undisguise } = useApi(
@@ -30,7 +31,7 @@ const Undisguise = () => {
               size="small"
               onClick={async () => {
                 await undisguise({ name: "undisguise" });
-                goto();
+                router.reload();
               }}
             >
               Maak vermomming ongedaan

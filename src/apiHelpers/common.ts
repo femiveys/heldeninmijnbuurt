@@ -2,9 +2,6 @@ import { ERelationType, ERelationStatus } from "../types";
 import { db } from "../db";
 import { mailByRelationId } from "./mailer";
 
-export const MAX_DISTANCE = Number(process.env.MAX_DISTANCE);
-export const MAX_ACTIVE_RELATIONS = Number(process.env.MAX_ACTIVE_RELATIONS);
-
 export const checkRelationId = (relationId: number) => {
   if (!relationId) throw new Error("No relationId was provided");
 };

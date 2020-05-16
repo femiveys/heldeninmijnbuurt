@@ -46,6 +46,7 @@ const CancelButton = (props: TProps) => {
       ),
       okText: t("yes"),
       cancelText: t("no"),
+      okButtonProps: { danger: true },
       onOk: async () => {
         await callApi({ name: "cancel" });
         updateUser({ needsMouthmask: false, status: EUserStatus.cancelled });

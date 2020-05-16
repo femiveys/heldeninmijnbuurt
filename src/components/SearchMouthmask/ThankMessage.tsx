@@ -12,7 +12,10 @@ const ThankMessage = () => {
   const { isLoading, callApi } = useApi("PUT", "requestor/action");
 
   const thank = useCallback(async (values: { message?: string }) => {
-    await callApi({ name: "thank", num: values.message });
+    await callApi({
+      name: "thank",
+      num: (values.message || "").replace(/\n/g, "<br />"),
+    });
     setMessageSent(true);
   }, []);
 

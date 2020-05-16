@@ -5,7 +5,7 @@ const { Title, Paragraph } = Typography;
 const PrivacyPolicy = () => {
   return (
     <Typography>
-      <Title>Privacy Statement</Title>
+      <Title>Privacy Policy</Title>
       <Paragraph>
         Wij proberen zoveel mogelijk je privacy te garanderen, zo vragen we je
         nooit naar je exacte huisnummer.
@@ -23,9 +23,10 @@ const PrivacyPolicy = () => {
       </Paragraph>
       <Title level={4}>Hoe wordt de data opgeslagen?</Title>
       <Paragraph>
-        Alle gegevens van de applicatie worden opgeslagen in een databank die
-        met een sterk paswoord beveiligd is. Er worden geen paswoorden
-        opgeslagen. Het inloggen gebeurt via derden (OAuth providers).
+        Alle gegevens van de applicatie worden opgeslagen in een databank in
+        Europa die met een sterk paswoord beveiligd is. Er worden geen
+        paswoorden opgeslagen. Het inloggen gebeurt via derden (OAuth
+        providers).
       </Paragraph>
       <Title level={4}>Wie kan je gegevens zien?</Title>
       <Paragraph>
@@ -62,6 +63,42 @@ const PrivacyPolicy = () => {
         aanvaardbaar is, zorgt het systeem ervoor dat mensen maar 1 keer een
         aanvraag kunnen doen. Om dit mogelijk te maken onthoudt het systeem de
         gegevens zo lang als de corona crisis blijft duren.
+      </Paragraph>
+      <Title level={4}>Cookies</Title>
+      <Paragraph>
+        Cookies zijn kleine tekstbestanden die lokaal worden opgeslagen op uw
+        computer. Deze cookies dienen voor tal van doeleinden: het onthouden van
+        instellingen (login, taalkeuzes), het vergaren van informatie en het
+        bijhouden van het bezoekgedrag van de gebruikers. De cookies die wij
+        gebruiken zijn veilig: zij hebben geen toegang tot persoonlijke
+        informatie op uw computer en kunnen deze niet beschadigen of besmetten
+        met virussen. De cookies geven op geen enkele manier persoonlijke
+        informatie aan ons door. De informatie die we via cookies verzamelen
+        helpt ons om eventuele fouten te identificeren of om u van specifieke
+        diensten te laten genieten.
+      </Paragraph>
+      <Paragraph>
+        Via uw browser kunt u te allen tijde instellen of u cookies
+        geïnstalleerd wilt hebben. Deze procedures kunnen door de ontwikkelaars
+        van de browsers herzien of gewijzigd worden; bijgevolg kunnen wij niet
+        garanderen dat ze steeds volledig conform de meest recente versie zijn.
+      </Paragraph>
+      <Title level={4}>Contact</Title>
+      <Paragraph>
+        Indien u vragen of suggesties hebt over gegevensbescherming of de
+        verwerking van persoonsgegevens, gelieve dan contact met ons op te
+        nemen. Wij behandelen graag alle vragen om informatie of andere
+        eventuele verzoeken en klachten:
+        <br />
+        IT Simply Works
+        <br />
+        Femi Veys
+        <br />
+        Limnanderstraat 20
+        <br />
+        1070 Anderlecht
+        <br />
+        contact@heldeninmijnbuurt.be
       </Paragraph>
     </Typography>
   );

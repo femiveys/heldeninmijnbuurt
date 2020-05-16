@@ -1,7 +1,12 @@
 import { db } from "../../db";
-import { TUserFromDb, TRelationFromDb } from "../types.db";
+import {
+  TUserFromDb,
+  TRelationFromDb,
+  TUserAndDistanceFromDb,
+} from "../types.db";
 import { checkRelationId } from "../common";
 import { assignMakerTo } from "../assign";
+import { transformUserFromDb } from "../transformers";
 
 /**
  * Checks if the passed makerId is a valid maker
@@ -72,4 +77,12 @@ export const reAssign = async (relationId: number) => {
   checkRelationId(relationId);
 
   return await assignMakerTo(result.requestor_id);
+};
+
+export const getRequestorByRelationId = async (relationId: number) => {
+  const result = await db<TUserFromDb>("user")
+    .join<TRelationFromDb>("relation", "relation.requestor_id", "user.user_id")
+    .where("relation.id", relationId)
+    .first<TUserAndDistanceFromDb>("user.*", "relation.distance");
+  return transformUserFromDb(result);
 };

@@ -4,8 +4,9 @@ import {
   TStreetFromDb,
   TRelationFromDb,
   TShortStreetFromDb,
+  TUserAndDistanceFromDb,
 } from "./types.db";
-import { TUser, TStreet, TRelation } from "../types";
+import { TUser, TStreet, TRelation, TUserAndDistance } from "../types";
 import { Dictionary } from "lodash";
 
 // Transformers from DB to App
@@ -21,9 +22,14 @@ export const transformStreetsFromDb = (
   streets: (TShortStreetFromDb | TStreetFromDb)[]
 ) => streets.map((street) => humps.camelizeKeys(street) as TStreet);
 
-export const transformUserFromDb = (user?: TUserFromDb) => {
-  if (!user) return null;
-  const transformedUser = humps.camelizeKeys(user) as TUser;
+export const transformUserFromDb = <
+  T extends TUserFromDb | TUserAndDistanceFromDb
+>(
+  user?: T
+) => {
+  type TRet = T extends TUserAndDistanceFromDb ? TUserAndDistance : TUser;
+  if (!user) return;
+  const transformedUser = humps.camelizeKeys(user) as TRet;
   return makeBooleans(transformedUser, [
     "isMaker",
     "needsMouthmask",

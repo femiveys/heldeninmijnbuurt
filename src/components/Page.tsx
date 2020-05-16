@@ -7,9 +7,7 @@ import { subscribeToAuthChanges, initializeFirebaseApp } from "../firebase";
 
 const CONSENT_COOKIE_NAME = "CookieConsent";
 
-const Page: React.FunctionComponent<any> = ({ children, tt }) => {
-  console.log("page", tt);
-
+const Page: React.FunctionComponent = ({ children }) => {
   const [consent, setConsent] = useState(
     Cookies.get(CONSENT_COOKIE_NAME) === "true"
   );

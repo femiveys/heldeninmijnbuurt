@@ -1,7 +1,11 @@
 import { db } from "../../db";
 import { ERelationType, ERelationStatus, EUserStatus } from "../../types";
-import { TRelationFromDb, TUserFromDb } from "../types.db";
-import { transformRelationFromDb } from "../transformers";
+import {
+  TRelationFromDb,
+  TUserFromDb,
+  TUserAndDistanceFromDb,
+} from "../types.db";
+import { transformRelationFromDb, transformUserFromDb } from "../transformers";
 
 /**
  * Gets the assigned maker for a specific requestor
@@ -100,4 +104,12 @@ export const checkRequestorEvenAfterDone = async (requestorId: string) => {
   if (!(await needsMouthmask(requestorId))) {
     throw new Error("User doesn't need mouthmasks");
   }
+};
+
+export const getHeroByRelationId = async (relationId: number) => {
+  const result = await db<TUserFromDb>("user")
+    .join<TRelationFromDb>("relation", "relation.hero_id", "user.user_id")
+    .where("relation.id", relationId)
+    .first<TUserAndDistanceFromDb>("user.*", "relation.distance");
+  return transformUserFromDb(result);
 };
