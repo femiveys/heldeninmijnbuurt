@@ -33,7 +33,7 @@ const accepted = ({ hero }: TMailParams) =>
             <br />
             <br />
             <Span>
-              <MailLink href={`mailto:${fullAppUrl}`}>{hero.email}</MailLink>
+              <MailLink href={`mailto:${hero.email}`}>{hero.email}</MailLink>
             </Span>
             {hero.whatsapp && (
               <>
