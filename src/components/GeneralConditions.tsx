@@ -13,8 +13,13 @@ const GeneralConditions = () => {
           en aanbieden.
         </li>
         <li>
-          HIMB heeft geen enkel commercieel oogmerk: er wordt geen geld
-          aangeboden, er wordt geen geld gevraagd.
+          HIMB heeft geen enkel commercieel oogmerk: HIMB vraagt geen geld. HIMB
+          vraagt geen geld aan aanvragers en HIMB geeft geen geld aan
+          aanbieders.
+        </li>
+        <li>
+          HIMB genoemd, gaat ervan uit dat aanvrager en aanbieder onderling
+          afspraken maken.
         </li>
         <li>
           HIMB kan niet verantwoordelijk gesteld worden voor:
