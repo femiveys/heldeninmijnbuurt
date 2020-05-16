@@ -27,7 +27,7 @@ const Reset = () => {
               size="small"
               onClick={async () => {
                 await reset({ name: "reset" });
-                store.dispatch("user/setUser", null);
+                store.dispatch("user/reset");
                 goto();
               }}
             >

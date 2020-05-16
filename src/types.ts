@@ -37,6 +37,7 @@ export type TUser = {
   materials?: string;
   status: EUserStatus;
   isTester: boolean;
+  isAdmin: boolean;
 } & Omit<TStreet, "id">;
 
 export type TRelation = {

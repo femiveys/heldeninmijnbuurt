@@ -34,6 +34,8 @@ export const transformUserFromDb = <
     "isMaker",
     "needsMouthmask",
     "hasMaterial",
+    "isAdmin",
+    "isTester",
   ]);
 };
 

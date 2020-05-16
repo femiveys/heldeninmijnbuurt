@@ -1,8 +1,8 @@
 import Gate from "../components/Gate";
-import Superhero from "../components/redirectablePages/Superhero";
+import Admin from "../components/redirectablePages/Admin";
 
 export default () => (
   <Gate>
-    <Superhero />
+    <Admin />
   </Gate>
 );

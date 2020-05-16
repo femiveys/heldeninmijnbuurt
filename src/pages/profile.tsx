@@ -1,8 +1,8 @@
+import Gate from "../components/Gate";
 import ProfileForm from "../components/ProfileForm";
-import Page from "../components/Page";
 
 export default () => (
-  <Page>
+  <Gate>
     <ProfileForm />
-  </Page>
+  </Gate>
 );

@@ -4,7 +4,6 @@ import { useCallback, CSSProperties } from "react";
 import firebase from "firebase/app";
 import Link from "next/link";
 import { useAuth, useUser } from "../hooks";
-import { store } from "../store";
 import { getStreetInUserLanguage } from "../helpers";
 
 const style: CSSProperties = { padding: "5px 12px", textAlign: "right" };
@@ -21,7 +20,6 @@ const PersonalMenu = () => {
 
   const onLogout = useCallback(async () => {
     await firebase.auth().signOut();
-    store.dispatch("user/setUser", null);
   }, []);
 
   const menu = (
