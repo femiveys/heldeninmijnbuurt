@@ -1,24 +1,8 @@
-import { useEffect } from "react";
-import FullSpinner from "../components/FullSpinner";
-import { useUser, useGoto } from "../hooks";
-import { SearchMouthmask } from "../components/SearchMouthmask/SearchMouthmask";
-import Page from "../components/Page";
+import Gate from "../components/Gate";
+import Searching from "../components/redirectablePages/Searching";
 
-export default () => {
-  const { user } = useUser();
-  const goto = useGoto();
-
-  console.log("user", user);
-
-  // useEffect(() => {
-  //   if (!(user && user.needsMouthmask)) goto();
-  // }, [user]);
-
-  return user && user.needsMouthmask ? (
-    <Page>
-      <SearchMouthmask />
-    </Page>
-  ) : (
-    <FullSpinner />
-  );
-};
+export default () => (
+  <Gate>
+    <Searching />
+  </Gate>
+);

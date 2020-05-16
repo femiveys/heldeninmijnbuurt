@@ -2,7 +2,7 @@ import { LoadScript, GoogleMap } from "@react-google-maps/api";
 import React from "react";
 import { useUser } from "../hooks";
 
-const Admin = (props: any) => {
+const AdminDashboard = (props: any) => {
   const { user } = useUser();
 
   console.log(user);
@@ -17,4 +17,4 @@ const Admin = (props: any) => {
   );
 };
 
-export default Admin;
+export default AdminDashboard;

@@ -1,22 +1,8 @@
-import { useEffect } from "react";
-import { useUser, useGoto } from "../hooks";
-import FullSpinner from "../components/FullSpinner";
-import { MakeMouthmask } from "../components/MakeMouthmask/MakeMouthmask";
-import Page from "../components/Page";
+import Gate from "../components/Gate";
+import Superhero from "../components/redirectablePages/Superhero";
 
-export default () => {
-  const { user } = useUser();
-  const goto = useGoto();
-
-  useEffect(() => {
-    if (!(user && user.isMaker)) goto();
-  }, [user]);
-
-  return user && user.isMaker ? (
-    <Page>
-      <MakeMouthmask />
-    </Page>
-  ) : (
-    <FullSpinner />
-  );
-};
+export default () => (
+  <Gate>
+    <Superhero />
+  </Gate>
+);

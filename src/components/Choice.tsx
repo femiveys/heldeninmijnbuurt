@@ -1,9 +1,9 @@
-import { SmileOutlined } from "@ant-design/icons";
 import { Result, Button, Spin, Typography, Col, Row, Alert } from "antd";
+import { SmileOutlined } from "@ant-design/icons";
 import { useUser, useApi } from "../hooks";
+import { EUserStatus } from "../types";
 import { grid } from "../helpers";
 import ShareButton from "../components/ShareButton";
-import { EUserStatus } from "../types";
 import CommonSteps from "./CommonSteps";
 import Reset from "./Reset";
 
@@ -18,8 +18,8 @@ const Choice = () => {
   const { user, updateUser } = useUser();
   const { isLoading, callApi } = useApi("PUT", "me/action");
 
-  const userHasCancelled = !!user && user.status === EUserStatus.cancelled;
-  const userIsDone = !!user && user.status === EUserStatus.done;
+  const userHasCancelled = user.status === EUserStatus.cancelled;
+  const userIsDone = user.status === EUserStatus.done;
 
   return (
     <Row>

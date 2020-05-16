@@ -1,36 +1,8 @@
-import { useEffect } from "react";
-import EnterStreet from "../components/EnterStreet";
-import { useUser, useGoto } from "../hooks";
-import FullSpinner from "../components/FullSpinner";
-import Choice from "../components/Choice";
-import { EUserStatus } from "../types";
-import Page from "../components/Page";
+import Gate from "../components/Gate";
+import Index from "../components/redirectablePages/Index";
 
-export default () => {
-  const { user } = useUser();
-  const goto = useGoto();
-
-  useEffect(() => {
-    if (user) {
-      if (user.isMaker) goto("/superhero");
-      else if (user.status === EUserStatus.active && user.needsMouthmask)
-        goto("/searching");
-    }
-  }, [user]);
-
-  // We show a full spinner while redirecting (see above)
-  return user ? (
-    user.isMaker ||
-    (user.status === EUserStatus.active && user.needsMouthmask) ? (
-      <FullSpinner />
-    ) : (
-      <Page>
-        <Choice />
-      </Page>
-    )
-  ) : (
-    <Page>
-      <EnterStreet />
-    </Page>
-  );
-};
+export default () => (
+  <Gate>
+    <Index />
+  </Gate>
+);

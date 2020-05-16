@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 // import Cookies from "js-cookie";
 import Login from "./Login";
 import FullSpinner from "./FullSpinner";
 import { useAuth, useUser } from "../hooks";
 import { subscribeToAuthChanges, initializeFirebaseApp } from "../firebase";
+import EnterStreet from "./EnterStreet";
 
 // const CONSENT_COOKIE_NAME = "CookieConsent";
 
@@ -14,7 +15,6 @@ const Gate: React.FunctionComponent = ({ children }) => {
   // const [consent, setConsent] = useState(
   //   Cookies.get(CONSENT_COOKIE_NAME) === "true"
   // );
-  const [isInitialized, setIsInitialized] = useState(false);
   const { firebaseUser, isLoggedIn, loggingIn } = useAuth();
   const { user, fetchUser, isFetchingUser } = useUser();
 
@@ -30,30 +30,34 @@ const Gate: React.FunctionComponent = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const initializeUser = async () => {
-      await fetchUser();
-      setIsInitialized(true);
-    };
-
-    if (consent && !loggingIn) {
-      if (firebaseUser) initializeUser();
-      else setIsInitialized(true);
-    }
-  }, [consent, fetchUser, setIsInitialized, loggingIn, firebaseUser]);
+    if (consent && firebaseUser) fetchUser();
+  }, [consent, firebaseUser]);
 
   // const acceptCookies = useCallback(() => {
   //   Cookies.set(CONSENT_COOKIE_NAME, "true");
   //   setConsent(true);
   // }, []);
 
+  console.log("Gate");
+
   return (
     <>
-      {consent && !isInitialized ? (
-        <FullSpinner />
-      ) : isLoggedIn ? (
-        children
+      {consent ? (
+        loggingIn ? (
+          <FullSpinner />
+        ) : isLoggedIn ? (
+          isFetchingUser ? (
+            <FullSpinner tip="Je gegevens aan het ophalen..." />
+          ) : user ? (
+            children
+          ) : (
+            <EnterStreet />
+          )
+        ) : (
+          <Login consent={consent} acceptCookies={acceptCookies} />
+        )
       ) : (
-        <Login consent={consent} acceptCookies={acceptCookies} />
+        <div>no idea what to do here</div>
       )}
     </>
   );
