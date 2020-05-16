@@ -1,43 +1,29 @@
-import { Email, Item, Span, renderEmail } from "react-html-email";
+import { renderEmail } from "react-html-email";
 import { appName, fullAppUrl } from "../../../helpers";
-import { body, MailLink } from "./theme";
 import { TMailParams } from ".";
+import { MailBody, Link, MailHeroFooter } from "../components";
+import { masks } from "../helpers";
 
-const cancelled = ({ requestor }: TMailParams) => {
-  const masks =
-    requestor.needsMouthmaskAmount === 1
-      ? "een mondmasker"
-      : `${requestor.needsMouthmaskAmount} mondmaskers`;
-
-  return renderEmail(
-    <Email title={`Mail van ${appName}`} {...body}>
-      <Item style={{ fontSize: 16 }}>
-        <Span>
-          Hallo,
-          <br />
-          <br />
-          {requestor.name}, een van de personen voor wie je {masks} zou
-          voorzien, heeft zijn of haar aanvraag geannuleerd.
-          <br />
-          <br />
-          Dit wil zeggen dat je nu voor iemand anders {masks} kan voorzien. We
-          hebben alvast je "stock" aangepast.
-          <br />
-          <br />
-          Zodra een nieuwe aanvraag binnenkomt, laten we het je weten.
-        </Span>
-      </Item>
+const cancelled = ({ requestor }: TMailParams) =>
+  renderEmail(
+    <MailBody>
+      <p>Dag superheld,</p>
+      <p>
+        <b>{requestor.name}</b>, een van de personen voor wie je{" "}
+        {masks(requestor.needsMouthmaskAmount)} zou voorzien, heeft zijn of haar
+        aanvraag geannuleerd.
+      </p>
+      <p>
+        Dit wil zeggen dat je nu voor iemand anders {masks} kan voorzien. We
+        hebben alvast je "stock" aangepast.
+      </p>
+      <p>Zodra een nieuwe aanvraag binnenkomt, laten we het jou weten.</p>
       <br />
-      <br />
-      <Item>
-        <Span fontSize={16} align="center">
-          <MailLink href={fullAppUrl}>
-            Ga naar <b>{appName}</b> om te kijken of je nieuwe aanvragen hebt.
-          </MailLink>
-        </Span>
-      </Item>
-    </Email>
-  ) as string;
-};
+      <Link href={fullAppUrl}>
+        Ga naar <b>{appName}</b> om te kijken of je nieuwe aanvragen hebt.
+      </Link>
+      <MailHeroFooter />
+    </MailBody>
+  );
 
 export default cancelled;
