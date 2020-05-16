@@ -1,34 +1,23 @@
-import { Email, Item, Span, renderEmail } from "react-html-email";
-import { appName, fullAppUrl } from "../../../helpers";
-import { body, MailLink } from "./theme";
+import { renderEmail } from "react-html-email";
+import { MailBody, MailRequestorFooter, MailRequestorCTA } from "../components";
+import { TMailParams } from ".";
 
-const declined = () =>
+const declined = ({ requestor }: TMailParams) =>
   renderEmail(
-    <Email title={`Mail van ${appName}`} {...body}>
-      <Item style={{ fontSize: 16 }}>
-        <Span>
-          Hallo,
-          <br />
-          <br />
-          We hadden een superheld voor je gevonden, maar die kon jammergenoeg
-          toch niet helpen.
-          <br />
-          <br />
-          Voorlopig hebben we ook geen nieuwe superheld gevonden. Zodra we
-          iemand in je buurt vinden die je kan helpen, laten we het je weten.
-        </Span>
-      </Item>
+    <MailBody>
+      <p>Hallo,</p>
+      <p>
+        We hadden een superheld voor je gevonden, maar die kon jammergenoeg toch
+        niet helpen.
+      </p>
+      <p>
+        Voorlopig hebben we ook geen nieuwe superheld gevonden. Zodra we iemand
+        in je buurt vinden die je kan helpen, laten we het jou weten.
+      </p>
       <br />
-      <br />
-      <Item>
-        <Span fontSize={16} align="center">
-          <MailLink href={fullAppUrl}>
-            Ga naar <b>{appName}</b> om het verdere verloop van ja aanvraag te
-            bekijken
-          </MailLink>
-        </Span>
-      </Item>
-    </Email>
-  ) as string;
+      <MailRequestorCTA />
+      <MailRequestorFooter num={requestor.needsMouthmaskAmount} />
+    </MailBody>
+  );
 
 export default declined;

@@ -1,40 +1,29 @@
-import { Email, Item, Span, renderEmail } from "react-html-email";
+import { renderEmail } from "react-html-email";
 import { TMailParams } from ".";
-import { appName, fullAppUrl, formatLengthDistance } from "../../../helpers";
-import { body, MailLink } from "./theme";
+import { formatLengthDistance } from "../../../helpers";
+import { MailBody, MailRequestorFooter, MailRequestorCTA } from "../components";
 
-const assignedToRequestor = ({ hero }: TMailParams) =>
+const assignedToRequestor = ({ hero, requestor }: TMailParams) =>
   renderEmail(
-    <Email title={`Mail van ${appName}`} {...body}>
-      <Item style={{ fontSize: 16 }}>
-        <Span>
-          Hallo,
-          <br />
-          <br />
-          We hebben op <b>{formatLengthDistance(hero.distance)}</b> iemand
-          gevonden die maskers heeft. We wachten nu tot hij of zij je aanvraag
-          aanvaardt.
-          <br />
-          <br />
-          Enkel het aantal maskers en de afstand is doorgegeven, dus geen
-          persoonlijke informatie.
-          <br />
-          <br />
-          Zodra je aanvraag aanvaard is, krijg je opnieuw een mail en zal je de
-          contact informatie vinden, zodat jullie het onderling kunnen regelen.
-        </Span>
-      </Item>
+    <MailBody>
+      <p>Hallo,</p>
+      <p>
+        We hebben op <b>{formatLengthDistance(hero.distance)}</b> iemand
+        gevonden die maskers heeft. We wachten nu tot hij of zij je aanvraag
+        aanvaardt.
+      </p>
+      <p>
+        Enkel het aantal maskers en de afstand is doorgegeven, dus geen
+        persoonlijke informatie.
+      </p>
+      <p>
+        Zodra je aanvraag aanvaard is, krijg je opnieuw een mail en zal je de
+        contact informatie vinden, zodat jullie het onderling kunnen regelen.
+      </p>
       <br />
-      <br />
-      <Item>
-        <Span fontSize={16} align="center">
-          <MailLink href={fullAppUrl}>
-            Ga naar <b>{appName}</b> om het verdere verloop van ja aanvraag te
-            bekijken
-          </MailLink>
-        </Span>
-      </Item>
-    </Email>
-  ) as string;
+      <MailRequestorCTA />
+      <MailRequestorFooter num={requestor.needsMouthmaskAmount} />
+    </MailBody>
+  );
 
 export default assignedToRequestor;
