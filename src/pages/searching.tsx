@@ -7,9 +7,11 @@ export default () => {
   const { user } = useUser();
   const goto = useGoto();
 
-  useEffect(() => {
-    if (!(user && user.needsMouthmask)) goto();
-  }, [user]);
+  console.log("user", user);
+
+  // useEffect(() => {
+  //   if (!(user && user.needsMouthmask)) goto();
+  // }, [user]);
 
   return user && user.needsMouthmask ? <SearchMouthmask /> : <FullSpinner />;
 };

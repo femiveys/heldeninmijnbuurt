@@ -28,6 +28,8 @@ export const transformUserFromDb = (user?: TUserFromDb) => {
     "isMaker",
     "needsMouthmask",
     "hasMaterial",
+    "isAdmin",
+    "isTester",
   ]);
 };
 

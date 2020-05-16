@@ -9,6 +9,8 @@ export default () => {
   const { user } = useUser();
   const goto = useGoto();
 
+  console.log("index");
+
   useEffect(() => {
     if (user) {
       if (user.isMaker) goto("/superhero");
@@ -28,6 +30,12 @@ export default () => {
       <Choice />
     )
   ) : (
+<<<<<<< Updated upstream
     <EnterStreet />
+=======
+    <Page tt="hdfksfdjk">
+      <EnterStreet />
+    </Page>
+>>>>>>> Stashed changes
   );
 };

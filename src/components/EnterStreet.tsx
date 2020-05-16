@@ -42,6 +42,7 @@ const getCheckboxProps = (message: string | ReactElement) =>
   } as FormItemProps);
 
 const EnterStreet = () => {
+  console.log("EnterStreet");
   const [form] = Form.useForm();
   const { t } = useTranslation();
   const { updateUser } = useUser();
