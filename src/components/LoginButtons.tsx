@@ -24,7 +24,8 @@ const LoginButtons = ({ consent, acceptCookies }: TProps) => {
             style={{ backgroundColor: "#de5246", color: "white" }}
             onClick={() => {
               const provider = new firebase.auth.GoogleAuthProvider();
-              firebase.auth().signInWithPopup(provider);
+              // firebase.auth().signInWithPopup(provider);
+              firebase.auth().signInWithRedirect(provider);
             }}
           >
             {t("login.google")}

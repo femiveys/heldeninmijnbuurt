@@ -38,7 +38,7 @@ const Gate: React.FunctionComponent = ({ children }) => {
   //   setConsent(true);
   // }, []);
 
-  console.log("Gate");
+  console.log(process.env.DB_HOSTNAME);
 
   return (
     <>
