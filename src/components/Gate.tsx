@@ -38,8 +38,6 @@ const Gate: React.FunctionComponent = ({ children }) => {
   //   setConsent(true);
   // }, []);
 
-  console.log(process.env.DB_HOSTNAME);
-
   return (
     <>
       {consent ? (
