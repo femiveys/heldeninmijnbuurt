@@ -1,5 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getUserId, getFirebaseUser } from "../../../apiHelpers/me";
+import {
+  getUserId,
+  getFirebaseUser,
+  getUserIdFromFirebaseUser,
+} from "../../../apiHelpers/me";
 import { cancel } from "../../../apiHelpers/requestor/cancel";
 import { markAsHandedOver } from "../../../apiHelpers/requestor/markAsHandedOver";
 import { setNeedsMouthmaskAmount } from "../../../apiHelpers/requestor/setNeedsMouthmaskAmount";
@@ -13,8 +17,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { name, num } = req.body;
 
-      const firebaseUser = await getFirebaseUser(req);
       const userId = await getUserId(req);
+      const firebaseUser = await getFirebaseUser(req);
+      const undisguisedUserId = getUserIdFromFirebaseUser(firebaseUser);
 
       let result;
       switch (name) {
@@ -35,11 +40,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           break;
 
         case "disguise":
-          result = await disguise(firebaseUser.userId);
+          result = await disguise(undisguisedUserId);
           break;
 
         case "undisguise":
-          result = await undisguise(firebaseUser.userId);
+          result = await undisguise(undisguisedUserId);
           break;
 
         case "thank":
