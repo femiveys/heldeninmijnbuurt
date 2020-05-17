@@ -19,7 +19,7 @@ export const calculateCenter = (users: TUser[]) => {
 };
 
 export const getIcon = (user: TUser) =>
-  `http://maps.google.com/mapfiles/ms/icons/${
+  `https://maps.google.com/mapfiles/ms/icons/${
     user.isMaker ? "red" : "yellow"
   }-dot.png`;
 
