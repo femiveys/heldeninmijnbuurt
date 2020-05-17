@@ -24,7 +24,8 @@ const LoginButtons = ({ consent, acceptCookies }: TProps) => {
             style={{ backgroundColor: "#de5246", color: "white" }}
             onClick={() => {
               const provider = new firebase.auth.GoogleAuthProvider();
-              firebase.auth().signInWithPopup(provider);
+              // firebase.auth().signInWithPopup(provider);
+              firebase.auth().signInWithRedirect(provider);
             }}
           >
             {t("login.google")}
@@ -57,21 +58,23 @@ const LoginButtons = ({ consent, acceptCookies }: TProps) => {
           ></Alert>
         )}
       </div>
-      <div>
-        <Typography>
-          <Paragraph
-            type="secondary"
-            style={{ paddingTop: 16, fontSize: 12, textAlign: "center" }}
-          >
-            <WarningOutlined /> Login vanuit een <b>in app browser</b> (Facebook
-            bvb) lukt voorlopig niet.
-            <br />
-            Open de site in een echte browser en het zal lukken.
-            <br />
-            We lossen dit probleem zo snel mogelijk op.
-          </Paragraph>
-        </Typography>
-      </div>
+      {/*
+        <div>
+          <Typography>
+            <Paragraph
+              type="secondary"
+              style={{ paddingTop: 16, fontSize: 12, textAlign: "center" }}
+            >
+              <WarningOutlined /> Login vanuit een <b>in app browser</b> (Facebook
+              bvb) lukt voorlopig niet.
+              <br />
+              Open de site in een echte browser en het zal lukken.
+              <br />
+              We lossen dit probleem zo snel mogelijk op.
+            </Paragraph>
+          </Typography>
+        </div>
+        */}
     </div>
   );
 };
