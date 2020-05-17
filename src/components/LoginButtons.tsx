@@ -64,12 +64,11 @@ const LoginButtons = ({ consent, acceptCookies }: TProps) => {
             type="secondary"
             style={{ paddingTop: 16, fontSize: 12, textAlign: "center" }}
           >
-            <WarningOutlined /> Login vanuit een <b>in app browser</b> (Facebook
-            bvb) lukt voorlopig niet.
+            <WarningOutlined /> Sommige gebruikers hebben problemen gemeld met
+            inloggen vanuit een <b>in app browser</b> (Facebook bvb).
             <br />
-            Open de site in een echte browser en het zal lukken.
-            <br />
-            We lossen dit probleem zo snel mogelijk op.
+            Als je dit probleem hebt, open de site in een echte browser en het
+            zal lukken.
           </Paragraph>
         </Typography>
       </div>
