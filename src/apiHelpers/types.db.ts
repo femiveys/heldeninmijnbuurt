@@ -8,7 +8,6 @@ import {
 export type TUserFromDb = {
   name: string;
   email: string;
-  picture: string;
   user_id: string;
   street_id: number;
   is_maker: number;
@@ -19,8 +18,6 @@ export type TUserFromDb = {
   stars: number;
   num_evaluations: number;
   whatsapp?: string;
-  has_material: number;
-  materials?: string;
   status: EUserStatus;
   mocked_user_id?: string;
   is_tester: number;

@@ -1,6 +1,7 @@
 import { Button, Alert } from "antd";
 import { useApi, useUser, useAuth } from "../../hooks";
 import { useRouter } from "next/router";
+import { getUserIdFromFirebaseUser } from "../../apiHelpers/me";
 
 const Undisguise = () => {
   const router = useRouter();
@@ -11,7 +12,9 @@ const Undisguise = () => {
     "requestor/action"
   );
 
-  return firebaseUser && user && firebaseUser.uid !== user.userId ? (
+  return firebaseUser &&
+    user &&
+    getUserIdFromFirebaseUser(firebaseUser as any) !== user.userId ? (
     <Alert
       type="warning"
       closable

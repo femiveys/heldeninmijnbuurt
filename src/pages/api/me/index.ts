@@ -5,8 +5,9 @@ import {
   getMe,
   getMeOrFail,
   initFirebaseAdmin,
-  getUid,
+  getUserId,
   updateMe,
+  getUserIdFromFirebaseUser,
 } from "../../../apiHelpers/me";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -20,10 +21,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const firebaseUser = await getFirebaseUser(req);
 
       await db("user").insert({
-        user_id: firebaseUser.uid,
+        user_id: getUserIdFromFirebaseUser(firebaseUser),
         name: firebaseUser.name,
         email: firebaseUser.email,
-        // picture: firebaseUser.picture,
         street_id: streetId,
         is_tester: process.env.CREATE_TEST_USERS === "1" ? 1 : 0,
         whatsapp,
@@ -48,9 +48,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // Get myself
   if (req.method === "PUT") {
     const { fields } = req.body;
-    const uid = await getUid(req);
+    const userId = await getUserId(req);
     try {
-      const result = await updateMe(uid, fields);
+      const result = await updateMe(userId, fields);
       res.send(result);
     } catch (error) {
       res.status(500).send({ error: error.message });

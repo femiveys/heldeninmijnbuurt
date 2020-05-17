@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getUid } from "../../../../apiHelpers/me";
+import { getUserId } from "../../../../apiHelpers/me";
 import {
   getAcceptedRequests,
   getRequestedRequests,
@@ -10,16 +10,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { name } = req.query;
 
-      const uid = await getUid(req);
+      const userId = await getUserId(req);
 
       let result;
       switch (name) {
         case "requested":
-          result = await getRequestedRequests(uid);
+          result = await getRequestedRequests(userId);
           break;
 
         case "accepted":
-          result = await getAcceptedRequests(uid);
+          result = await getAcceptedRequests(userId);
           break;
 
         default:

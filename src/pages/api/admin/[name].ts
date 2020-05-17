@@ -1,17 +1,17 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getUid } from "../../../apiHelpers/me";
+import { getUserId } from "../../../apiHelpers/me";
 import { getUsers } from "../../../apiHelpers/admin/users";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     try {
       const { name } = req.query;
-      const uid = await getUid(req);
+      const userId = await getUserId(req);
 
       let result;
       switch (name) {
         case "users":
-          result = await getUsers(uid);
+          result = await getUsers(userId);
           break;
 
         default:

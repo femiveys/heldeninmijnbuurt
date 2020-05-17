@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getUid } from "../../../apiHelpers/me";
+import { getUserId } from "../../../apiHelpers/me";
 import { setIsMaker } from "../../../apiHelpers/me/setIsMaker";
 import { setNeedsMouthmask } from "../../../apiHelpers/me/setNeedsMouthmask";
 import { stopMaking } from "../../../apiHelpers/me/unsetIsMaker";
@@ -11,28 +11,28 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { name } = req.body;
 
-      const uid = await getUid(req);
+      const userId = await getUserId(req);
 
       let result;
       switch (name) {
         case "setIsMaker":
-          result = await setIsMaker(uid);
+          result = await setIsMaker(userId);
           break;
 
         case "unsetIsMaker":
-          result = await stopMaking(uid);
+          result = await stopMaking(userId);
           break;
 
         case "setNeedsMouthmask":
-          result = await setNeedsMouthmask(uid);
+          result = await setNeedsMouthmask(userId);
           break;
 
         case "unsetNeedsMouthmask":
-          result = await unsetNeedsMouthmask(uid);
+          result = await unsetNeedsMouthmask(userId);
           break;
 
         case "reset":
-          result = await reset(uid);
+          result = await reset(userId);
           break;
 
         default:

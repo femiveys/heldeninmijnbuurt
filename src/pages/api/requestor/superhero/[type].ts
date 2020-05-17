@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getUid } from "../../../../apiHelpers/me";
+import { getUserId } from "../../../../apiHelpers/me";
 import {
   getSuperHeroOf,
   getDistanceAndStatusMakerRelationOf,
@@ -10,16 +10,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { type } = req.query;
 
-      const uid = await getUid(req);
+      const userId = await getUserId(req);
 
       let result;
       switch (type) {
         case "full":
-          result = await getSuperHeroOf(uid);
+          result = await getSuperHeroOf(userId);
           break;
 
         case "status":
-          result = await getDistanceAndStatusMakerRelationOf(uid);
+          result = await getDistanceAndStatusMakerRelationOf(userId);
           break;
 
         default:
