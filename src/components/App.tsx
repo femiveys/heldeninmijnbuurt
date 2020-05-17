@@ -40,7 +40,7 @@ const App: React.FunctionComponent = ({ children }) => {
         <meta property="og:url" content="https://heldeninmijnbuurt.be" />
         <meta
           property="og:image"
-          content="https://heldeninmijnbuurt.be/assets/helden.jpg"
+          content="https://heldeninmijnbuurt.be/assets/helden.png"
         />
       </Head>
       <Header
