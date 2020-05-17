@@ -30,7 +30,12 @@ export const Whatsapp = ({ number, message }: TWhatsappProps) => {
   const whatsapp = number && `32${number}`;
   const whatsappText = encodeURI(message);
   const whatsappUrl = `https://wa.me/${whatsapp}?text=${whatsappText}`;
-  return <Link href={whatsappUrl}>+{whatsapp}</Link>;
+  return (
+    <span>
+      <Link href={whatsappUrl}>+{whatsapp}</Link>{" "}
+      <span style={{ fontSize: 10 }}>(klik om te openen in Whatsapp)</span>
+    </span>
+  );
 };
 
 type TMailLinkProps = {
