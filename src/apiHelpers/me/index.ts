@@ -21,8 +21,8 @@ export const initFirebaseAdmin = () => {
 export async function getFirebaseUser(req: NextApiRequest) {
   initFirebaseAdmin();
   const idToken = req.headers.authentication as string;
-  const firebaseUser = await admin.auth().verifyIdToken(idToken);
-  return firebaseUser;
+  const decodedToken = await admin.auth().verifyIdToken(idToken);
+  return await admin.auth().getUser(decodedToken.uid);
 }
 
 export async function getMe(req: NextApiRequest) {
@@ -47,7 +47,7 @@ export async function getMeOrFail(req: NextApiRequest) {
 }
 
 export const getUserIdFromFirebaseUser = (
-  firebaseUser: admin.auth.DecodedIdToken
+  firebaseUser: admin.auth.UserRecord
 ) => "google-oauth2|" + getGoogleUid(firebaseUser);
 
 // Gets the user_id or the mocked user_id if the user has the mocked_user_id filled
@@ -97,8 +97,8 @@ const migrateFromFirebaseUidtoGoogleUid = async (
   }
 };
 
-const getGoogleUid = (firebaseUser: admin.auth.DecodedIdToken) => {
-  const providerData = firebaseUser.providerData as admin.auth.UserInfo[];
+const getGoogleUid = (firebaseUser: admin.auth.UserRecord) => {
+  const providerData = firebaseUser.providerData;
   const googleProviders = providerData.filter(
     (provider) => provider.providerId === "google.com"
   );
