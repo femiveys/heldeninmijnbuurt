@@ -46,9 +46,8 @@ export async function getMeOrFail(req: NextApiRequest) {
   return me;
 }
 
-export const getUserIdFromFirebaseUser = (
-  firebaseUser: admin.auth.UserRecord
-) => "google-oauth2|" + getGoogleUid(firebaseUser);
+const getUserIdFromFirebaseUser = (firebaseUser: admin.auth.UserRecord) =>
+  "google-oauth2|" + getGoogleUid(firebaseUser);
 
 // Gets the user_id or the mocked user_id if the user has the mocked_user_id filled
 export const getUserId = async (req: NextApiRequest) => {
@@ -98,8 +97,7 @@ const migrateFromFirebaseUidtoGoogleUid = async (
 };
 
 const getGoogleUid = (firebaseUser: admin.auth.UserRecord) => {
-  const providerData = firebaseUser.providerData;
-  const googleProviders = providerData.filter(
+  const googleProviders = firebaseUser.providerData.filter(
     (provider) => provider.providerId === "google.com"
   );
   return googleProviders[0].uid;

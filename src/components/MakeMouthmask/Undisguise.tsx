@@ -1,7 +1,15 @@
+import { User } from "firebase/app";
 import { Button, Alert } from "antd";
 import { useApi, useUser, useAuth } from "../../hooks";
 import { useRouter } from "next/router";
-import { getUserIdFromFirebaseUser } from "../../apiHelpers/me";
+
+const getUserIdFromFirebaseUser = (firebaseUser: User) => {
+  const googleProviders = firebaseUser.providerData.filter(
+    (provider) => provider && provider.providerId === "google.com"
+  );
+  const googleProvider = googleProviders[0];
+  return googleProvider ? googleProvider.uid : null;
+};
 
 const Undisguise = () => {
   const router = useRouter();
@@ -14,7 +22,7 @@ const Undisguise = () => {
 
   return firebaseUser &&
     user &&
-    getUserIdFromFirebaseUser(firebaseUser as any) !== user.userId ? (
+    getUserIdFromFirebaseUser(firebaseUser) !== user.userId ? (
     <Alert
       type="warning"
       closable
