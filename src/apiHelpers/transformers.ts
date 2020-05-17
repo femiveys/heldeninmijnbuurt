@@ -33,7 +33,6 @@ export const transformUserFromDb = <
   return makeBooleans(transformedUser, [
     "isMaker",
     "needsMouthmask",
-    "hasMaterial",
     "isAdmin",
     "isTester",
   ]);

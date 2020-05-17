@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getUid } from "../../../../apiHelpers/me";
+import { getUserId } from "../../../../apiHelpers/me";
 import { accept } from "../../../../apiHelpers/superhero/accept";
 import { decline } from "../../../../apiHelpers/superhero/decline";
 import { markAsHandedOver } from "../../../../apiHelpers/superhero/markAsHandedOver";
@@ -11,26 +11,26 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const { action, relationId } = req.query;
       const { problem } = req.body;
 
-      const uid = await getUid(req);
+      const userId = await getUserId(req);
 
       const relId = Number(relationId);
 
       let result;
       switch (action) {
         case "accept":
-          result = await accept(uid, relId);
+          result = await accept(userId, relId);
           break;
 
         case "decline":
-          result = await decline(uid, relId);
+          result = await decline(userId, relId);
           break;
 
         case "problem":
-          result = await logProblem(uid, relId, problem.toString());
+          result = await logProblem(userId, relId, problem.toString());
           break;
 
         case "markAsHandedOver":
-          result = await markAsHandedOver(uid, relId);
+          result = await markAsHandedOver(userId, relId);
           break;
 
         default:

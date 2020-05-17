@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getUid } from "../../../apiHelpers/me";
+import { getUserId } from "../../../apiHelpers/me";
 import { getGlobalStats } from "../../../apiHelpers/stats/global";
 import { getLocalStats } from "../../../apiHelpers/stats/local";
 
@@ -15,8 +15,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           break;
 
         case "local":
-          const uid = await getUid(req);
-          result = await getLocalStats(uid);
+          const userId = await getUserId(req);
+          result = await getLocalStats(userId);
           break;
 
         default:

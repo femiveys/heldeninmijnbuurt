@@ -1,12 +1,12 @@
 import { db } from "../../../db";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
-  getFirebaseUser,
   getMe,
-  getMeOrFail,
-  initFirebaseAdmin,
-  getUid,
   updateMe,
+  getUserId,
+  getMeOrFail,
+  getFirebaseUser,
+  getUserIdFromFirebaseUser,
 } from "../../../apiHelpers/me";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -16,19 +16,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const { streetId, whatsapp } = req.body;
       if (!streetId) throw new Error("StreetId should have a value");
 
-      initFirebaseAdmin();
       const firebaseUser = await getFirebaseUser(req);
+      const userId = getUserIdFromFirebaseUser(firebaseUser);
 
       await db("user").insert({
-        user_id: firebaseUser.uid,
-        name: firebaseUser.name,
+        user_id: userId,
+        name: firebaseUser.displayName,
         email: firebaseUser.email,
-        // picture: firebaseUser.picture,
         street_id: streetId,
         is_tester: process.env.CREATE_TEST_USERS === "1" ? 1 : 0,
         whatsapp,
       });
-      const me = await getMe(req);
+      const me = await getMe(userId);
       res.send(me);
     } catch (error) {
       res.status(500).send({ error: error.message });
@@ -38,7 +37,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // Get myself
   if (req.method === "GET") {
     try {
-      const me = await getMeOrFail(req);
+      const userId = await getUserId(req);
+      const me = await getMeOrFail(userId);
       res.send(me);
     } catch (error) {
       res.status(500).send({ error: error.message });
@@ -48,9 +48,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // Get myself
   if (req.method === "PUT") {
     const { fields } = req.body;
-    const uid = await getUid(req);
+    const userId = await getUserId(req);
     try {
-      const result = await updateMe(uid, fields);
+      const result = await updateMe(userId, fields);
       res.send(result);
     } catch (error) {
       res.status(500).send({ error: error.message });

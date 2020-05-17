@@ -3,7 +3,7 @@ import { NextApiRequest } from "next";
 import { db } from "../../db";
 import { transformUserFromDb } from "../transformers";
 import serviceAccount from "../../../mijn-mondmasker-firebase-adminsdk-tjfdw-13a74f43d0.json";
-import { TUserFromDb, TStreetFromDb } from "../types.db";
+import { TUserFromDb, TStreetFromDb, TRelationFromDb } from "../types.db";
 import { TUser } from "../../types";
 import { pick } from "lodash";
 
@@ -21,15 +21,20 @@ export const initFirebaseAdmin = () => {
 export async function getFirebaseUser(req: NextApiRequest) {
   initFirebaseAdmin();
   const idToken = req.headers.authentication as string;
-  const firebaseUser = await admin.auth().verifyIdToken(idToken);
-  return firebaseUser;
+  const decodedToken = await admin.auth().verifyIdToken(idToken);
+  return await admin.auth().getUser(decodedToken.uid);
 }
 
-export async function getMe(req: NextApiRequest) {
-  const uid = await getUid(req);
+export async function getMe(userId: string) {
+  // Set last_access_date
+  await db<TUserFromDb>("user")
+    .where("user_id", userId)
+    .update({ last_access_date: new Date() });
+
+  // Get user
   const me = await db<TUserFromDb>("user")
     .join<TStreetFromDb>("street", "user.street_id", "street.id")
-    .where("user_id", uid)
+    .where("user_id", userId)
     .first<TUserFromDb>(
       "user.*",
       "street.postal_code",
@@ -40,21 +45,68 @@ export async function getMe(req: NextApiRequest) {
   return transformUserFromDb(me);
 }
 
-export async function getMeOrFail(req: NextApiRequest) {
-  const me = getMe(req);
+export async function getMeOrFail(userId: string) {
+  const me = getMe(userId);
   if (!me) throw new Error("Me not found");
   return me;
 }
 
-// Gets the firebase uid or the mocked uid if the user has the mocked_user_id	filled
-export const getUid = async (req: NextApiRequest) => {
+export const getUserIdFromFirebaseUser = (
+  firebaseUser: admin.auth.UserRecord
+) => "google-oauth2|" + getGoogleUid(firebaseUser);
+
+// Gets the user_id or the mocked user_id if the user has the mocked_user_id filled
+export const getUserId = async (req: NextApiRequest) => {
   const firebaseUser = await getFirebaseUser(req);
-  const mockedUser = await db<TUserFromDb>("user")
-    .where({ user_id: firebaseUser.uid })
+
+  const userId = getUserIdFromFirebaseUser(firebaseUser);
+
+  await migrateFromFirebaseUidtoGoogleUid(firebaseUser.uid, userId);
+
+  const user = await db<TUserFromDb>("user")
+    .where({ user_id: userId })
     .first("mocked_user_id");
-  return mockedUser && mockedUser.mocked_user_id
-    ? mockedUser.mocked_user_id
-    : firebaseUser.uid;
+
+  return user && user.mocked_user_id ? user.mocked_user_id : userId;
+};
+
+const migrateFromFirebaseUidtoGoogleUid = async (
+  firebaseUid: string,
+  userId: string
+) => {
+  const user = await db<TUserFromDb>("user")
+    .where({ user_id: firebaseUid })
+    .first();
+
+  // If a user exists with old firebase ids, replace user and relations by googleIds
+  if (user) {
+    // Update user_id on user
+    await db<TUserFromDb>("user")
+      .where("user_id", firebaseUid)
+      .update({ user_id: userId });
+
+    // Update mocked_user_id on user
+    await db<TUserFromDb>("user")
+      .where("mocked_user_id", firebaseUid)
+      .update({ mocked_user_id: userId });
+
+    // Update hero relations
+    await db<TRelationFromDb>("relation")
+      .where("hero_id", firebaseUid)
+      .update({ hero_id: userId });
+
+    // Update requestor relations
+    await db<TRelationFromDb>("relation")
+      .where("requestor_id", firebaseUid)
+      .update({ requestor_id: userId });
+  }
+};
+
+const getGoogleUid = (firebaseUser: admin.auth.UserRecord) => {
+  const googleProviders = firebaseUser.providerData.filter(
+    (provider) => provider.providerId === "google.com"
+  );
+  return googleProviders[0].uid;
 };
 
 /**

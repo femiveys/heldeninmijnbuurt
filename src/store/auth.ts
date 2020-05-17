@@ -1,17 +1,17 @@
-import { User as FirebaseUser } from "firebase/app";
+import { User } from "firebase/app";
 import "firebase/auth";
 import { StoreonModule } from "storeon";
 import { TStoreState, TStoreEvents } from "./index";
 
 export type TAuthState = {
   fetchingFirebaseUser: boolean;
-  firebaseUser: FirebaseUser | null;
+  firebaseUser: User | null;
   fetchingIdToken: boolean;
   idToken: string | null;
 };
 
 export type TAuthEvents = {
-  "auth/setFirebaseUser": FirebaseUser | null;
+  "auth/setFirebaseUser": User | null;
   "auth/setIdToken": string | null;
   "auth/fetchingIdToken": boolean;
 };

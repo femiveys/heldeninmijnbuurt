@@ -23,7 +23,6 @@ export type TUser = {
   userId: string;
   name: string;
   email: string;
-  picture: string;
   streetId: number;
   isMaker: boolean;
   maskStock: number;
@@ -33,11 +32,10 @@ export type TUser = {
   stars: number;
   numEvaluations: number;
   whatsapp?: string;
-  hasMaterial: boolean;
-  materials?: string;
   status: EUserStatus;
   isTester: boolean;
   isAdmin: boolean;
+  lastAccessDate: Date;
 } & Omit<TStreet, "id">;
 
 export type TRelation = {
