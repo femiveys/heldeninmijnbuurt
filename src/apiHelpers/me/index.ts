@@ -25,8 +25,13 @@ export async function getFirebaseUser(req: NextApiRequest) {
   return await admin.auth().getUser(decodedToken.uid);
 }
 
-export async function getMe(req: NextApiRequest) {
-  const userId = await getUserId(req);
+export async function getMe(userId: string) {
+  // Set last_access_date
+  await db<TUserFromDb>("user")
+    .where("user_id", userId)
+    .update({ last_access_date: new Date() });
+
+  // Get user
   const me = await db<TUserFromDb>("user")
     .join<TStreetFromDb>("street", "user.street_id", "street.id")
     .where("user_id", userId)
@@ -40,8 +45,8 @@ export async function getMe(req: NextApiRequest) {
   return transformUserFromDb(me);
 }
 
-export async function getMeOrFail(req: NextApiRequest) {
-  const me = getMe(req);
+export async function getMeOrFail(userId: string) {
+  const me = getMe(userId);
   if (!me) throw new Error("Me not found");
   return me;
 }

@@ -22,7 +22,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       await db("user").insert({
         user_id: getUserIdFromFirebaseUser(firebaseUser),
-        name: firebaseUser.name,
+        name: firebaseUser.displayName,
         email: firebaseUser.email,
         street_id: streetId,
         is_tester: process.env.CREATE_TEST_USERS === "1" ? 1 : 0,

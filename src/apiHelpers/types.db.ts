@@ -22,6 +22,7 @@ export type TUserFromDb = {
   mocked_user_id?: string;
   is_tester: number;
   is_admin: number;
+  last_access_date: Date;
 };
 
 export type TRelationFromDb = {
