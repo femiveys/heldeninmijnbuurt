@@ -60,12 +60,18 @@ export type TRelation = {
   thanksDate: Date;
 };
 
+export type TGeolocation = {
+  x: number;
+  y: number;
+};
+
 export type TStreet = {
   id: number;
   postalCode: number;
   streetDescNl: string;
   streetDescFr: string;
   streetDescDe: string;
+  geolocation: TGeolocation;
 };
 
 export type TRelationUser = {
