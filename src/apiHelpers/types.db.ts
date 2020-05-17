@@ -1,4 +1,9 @@
-import { ERelationType, ERelationStatus, EUserStatus } from "../types";
+import {
+  ERelationType,
+  ERelationStatus,
+  EUserStatus,
+  TGeolocation,
+} from "../types";
 
 export type TUserFromDb = {
   name: string;
@@ -48,6 +53,7 @@ export type TStreetFromDb = {
   street_desc_nl?: string;
   street_desc_fr?: string;
   street_desc_de?: string;
+  geolocation: TGeolocation;
 };
 
 export type TShortStreetFromDb = Pick<

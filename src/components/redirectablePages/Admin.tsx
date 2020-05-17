@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import FullSpinner from "../FullSpinner";
 import { useUser, useGoto } from "../../hooks";
-import AdminDashboard from "../AdminDashboard";
+import AdminDashboard from "../admin/AdminDashboard";
 
 export default () => {
   const goto = useGoto();

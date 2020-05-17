@@ -26,7 +26,6 @@ const isMaker = async (makerId: string) => {
  * Throws error if the passed makerId is not of a valid maker
  *
  * @param makerId - the userId of the maker
- * @returns true if the passed requestorId needs mouthmasks, false otherwise
  */
 export const checkMaker = async (makerId: string) => {
   if (!(await isMaker(makerId))) {
