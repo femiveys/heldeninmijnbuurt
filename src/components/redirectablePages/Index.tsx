@@ -21,7 +21,7 @@ const Index = () => {
   return isMaker ? (
     <FullSpinner tip="Dashboard voor superhelden aan het laden..." />
   ) : isActiveRequestor ? (
-    <FullSpinner tip="We helpen je mondmaskers zoeken..." />
+    <FullSpinner tip="We helpen je mondmaskers vinden..." />
   ) : (
     <Choice />
   );

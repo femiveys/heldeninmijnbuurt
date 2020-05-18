@@ -5,7 +5,7 @@ import { transformUserFromDb } from "../transformers";
 import serviceAccount from "../../../mijn-mondmasker-firebase-adminsdk-tjfdw-13a74f43d0.json";
 import { TUserFromDb, TStreetFromDb, TRelationFromDb } from "../types.db";
 import { TUser } from "../../types";
-import { pick } from "lodash";
+import { pick, Dictionary } from "lodash";
 
 export const initFirebaseAdmin = () => {
   try {
@@ -53,7 +53,14 @@ export async function getMeOrFail(userId: string) {
 
 export const getUserIdFromFirebaseUser = (
   firebaseUser: admin.auth.UserRecord
-) => "google-oauth2|" + getGoogleUid(firebaseUser);
+) => {
+  const mapping: Dictionary<string> = {
+    "google.com": "google",
+    "facebook.com": "facebook",
+  };
+  const { providerId, uid } = getGoogleUid(firebaseUser);
+  return mapping[providerId] + "-oauth2|" + uid;
+};
 
 // Gets the user_id or the mocked user_id if the user has the mocked_user_id filled
 export const getUserId = async (req: NextApiRequest) => {
@@ -102,12 +109,8 @@ const migrateFromFirebaseUidtoGoogleUid = async (
   }
 };
 
-const getGoogleUid = (firebaseUser: admin.auth.UserRecord) => {
-  const googleProviders = firebaseUser.providerData.filter(
-    (provider) => provider.providerId === "google.com"
-  );
-  return googleProviders[0].uid;
-};
+const getGoogleUid = (firebaseUser: admin.auth.UserRecord) =>
+  pick(firebaseUser.providerData[0], "uid", "providerId");
 
 /**
  * Updates a limited amount of fields of the current user.

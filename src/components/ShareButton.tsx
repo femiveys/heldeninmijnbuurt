@@ -23,7 +23,7 @@ const ShareButton = ({ style, text }: TProps) => {
         )
       }
     >
-      {text || "Ik laat anderen weten over dit platform"}
+      {text || "Deel dit platform op sociale media"}
     </Button>
   );
 };
