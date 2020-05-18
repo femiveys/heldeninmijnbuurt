@@ -4,7 +4,7 @@ import { useCallback, CSSProperties } from "react";
 import firebase from "firebase/app";
 import Link from "next/link";
 import { useAuth, useUser } from "../hooks";
-import { getStreetInUserLanguage } from "../helpers";
+import { getTrimmedStreetInUserLanguage } from "../helpers";
 
 const style: CSSProperties = { padding: "5px 12px", textAlign: "right" };
 
@@ -37,7 +37,7 @@ const PersonalMenu = () => {
             )}
             <div>{user.email}</div>
             <div>
-              {user.postalCode} {getStreetInUserLanguage(user)}
+              {user.postalCode} {getTrimmedStreetInUserLanguage(user)}
             </div>
           </div>
         </>

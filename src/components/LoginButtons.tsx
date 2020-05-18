@@ -7,6 +7,7 @@ import {
   FacebookOutlined,
 } from "@ant-design/icons";
 import firebase from "firebase/app";
+import { useState } from "react";
 
 const { Paragraph } = Typography;
 
@@ -19,6 +20,7 @@ type TProps = {
 
 const LoginButtons = ({ consent, acceptCookies }: TProps) => {
   const { t } = useTranslation();
+  const [error, setError] = useState<{ email: string }>();
 
   return (
     <div>
@@ -44,9 +46,19 @@ const LoginButtons = ({ consent, acceptCookies }: TProps) => {
                 size="large"
                 icon={<FacebookOutlined />}
                 style={{ backgroundColor: "#3b5998", color: "white" }}
-                onClick={() => {
-                  const provider = new firebase.auth.FacebookAuthProvider();
-                  firebase.auth().signInWithRedirect(provider);
+                onClick={async () => {
+                  try {
+                    const provider = new firebase.auth.FacebookAuthProvider();
+                    await firebase.auth().signInWithPopup(provider);
+                  } catch (error) {
+                    console.log("error", error);
+                    if (
+                      error.code ===
+                      "auth/account-exists-with-different-credential"
+                    ) {
+                      setError(error);
+                    }
+                  }
                 }}
               >
                 {t("login.facebook")}
@@ -81,6 +93,14 @@ const LoginButtons = ({ consent, acceptCookies }: TProps) => {
           ></Alert>
         )}
       </div>
+      {error && (
+        <Paragraph type="danger" style={{ fontSize: 12 }}>
+          Hetzelfde E-mail adres (<b>{error.email}</b>) waarmee je met Facebook
+          wilde inloggen, is al aan je Google account verbonden.
+          <br />
+          <b>Log in met je Google account.</b>
+        </Paragraph>
+      )}
       <Paragraph type="secondary" style={{ paddingTop: 16, fontSize: 12 }}>
         <WarningOutlined /> Als je problemen hebt met inloggen vanuit een{" "}
         <b>in app browser</b> (Facebook bvb), probeer dan de site in een echte
