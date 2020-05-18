@@ -57,7 +57,10 @@ export const getRealUserId = async (firebaseUser: admin.auth.UserRecord) => {
     "facebook.com": "facebook",
   };
   const { providerId, uid, email } = firebaseUser.providerData[0];
-  const userIdByEmail = await getUserIdFromDbByEmail(email);
+  // For google in firebaseUser.email, For facebook in providerData
+  const userIdByEmail = await getUserIdFromDbByEmail(
+    firebaseUser.email || email
+  );
   return userIdByEmail || mapping[providerId] + "-oauth2|" + uid;
 };
 
