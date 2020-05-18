@@ -41,7 +41,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { userId, realUserId } = await getUserId(req);
       const me = await getMeOrFail(userId);
-      res.send(me ? { ...me, realUserId } : me);
+      res.send(me && { ...me, realUserId });
     } catch (error) {
       res.status(500).send({ error: error.message });
     }
