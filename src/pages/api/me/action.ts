@@ -11,7 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { name } = req.body;
 
-      const userId = await getUserId(req);
+      const { userId } = await getUserId(req);
 
       let result;
       switch (name) {

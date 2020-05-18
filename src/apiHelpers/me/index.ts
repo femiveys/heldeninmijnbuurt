@@ -5,7 +5,7 @@ import { transformUserFromDb } from "../transformers";
 import serviceAccount from "../../../mijn-mondmasker-firebase-adminsdk-tjfdw-13a74f43d0.json";
 import { TUserFromDb, TStreetFromDb, TRelationFromDb } from "../types.db";
 import { TUser } from "../../types";
-import { pick } from "lodash";
+import { pick, Dictionary } from "lodash";
 
 export const initFirebaseAdmin = () => {
   try {
@@ -51,15 +51,24 @@ export async function getMeOrFail(userId: string) {
   return me;
 }
 
-export const getUserIdFromFirebaseUser = (
-  firebaseUser: admin.auth.UserRecord
-) => "google-oauth2|" + getGoogleUid(firebaseUser);
+export const getRealUserId = async (firebaseUser: admin.auth.UserRecord) => {
+  const mapping: Dictionary<string> = {
+    "google.com": "google",
+    "facebook.com": "facebook",
+  };
+  const { providerId, uid, email } = firebaseUser.providerData[0];
+  // For google in firebaseUser.email, For facebook in providerData
+  const userIdByEmail = await getUserIdFromDbByEmail(
+    firebaseUser.email || email
+  );
+  return userIdByEmail || mapping[providerId] + "-oauth2|" + uid;
+};
 
 // Gets the user_id or the mocked user_id if the user has the mocked_user_id filled
 export const getUserId = async (req: NextApiRequest) => {
   const firebaseUser = await getFirebaseUser(req);
 
-  const userId = getUserIdFromFirebaseUser(firebaseUser);
+  const userId = await getRealUserId(firebaseUser);
 
   await migrateFromFirebaseUidtoGoogleUid(firebaseUser.uid, userId);
 
@@ -67,7 +76,15 @@ export const getUserId = async (req: NextApiRequest) => {
     .where({ user_id: userId })
     .first("mocked_user_id");
 
-  return user && user.mocked_user_id ? user.mocked_user_id : userId;
+  return {
+    userId: user && user.mocked_user_id ? user.mocked_user_id : userId,
+    realUserId: userId,
+  };
+};
+
+const getUserIdFromDbByEmail = async (email?: string) => {
+  const user = await db<TUserFromDb>("user").where({ email }).first("user_id");
+  return user && user.user_id;
 };
 
 const migrateFromFirebaseUidtoGoogleUid = async (
@@ -102,13 +119,6 @@ const migrateFromFirebaseUidtoGoogleUid = async (
   }
 };
 
-const getGoogleUid = (firebaseUser: admin.auth.UserRecord) => {
-  const googleProviders = firebaseUser.providerData.filter(
-    (provider) => provider.providerId === "google.com"
-  );
-  return googleProviders[0].uid;
-};
-
 /**
  * Updates a limited amount of fields of the current user.
  *
@@ -118,7 +128,7 @@ const getGoogleUid = (firebaseUser: admin.auth.UserRecord) => {
 export const updateMe = async (userId: string, fields: Partial<TUser>) => {
   const result = await db<TUserFromDb>("user")
     .where({ user_id: userId })
-    .update(pick(fields, "name", "email", "whatsapp"));
+    .update(pick(fields, "name", "whatsapp"));
 
   return result;
 };

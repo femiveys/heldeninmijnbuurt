@@ -4,7 +4,8 @@ import { TStats } from "../types";
 import { useApi } from "../hooks";
 
 const style = {
-  padding: 32,
+  padding: 16,
+  paddingTop: 0,
 };
 
 const GlobalStats = () => {

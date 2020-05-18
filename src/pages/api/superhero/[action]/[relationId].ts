@@ -11,7 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const { action, relationId } = req.query;
       const { problem } = req.body;
 
-      const userId = await getUserId(req);
+      const { userId } = await getUserId(req);
 
       const relId = Number(relationId);
 

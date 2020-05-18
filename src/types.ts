@@ -36,6 +36,7 @@ export type TUser = {
   isTester: boolean;
   isAdmin: boolean;
   lastAccessDate: Date;
+  realUserId: string;
 } & Omit<TStreet, "id">;
 
 export type TRelation = {

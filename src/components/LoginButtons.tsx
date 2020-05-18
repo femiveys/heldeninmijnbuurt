@@ -1,10 +1,16 @@
+import { useTranslation } from "react-i18next";
 import { Button, Alert, Typography } from "antd";
 import Link from "next/link";
-import { GoogleOutlined, WarningOutlined } from "@ant-design/icons";
+import {
+  GoogleOutlined,
+  WarningOutlined,
+  FacebookOutlined,
+} from "@ant-design/icons";
 import firebase from "firebase/app";
-import { useTranslation } from "react-i18next";
 
 const { Paragraph } = Typography;
+
+const centered = { padding: 8, display: "flex", justifyContent: "center" };
 
 type TProps = {
   consent: boolean;
@@ -16,20 +22,37 @@ const LoginButtons = ({ consent, acceptCookies }: TProps) => {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div>
         {true || consent ? (
-          <Button
-            size="large"
-            icon={<GoogleOutlined />}
-            style={{ backgroundColor: "#de5246", color: "white" }}
-            onClick={() => {
-              const provider = new firebase.auth.GoogleAuthProvider();
-              // firebase.auth().signInWithPopup(provider);
-              firebase.auth().signInWithRedirect(provider);
-            }}
-          >
-            {t("login.google")}
-          </Button>
+          <>
+            <div style={centered}>
+              <Button
+                size="large"
+                icon={<GoogleOutlined />}
+                style={{ backgroundColor: "#de5246", color: "white" }}
+                onClick={() => {
+                  const provider = new firebase.auth.GoogleAuthProvider();
+                  // firebase.auth().signInWithPopup(provider);
+                  firebase.auth().signInWithRedirect(provider);
+                }}
+              >
+                {t("login.google")}
+              </Button>
+            </div>
+            <div style={centered}>
+              <Button
+                size="large"
+                icon={<FacebookOutlined />}
+                style={{ backgroundColor: "#3b5998", color: "white" }}
+                onClick={() => {
+                  const provider = new firebase.auth.FacebookAuthProvider();
+                  firebase.auth().signInWithRedirect(provider);
+                }}
+              >
+                {t("login.facebook")}
+              </Button>
+            </div>
+          </>
         ) : (
           <Alert
             closable
@@ -58,18 +81,11 @@ const LoginButtons = ({ consent, acceptCookies }: TProps) => {
           ></Alert>
         )}
       </div>
-      <div>
-        <Typography>
-          <Paragraph
-            type="secondary"
-            style={{ paddingTop: 16, fontSize: 12, textAlign: "center" }}
-          >
-            <WarningOutlined /> Als je problemen hebt met inloggen vanuit een{" "}
-            <b>in app browser</b> (Facebook bvb), probeer dan de site in een
-            echte browser te openen.
-          </Paragraph>
-        </Typography>
-      </div>
+      <Paragraph type="secondary" style={{ paddingTop: 16, fontSize: 12 }}>
+        <WarningOutlined /> Als je problemen hebt met inloggen vanuit een{" "}
+        <b>in app browser</b> (Facebook bvb), probeer dan de site in een echte
+        browser te openen.
+      </Paragraph>
     </div>
   );
 };

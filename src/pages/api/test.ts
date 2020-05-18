@@ -34,6 +34,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             streetDescDe: "",
             geolocation: { x: 0, y: 0 },
             lastAccessDate: new Date(),
+            realUserId: "hero",
           },
           requestor: {
             userId: "requestor",
@@ -58,6 +59,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             streetDescDe: "",
             geolocation: { x: 0, y: 0 },
             lastAccessDate: new Date(),
+            realUserId: "requestor",
           },
         }
       );

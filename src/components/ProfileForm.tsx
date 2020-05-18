@@ -10,7 +10,7 @@ const { Paragraph, Title } = Typography;
 
 type TFormValues = {
   name?: string;
-  email?: string;
+  whatsapp?: string;
 };
 
 const ProfileForm = () => {
@@ -21,9 +21,9 @@ const ProfileForm = () => {
   const { isLoading, callApi } = useApi("PUT", "me");
 
   const updateMe = useCallback(async (fields: TFormValues) => {
-    await callApi(fields);
+    await callApi({ fields });
     updateUser(fields);
-    goto("/searching");
+    goto();
   }, []);
 
   if (!user) return null;
@@ -49,27 +49,13 @@ const ProfileForm = () => {
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 10 }}
           onFinish={updateMe}
-          initialValues={pick(user, "name", "email", "whatsapp")}
+          initialValues={pick(user, "name", "whatsapp")}
         >
           <Form.Item
             name="name"
             label="Naam"
             extra="De naam die de ander zal zien"
             rules={[{ required: true, message: "Je naam mag niet leeg zijn" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="email"
-            label="E-mail"
-            extra="Het E-mailadres waarop je gecontacteerd wil worden"
-            rules={[
-              {
-                required: true,
-                message: "Gelieve een geldig email adres op te geven",
-                type: "email",
-              },
-            ]}
           >
             <Input />
           </Form.Item>
@@ -82,11 +68,7 @@ const ProfileForm = () => {
               <Button
                 type="primary"
                 htmlType="submit"
-                disabled={
-                  isLoading ||
-                  !form.getFieldValue("name") ||
-                  !form.getFieldValue("email")
-                }
+                disabled={isLoading || !form.getFieldValue("name")}
                 loading={isLoading}
               >
                 {t("update")}

@@ -28,7 +28,7 @@ export const transformUserFromDb = <
   user?: T
 ) => {
   type TRet = T extends TUserAndDistanceFromDb ? TUserAndDistance : TUser;
-  if (!user) return;
+  if (!user) return null;
   const transformedUser = humps.camelizeKeys(user) as TRet;
   return makeBooleans(transformedUser, [
     "isMaker",

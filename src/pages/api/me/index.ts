@@ -6,7 +6,7 @@ import {
   getUserId,
   getMeOrFail,
   getFirebaseUser,
-  getUserIdFromFirebaseUser,
+  getRealUserId,
 } from "../../../apiHelpers/me";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -17,12 +17,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       if (!streetId) throw new Error("StreetId should have a value");
 
       const firebaseUser = await getFirebaseUser(req);
-      const userId = getUserIdFromFirebaseUser(firebaseUser);
+      const userId = await getRealUserId(firebaseUser);
+
+      const email = firebaseUser.email || firebaseUser.providerData[0];
 
       await db("user").insert({
         user_id: userId,
         name: firebaseUser.displayName,
-        email: firebaseUser.email,
+        email,
         street_id: streetId,
         is_tester: process.env.CREATE_TEST_USERS === "1" ? 1 : 0,
         whatsapp,
@@ -37,9 +39,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // Get myself
   if (req.method === "GET") {
     try {
-      const userId = await getUserId(req);
+      const { userId, realUserId } = await getUserId(req);
       const me = await getMeOrFail(userId);
-      res.send(me);
+      res.send({ ...me, realUserId });
     } catch (error) {
       res.status(500).send({ error: error.message });
     }
@@ -48,7 +50,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // Get myself
   if (req.method === "PUT") {
     const { fields } = req.body;
-    const userId = await getUserId(req);
+    const { userId } = await getUserId(req);
     try {
       const result = await updateMe(userId, fields);
       res.send(result);
