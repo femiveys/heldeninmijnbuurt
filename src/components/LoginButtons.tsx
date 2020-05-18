@@ -49,7 +49,7 @@ const LoginButtons = ({ consent, acceptCookies }: TProps) => {
                 onClick={async () => {
                   try {
                     const provider = new firebase.auth.FacebookAuthProvider();
-                    await firebase.auth().signInWithPopup(provider);
+                    await firebase.auth().signInWithRedirect(provider);
                   } catch (error) {
                     console.log(error);
                     if (
