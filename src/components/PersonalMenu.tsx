@@ -32,10 +32,10 @@ const PersonalMenu = () => {
             </div>
             {user.whatsapp && (
               <div>
-                {user.whatsapp} {link}
+                +32{user.whatsapp} {link}
               </div>
             )}
-            <div>+32{user.email}</div>
+            <div>{user.email}</div>
             <div>
               {user.postalCode} {getStreetInUserLanguage(user)}
             </div>
