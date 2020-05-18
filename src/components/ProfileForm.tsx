@@ -21,7 +21,7 @@ const ProfileForm = () => {
   const { isLoading, callApi } = useApi("PUT", "me");
 
   const updateMe = useCallback(async (fields: TFormValues) => {
-    await callApi(fields);
+    await callApi({ fields });
     updateUser(fields);
     goto();
   }, []);

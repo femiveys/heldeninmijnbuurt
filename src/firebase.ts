@@ -16,7 +16,7 @@ export const initializeFirebaseApp = () => {
       measurementId: "G-2YT6H62Y2M",
     });
   } catch (error) {
-    console.log("Error initializing Firebase app");
+    console.log("Error initializing Firebase app", error);
     // ...
   }
 
@@ -26,7 +26,6 @@ export const initializeFirebaseApp = () => {
 
 export const subscribeToAuthChanges = () =>
   firebase.auth().onAuthStateChanged((firebaseUser) => {
-    console.log(firebaseUser);
     store.dispatch("auth/setFirebaseUser", firebaseUser);
     refreshIdToken();
   });

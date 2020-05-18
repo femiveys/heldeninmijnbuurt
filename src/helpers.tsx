@@ -63,7 +63,6 @@ export const ellipsis = (text: string, maxChars: number) => {
     return text;
   } else {
     const headAndTailLength = Math.floor((maxChars - 1) / 2);
-    console.log(text.substring(0, headAndTailLength));
     return (
       text.substring(0, headAndTailLength + 1) +
       "\u2026" +

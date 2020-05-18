@@ -30,10 +30,12 @@ const PersonalMenu = () => {
             <div>
               {user.name} {link}
             </div>
-            <div>
-              {user.whatsapp} {link}
-            </div>
-            <div>{user.email}</div>
+            {user.whatsapp && (
+              <div>
+                {user.whatsapp} {link}
+              </div>
+            )}
+            <div>+32{user.email}</div>
             <div>
               {user.postalCode} {getStreetInUserLanguage(user)}
             </div>

@@ -6,7 +6,7 @@ import {
   getUserId,
   getMeOrFail,
   getFirebaseUser,
-  getUserIdFromFirebaseUser,
+  getRealUserId,
 } from "../../../apiHelpers/me";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -17,7 +17,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       if (!streetId) throw new Error("StreetId should have a value");
 
       const firebaseUser = await getFirebaseUser(req);
-      const userId = getUserIdFromFirebaseUser(firebaseUser);
+      const userId = await getRealUserId(firebaseUser);
 
       await db("user").insert({
         user_id: userId,

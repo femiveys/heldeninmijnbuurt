@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import {
   getUserId,
   getFirebaseUser,
-  getUserIdFromFirebaseUser,
+  getRealUserId,
 } from "../../../apiHelpers/me";
 import { cancel } from "../../../apiHelpers/requestor/cancel";
 import { markAsHandedOver } from "../../../apiHelpers/requestor/markAsHandedOver";
@@ -19,7 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       const userId = await getUserId(req);
       const firebaseUser = await getFirebaseUser(req);
-      const undisguisedUserId = getUserIdFromFirebaseUser(firebaseUser);
+      const undisguisedUserId = await getRealUserId(firebaseUser);
 
       let result;
       switch (name) {
