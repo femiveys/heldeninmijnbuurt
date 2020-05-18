@@ -17,7 +17,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { name, num } = req.body;
 
-      const userId = await getUserId(req);
+      const { userId } = await getUserId(req);
       const firebaseUser = await getFirebaseUser(req);
       const undisguisedUserId = await getRealUserId(firebaseUser);
 

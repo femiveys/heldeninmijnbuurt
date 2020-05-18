@@ -76,7 +76,10 @@ export const getUserId = async (req: NextApiRequest) => {
     .where({ user_id: userId })
     .first("mocked_user_id");
 
-  return user && user.mocked_user_id ? user.mocked_user_id : userId;
+  return {
+    userId: user && user.mocked_user_id ? user.mocked_user_id : userId,
+    realUserId: userId,
+  };
 };
 
 const getUserIdFromDbByEmail = async (email?: string) => {

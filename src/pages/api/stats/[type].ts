@@ -15,7 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           break;
 
         case "local":
-          const userId = await getUserId(req);
+          const { userId } = await getUserId(req);
           result = await getLocalStats(userId);
           break;
 
