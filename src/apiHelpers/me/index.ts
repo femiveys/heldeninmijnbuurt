@@ -66,7 +66,8 @@ export const getUserIdFromFirebaseUser = (
 export const getUserId = async (req: NextApiRequest) => {
   const firebaseUser = await getFirebaseUser(req);
 
-  const userId = getUserIdFromFirebaseUser(firebaseUser);
+  const userIdByEmail = await getUserIdFromDbByEmail(firebaseUser.email);
+  const userId = userIdByEmail || getUserIdFromFirebaseUser(firebaseUser);
 
   await migrateFromFirebaseUidtoGoogleUid(firebaseUser.uid, userId);
 
@@ -75,6 +76,11 @@ export const getUserId = async (req: NextApiRequest) => {
     .first("mocked_user_id");
 
   return user && user.mocked_user_id ? user.mocked_user_id : userId;
+};
+
+const getUserIdFromDbByEmail = async (email?: string) => {
+  const user = await db<TUserFromDb>("user").where({ email }).first("user_id");
+  return user && user.user_id;
 };
 
 const migrateFromFirebaseUidtoGoogleUid = async (
