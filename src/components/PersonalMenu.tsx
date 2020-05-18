@@ -28,12 +28,12 @@ const PersonalMenu = () => {
         <>
           <div style={style}>
             <div>
-              {user.name}
-              {link}
+              {user.name} {link}
             </div>
             <div>
-              {user.email} {link}
+              {user.whatsapp} {link}
             </div>
+            <div>{user.email}</div>
             <div>
               {user.postalCode} {getStreetInUserLanguage(user)}
             </div>

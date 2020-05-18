@@ -127,7 +127,7 @@ const getGoogleUid = (firebaseUser: admin.auth.UserRecord) =>
 export const updateMe = async (userId: string, fields: Partial<TUser>) => {
   const result = await db<TUserFromDb>("user")
     .where({ user_id: userId })
-    .update(pick(fields, "name", "email", "whatsapp"));
+    .update(pick(fields, "name", "whatsapp"));
 
   return result;
 };
