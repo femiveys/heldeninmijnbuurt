@@ -26,6 +26,7 @@ export const initializeFirebaseApp = () => {
 
 export const subscribeToAuthChanges = () =>
   firebase.auth().onAuthStateChanged((firebaseUser) => {
+    console.log(firebaseUser);
     store.dispatch("auth/setFirebaseUser", firebaseUser);
     refreshIdToken();
   });
