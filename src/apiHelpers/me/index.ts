@@ -46,7 +46,7 @@ export async function getMe(userId: string) {
 }
 
 export async function getMeOrFail(userId: string) {
-  const me = getMe(userId);
+  const me = await getMe(userId);
   if (!me) throw new Error("Me not found");
   return me;
 }
