@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import FullSpinner from "../FullSpinner";
 import { useUser, useGoto } from "../../hooks";
 import { MakeMouthmask } from "../MakeMouthmask/MakeMouthmask";
@@ -6,6 +7,7 @@ import { MakeMouthmask } from "../MakeMouthmask/MakeMouthmask";
 export default () => {
   const goto = useGoto();
   const { user } = useUser();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!user.isMaker) goto();
@@ -13,7 +15,7 @@ export default () => {
 
   // We show a FullSpinner while redirecting
   return !user.isMaker ? (
-    <FullSpinner tip="Je maakt geen mondmaskers" />
+    <FullSpinner tip={t("redirect.noHero")} />
   ) : (
     <MakeMouthmask />
   );

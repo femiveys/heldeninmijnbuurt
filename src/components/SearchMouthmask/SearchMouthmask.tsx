@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import EnterMouthmaskAmount from "./EnterMouthmaskAmount";
 import WaitingForAcceptance from "./WaitingForAcceptance";
 import { useUser, useApi } from "../../hooks";
@@ -9,6 +10,7 @@ import Spinner from "../Spinner";
 
 export const SearchMouthmask = () => {
   const { user } = useUser();
+  const { t } = useTranslation();
   const {
     isLoading: isFetchingRelationStatus,
     data: distanceAndStatus,
@@ -29,7 +31,7 @@ export const SearchMouthmask = () => {
       {needsMouthmaskAmount === 0 ? (
         <EnterMouthmaskAmount fetchRelationStatus={fetchRelationStatus} />
       ) : isFetchingRelationStatus ? (
-        <Spinner tip="Aan het kijken of we in je buurt een superheld gevonden hebben" />
+        <Spinner tip={t("requestor.loading")} />
       ) : !distanceAndStatus ? (
         <NoSuperheroFound />
       ) : distanceAndStatus.status === ERelationStatus.requested ? (

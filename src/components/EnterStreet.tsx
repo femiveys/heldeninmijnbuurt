@@ -15,7 +15,6 @@ import { useApi, useUser, useAuth } from "../hooks";
 import {
   grid,
   getTrimmedStreetInUserLanguage,
-  removeParentheses,
   getFlemishPostalcodes,
 } from "../helpers";
 import CommonSteps from "./CommonSteps";

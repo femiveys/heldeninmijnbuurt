@@ -1,5 +1,6 @@
-import { Steps, Popover, Dropdown, Button } from "antd";
+import { Steps, Dropdown, Button } from "antd";
 import { DownOutlined } from "@ant-design/icons";
+import { Trans } from "react-i18next";
 
 const style = {
   padding: 16,
@@ -20,11 +21,11 @@ const SearchSteps = ({ current }: TProps) => {
       labelPlacement={isSmall ? "horizontal" : "vertical"}
       direction={isSmall ? "vertical" : "horizontal"}
     >
-      <Steps.Step title="Aantal ingeven" />
-      <Steps.Step title="Superheld zoeken" />
-      <Steps.Step title="Op bevestiging wachten" />
-      <Steps.Step title="Superheld contacteren" />
-      <Steps.Step title="Klaar" />
+      <Steps.Step title={<Trans i18nKey="requestor.steps.step1" />} />
+      <Steps.Step title={<Trans i18nKey="requestor.steps.step2" />} />
+      <Steps.Step title={<Trans i18nKey="requestor.steps.step3" />} />
+      <Steps.Step title={<Trans i18nKey="requestor.steps.step4" />} />
+      <Steps.Step title={<Trans i18nKey="requestor.steps.step5" />} />
     </Steps>
   );
 
@@ -39,7 +40,10 @@ const SearchSteps = ({ current }: TProps) => {
         }}
       >
         <Button>
-          Voortgang: Stap {current + 1}/5
+          <Trans
+            i18nKey="requestor.steps.progress"
+            values={{ step: current + 1 }}
+          />
           <DownOutlined />
         </Button>
       </Dropdown>

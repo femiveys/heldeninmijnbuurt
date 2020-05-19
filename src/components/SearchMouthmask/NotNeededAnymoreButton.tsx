@@ -1,4 +1,5 @@
 import { Button } from "antd";
+import { Trans } from "react-i18next";
 import { useApi, useUser, useGoto } from "../../hooks";
 
 const NotNeededAnymoreButton = () => {
@@ -21,7 +22,7 @@ const NotNeededAnymoreButton = () => {
       }}
       style={{ fontSize: 10 }}
     >
-      Ik heb toch geen mondmaskers meer nodig
+      <Trans i18nKey="requestor.notNeeded.label" />
     </Button>
   );
 };

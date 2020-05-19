@@ -16,6 +16,13 @@
     "facebook": "Login met Facebook"
   },
   "safetyTitle": "Respecteer de veiligheidsmaatregelen",
+  "redirect": {
+    "noAdmin": "Je bent geen administrator",
+    "superhero": "Dashboard voor superhelden aan het laden...",
+    "searching": "We helpen je mondmaskers vinden...",
+    "noSearching": "Je hebt geen mondmaskers nodig",
+    "noHero": "Je maakt geen mondmaskers"
+  },
   "maker": {
     "collapseTitle": "Ik heb een naaimachine",
     "available": {
@@ -112,6 +119,15 @@
   },
 
   "requestor": {
+    "loading": "Aan het kijken of we in je buurt een superheld gevonden hebben",
+    "steps": {
+      "step1": "Aantal ingeven",
+      "step2": "Superheld zoeken",
+      "step3": "Op bevestiging wachten",
+      "step4": "Superheld contacteren",
+      "step5": "Klaar",
+      "progress": "Voortgang: Stap {{step}}/5"
+    },
     "enterStreet": {
       "postalCode": {
         "label": "Postnummer",
@@ -128,7 +144,39 @@
       }
     },
     "numNeeded": {
-      "title": "Hoeveel mondmaskers heb je nodig?"
+      "title": "Hoeveel mondmaskers heb je nodig?",
+      "par1": "We vragen je op te geven hoeveel mondmaskers je nodig hebt. Om het voor iedereen wat eerlijk te houden kan je maximaal 5 maskers opgeven.",
+      "par2": "Je kan ook maar 1 keer een aanvraag doen."
+    },
+    "stats": {
+      "numMakers": "Superhelden in je buurt",
+      "numDelivered": "Mondmaskers afgeleverd in je buurt"
+    },
+    "notFound": {
+      "title": "Geen superheld in je buurt",
+      "par1": "We hebben jammergenoeg geen superheld in je buurt gevonden die maskers heeft. We blijven zoeken en zullen je een <0>e-mail</0> sturen zodra we iemand vinden.",
+      "par2": "Hou dus zeker je <b>mailbox</b> in de gaten.",
+      "par3": "Je kan helpen door dit platform op sociale media te delen. Misschien vinden we zo wel iemand."
+    },
+    "notNeeded": {
+      "label": "Ik heb toch geen mondmaskers meer nodig"
+    },
+    "found": {
+      "loading": "We zijn de gegevens van je superheld aan het ophalen"
+    },
+    "disguise": {
+      "label": "Vermom je",
+      "message": "Jij bent geregistreerd als een test gebruiker",
+      "par1": "Om het testen te vereenvoudigen, kan je jezelf vemommen als je superheld."
+    },
+    "done": {
+      "label": "Word zelf een superheld"
+    },
+    "waiting": {
+      "par1": "We hebben op <0>{{distance, distance}}</0> iemand gevonden die maskers heeft. We hebben een mail gestuurd en nu wachten we tot hij of zij je aanvraag aanvaardt.",
+      "par2": "Enkel het aantal maskers en de afstand is doorgegeven, dus geen persoonlijke informatie.",
+      "par3": "Zodra je aanvraag aanvaard is, krijg je een mail en zal je de contact informatie vinden, zodat jullie het onderling kunnen regelen.",
+      "par4": "In afwachting kan je wel aan zoveel mogelijk mensen over dit platform vertellen."
     },
     "contact": {
       "title": "Jouw superheld op {{distance, distance}}",
@@ -136,14 +184,30 @@
       "heroMarkedAsHandedOver_plural": "Blijkbaar heb je je maskers al ontvangen. Klopt dit?",
       "received": "Ik heb {{count}} mondmasker ontvangen",
       "received_plural": "Ik heb {{count}} mondmaskers ontvangen",
+      "share": {
+        "body": "Laat de wereld weten dat je net {{count}} mondmasker ontvangen hebt.",
+        "body_plural": "Laat de wereld weten dat je net {{count}} mondmaskers ontvangen hebt.",
+        "message": "Ik heb via {{appName}} net {{count}} mondmasker ontvangen",
+        "message_plural": "Ik heb via {{appName}} net {{count}} mondmaskers ontvangen"
+      },
+      "whatsapp": {
+        "message": "Dag superheld"
+      },
+      "info": "Alle info over hoe je een mondmasker draagt, vind je op: <0>maakjemondmasker.be</a>",
       "alert": {
         "description": "Neem het materiaal uit het zakje. Was het 30 min op 60° en was je handen met water en zeep."
       },
+      "par1": "Nu hebben jullie mekaars contactgegevens. Contacteer je superheld en spreek af hoe je de overhandiging kan laten gebeuren.",
+      "par2": "Indien jij de maskers gaat afhalen, probeer indien mogelijk met de fiets te gaan. Hou afstand en was je handen voor en na de overhandiging.",
+      "par3": "{{name}} is een vrijwilliger. Wees dankbaar, wees vriendelijk, heb geduld.",
       "cancel": {
         "title": "Ben je zeker dat je je aanvraag wilt annuleren?",
+        "par1": "Dit kan perfect. Misschien heb je via een andere weg mondmaskers gevonden of is het gewoon niet meer nodig.",
         "consequences1": "Als je je aanvraag annuleert, zal je geen nieuwe aanvragen meer kunnen doen. Je kan wel zelf nog anderen meehelpen",
         "consequences2": "Wij verwittigen {{name}} alvast dat je geen mondmaskers meer nodig hebt. Jij hoeft niks te doen.",
-        "consequences2_plural": "Wij verwittigen {{name}} alvast dat je geen mondmaskers meer nodig hebt. Jij hoeft niks te doen."
+        "consequences2_plural": "Wij verwittigen {{name}} alvast dat je geen mondmaskers meer nodig hebt. Jij hoeft niks te doen.",
+        "par2": "Bedankt om ons dit te laten weten.",
+        "label": "ik heb geen mondmaskers meer nodig"
       }
     },
     "done": {

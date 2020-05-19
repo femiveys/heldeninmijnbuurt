@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { Trans } from "react-i18next";
 import { useCallback } from "react";
 import { Typography, Button, Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
@@ -13,8 +13,7 @@ type TProps = {
   needsMouthmaskAmount: number;
 };
 
-const CancelButton = (props: TProps) => {
-  const { t } = useTranslation();
+const CancelButton = ({ name, needsMouthmaskAmount }: TProps) => {
   const goto = useGoto();
   const { updateUser } = useUser();
   const { isLoading: isCancelling, callApi } = useApi(
@@ -24,24 +23,28 @@ const CancelButton = (props: TProps) => {
 
   const onCancel = useCallback(() => {
     confirm({
-      title: t("requestor.contact.cancel.title"),
+      title: <Trans i18nKey="requestor.contact.cancel.title" />,
       icon: <ExclamationCircleOutlined />,
       content: (
         <Typography>
           <Paragraph>
-            Dit kan perfect. Misschien heb je via een andere weg mondmaskers
-            gevonden of is het gewoon niet meer nodig.
+            <Trans i18nKey="requestor.contact.cancel.par1" />
           </Paragraph>
           <Paragraph type="secondary">
-            {t("requestor.contact.cancel.consequences1")}
+            <Trans i18nKey="requestor.contact.cancel.consequences1" />
           </Paragraph>
           <Paragraph type="secondary">
-            {t("requestor.contact.cancel.consequences2", {
-              name,
-              count: needsMouthmaskAmount,
-            })}
+            <Trans
+              i18nKey="requestor.contact.cancel.consequences2"
+              values={{
+                name,
+                count: needsMouthmaskAmount,
+              }}
+            />
           </Paragraph>
-          <Paragraph>Bedankt om ons dit te laten weten.</Paragraph>
+          <Paragraph>
+            <Trans i18nKey="requestor.contact.cancel.par2" />
+          </Paragraph>
         </Typography>
       ),
       okText: t("yes"),
@@ -55,8 +58,6 @@ const CancelButton = (props: TProps) => {
     });
   }, []);
 
-  const { name, needsMouthmaskAmount } = props;
-
   return (
     <Button
       danger
@@ -65,7 +66,7 @@ const CancelButton = (props: TProps) => {
       onClick={onCancel}
       loading={isCancelling}
     >
-      ik heb geen mondmaskers meer nodig
+      {t("requestor.contact.cancel.label")}
     </Button>
   );
 };

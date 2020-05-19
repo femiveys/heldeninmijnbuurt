@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 import { Card, Space, Typography, Row, Col, Button, Alert } from "antd";
 import {
   MailOutlined,
@@ -37,14 +37,13 @@ const SuperheroContactInfo = (props: TProps) => {
   const { superhero, needsMouthmaskAmount, fetchSuperHero } = props;
 
   const markAsHandedOver = useCallback(async () => {
-    const masks =
-      `${needsMouthmaskAmount} mondmasker` +
-      (needsMouthmaskAmount === 1 ? "" : "s");
-
     share(
       t,
-      `Laat de wereld weten dat je net ${masks} ontvangen hebt.`,
-      `Ik heb via ${appName} net ${masks} ontvangen`
+      t("requestor.contact.share.body", { count: needsMouthmaskAmount }),
+      t("requestor.contact.share.message", {
+        count: needsMouthmaskAmount,
+        appName,
+      })
     );
 
     await callApi({ name: "markAsHandedOver" });
@@ -95,7 +94,7 @@ const SuperheroContactInfo = (props: TProps) => {
                   <Space>
                     <WhatsAppOutlined style={iconStyle} />
                     <Whatsapp
-                      message="Dag superheld"
+                      message={t("requestor.whatsapp.message")}
                       number={superhero.user.whatsapp}
                     />
                   </Space>
@@ -103,7 +102,10 @@ const SuperheroContactInfo = (props: TProps) => {
                 {superhero.relation.heroHandoverDate ? (
                   <div>
                     <Paragraph>
-                      {t("requestor.contact.heroMarkedAsHandedOver", count)}
+                      <Trans
+                        i18nKey="requestor.contact.heroMarkedAsHandedOver"
+                        {...count}
+                      />
                     </Paragraph>
                     <Space>
                       <Button
@@ -128,7 +130,7 @@ const SuperheroContactInfo = (props: TProps) => {
                     onClick={markAsHandedOver}
                     loading={isMarkingAsHandedOver}
                   >
-                    {t("requestor.contact.received", count)}
+                    <Trans i18nKey="requestor.contact.received" {...count} />
                   </Button>
                 )}
               </Space>
@@ -137,35 +139,38 @@ const SuperheroContactInfo = (props: TProps) => {
           <Col {...layout}>
             <Alert
               type="warning"
-              message={t("safetyTitle")}
+              message={<Trans i18nKey="safetyTitle" />}
               description={
                 <Typography>
                   <Paragraph>
-                    {t("requestor.contact.alert.description")}
+                    <Trans i18nKey="requestor.contact.alert.description" />
                   </Paragraph>
                   <Text>
-                    Alle info over hoe je een mondmasker draagt, vind je op:{" "}
-                    <a href="https://maakjemondmasker.be" target="_blank">
-                      maakjemondmasker.be
-                    </a>
+                    <Trans
+                      i18nKey="requestor.contact.info"
+                      components={[
+                        <a
+                          href="https://maakjemondmasker.be"
+                          target="_blank"
+                        />,
+                      ]}
+                    />
                   </Text>
                 </Typography>
               }
             />
             <Typography style={{ padding: 16 }}>
               <Paragraph>
-                Nu hebben jullie mekaars contactgegevens. Contacteer je
-                superheld en spreek af hoe je de overhandiging kan laten
-                gebeuren.
+                <Trans i18nKey="requestor.contact.par1" />
               </Paragraph>
               <Paragraph>
-                Indien jij de maskers gaat afhalen, probeer indien mogelijk met
-                de fiets te gaan. Hou afstand en was je handen voor en na de
-                overhandiging.
+                <Trans i18nKey="requestor.contact.par2" />
               </Paragraph>
               <Paragraph>
-                {superhero.user.name} is een vrijwilliger. Wees dankbaar, wees
-                vriendelijk, heb geduld.
+                <Trans
+                  i18nKey="requestor.contact.par3"
+                  values={{ name: superhero.user.name }}
+                />
               </Paragraph>
             </Typography>
           </Col>
