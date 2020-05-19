@@ -12,7 +12,7 @@
   "update": "Pas aan",
   "ago": "{{date, ago}} geleden",
   "login": {
-    "google": "Login met google",
+    "google": "Login met Google",
     "facebook": "Login met Facebook"
   },
   "safetyTitle": "Respecteer de veiligheidsmaatregelen",

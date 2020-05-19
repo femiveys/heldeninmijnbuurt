@@ -24,10 +24,12 @@ export const grid = {
   xl: { offset: 6, span: 12 },
 };
 
-export const getStreetInUserLanguage = (
+export const getTrimmedStreetInUserLanguage = (
   street: TStreet | TUser,
   language = "nl"
-) => {
+) => removeParentheses(getStreetInUserLanguage(street, language)).trim();
+
+const getStreetInUserLanguage = (street: TStreet | TUser, language = "nl") => {
   switch (language) {
     case "fr":
       return street.streetDescFr || street.streetDescNl || street.streetDescDe;

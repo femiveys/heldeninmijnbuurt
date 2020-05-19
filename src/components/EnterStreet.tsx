@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { useApi, useUser, useAuth } from "../hooks";
 import {
   grid,
-  getStreetInUserLanguage,
+  getTrimmedStreetInUserLanguage,
   removeParentheses,
   getFlemishPostalcodes,
 } from "../helpers";
@@ -151,7 +151,7 @@ const EnterStreet = () => {
                   value={street.id}
                   style={{ padding: 8 }}
                 >
-                  {removeParentheses(getStreetInUserLanguage(street))}
+                  {getTrimmedStreetInUserLanguage(street)}
                 </Select.Option>
               ))}
             </Select>

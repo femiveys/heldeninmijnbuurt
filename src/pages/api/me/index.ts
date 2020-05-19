@@ -19,7 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const firebaseUser = await getFirebaseUser(req);
       const userId = await getRealUserId(firebaseUser);
 
-      const email = firebaseUser.email || firebaseUser.providerData[0];
+      const email = firebaseUser.email || firebaseUser.providerData[0].email;
 
       await db("user").insert({
         user_id: userId,
