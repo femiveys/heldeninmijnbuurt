@@ -1,5 +1,6 @@
 import { Button, Typography, Modal } from "antd";
 import { useApi, useUser, useGoto } from "../../hooks";
+import { useTranslation } from "react-i18next";
 
 const { Paragraph } = Typography;
 
@@ -9,8 +10,9 @@ type TProps = {
 
 const Stop = ({ hasPending }: TProps) => {
   const goto = useGoto();
+  const { t } = useTranslation();
   const { updateUser } = useUser();
-  const { isLoading, callApi } = useApi("PUT", "me/action");
+  const { callApi } = useApi("PUT", "me/action");
 
   return (
     <div style={{ textAlign: "right" }}>
@@ -21,47 +23,35 @@ const Stop = ({ hasPending }: TProps) => {
         danger
         onClick={() => {
           Modal.confirm({
-            title: "Ben je zeker dat je geen maskers meer wilt maken?",
+            title: t("maker.stop.title"),
             content: (
               <Typography>
-                <Paragraph>
-                  Zo spijtig om je te zien gaan. Ook als je nu stopt, kan je
-                  erna terugkomen. Wij vergeten niet hoeveel mondmaskers je
-                  gemaakt hebt.
-                </Paragraph>
+                <Paragraph>{t("maker.stop.par1")}</Paragraph>
                 {hasPending ? (
                   <Paragraph type="secondary">
-                    We zien dat je nog open aanvragen hebt.
+                    {t("maker.stop.par2")}
                     <br />
-                    Niet mee inzitten. Wij regelen alles voor jou. We
-                    verwittigen zelf de aanvragers en we zoeken voor hen een
-                    nieuwe superheld hun de buurt.
+                    {t("maker.stop.par3")}
                   </Paragraph>
                 ) : (
-                  <Paragraph type="secondary">
-                    We zien dat je alles netjes afgewerkt hebt. Bedankt, zo
-                    moeten wij geen nieuwe superhelden meer zoeken voor
-                    openstaande aanvragen.
-                  </Paragraph>
+                  <Paragraph type="secondary">{t("maker.stop.par4")}</Paragraph>
                 )}
-                <Paragraph>
-                  Je buurt bedankt je in ieder geval voor je inzet!
-                </Paragraph>
+                <Paragraph>{t("maker.stop.par5")}</Paragraph>
               </Typography>
             ),
             centered: true,
-            okText: "Ja, ik stop",
+            okText: t("maker.stop.ok"),
             okButtonProps: { danger: true },
             onOk: async () => {
               await callApi({ name: "unsetIsMaker" });
               updateUser({ isMaker: false });
               await goto();
             },
-            cancelText: "Ik help verder",
+            cancelText: t("maker.stop.cancel"),
           });
         }}
       >
-        ik wil geen maskers meer maken
+        {t("maker.stop.label")}
       </Button>
     </div>
   );

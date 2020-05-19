@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Row, Col, Spin, Typography } from "antd";
 import Statistics from "./Statistics";
 import { RequestedRequests } from "./RequestedRequests";
@@ -16,6 +17,7 @@ const { Paragraph } = Typography;
 
 export const MakeMouthmask = () => {
   const { user } = useUser();
+  const { t } = useTranslation();
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const {
     isLoading: isLoadingRequested,
@@ -62,7 +64,7 @@ export const MakeMouthmask = () => {
               <Spin
                 size="large"
                 style={{ paddingTop: 40 }}
-                tip="Je aanvragen aan het ophalen..."
+                tip={t("maker.loading")}
               />
             ) : (
               <>
@@ -88,16 +90,8 @@ export const MakeMouthmask = () => {
                   requestedRequests.length === 0 &&
                   acceptedRequests.length === 0 && (
                     <Typography style={{ textAlign: "left", padding: 16 }}>
-                      <Paragraph>
-                        Momenteel is er niemand in je buurt die een mondmasker
-                        zoekt, maar geen nood, die komen heus wel.
-                      </Paragraph>
-                      <Paragraph>
-                        Zodra iemand in je buurt maskers zoekt, sturen we je een
-                        mail. Intussen kan je de wereld over deze applicatie
-                        vertellen zodat we meer mensen met elkaar in contact
-                        kunnen brengen.
-                      </Paragraph>
+                      <Paragraph>{t("maker.empty.par1")}</Paragraph>
+                      <Paragraph>{t("maker.empty.par2")}</Paragraph>
                       <ShareButton />
                     </Typography>
                   )}

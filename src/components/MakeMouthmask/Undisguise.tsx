@@ -1,10 +1,12 @@
 import { Button, Alert } from "antd";
 import { useRouter } from "next/router";
 import { useApi, useUser } from "../../hooks";
+import { useTranslation } from "react-i18next";
 
 const Undisguise = () => {
   const router = useRouter();
   const { user } = useUser();
+  const { t } = useTranslation();
   const { isLoading: isUndisguising, callApi: undisguise } = useApi(
     "PUT",
     "requestor/action"
@@ -12,16 +14,16 @@ const Undisguise = () => {
 
   return user.realUserId !== user.userId ? (
     <Alert
-      type="warning"
       closable
+      type="warning"
       style={{ textAlign: "left" }}
-      message="Jij bent geregistreerd als een test gebruiker"
+      message={t("maker.undisguise.message")}
       description={
         <div>
           <div>
-            Momenteel ben je vermomd als je superheld.
+            {t("maker.undisguise.par1")}
             <br />
-            Dit kan je zien door rechtsboven op je avatar te klikken
+            {t("maker.undisguise.par2")}
           </div>
           <div style={{ textAlign: "right" }}>
             <Button
@@ -33,7 +35,7 @@ const Undisguise = () => {
                 router.reload();
               }}
             >
-              Maak vermomming ongedaan
+              {t("maker.undisguise.label")}
             </Button>
           </div>
         </div>

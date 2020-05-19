@@ -9,7 +9,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const result = await sendMail(
         "femiveys@gmail.com,carolinerosu@hotmail.com",
-        "accepted",
+        "requestorMarkedAsHandedOver",
         {
           hero: {
             userId: "hero",

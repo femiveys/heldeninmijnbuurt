@@ -5,7 +5,7 @@ import {
   CheckOutlined,
   HomeOutlined,
 } from "@ant-design/icons";
-import { Table, Button, Divider, Typography, Modal } from "antd";
+import { Table, Button, Divider, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import { apiCall } from "../../axios";
 import { useUser } from "../../hooks";
@@ -70,13 +70,10 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
       // We do an optimistic update on the user.
       updateUser({ numDelivered });
 
-      const masks =
-        `${numDelivered} mondmasker` + (numDelivered === 1 ? "" : "s");
-
       share(
         t,
-        `Deel met de wereld dat je al ${masks} hebt gemaakt`,
-        `Ik heb via ${appName} al ${masks} gemaakt.`
+        t("maker.accepted.share.body", { count: numDelivered }),
+        t("maker.accepted.share.message", { count: numDelivered, appName })
       );
 
       try {
@@ -154,31 +151,33 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
         <Column<TRecord>
           key="name"
           title={t("name")}
-          render={(_, record) => (
-            <div>
-              <div
-                style={{
-                  maxWidth: screen.width - 171,
-                  whiteSpace: "nowrap",
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                }}
-              >
-                {record.user.name}
+          render={(_, record) => {
+            const count = record.user.needsMouthmaskAmount;
+            return (
+              <div>
+                <div
+                  style={{
+                    maxWidth: screen.width - 171,
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                  }}
+                >
+                  {record.user.name}
+                </div>
+                <Text type="secondary">
+                  {record.relation.requestorHandoverDate
+                    ? t("maker.accepted.amountReceived", { count })
+                    : t("maker.accepted.amountReceived", { count })}
+                </Text>
               </div>
-              <Text type="secondary">
-                {record.user.needsMouthmaskAmount} masker{" "}
-                {record.relation.requestorHandoverDate
-                  ? "ontvangen"
-                  : "gevraagd"}
-              </Text>
-            </div>
-          )}
+            );
+          }}
         />
         <Column<TRecord>
           key="contact"
           dataIndex={["relation", "id"]}
-          render={(_relationId, record) =>
+          render={(_, record) =>
             record.relation.requestorHandoverDate ? (
               <>{t("maker.accepted.received")}</>
             ) : (
@@ -209,19 +208,9 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
         />
       </Table>
       <Typography style={{ margin: 16, textAlign: "left" }}>
-        <Paragraph>
-          Nu hebben jullie mekaars contactgegevens. Kom in contact met elkaar en
-          spreek af hoe je de overhandiging kan laten gebeuren.
-        </Paragraph>
-        <Paragraph>
-          Indien de maskers opgehaald worden, zorg ervoor dat alles veilig en
-          met de nodige afstand gebeurt.
-        </Paragraph>
-        <Paragraph>
-          Indien jij de maskers gaat afleveren, probeer indien mogelijk met de
-          fiets te gaan. Hou afstand en was je handen voor en na de
-          overhandiging.
-        </Paragraph>
+        <Paragraph>{t("maker.accepted.par1")}</Paragraph>
+        <Paragraph>{t("maker.accepted.par2")}</Paragraph>
+        <Paragraph>{t("maker.accepted.par3")}</Paragraph>
       </Typography>
     </div>
   ) : null;
