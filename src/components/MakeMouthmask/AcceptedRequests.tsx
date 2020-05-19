@@ -65,7 +65,7 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
       // We do an optimistic update on the current table
       removeRow(relationId);
 
-      const numDelivered = Number(user?.numDelivered) + needsMouthmaskAmount;
+      const numDelivered = user.numDelivered + needsMouthmaskAmount;
 
       // We do an optimistic update on the user.
       updateUser({ numDelivered });
@@ -95,7 +95,7 @@ const AcceptedRequests = ({ requests, fetchAccepted }: TProps) => {
           <Whatsapp
             message={t("maker.accepted.whatsapp", {
               requestor: record.user.name,
-              superhero: user?.name,
+              superhero: user.name,
             })}
             number={record.user.whatsapp}
           />

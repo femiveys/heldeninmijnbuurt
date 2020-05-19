@@ -16,13 +16,13 @@ export const SearchMouthmask = () => {
   } = useApi<TDistanceAndStatus>("GET", "requestor/superhero/status");
 
   useEffect(() => {
-    if (user!.needsMouthmaskAmount) fetchRelationStatus();
+    if (user.needsMouthmaskAmount) fetchRelationStatus();
   }, []);
 
-  const needsMouthmaskAmount = Number(user?.needsMouthmaskAmount);
+  const needsMouthmaskAmount = user.needsMouthmaskAmount;
 
   // A user that is not active, so who has cancelled or is done cannot see the widget
-  if (user?.status === EUserStatus.cancelled) return null;
+  if (user.status === EUserStatus.cancelled) return null;
 
   return (
     <>

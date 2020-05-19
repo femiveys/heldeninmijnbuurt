@@ -11,7 +11,7 @@ const Disguise = () => {
     "requestor/action"
   );
 
-  return user?.isTester && user.status !== EUserStatus.done ? (
+  return user.isTester && user.status !== EUserStatus.done ? (
     <Alert
       type="warning"
       closable

@@ -113,7 +113,7 @@ export const RequestedRequests = ({
               size="small"
               icon={<DownloadOutlined />}
               onClick={() => {
-                if (Number(user?.maskStock) < record.needsMouthmaskAmount) {
+                if (user.maskStock < record.needsMouthmaskAmount) {
                   Modal.warning({
                     title: t("maker.requested.notEnough.title"),
                     content: (

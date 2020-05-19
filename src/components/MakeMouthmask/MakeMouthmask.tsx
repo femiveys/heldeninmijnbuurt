@@ -48,12 +48,12 @@ export const MakeMouthmask = () => {
   return (
     <Row>
       <Col {...grid}>
-        {user?.maskStock === null ? (
+        {user.maskStock === null ? (
           <EnterStock fetchRequested={fetchRequested} />
         ) : (
           <div style={{ textAlign: "center", paddingTop: 16 }}>
             <Statistics fetchRequested={fetchRequested} />
-            <Message closable={Number(user?.numDelivered) > 10} />
+            <Message closable={user.numDelivered > 10} />
             <Stop
               hasPending={
                 requestedRequests.length > 0 || acceptedRequests.length > 0

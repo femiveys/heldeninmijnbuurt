@@ -40,7 +40,7 @@ const AvailableForm = ({ fetchRequested }: TProps) => {
         form={form}
         size="large"
         onFinish={updateStock}
-        initialValues={{ maskStock: Number(user?.maskStock) }}
+        initialValues={{ maskStock: Number(user.maskStock) }}
       >
         <Form.Item name="maskStock">
           <Input

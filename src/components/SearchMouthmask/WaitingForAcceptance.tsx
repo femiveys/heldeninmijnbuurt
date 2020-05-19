@@ -58,7 +58,7 @@ const WaitingForAcceptance = ({ distance }: TProps) => {
             <CancelButton
               key="cancel"
               name={t("thePerson")}
-              needsMouthmaskAmount={Number(user?.needsMouthmaskAmount)}
+              needsMouthmaskAmount={user.needsMouthmaskAmount}
             />,
           ]}
         />
