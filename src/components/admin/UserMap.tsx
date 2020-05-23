@@ -25,6 +25,8 @@ const UserMap = () => {
 
   if (!users) return null;
 
+  console.log(users);
+
   return (
     <LoadScript googleMapsApiKey="AIzaSyDM5zDMhdVc6BfXOJz5ad_O8Ov6lRIs0bc">
       <GoogleMap

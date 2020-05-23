@@ -60,8 +60,8 @@
   },
   "steps": {
     "step1": "Inloggen",
-    "step1": "Straat ingeven",
-    "step1": "Rol kiezen"
+    "step2": "Straat ingeven",
+    "step3": "Rol kiezen"
   },
   "enterStreet": {
     "title": "In welke buurt woon je?",
