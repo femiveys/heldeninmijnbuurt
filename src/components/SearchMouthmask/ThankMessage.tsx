@@ -20,7 +20,7 @@ const ThankMessage = () => {
   }, []);
 
   return messageStent ? (
-    <Alert type="success" message="Bedankt" />
+    <Alert type="success" message={t("thanks")} />
   ) : (
     <Form form={form} size="small" onFinish={thank}>
       <Form.Item name="message">

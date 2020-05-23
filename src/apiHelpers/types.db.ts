@@ -60,3 +60,9 @@ export type TShortStreetFromDb = Pick<
 >;
 
 export type TUserAndDistanceFromDb = TUserFromDb & { distance: number };
+
+export type TFullRelationFromDb = {
+  hero: TUserFromDb;
+  requestor: TUserFromDb;
+  relation: TRelationFromDb;
+};

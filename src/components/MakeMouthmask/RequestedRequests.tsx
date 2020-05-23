@@ -113,20 +113,19 @@ export const RequestedRequests = ({
               size="small"
               icon={<DownloadOutlined />}
               onClick={() => {
-                if (Number(user?.maskStock) < record.needsMouthmaskAmount) {
+                if (user.maskStock < record.needsMouthmaskAmount) {
                   Modal.warning({
-                    title: "Je hebt onvoldoende mondmaskers",
+                    title: t("maker.requested.notEnough.title"),
                     content: (
                       <Typography>
                         <Paragraph>
-                          {t("maker.requested.stock", {
-                            count: user?.maskStock,
+                          {t("maker.requested.notEnough.stock", {
+                            count: user.maskStock,
                           })}{" "}
-                          Dit is minder dan in deze aanvraag.
+                          {t("maker.requested.notEnough.par1")}
                         </Paragraph>
                         <Paragraph>
-                          Gelieve je stock aan te passen voor je deze aanvraag
-                          kan aanvaarden.
+                          {t("maker.requested.notEnough.par2")}
                         </Paragraph>
                       </Typography>
                     ),
@@ -153,20 +152,11 @@ export const RequestedRequests = ({
               icon={<CloseOutlined />}
               onClick={() => {
                 Modal.confirm({
-                  title: "Ben je zeker dat je deze maskers niet kan naaien?",
-                  content: (
-                    <Typography>
-                      <Paragraph>
-                        Spijtig, maar de aanvrager zal in ieder geval niet weten
-                        dat jij de maskers niet kon naaien. Wij zoeken voor hem
-                        of haar een nieuwe superheld. Zo kan jij op je beide
-                        oren slapen.
-                      </Paragraph>
-                    </Typography>
-                  ),
-                  okText: "Ja, ik ben zeker",
+                  title: t("maker.requested.decline.title"),
+                  content: t("maker.requested.decline.content"),
+                  okText: t("maker.requested.decline.yes"),
                   okButtonProps: { danger: true },
-                  cancelText: "Nee",
+                  cancelText: t("no"),
                   onOk: decline(relationId),
                 });
               }}

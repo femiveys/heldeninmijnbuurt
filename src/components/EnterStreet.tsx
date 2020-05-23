@@ -10,12 +10,11 @@ import {
   Checkbox,
   Modal,
 } from "antd";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 import { useApi, useUser, useAuth } from "../hooks";
 import {
   grid,
   getTrimmedStreetInUserLanguage,
-  removeParentheses,
   getFlemishPostalcodes,
 } from "../helpers";
 import CommonSteps from "./CommonSteps";
@@ -75,16 +74,26 @@ const EnterStreet = () => {
     form.resetFields(["streetId"]);
   }, []);
 
+  const popupProps = {
+    centered: true,
+    className: "legal-modal",
+    okText: <Trans i18nKey="agree" />,
+    cancelText: <Trans i18nKey="disagree" />,
+  };
+
   return (
     <Row>
       <Col {...grid} style={{ padding: 16 }}>
         <CommonSteps current={1} />
         <Typography style={{ paddingTop: 16 }}>
-          <Title level={4}>In welke buurt woon je?</Title>
+          <Title level={4}>
+            <Trans i18nKey="enterStreet.title" />
+          </Title>
           <Paragraph>
-            {firebaseUser?.displayName}, gelieve ons te laten weten in welke
-            buurt je woont. Zo kunnen we mensen die mondmaskers zoeken,
-            samenbrengen met superhelden, die mondmaskers maken.
+            <Trans
+              i18nKey="enterStreet.title"
+              values={{ name: firebaseUser?.displayName }}
+            />
           </Paragraph>
         </Typography>
         <Form
@@ -125,11 +134,11 @@ const EnterStreet = () => {
             </Select>
           </Form.Item>
           <Form.Item
-            label={t("requestor.enterStreet.street.label")}
+            label={t("requestor.enterStreet.label")}
             name="streetId"
             validateStatus="validating"
             hasFeedback={isFetchingStreets}
-            extra="Niemand zal ooit je straat zien. We gebruiken dit enkel om mensen in elkaars buurt samen te brengen."
+            extra={<Trans i18nKey="enterStreet.extra.street" />}
             rules={[
               {
                 required: true,
@@ -160,59 +169,57 @@ const EnterStreet = () => {
           <Form.Item
             name="general"
             {...getCheckboxProps(
-              <span>
-                Om verder te kunnen, moet je de algemene voorwaarden aanvaarden
-              </span>
+              <Trans
+                i18nKey="enterStreet.error"
+                values={{ name: t("general") }}
+              />
             )}
           >
             <Checkbox>
-              Ik aanvaard de{" "}
-              <a
-                onClick={(event) => {
-                  event.preventDefault();
-                  Modal.confirm({
-                    centered: true,
-                    className: "legal-modal",
-                    content: <GeneralConditions />,
-                    okText: "Akkoord",
-                    cancelText: "Niet akkoord",
-                    onOk: () => {
-                      form.setFieldsValue({ general: true });
-                    },
-                  });
-                }}
-              >
-                algemene voorwaarden
-              </a>
+              <Trans
+                i18nKey="enterStreet.label"
+                values={{ name: t("general") }}
+                components={[
+                  <a
+                    onClick={(event) => {
+                      event.preventDefault();
+                      Modal.confirm({
+                        ...popupProps,
+                        content: <GeneralConditions />,
+                        onOk: () => form.setFieldsValue({ general: true }),
+                      });
+                    }}
+                  />,
+                ]}
+              />
             </Checkbox>
           </Form.Item>
           <Form.Item
             name="privacy"
             {...getCheckboxProps(
-              <span>
-                Om verder te kunnen, moet je de privacy policy aanvaarden
-              </span>
+              <Trans
+                i18nKey="enterStreet.error"
+                values={{ name: t("privacy") }}
+              />
             )}
           >
             <Checkbox>
-              Ik aanvaard de{" "}
-              <a
-                onClick={(event) => {
-                  event.preventDefault();
-                  Modal.confirm({
-                    centered: true,
-                    className: "legal-modal",
-                    content: <PrivacyPolicy />,
-                    okText: "Akkoord",
-                    cancelText: "Niet akkoord",
-                    onOk: () => {
-                      form.setFieldsValue({ privacy: true });
-                    },
-                  });
-                }}
-              >
-                privacy policy
-              </a>
+              <Trans
+                i18nKey="enterStreet.label"
+                values={{ name: t("privacy") }}
+                components={[
+                  <a
+                    onClick={(event) => {
+                      event.preventDefault();
+                      Modal.confirm({
+                        ...popupProps,
+                        content: <PrivacyPolicy />,
+                        onOk: () => form.setFieldsValue({ privacy: true }),
+                      });
+                    }}
+                  />,
+                ]}
+              />
             </Checkbox>
           </Form.Item>
 

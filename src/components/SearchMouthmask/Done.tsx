@@ -1,10 +1,10 @@
 import { Space, Result, Button, Col, Row } from "antd";
-import { useTranslation } from "react-i18next";
+import { Trans } from "react-i18next";
 import Appreciation from "./Appreciation";
+import { useGoto } from "../../hooks";
 import { grid } from "../../helpers";
 import SearchSteps from "./SearchSteps";
 import Disguise from "./Disguise";
-import { useGoto } from "../../hooks";
 
 type TProps = {
   needsMouthmaskAmount: number;
@@ -12,7 +12,6 @@ type TProps = {
 };
 
 const Done = ({ needsMouthmaskAmount, showAppreciation }: TProps) => {
-  const { t } = useTranslation();
   const goto = useGoto();
 
   return (
@@ -22,7 +21,12 @@ const Done = ({ needsMouthmaskAmount, showAppreciation }: TProps) => {
         <Disguise />
         <Result
           status="success"
-          title={t("requestor.done.title", { count: needsMouthmaskAmount })}
+          title={
+            <Trans
+              count={needsMouthmaskAmount}
+              i18nKey="requestor.done.title"
+            />
+          }
           extra={[
             <Space
               key="extra"
@@ -32,7 +36,7 @@ const Done = ({ needsMouthmaskAmount, showAppreciation }: TProps) => {
             >
               {showAppreciation && <Appreciation showStars={false} />}
               <Button type="primary" onClick={() => goto()}>
-                Word zelf een superheld
+                <Trans i18nKey="requestor.done.label" />
               </Button>
             </Space>,
           ]}

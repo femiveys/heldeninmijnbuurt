@@ -14,12 +14,15 @@ const Statistics = ({ fetchRequested }: TProps) => {
   return (
     <Row justify="space-around">
       <Col>
-        <Statistic title="Maskers overhandigd" value={user?.numDelivered} />
+        <Statistic
+          title={t("maker.stats.handedOver")}
+          value={user.numDelivered}
+        />
       </Col>
       <Col>
         <Statistic
           title={t("maker.available.label")}
-          value={user?.maskStock.toString()}
+          value={user.maskStock.toString()}
           formatter={(value) => (
             <MaskStock stock={Number(value)} fetchRequested={fetchRequested} />
           )}

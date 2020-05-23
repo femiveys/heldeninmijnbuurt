@@ -49,7 +49,7 @@ const Problem = ({ relationId, afterSuccess }: TProps) => {
         maskClosable
         destroyOnClose
         visible={visible}
-        title="Welk probleem heb je ondervonden?"
+        title={t("maker.problem.title")}
         okText={t("send")}
         onOk={onOk}
         okButtonProps={{ disabled: !enableSubmit }}
@@ -76,16 +76,16 @@ const Problem = ({ relationId, afterSuccess }: TProps) => {
           <Form.Item name="problem">
             <Radio.Group>
               <Radio style={style} value="not able to handover">
-                Ik heb de maskers niet kunnen overhandigen
+                {t("maker.problem.item1")}
               </Radio>
               <Radio style={style} value="no more mouthmasks">
-                Ik heb geen maskers meer
+                {t("maker.problem.item2")}
               </Radio>
               <Radio style={style} value="suspicious">
-                Verdacht gedrag
+                {t("maker.problem.item3")}
               </Radio>
               <Radio style={style} value="other">
-                Ander...
+                {t("maker.problem.other")}
               </Radio>
             </Radio.Group>
           </Form.Item>
@@ -95,7 +95,7 @@ const Problem = ({ relationId, afterSuccess }: TProps) => {
                 autoFocus
                 style={style}
                 maxLength={255}
-                placeholder="Beschrijf kort het probleem"
+                placeholder={t("maker.problem.placeholder")}
               />
             </Form.Item>
           ) : null}

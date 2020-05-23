@@ -1,6 +1,7 @@
 import { Button, Alert } from "antd";
-import { useApi, useUser } from "../../hooks";
+import { Trans } from "react-i18next";
 import { useRouter } from "next/router";
+import { useApi, useUser } from "../../hooks";
 import { EUserStatus } from "../../types";
 
 const Disguise = () => {
@@ -11,16 +12,15 @@ const Disguise = () => {
     "requestor/action"
   );
 
-  return user?.isTester && user.status !== EUserStatus.done ? (
+  return user.isTester && user.status !== EUserStatus.done ? (
     <Alert
-      type="warning"
       closable
-      message="Jij bent geregistreerd als een test gebruiker"
+      type="warning"
+      message={<Trans i18nKey="requestor.disguise.message" />}
       description={
-        <div>
+        <>
           <div>
-            Om het testen te vereenvoudigen, kan je jezelf vemommen als je
-            superheld.
+            <Trans i18nKey="requestor.disguise.par1" />
           </div>
           <div style={{ textAlign: "right" }}>
             <Button
@@ -32,10 +32,10 @@ const Disguise = () => {
                 router.reload();
               }}
             >
-              Vermom je
+              <Trans i18nKey="requestor.disguise.label" />
             </Button>
           </div>
-        </div>
+        </>
       }
     />
   ) : null;

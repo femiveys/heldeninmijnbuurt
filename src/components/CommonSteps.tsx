@@ -1,4 +1,5 @@
 import { Steps } from "antd";
+import { Trans } from "react-i18next";
 
 type TProps = {
   current: number;
@@ -6,9 +7,9 @@ type TProps = {
 
 const CommonSteps = ({ current }: TProps) => (
   <Steps current={current} size="small">
-    <Steps.Step title="Inloggen" />
-    <Steps.Step title="Straat ingeven" />
-    <Steps.Step title="Rol kiezen" />
+    <Steps.Step title={<Trans i18nKey="steps.step1" />} />
+    <Steps.Step title={<Trans i18nKey="steps.step2" />} />
+    <Steps.Step title={<Trans i18nKey="steps.step3" />} />
   </Steps>
 );
 

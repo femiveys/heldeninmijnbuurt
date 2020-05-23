@@ -107,3 +107,9 @@ export type TStats = {
 };
 
 export type TUserAndDistance = TUser & { distance: number };
+
+export type TFullRelation = {
+  hero: TUser;
+  requestor: TUser;
+  relation: TRelation;
+};

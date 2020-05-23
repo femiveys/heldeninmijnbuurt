@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import FullSpinner from "../FullSpinner";
 import { useUser, useGoto } from "../../hooks";
 import { EUserStatus } from "../../types";
@@ -7,6 +8,7 @@ import Choice from "../Choice";
 const Index = () => {
   const goto = useGoto();
   const { user } = useUser();
+  const { t } = useTranslation();
 
   const isMaker = user.isMaker;
   const isActiveRequestor =
@@ -19,9 +21,9 @@ const Index = () => {
 
   // We show a FullSpinner while redirecting
   return isMaker ? (
-    <FullSpinner tip="Dashboard voor superhelden aan het laden..." />
+    <FullSpinner tip={t("redirect.superhero")} />
   ) : isActiveRequestor ? (
-    <FullSpinner tip="We helpen je mondmaskers vinden..." />
+    <FullSpinner tip={t("redirect.searching")} />
   ) : (
     <Choice />
   );

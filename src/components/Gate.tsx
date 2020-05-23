@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 // import Cookies from "js-cookie";
 import Login from "./Login";
 import FullSpinner from "./FullSpinner";
@@ -15,6 +16,7 @@ const Gate: React.FunctionComponent = ({ children }) => {
   // const [consent, setConsent] = useState(
   //   Cookies.get(CONSENT_COOKIE_NAME) === "true"
   // );
+  const { t } = useTranslation();
   const { firebaseUser, isLoggedIn, loggingIn } = useAuth();
   const { user, fetchUser, isFetchingUser } = useUser();
 
@@ -45,7 +47,7 @@ const Gate: React.FunctionComponent = ({ children }) => {
           <FullSpinner />
         ) : isLoggedIn ? (
           isFetchingUser ? (
-            <FullSpinner tip="Je gegevens aan het ophalen..." />
+            <FullSpinner tip={t("loadingGate")} />
           ) : user ? (
             children
           ) : (

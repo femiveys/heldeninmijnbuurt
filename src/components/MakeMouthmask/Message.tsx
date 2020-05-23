@@ -1,7 +1,5 @@
 import { Alert, Typography } from "antd";
-import { useTranslation } from "react-i18next";
-
-const { Text } = Typography;
+import { useTranslation, Trans } from "react-i18next";
 
 type TProps = {
   closable: boolean;
@@ -19,18 +17,17 @@ const Message = ({ closable }: TProps) => {
       description={
         <Typography>
           <ul>
-            <li>was je handen 60 seconden met zeep</li>
-            <li>maak je naai­machine proper</li>
-            <li>was je handen opnieuw alvorens verder te werken</li>
-            <li>draag tijdens het maken zelf een mondmasker</li>
+            <li>{t("maker.safety.item1")}</li>
+            <li>{t("maker.safety.item2")}</li>
+            <li>{t("maker.safety.item3")}</li>
+            <li>{t("maker.safety.item4")}</li>
           </ul>
-          <Text>
-            Alle info over hoe je een mondmasker maakt, inclusief patronen: 1
-            adres:{" "}
-            <a href="https://maakjemondmasker.be" target="_blank">
-              maakjemondmasker.be
-            </a>
-          </Text>
+          <Trans
+            i18nKey="maker.safety.info"
+            components={[
+              <a href="https://maakjemondmasker.be" target="_blank" />,
+            ]}
+          />
         </Typography>
       }
     />

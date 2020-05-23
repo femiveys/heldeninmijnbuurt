@@ -1,8 +1,8 @@
 import { useUser } from "../../hooks";
 import CancelButton from "./CancelButton";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 import { Row, Col, Typography, Result } from "antd";
-import { grid, formatLengthDistance } from "../../helpers";
+import { grid } from "../../helpers";
 import ShareButton from "../ShareButton";
 import SearchSteps from "./SearchSteps";
 import Disguise from "./Disguise";
@@ -31,22 +31,20 @@ const WaitingForAcceptance = ({ distance }: TProps) => {
             <div>
               <Typography style={{ textAlign: "left" }}>
                 <Paragraph>
-                  We hebben op <strong>{formatLengthDistance(distance)}</strong>{" "}
-                  iemand gevonden die maskers heeft. We hebben een mail gestuurd
-                  en nu wachten we tot hij of zij je aanvraag aanvaardt.
+                  <Trans
+                    i18nKey="requestor.waiting.par1"
+                    values={{ distance }}
+                    components={[<b />]}
+                  />
                 </Paragraph>
                 <Paragraph>
-                  Enkel het aantal maskers en de afstand is doorgegeven, dus
-                  geen persoonlijke informatie.
+                  <Trans i18nKey="requestor.waiting.par2" />
                 </Paragraph>
                 <Paragraph>
-                  Zodra je aanvraag aanvaard is, krijg je een mail en zal je de
-                  contact informatie vinden, zodat jullie het onderling kunnen
-                  regelen.
+                  <Trans i18nKey="requestor.waiting.par3" />
                 </Paragraph>
                 <Paragraph>
-                  In afwachting kan je wel aan zoveel mogelijk mensen over dit
-                  platform vertellen.
+                  <Trans i18nKey="requestor.waiting.par4" />
                 </Paragraph>
               </Typography>
               <GlobalStats />
@@ -58,7 +56,7 @@ const WaitingForAcceptance = ({ distance }: TProps) => {
             <CancelButton
               key="cancel"
               name={t("thePerson")}
-              needsMouthmaskAmount={Number(user?.needsMouthmaskAmount)}
+              needsMouthmaskAmount={user.needsMouthmaskAmount}
             />,
           ]}
         />

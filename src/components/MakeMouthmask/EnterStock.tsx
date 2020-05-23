@@ -1,4 +1,5 @@
 import { Typography } from "antd";
+import { useTranslation } from "react-i18next";
 import AvailableForm from "./AvailableForm";
 
 const { Title, Paragraph } = Typography;
@@ -8,39 +9,23 @@ type TProps = {
 };
 
 const EnterStock = ({ fetchRequested }: TProps) => {
+  const { t } = useTranslation();
+
   return (
     <div style={{ padding: 32 }}>
       <Typography>
-        <Title level={4}>Jij wordt een superheld!</Title>
+        <Title level={4}>{t("maker.enter.title")}</Title>
+        <Paragraph>{t("maker.enter.par1")}</Paragraph>
         <Paragraph>
-          Jouw inzet wordt heel hard gewaardeerd. Je buurt is je dankbaar.
-        </Paragraph>
-        <Paragraph>
-          Als superheld heb je natuurlijk totale controle over het aantal
-          mondmaskers dat je maakt.
+          {t("maker.enter.par2")}
           <br />
-          Je krijgt eerst een aanvraag die je kan aanvaarden of afwijzen. Het is
-          pas eens je een aanvraag aanvaardt dat je de contact gegevens van de
-          aanvrager zal zien.
+          {t("maker.enter.par3")}
           <br />
-          Ook de aanvrager zal pas je contactgegevens zien eens jij de aanvraag
-          aanvaard hebt. Indien je de aanvraag niet aanvaardt zal die aan een
-          andere superheld in de buurt toegewezen worden.
+          {t("maker.enter.par4")}
         </Paragraph>
-        <Paragraph>
-          Hieronder kan je aangeven hoeveel mondmaskers je hebt of wilt maken.
-          Wij noemen dit je "stock".
-        </Paragraph>
-        <Paragraph>
-          Wij vragen om je "stock" op te geven zodat je op je eigen tempo kan
-          naaien en dat er geen aanvragen aan jou toegewezen worden die je niet
-          kan vervullen.
-        </Paragraph>
-        <Paragraph>
-          Telkens je aangeeft dat mondmaskers afgeleverd zijn, wordt je stock
-          automatisch aangepast. Echter, je kan je stock op elk moment zelf
-          aanpassen.
-        </Paragraph>
+        <Paragraph>{t("maker.enter.par5")}</Paragraph>
+        <Paragraph>{t("maker.enter.par6")}</Paragraph>
+        <Paragraph>{t("maker.enter.par7")}</Paragraph>
       </Typography>
       <AvailableForm fetchRequested={fetchRequested} />
     </div>

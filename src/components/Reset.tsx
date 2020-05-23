@@ -7,7 +7,7 @@ const Reset = () => {
   const { user } = useUser();
   const { isLoading: isResetting, callApi: reset } = useApi("PUT", "me/action");
 
-  return user?.isTester ? (
+  return user.isTester ? (
     <Alert
       closable
       type="warning"

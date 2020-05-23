@@ -1,16 +1,18 @@
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useApi } from "../../hooks";
 import { TRelationUser } from "../../types";
-import Done from "./Done";
 import SuperheroContactInfo from "./SuperheroContactInfo";
 import NoSuperheroFound from "./NoSuperheroFound";
-import { useEffect } from "react";
 import Spinner from "../Spinner";
+import Done from "./Done";
 
 type TProps = {
   needsMouthmaskAmount: number;
 };
 
 const WithSuperhero = ({ needsMouthmaskAmount }: TProps) => {
+  const { t } = useTranslation();
   const {
     isLoading: isFetchingSuperHero,
     data: superhero,
@@ -22,14 +24,14 @@ const WithSuperhero = ({ needsMouthmaskAmount }: TProps) => {
   }, []);
 
   return isFetchingSuperHero ? (
-    <Spinner tip="We zijn de gegevens van je superheld aan het ophalen" />
+    <Spinner tip={t("requestor.found.loading")} />
   ) : !superhero ? (
     <NoSuperheroFound />
   ) : superhero.relation.requestorHandoverDate ? (
     <Done
       needsMouthmaskAmount={needsMouthmaskAmount}
       showAppreciation={!superhero.relation.thanksDate}
-    ></Done>
+    />
   ) : (
     <SuperheroContactInfo
       superhero={superhero}

@@ -1,5 +1,5 @@
 import { Select, Form, Button, Typography, Col, Row } from "antd";
-import { useTranslation } from "react-i18next";
+import { Trans } from "react-i18next";
 import { useCallback } from "react";
 import { grid } from "../../helpers";
 import { useApi, useUser } from "../../hooks";
@@ -21,7 +21,6 @@ type TProps = {
 };
 
 const EnterMouthmaskAmount = ({ fetchRelationStatus }: TProps) => {
-  const { t } = useTranslation();
   const { updateUser } = useUser();
   const [form] = Form.useForm();
   const {
@@ -56,21 +55,21 @@ const EnterMouthmaskAmount = ({ fetchRelationStatus }: TProps) => {
             }}
           >
             <Title level={4} style={{ textAlign: "center" }}>
-              {t("requestor.numNeeded.title")}
+              <Trans i18nKey="requestor.numNeeded.title" />
             </Title>
             <Paragraph>
-              We vragen je op te geven hoeveel mondmaskers je nodig hebt. Om het
-              voor iedereen wat eerlijk te houden kan je maximaal 5 maskers
-              opgeven.
+              <Trans i18nKey="requestor.numNeeded.par1" />
             </Paragraph>
-            <Paragraph>Je kan ook maar 1 keer een aanvraag doen.</Paragraph>
+            <Paragraph>
+              <Trans i18nKey="requestor.numNeeded.par2" />
+            </Paragraph>
             <Paragraph>
               <Form
                 form={form}
                 size="large"
-                onFinish={onFinish}
                 style={{ display: "flex", justifyContent: "center" }}
                 initialValues={{ needsMouthmaskAmount: 1 }}
+                onFinish={onFinish}
               >
                 <Form.Item name="needsMouthmaskAmount">
                   <Select
@@ -93,7 +92,7 @@ const EnterMouthmaskAmount = ({ fetchRelationStatus }: TProps) => {
                       htmlType="submit"
                       disabled={!form.getFieldValue("needsMouthmaskAmount")}
                     >
-                      Ga verder
+                      <Trans i18nKey="next" />
                     </Button>
                   )}
                 </Form.Item>

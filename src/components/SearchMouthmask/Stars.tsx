@@ -1,6 +1,6 @@
-import { Form, Rate, Button, Divider, Alert } from "antd";
-import { useTranslation } from "react-i18next";
+import { Trans } from "react-i18next";
 import { useState, useCallback } from "react";
+import { Form, Rate, Button, Divider, Alert } from "antd";
 import { useApi } from "../../hooks";
 
 import "./styles.less";
@@ -10,7 +10,6 @@ type TFormValues = {
 };
 
 const Stars = () => {
-  const { t } = useTranslation();
   const [form] = Form.useForm();
   const [showStars, setShowStars] = useState(true);
   const { isLoading: isStarring, callApi } = useApi("PUT", "requestor/action");
@@ -43,13 +42,18 @@ const Stars = () => {
                 loading={isStarring}
                 disabled={!form.getFieldValue("stars")}
               >
-                {t("send")}
+                <Trans i18nKey="send" />
               </Button>
             )}
           </Form.Item>
         </Form>
       ) : (
-        <Alert message={t("thanks")} type="info" showIcon closable />
+        <Alert
+          closable
+          showIcon
+          type="info"
+          message={<Trans i18nKey="thanks" />}
+        />
       )}
       <Divider />
     </>
