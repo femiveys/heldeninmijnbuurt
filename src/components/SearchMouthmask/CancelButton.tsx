@@ -47,8 +47,8 @@ const CancelButton = ({ name, needsMouthmaskAmount }: TProps) => {
           </Paragraph>
         </Typography>
       ),
-      okText: t("yes"),
-      cancelText: t("no"),
+      okText: <Trans i18nKey="yes" />,
+      cancelText: <Trans i18nKey="no" />,
       okButtonProps: { danger: true },
       onOk: async () => {
         await callApi({ name: "cancel" });
@@ -66,7 +66,7 @@ const CancelButton = ({ name, needsMouthmaskAmount }: TProps) => {
       onClick={onCancel}
       loading={isCancelling}
     >
-      {t("requestor.contact.cancel.label")}
+      <Trans i18nKey="requestor.contact.cancel.label" />
     </Button>
   );
 };

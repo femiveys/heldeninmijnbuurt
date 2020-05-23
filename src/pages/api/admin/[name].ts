@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getUserId } from "../../../apiHelpers/me";
 import { getUsers } from "../../../apiHelpers/admin/users";
+import { getRelations } from "../../../apiHelpers/admin/relations";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
@@ -12,6 +13,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       switch (name) {
         case "users":
           result = await getUsers(userId);
+          break;
+
+        case "relations":
+          result = await getRelations(userId);
           break;
 
         default:

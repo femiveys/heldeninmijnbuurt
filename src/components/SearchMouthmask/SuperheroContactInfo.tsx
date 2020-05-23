@@ -130,7 +130,10 @@ const SuperheroContactInfo = (props: TProps) => {
                     onClick={markAsHandedOver}
                     loading={isMarkingAsHandedOver}
                   >
-                    <Trans i18nKey="requestor.contact.received" {...count} />
+                    <Trans
+                      i18nKey="requestor.contact.received"
+                      values={count}
+                    />
                   </Button>
                 )}
               </Space>

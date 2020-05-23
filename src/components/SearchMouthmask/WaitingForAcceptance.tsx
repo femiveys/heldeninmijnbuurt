@@ -34,6 +34,7 @@ const WaitingForAcceptance = ({ distance }: TProps) => {
                   <Trans
                     i18nKey="requestor.waiting.par1"
                     values={{ distance }}
+                    components={[<b />]}
                   />
                 </Paragraph>
                 <Paragraph>

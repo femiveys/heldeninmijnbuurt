@@ -134,7 +134,7 @@ const EnterStreet = () => {
             </Select>
           </Form.Item>
           <Form.Item
-            label={t("requestor.enterStreet.street.label")}
+            label={t("requestor.enterStreet.label")}
             name="streetId"
             validateStatus="validating"
             hasFeedback={isFetchingStreets}
@@ -177,7 +177,7 @@ const EnterStreet = () => {
           >
             <Checkbox>
               <Trans
-                i18nKey="enterStreet.general.label"
+                i18nKey="enterStreet.label"
                 values={{ name: t("general") }}
                 components={[
                   <a
@@ -205,7 +205,7 @@ const EnterStreet = () => {
           >
             <Checkbox>
               <Trans
-                i18nKey="enterStreet.privacy.label"
+                i18nKey="enterStreet.label"
                 values={{ name: t("privacy") }}
                 components={[
                   <a

@@ -41,7 +41,7 @@
     "received": "Eenvoudig proces",
     "par1": "Het systeem houdt het <0>aantal mondmaskers</0> bij dat je al gemaakt hebt en je kan dit eenvoudig <0>delen</0>.",
     "par2": "Het aantal mondmaskers dat je <0>hebt of nog wil maken</0>, kan je op elk moment aanpassen.",
-    "par3": "Een aanvraag uit de buurt wordt <b>automatisch</b> aan jou <0>toegewezen</0>.",
+    "par3": "Een aanvraag uit de buurt wordt <0>automatisch</0> aan jou <0>toegewezen</0>.",
     "par4": "Je kan elke aanvraag <0>aanvaarden</0> of <0>afwijzen</0>.",
     "par5": "Voor de aanvragen die je aanvaard hebt, kan je makkelijk <0>contact</0> opnemen.",
     "par6": "Eens de maskers overhandigd zijn, kan je de aanvraag <0>afvinken</0>.",
@@ -204,7 +204,7 @@
     "notFound": {
       "title": "Geen superheld in je buurt",
       "par1": "We hebben jammergenoeg geen superheld in je buurt gevonden die maskers heeft. We blijven zoeken en zullen je een <0>e-mail</0> sturen zodra we iemand vinden.",
-      "par2": "Hou dus zeker je <b>mailbox</b> in de gaten.",
+      "par2": "Hou dus zeker je <0>mailbox</0> in de gaten.",
       "par3": "Je kan helpen door dit platform op sociale media te delen. Misschien vinden we zo wel iemand."
     },
     "notNeeded": {
@@ -269,7 +269,8 @@
       },
       "share": {
         "facebook": "Deel je ervaring op Facebook"
-      }
+      },
+      "label": "Word ook een superheld"
     }
   },
   "error": {
