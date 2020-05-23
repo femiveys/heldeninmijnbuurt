@@ -52,13 +52,6 @@ const Login = (props: TProps) => (
           <br />
           <br />
           <ShareButton />
-          <a
-            href="https://heldeninmijnbuurt.be"
-            target="_system"
-            style={{ display: "block", width: 100, height: 100 }}
-          >
-            {" "}
-          </a>
         </div>
       </Col>
     </Row>
