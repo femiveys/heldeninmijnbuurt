@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { ColumnProps } from "antd/es/table";
 import { useApi } from "../../hooks";
 import { TFullRelation, ERelationStatus, TRelation } from "../../types";
+import { format } from "date-fns";
 
 const getStatusColor = (relation: TRelation) => {
   const mapping = {
@@ -21,13 +22,22 @@ const getStatusColor = (relation: TRelation) => {
 };
 
 const getDate = (relation: TRelation) => {
-  if (relation.heroHandoverDate) return relation.heroHandoverDate;
-  if (relation.requestorHandoverDate) return relation.requestorHandoverDate;
-  if (relation.cancelDate) return relation.cancelDate;
-  if (relation.problemDate) return relation.problemDate;
-  if (relation.acceptDate) return relation.acceptDate;
-  if (relation.declineDate) return relation.acceptDate;
-  if (relation.requestDate) return relation.requestDate;
+  const fmt = (label: string, date: Date) => (
+    <>
+      {label}
+      <br />
+      {format(new Date(date), "d/M H:m")}
+    </>
+  );
+  if (relation.heroHandoverDate)
+    return fmt("heroHandoverDate", relation.heroHandoverDate);
+  if (relation.requestorHandoverDate)
+    return fmt("requestorHandoverDate", relation.requestorHandoverDate);
+  if (relation.cancelDate) return fmt("cancelDate", relation.cancelDate);
+  if (relation.problemDate) return fmt("problemDate", relation.problemDate);
+  if (relation.acceptDate) return fmt("acceptDate", relation.acceptDate);
+  if (relation.declineDate) return fmt("declineDate", relation.declineDate);
+  if (relation.requestDate) return fmt("requestDate", relation.requestDate);
 };
 
 const Relations = () => {
