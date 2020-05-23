@@ -6,6 +6,7 @@ import { grid } from "../helpers";
 import ShareButton from "../components/ShareButton";
 import CommonSteps from "./CommonSteps";
 import Reset from "./Reset";
+import { Trans } from "react-i18next";
 
 const { Paragraph } = Typography;
 
@@ -34,23 +35,17 @@ const Choice = () => {
               <SmileOutlined />
             )
           }
-          title="Word een superheld"
+          title={<Trans i18nKey="choice.title" />}
           subTitle={
             <Typography style={{ textAlign: "left" }}>
               <Paragraph>
-                Iedereen zou een mondmasker moeten kunnen hebben. We hebben
-                helden nodig en jij kan een superheld worden.
+                <Trans i18nKey="choice.par1" />
               </Paragraph>
               <Paragraph>
-                De superhelden zijn zij die zich aan het naaien zetten en een
-                aantal mondmaskers maken voor mensen in hun buurt. Dit moeten er
-                geen honderden zijn. Ook als je maar een aantal mondmaskers kan
-                naaien, help je veel mensen uit de dood. Elke mondmasker telt.
+                <Trans i18nKey="choice.par2" />
               </Paragraph>
               <Paragraph>
-                Ook als je geen naaimachine hebt, kan je helpen door over dit
-                platform te vertellen. Hoe meer mensen weten dat het bestaat hoe
-                meer superhelden zullen opstaan.
+                <Trans i18nKey="choice.par3" />
               </Paragraph>
             </Typography>
           }
@@ -65,7 +60,7 @@ const Choice = () => {
                   updateUser({ isMaker: true });
                 }}
               >
-                Ik maak mondmaskers
+                <Trans i18nKey="choice.maker" />
               </Button>
               <ShareButton style={style} />
               <Button
@@ -76,18 +71,18 @@ const Choice = () => {
                   updateUser({ needsMouthmask: true });
                 }}
               >
-                Ik zoek een mondmasker
+                <Trans i18nKey="choice.requestor" />
               </Button>
               {userHasCancelled && (
                 <Alert
-                  message="Je hebt je aanvraag geannuleerd en dus kan je geen nieuwe aanvraag doen."
                   type="warning"
+                  message={<Trans i18nKey="choice.cancelled" />}
                 />
               )}
               {userIsDone && (
                 <Alert
-                  message="Je hebt je mondmaskers al ontvangen, dus kan je geen nieuwe aanvraag doen."
                   type="warning"
+                  message={<Trans i18nKey="choice.done" />}
                 />
               )}
             </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Trans } from "react-i18next";
 import { Row, Col, Space } from "antd";
 import { useUser } from "../hooks";
 import { grid, contactEmail } from "../helpers";
@@ -11,10 +12,14 @@ const AppFooter = () => {
       <Col {...grid} style={{ padding: 16 }}>
         <Space>
           <Link href="/privacy">
-            <a className="inverted">Privacy policy</a>
+            <a className="inverted">
+              <Trans i18nKey="privacy" />
+            </a>
           </Link>
           <Link href="/general">
-            <a className="inverted">Algemene voorwaarden</a>
+            <a className="inverted">
+              <Trans i18nKey="general" />
+            </a>
           </Link>
           {user && (
             <a
@@ -22,7 +27,7 @@ const AppFooter = () => {
               className="inverted"
               href={`mailto:${contactEmail}`}
             >
-              Contact
+              <Trans i18nKey="contact" />
             </a>
           )}
         </Space>

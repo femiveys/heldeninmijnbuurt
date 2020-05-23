@@ -1,22 +1,30 @@
 import { Typography, Col, Row, Carousel } from "antd";
 import React from "react";
+import { Trans } from "react-i18next";
 
 const { Title } = Typography;
 
 const screenshots = [
-  { src: "/assets/enterAmount.png", comment: "Eenvoudig in gebruik" },
-  { src: "/assets/heroFound.png", comment: "Respect voor je privacy" },
+  {
+    src: "/assets/enterAmount.png",
+    comment: <Trans i18nKey="demo.enterAmount" />,
+  },
+  { src: "/assets/heroFound.png", comment: <Trans i18nKey="demo.heroFound" /> },
   {
     src: "/assets/contactHero.png",
-    comment: "Makkelijk om in contact te komen met je superheld",
+    comment: <Trans i18nKey="demo.contactHero" />,
   },
-  { src: "/assets/received.png", comment: "Eenvoudig proces" },
+  { src: "/assets/received.png", comment: <Trans i18nKey="demo.received" /> },
 ];
 
 const Demo = () => (
   <div>
-    <Title level={3}>Hoe werkt het?</Title>
-    <Title level={4}>Dashboard voor superhelden</Title>
+    <Title level={3}>
+      <Trans i18nKey="demo.title" />
+    </Title>
+    <Title level={4}>
+      <Trans i18nKey="demo.heros" />
+    </Title>
     <Row className="screenshots">
       <Col xs={{ span: 24 }} sm={{ span: 12 }}>
         <img src="/assets/counters.png" />
@@ -25,34 +33,31 @@ const Demo = () => (
       <Col xs={{ span: 24 }} sm={{ span: 12 }}>
         <ul>
           <li>
-            Het systeem houdt het <b>aantal mondmaskers</b> bij dat je al
-            gemaakt hebt en je kan dit eenvoudig <b>delen</b>.
+            <Trans i18nKey="demo.par1" components={[<b />, <b />]} />
           </li>
           <li>
-            Het aantal mondmaskers dat je <b>hebt of nog wil maken</b>, kan je
-            op elk moment aanpassen.
+            <Trans i18nKey="demo.par2" components={[<b />]} />
           </li>
           <li>
-            Een aanvraag uit de buurt wordt <b>automatisch</b> aan jou{" "}
-            <b>toegewezen</b>.
+            <Trans i18nKey="demo.par3" components={[<b />, <b />]} />
           </li>
           <li>
-            Je kan elke aanvraag <b>aanvaarden</b> of <b>afwijzen</b>.
+            <Trans i18nKey="demo.par4" components={[<b />, <b />]} />
           </li>
           <li>
-            Voor de aanvragen die je aanvaard hebt, kan je makkelijk{" "}
-            <b>contact</b> opnemen.
+            <Trans i18nKey="demo.par5" components={[<b />]} />
           </li>
           <li>
-            Eens de maskers overhandigd zijn, kan je de aanvraag <b>afvinken</b>
-            .
+            <Trans i18nKey="demo.par6" components={[<b />]} />
           </li>
         </ul>
       </Col>
     </Row>
     <br />
     <br />
-    <Title level={4}>Voor zij die een mondmasker zoeken</Title>
+    <Title level={4}>
+      <Trans i18nKey="demo.requestors" />
+    </Title>
     <Row>
       <Col xs={{ offset: 0, span: 24 }} sm={{ offset: 4, span: 16 }}>
         <Carousel

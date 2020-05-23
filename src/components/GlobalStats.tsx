@@ -2,6 +2,7 @@ import { Statistic, Space } from "antd";
 import { useEffect } from "react";
 import { TStats } from "../types";
 import { useApi } from "../hooks";
+import { Trans } from "react-i18next";
 
 const style = {
   padding: 16,
@@ -23,12 +24,12 @@ const GlobalStats = () => {
       <Space>
         <Statistic
           style={style}
-          title="Actieve superhelden"
+          title={<Trans i18nKey="stats.numMakers" />}
           value={100 + stats.numMakers}
         />
         <Statistic
           style={style}
-          title="Mondmaskers afgeleverd"
+          title={<Trans i18nKey="stats.numDelivered" />}
           value={500 + stats.numMasksDelivered}
         />
       </Space>

@@ -7,6 +7,9 @@
   "thanks": "Bedankt",
   "cancel": "annuleer",
   "close": "Sluiten",
+  "agree": "Akkoord",
+  "disagree": "Niet akkoord",
+  "loadingGate": "Je gegevens aan het ophalen...",
   "thePerson": "De persoon",
   "needsMouthmaskAmount": "Aantal",
   "update": "Pas aan",
@@ -15,6 +18,13 @@
     "google": "Login met Google",
     "facebook": "Login met Facebook"
   },
+  "stats": {
+    "numMakers": "Actieve superhelden",
+    "numDelivered": "Mondmaskers afgeleverd"
+  },
+  "contact": "Contact",
+  "general": "Algemene voorwaarden",
+  "privacy": "Privacy policy",
   "safetyTitle": "Respecteer de veiligheidsmaatregelen",
   "redirect": {
     "noAdmin": "Je bent geen administrator",
@@ -22,6 +32,45 @@
     "searching": "We helpen je mondmaskers vinden...",
     "noSearching": "Je hebt geen mondmaskers nodig",
     "noHero": "Je maakt geen mondmaskers"
+  },
+  "demo": {
+    "title": "Hoe werkt het?",
+    "enterAmount": "Eenvoudig in gebruik",
+    "heroFound": "Respect voor je privacy",
+    "contactHero": "Makkelijk om in contact te komen met je superheld",
+    "received": "Eenvoudig proces",
+    "par1": "Het systeem houdt het <0>aantal mondmaskers</0> bij dat je al gemaakt hebt en je kan dit eenvoudig <0>delen</0>.",
+    "par2": "Het aantal mondmaskers dat je <0>hebt of nog wil maken</0>, kan je op elk moment aanpassen.",
+    "par3": "Een aanvraag uit de buurt wordt <b>automatisch</b> aan jou <0>toegewezen</0>.",
+    "par4": "Je kan elke aanvraag <0>aanvaarden</0> of <0>afwijzen</0>.",
+    "par5": "Voor de aanvragen die je aanvaard hebt, kan je makkelijk <0>contact</0> opnemen.",
+    "par6": "Eens de maskers overhandigd zijn, kan je de aanvraag <0>afvinken</0>.",
+    "heros": "Dashboard voor superhelden",
+    "requestors": "Voor zij die een mondmasker zoeken"
+  },
+  "choice": {
+    "title": "Word een superheld",
+    "par1": "Iedereen zou een mondmasker moeten kunnen hebben. We hebben helden nodig en jij kan een superheld worden.",
+    "par2": "De superhelden zijn zij die zich aan het naaien zetten en een aantal mondmaskers maken voor mensen in hun buurt. Dit moeten er geen honderden zijn. Ook als je maar een aantal mondmaskers kan naaien, help je veel mensen uit de dood. Elke mondmasker telt.",
+    "par3": "Ook als je geen naaimachine hebt, kan je helpen door over dit platform te vertellen. Hoe meer mensen weten dat het bestaat hoe meer superhelden zullen opstaan.",
+    "maker": "Ik maak mondmaskers",
+    "requestor": "Ik zoek een mondmasker",
+    "cancelled": "Je hebt je aanvraag geannuleerd en dus kan je geen nieuwe aanvraag doen.",
+    "done": "Je hebt je mondmaskers al ontvangen, dus kan je geen nieuwe aanvraag doen."
+  },
+  "steps": {
+    "step1": "Inloggen",
+    "step1": "Straat ingeven",
+    "step1": "Rol kiezen"
+  },
+  "enterStreet": {
+    "title": "In welke buurt woon je?",
+    "par1": "{{name}}, gelieve ons te laten weten in welke buurt je woont. Zo kunnen we mensen die mondmaskers zoeken, samenbrengen met superhelden, die mondmaskers maken.",
+    "error": "Om verder te kunnen, moet je de {{name}} aanvaarden",
+    "label": "Ik aanvaard de <0>{{name}}</a>",
+    "extra": {
+      "street": "Niemand zal ooit je straat zien. We gebruiken dit enkel om mensen in elkaars buurt samen te brengen."
+    }
   },
   "maker": {
     "collapseTitle": "Ik heb een naaimachine",
